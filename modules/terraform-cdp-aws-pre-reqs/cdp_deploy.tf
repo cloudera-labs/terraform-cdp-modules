@@ -36,8 +36,8 @@ resource "local_file" "cdp_deployment_template" {
     plat__tags                      = jsonencode(local.env_tags)
 
     # CDP settings
-    plat__cdp_profile = var.cdp_profile
-    plat__cdp_region  = var.cdp_region
+    plat__cdp_profile              = var.cdp_profile
+    plat__cdp_control_plane_region = var.cdp_control_plane_region
 
     # CSP settings
     plat__infra_type = var.infra_type
