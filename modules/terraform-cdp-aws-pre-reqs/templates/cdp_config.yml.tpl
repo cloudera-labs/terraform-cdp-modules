@@ -29,7 +29,7 @@ plat__tags: ${plat__tags}
 
 # CDP settings
 plat__cdp_profile: ${plat__cdp_profile}
-plat__cdp_region: ${plat__cdp_region}
+plat__cdp_control_plane_region:  ${plat__cdp_control_plane_region}
 
 # CSP settings
 plat__infra_type: ${plat__infra_type} 

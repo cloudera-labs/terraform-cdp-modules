@@ -93,8 +93,8 @@ output "cdp_profile" {
   description = "Profile for CDP credentials"
 }
 
-output "cdp_region" {
-  value = var.cdp_region
+output "cdp_control_plane_region" {
+  value = var.cdp_control_plane_region
 
   description = "CDP Control Plane region"
 }

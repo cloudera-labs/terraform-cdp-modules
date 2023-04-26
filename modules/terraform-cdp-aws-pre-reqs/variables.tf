@@ -74,7 +74,7 @@ variable "cdp_profile" {
   default = "default"
 }
 
-variable "cdp_region" {
+variable "cdp_control_plane_region" {
   type        = string
   description = "CDP Control Plane Region"
 

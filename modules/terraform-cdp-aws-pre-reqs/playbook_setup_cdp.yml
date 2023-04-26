@@ -29,7 +29,7 @@
   hosts: localhost
   environment:
     CDP_PROFILE: "{{ plat__cdp_profile }}"
-    CDP_REGION: "{{ plat__cdp_region }}"
+    CDP_REGION:  "{{ plat__cdp_control_plane_region }}"
   vars:
     plat__cdp_iam_identities:
       role_suffix: role
@@ -74,7 +74,7 @@
       us-west-1:  "crn:altus:iam:us-west-1:altus"
       eu-1:       "crn:altus:iam:eu-1:altus"
       ap-1:       "crn:altus:iam:ap-1:altus"
-    common__cdp_control_plane_region:         "{{ plat__cdp_region | default('us-west-1') }}"
+    common__cdp_control_plane_region:         "{{ plat__cdp_control_plane_region | default('us-west-1') }}"
     common__cdp_control_plane_crn:            "{{ common__cdp_control_planes[common__cdp_control_plane_region] }}"
     plat__cdp_control_plane_crn:              "{{ common__cdp_control_plane_crn }}"
     plat__cdp_iam_role_suffix:                "{{ plat__cdp_iam_identities.role_suffix }}"
