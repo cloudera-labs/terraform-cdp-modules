@@ -284,6 +284,17 @@ variable "log_storage" {
   default = null
 }
 
+variable "backup_storage" {
+  type = object({
+    backup_storage_bucket = string
+    backup_storage_object = string
+  })
+
+  description = "Optional Backup location for CDP environment. If not provided follow the data_storage variable"
+
+  default = null
+}
+
 # ------- Policies -------
 # Cross Account Policy (name and document)
 variable "xaccount_policy_name" {
@@ -353,10 +364,40 @@ variable "datalake_admin_s3_policy_doc" {
   default = null
 }
 
+variable "datalake_backup_policy_doc" {
+  type        = string
+  description = "Location of Datalake Backup Data Access Policy"
+
+  default = null
+}
+
+variable "datalake_restore_policy_doc" {
+  type        = string
+  description = "Location of Datalake Restore Data Access Policy"
+
+  default = null
+}
+
 # CDP Data Access Policies - bucket_access
 variable "bucket_access_policy_name" {
   type        = string
   description = "Bucket Access Data Access Policy Name"
+
+  default = null
+}
+
+# CDP Datalake restore Policies - datalake
+variable "datalake_restore_policy_name" {
+  type        = string
+  description = "Datalake restore Data Access Policy Name"
+
+  default = null
+}
+
+# CDP Datalake backup Policies - datalake
+variable "datalake_backup_policy_name" {
+  type        = string
+  description = "Datalake backup Data Access Policy Name"
 
   default = null
 }

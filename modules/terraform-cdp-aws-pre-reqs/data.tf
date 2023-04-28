@@ -15,6 +15,11 @@
 # Find the AWS account details
 data "aws_caller_identity" "current" {}
 
+# Find details of the AWS vpc
+data "aws_vpc" "cdp_vpc" {
+  id = local.vpc_id
+}
+
 # HTTP get request to download policy documents
 # ..Cross Account Policy
 data "http" "xaccount_account_policy_doc" {
@@ -39,6 +44,16 @@ data "http" "datalake_admin_s3_policy_doc" {
 # ..CDP bucket_access Data Access Policies
 data "http" "bucket_access_policy_doc" {
   url = "https://raw.githubusercontent.com/hortonworks/cloudbreak/master/cloud-aws-common/src/main/resources/definitions/cdp/aws-cdp-bucket-access-policy.json"
+}
+
+# ..CDP Data Lake Backup Policies
+data "http" "datalake_backup_policy_doc" {
+  url = "https://raw.githubusercontent.com/hortonworks/cloudbreak/master/cloud-aws-cloudformation/src/main/resources/definitions/aws-datalake-backup-policy.json"
+}
+
+# ..CDP Data Lake Restore Policies
+data "http" "datalake_restore_policy_doc" {
+  url = "https://raw.githubusercontent.com/hortonworks/cloudbreak/master/cloud-aws-cloudformation/src/main/resources/definitions/aws-datalake-restore-policy.json"
 }
 
 # Use the cdp cli to determin the 
