@@ -49,6 +49,7 @@ resource "local_file" "cdp_deployment_template" {
 
     plat__aws_storage_location = "s3a://${local.data_storage.data_storage_bucket}${local.storage_suffix}"
     plat__aws_log_location     = "s3a://${local.log_storage.log_storage_bucket}${local.storage_suffix}/${local.log_storage.log_storage_object}"
+    plat__aws_backup_location  = "s3a://${local.backup_storage.backup_storage_bucket}${local.storage_suffix}/${local.backup_storage.backup_storage_object}"
 
     plat__public_key_id                 = var.aws_key_pair
     plat__aws_security_group_default_id = aws_security_group.cdp_default_sg.id
