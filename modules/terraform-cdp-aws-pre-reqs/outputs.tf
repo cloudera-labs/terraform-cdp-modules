@@ -161,6 +161,12 @@ output "aws_log_location" {
   description = "AWS log storage location"
 }
 
+output "aws_backup_location" {
+  value = "s3a://${local.backup_storage.backup_storage_bucket}${local.storage_suffix}"
+
+  description = "AWS backup storage location"
+}
+
 output "public_key_id" {
   value = var.aws_key_pair
 
