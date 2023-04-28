@@ -65,6 +65,6 @@ data "external" "cdpcli" {
   query = {
     infra_type  = var.infra_type
     cdp_profile = var.cdp_profile
-    cdp_region  = var.cdp_region
+    cdp_region  = var.cdp_control_plane_region
   }
 }
