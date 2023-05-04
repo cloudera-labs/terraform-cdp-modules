@@ -13,14 +13,6 @@
 # limitations under the License.
 
 # ------- Global settings -------
-variable "aws_profile" {
-  type        = string
-  description = "Profile for AWS cloud credentials"
-
-  # Profile is default unless explicitly specified
-  default = "default"
-}
-
 variable "infra_type" {
   type        = string
   description = "Cloud Provider to deploy CDP."
@@ -213,14 +205,6 @@ variable "security_group_knox_name" {
   description = "Knox Security Group for CDP environment"
 
   default = null
-}
-
-variable "cdp_control_plane_cidrs" {
-  type = list(string)
-
-  description = "CIDR for access to CDP Control Plane"
-
-  default = ["52.36.110.208/32", "52.40.165.49/32", "35.166.86.177/32"]
 }
 
 variable "ingress_extra_cidrs_and_ports" {
