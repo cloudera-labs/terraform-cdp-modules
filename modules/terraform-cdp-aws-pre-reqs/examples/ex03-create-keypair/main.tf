@@ -43,7 +43,6 @@ module "ex01_create_keypair" {
   env_prefix = var.env_prefix
   aws_region = var.aws_region
 
-  aws_profile  = var.aws_profile
   aws_key_pair = aws_key_pair.cdp_keypair.key_name
 
   deployment_template = var.deployment_template
