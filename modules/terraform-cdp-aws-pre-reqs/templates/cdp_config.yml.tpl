@@ -38,6 +38,7 @@ plat__region: ${plat__region}
 plat__aws_vpc_id: ${plat__aws_vpc_id}
 plat__aws_public_subnet_ids: ${plat__aws_public_subnet_ids}
 plat__aws_private_subnet_ids: ${plat__aws_private_subnet_ids}
+plat__aws_subnets_for_cdp: ${plat__aws_subnets_for_cdp}
 
 plat__aws_storage_location: ${plat__aws_storage_location}
 plat__aws_log_location: ${plat__aws_log_location}
