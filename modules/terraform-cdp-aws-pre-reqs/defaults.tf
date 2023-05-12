@@ -72,7 +72,7 @@ locals {
   storage_suffix = var.random_id_for_bucket ? "-${one(random_id.bucket_suffix).hex}" : ""
 
   data_storage = {
-    data_storage_bucket  = try(var.data_storage.data_storage_bucket, "${var.env_prefix}-buk")
+    data_storage_bucket = try(var.data_storage.data_storage_bucket, "${var.env_prefix}-buk")
     data_storage_object = try(var.data_storage.data_storage_object, "data/")
   }
 

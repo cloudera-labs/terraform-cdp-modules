@@ -248,7 +248,7 @@ variable "random_id_for_bucket" {
 
 variable "data_storage" {
   type = object({
-    data_storage_bucket  = string
+    data_storage_bucket = string
     data_storage_object = string
   })
 
