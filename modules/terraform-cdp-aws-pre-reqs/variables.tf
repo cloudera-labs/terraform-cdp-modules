@@ -249,10 +249,10 @@ variable "random_id_for_bucket" {
 variable "data_storage" {
   type = object({
     data_storage_bucket  = string
-    data_storage_objects = list(string)
+    data_storage_object = string
   })
 
-  description = "Storage locations for CDP environment"
+  description = "Data storage locations for CDP environment"
 
   default = null
 }
