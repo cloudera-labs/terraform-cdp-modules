@@ -150,19 +150,19 @@ output "aws_private_subnet_ids" {
 }
 
 output "aws_storage_location" {
-  value = "s3a://${local.data_storage.data_storage_bucket}${local.storage_suffix}"
+  value = "s3a://${local.data_storage.data_storage_bucket}${local.storage_suffix}/${local.data_storage.data_storage_object}"
 
   description = "AWS data storage location"
 }
 
 output "aws_log_location" {
-  value = "s3a://${local.log_storage.log_storage_bucket}${local.storage_suffix}"
+  value = "s3a://${local.log_storage.log_storage_bucket}${local.storage_suffix}/${local.log_storage.log_storage_object}"
 
   description = "AWS log storage location"
 }
 
 output "aws_backup_location" {
-  value = "s3a://${local.backup_storage.backup_storage_bucket}${local.storage_suffix}"
+  value = "s3a://${local.backup_storage.backup_storage_bucket}${local.storage_suffix}/${local.backup_storage.backup_storage_object}"
 
   description = "AWS backup storage location"
 }

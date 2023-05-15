@@ -138,11 +138,9 @@ resource "aws_s3_bucket" "cdp_storage_locations" {
 # Data Storage Objects
 resource "aws_s3_object" "cdp_data_storage_object" {
 
-  for_each = toset(local.data_storage.data_storage_objects)
-
   bucket = var.random_id_for_bucket ? "${local.data_storage.data_storage_bucket}-${one(random_id.bucket_suffix).hex}" : local.data_storage.data_storage_bucket
 
-  key          = each.key
+  key          = local.backup_storage.backup_storage_object
   content_type = "application/x-directory"
 
   depends_on = [
