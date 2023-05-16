@@ -149,6 +149,12 @@ output "aws_private_subnet_ids" {
   description = "AWS private subnet IDs"
 }
 
+output "aws_vpc_subnets" {
+  value = data.aws_subnets.vpc_subnets
+
+  description = "List of subnets associated with the CDP VPC"
+}
+
 output "aws_storage_location" {
   value = "s3a://${local.data_storage.data_storage_bucket}${local.storage_suffix}/${local.data_storage.data_storage_object}"
 
