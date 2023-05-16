@@ -20,30 +20,17 @@ data "aws_vpc" "cdp_vpc" {
   id = local.vpc_id
 }
 
-data "aws_subnet" "cdp_public_subnets" {
-  for_each = toset(local.public_subnet_ids)
-
-  id = each.key
-
-  # Postcondition to verify subnet is part of VPC  
-  lifecycle {
-    postcondition {
-      condition = self.vpc_id == local.vpc_id
-      error_message = "Public Subnet ${each.key} is not part of VPC ${local.vpc_id}"
-    }
+data "aws_subnets" "cdp_vpc_subnets" {
+  filter {
+    name   = "vpc-id"
+    values = [local.vpc_id]
   }
-}
 
-data "aws_subnet" "cdp_private_subnets" {
-  for_each = toset(local.private_subnet_ids)
-
-  id = each.key
-
-  # Postcondition to verify subnet is part of VPC  
-  lifecycle {
+  # Postcondition to verify subnets are part of VPC
+    lifecycle {
     postcondition {
-      condition = self.vpc_id == local.vpc_id
-      error_message = "Private Subnet ${each.key} is not part of VPC ${local.vpc_id}"
+      condition = (length(setsubtract(local.public_subnet_ids, self.ids)) == 0) && (length(setsubtract(local.private_subnet_ids, self.ids)) == 0)
+      error_message = "One or more of the provided subnets - ${join(",",setsubtract(concat(local.public_subnet_ids,local.private_subnet_ids), self.ids))} - are not part of VPC ${local.vpc_id}"
     }
   }
 }
