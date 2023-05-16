@@ -20,6 +20,34 @@ data "aws_vpc" "cdp_vpc" {
   id = local.vpc_id
 }
 
+data "aws_subnet" "cdp_public_subnets" {
+  for_each = toset(local.public_subnet_ids)
+
+  id = each.key
+
+  # Postcondition to verify subnet is part of VPC  
+  lifecycle {
+    postcondition {
+      condition = self.vpc_id == local.vpc_id
+      error_message = "Public Subnet ${each.key} is not part of VPC ${local.vpc_id}"
+    }
+  }
+}
+
+data "aws_subnet" "cdp_private_subnets" {
+  for_each = toset(local.private_subnet_ids)
+
+  id = each.key
+
+  # Postcondition to verify subnet is part of VPC  
+  lifecycle {
+    postcondition {
+      condition = self.vpc_id == local.vpc_id
+      error_message = "Private Subnet ${each.key} is not part of VPC ${local.vpc_id}"
+    }
+  }
+}
+
 # HTTP get request to download policy documents
 # ..Cross Account Policy
 data "http" "xaccount_account_policy_doc" {
