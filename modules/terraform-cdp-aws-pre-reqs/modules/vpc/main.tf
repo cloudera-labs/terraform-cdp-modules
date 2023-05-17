@@ -19,11 +19,11 @@ module "cdp_vpc" {
   name = "${var.env_prefix}-net"
   cidr = var.vpc_cidr
 
-  azs = [for v in data.aws_availability_zones.zones_in_region.names : v]
+  azs = [for v in local.zones_in_region : v]
   private_subnets = (local.subnets_required.private == 0 ?
     [] :
     [
-      for k, v in data.aws_availability_zones.zones_in_region.names : cidrsubnet(var.vpc_cidr, ceil(log(local.subnets_required.total, 2)), local.subnets_required.public + k)
+      for k, v in local.zones_in_region : cidrsubnet(var.vpc_cidr, ceil(log(local.subnets_required.total, 2)), local.subnets_required.public + k)
     ]
   )
   private_subnet_tags = {
@@ -33,7 +33,7 @@ module "cdp_vpc" {
   public_subnets = (local.subnets_required.public == 0 ?
     [] :
     [
-      for k, v in data.aws_availability_zones.zones_in_region.names : cidrsubnet(var.vpc_cidr, ceil(log(local.subnets_required.total, 2)), k)
+      for k, v in local.zones_in_region : cidrsubnet(var.vpc_cidr, ceil(log(local.subnets_required.total, 2)), k)
     ]
   )
 
