@@ -24,7 +24,7 @@ resource "local_file" "cdp_deployment_template" {
     plat__env_name                  = "${var.env_prefix}-cdp-env"
     plat__datalake_name             = "${var.env_prefix}-aws-dl"
     plat__datalake_scale            = local.datalake_scale
-    plat__datalake_version          = var.datalake_version
+    plat__datalake_version          = local.datalake_version
     plat__xacccount_credential_name = "${var.env_prefix}-xaccount-cred"
     plat__cdp_iam_admin_group_name  = "${var.env_prefix}-cdp-admin-group"
     plat__cdp_iam_user_group_name   = "${var.env_prefix}-cdp-user-group"

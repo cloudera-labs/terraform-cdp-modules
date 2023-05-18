@@ -99,6 +99,13 @@ output "cdp_control_plane_region" {
   description = "CDP Control Plane region"
 }
 
+output "cdp_datalake_version" {
+
+  value = local.datalake_version
+
+  description = "Version number of the CDP datalake to deploy"
+}
+
 # CSP settings
 output "infra_type" {
   value = var.infra_type

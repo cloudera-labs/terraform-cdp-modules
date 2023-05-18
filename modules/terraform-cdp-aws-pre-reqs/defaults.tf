@@ -30,6 +30,14 @@ locals {
     )
   )
 
+  datalake_version = (
+    var.datalake_version == "default" ?
+    data.external.cdp_dl_version.result.defaultVersion :
+    (var.datalake_version == "latest" ?
+      data.external.cdp_dl_version.result.latestVersion :
+    var.datalake_version)
+  )
+
   # ------- Network Resources -------
   vpc_id = (var.create_vpc ?
   module.aws_cdp_vpc[0].vpc_id : var.cdp_vpc_id)
@@ -180,9 +188,9 @@ locals {
   # ------- Roles -------
   xaccount_role_name = coalesce(var.xaccount_role_name, "${var.env_prefix}-xaccount-role")
 
-  xaccount_account_id = coalesce(var.xaccount_account_id, var.lookup_cdp_account_ids ? data.external.cdpcli[0].result.account_id : null)
+  xaccount_account_id = coalesce(var.xaccount_account_id, var.lookup_cdp_account_ids ? data.external.cdp_external_ids[0].result.account_id : null)
 
-  xaccount_external_id = coalesce(var.xaccount_external_id, var.lookup_cdp_account_ids ? data.external.cdpcli[0].result.external_id : null)
+  xaccount_external_id = coalesce(var.xaccount_external_id, var.lookup_cdp_account_ids ? data.external.cdp_external_ids[0].result.external_id : null)
 
   idbroker_role_name = coalesce(var.idbroker_role_name, "${var.env_prefix}-idbroker-role")
 

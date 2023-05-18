@@ -71,14 +71,24 @@ data "http" "datalake_restore_policy_doc" {
   url = "https://raw.githubusercontent.com/hortonworks/cloudbreak/master/cloud-aws-cloudformation/src/main/resources/definitions/aws-datalake-restore-policy.json"
 }
 
-# Use the cdp cli to determin the 
-data "external" "cdpcli" {
+# Use the cdp cli to determine the external Ids
+data "external" "cdp_external_ids" {
 
   count = var.lookup_cdp_account_ids == true ? 1 : 0
 
   program = ["bash", "${path.module}/run_cdp_get_cred_prereqs.sh"]
   query = {
     infra_type  = var.infra_type
+    cdp_profile = var.cdp_profile
+    cdp_region  = var.cdp_control_plane_region
+  }
+}
+
+# Use the cdp cli to determine the external Ids
+data "external" "cdp_dl_version" {
+
+  program = ["bash", "${path.module}/run_cdp_get_datalake_version.sh"]
+  query = {
     cdp_profile = var.cdp_profile
     cdp_region  = var.cdp_control_plane_region
   }
