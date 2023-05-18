@@ -164,8 +164,9 @@ variable "datalake_version" {
     error_message = "Valid values for var: datalake_version must be 'default', 'latest' or a semantic version number."
   }
 
-  default = "7.2.16"
+  default = "default"
 }
+
 # ------- Network Resources -------
 variable "create_vpc" {
   type = bool
