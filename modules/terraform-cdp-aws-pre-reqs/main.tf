@@ -125,7 +125,7 @@ resource "random_id" "bucket_suffix" {
 
 resource "aws_s3_bucket" "cdp_storage_locations" {
   # Create buckets for the unique list of buckets in data and log storage
-  for_each = toset(concat([local.data_storage.data_storage_bucket], [local.log_storage.log_storage_bucket]))
+  for_each = toset(concat([local.data_storage.data_storage_bucket], [local.log_storage.log_storage_bucket], [local.backup_storage.backup_storage_bucket]))
 
   bucket = "${each.value}${local.storage_suffix}"
   tags   = merge(local.env_tags, { Name = "${each.value}${local.storage_suffix}" })
@@ -138,9 +138,9 @@ resource "aws_s3_bucket" "cdp_storage_locations" {
 # Data Storage Objects
 resource "aws_s3_object" "cdp_data_storage_object" {
 
-  bucket = var.random_id_for_bucket ? "${local.data_storage.data_storage_bucket}-${one(random_id.bucket_suffix).hex}" : local.data_storage.data_storage_bucket
+  bucket = "${local.data_storage.data_storage_bucket}${local.storage_suffix}"
 
-  key          = local.backup_storage.backup_storage_object
+  key          = local.data_storage.data_storage_object
   content_type = "application/x-directory"
 
   depends_on = [
@@ -151,7 +151,7 @@ resource "aws_s3_object" "cdp_data_storage_object" {
 # Log Storage Objects
 resource "aws_s3_object" "cdp_log_storage_object" {
 
-  bucket = var.random_id_for_bucket ? "${local.log_storage.log_storage_bucket}-${one(random_id.bucket_suffix).hex}" : local.log_storage.log_storage_bucket
+  bucket = "${local.log_storage.log_storage_bucket}${local.storage_suffix}"
 
   key          = local.log_storage.log_storage_object
   content_type = "application/x-directory"
@@ -164,7 +164,7 @@ resource "aws_s3_object" "cdp_log_storage_object" {
 # Backup Storage Object
 resource "aws_s3_object" "cdp_backup_storage_object" {
 
-  bucket = var.random_id_for_bucket ? "${local.backup_storage.backup_storage_bucket}-${one(random_id.bucket_suffix).hex}" : local.backup_storage.backup_storage_bucket
+  bucket = "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}"
 
   key          = local.backup_storage.backup_storage_object
   content_type = "application/x-directory"
