@@ -4,7 +4,7 @@ This module contains resource files and example variable definition files for cr
 
 ## Usage
 
-The [examples](./examples) directory has example AWS Cloud Service Provider deployments for different scenarios:
+The [examples](./modules/terraform-cdp-aws-pre-reqs/examples) directory has example AWS Cloud Service Provider deployments for different scenarios:
 
 * `ex01-minimal-inputs` uses the minimum set of inputs for the module.
 
@@ -27,10 +27,10 @@ git clone https://github.com/cloudera-labs/terraform-cdp-modules.git
 cd terraform-cdp-modules
 ```
 
-2. Choose one of the deployment types in the [examples](./examples) directory and change to this directory.
+2. Choose one of the deployment types in the [examples](./modules/terraform-cdp-aws-pre-reqs/examples) directory and change to this directory.
 
 ```bash
-cd examples/ex<deployment_type>/
+cd modules/terraform-cdp-aws-pre-reqs/examples/ex<deployment_type>/
 ```
 
 3. Create a `terraform.tfvars` file with variable definitions to run the module. Reference the `terraform.tfvars.sample` file in each example folder to create this file.
