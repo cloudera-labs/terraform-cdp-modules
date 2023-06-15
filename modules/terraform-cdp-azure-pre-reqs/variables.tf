@@ -88,16 +88,104 @@ variable "resourcegroup_name" {
   default = null
 }
 
-variable "vpc_name" {
+variable "vnet_name" {
   type        = string
-  description = "VPC name"
+  description = "VNet name"
 
   default = null
 }
 
-variable "vpc_cidr" {
+variable "vnet_cidr" {
   type        = string
-  description = "VPC CIDR Block"
+  description = "VNet CIDR Block"
 
   default = "10.10.0.0/16"
+}
+
+variable "subnet_count" {
+  type        = string
+  description = "Number of Subnets Required"
+
+  default = "3"
+}
+
+# Security Groups
+variable "security_group_default_name" {
+  type = string
+
+  description = "Default Security Group for CDP environment"
+
+  default = null
+}
+
+variable "security_group_knox_name" {
+  type = string
+
+  description = "Knox Security Group for CDP environment"
+
+  default = null
+}
+
+variable "cdp_control_plane_cidrs" {
+  type = list(string)
+
+  description = "CIDR for access to CDP Control Plane"
+
+  default = ["52.36.110.208/32", "52.40.165.49/32", "35.166.86.177/32"]
+}
+
+variable "ingress_extra_cidrs_and_ports" {
+  type = object({
+    cidrs = list(string)
+    ports = list(number)
+  })
+  description = "List of extra CIDR blocks and ports to include in Security Group Ingress rules"
+
+  default = {
+    cidrs = [],
+    ports = []
+  }
+}
+
+# ------- Storage Resources -------
+variable "random_id_for_bucket" {
+  type = bool
+
+  description = "Create a random suffix for the Storage Account names"
+
+  default = true
+
+}
+
+variable "data_storage" {
+  type = object({
+    data_storage_bucket = string
+    data_storage_object = string
+  })
+
+  description = "Data storage locations for CDP environment"
+
+  default = null
+}
+
+variable "log_storage" {
+  type = object({
+    log_storage_bucket = string
+    log_storage_object = string
+  })
+
+  description = "Optional log locations for CDP environment. If not provided follow the data_storage variable"
+
+  default = null
+}
+
+variable "backup_storage" {
+  type = object({
+    backup_storage_bucket = string
+    backup_storage_object = string
+  })
+
+  description = "Optional Backup location for CDP environment. If not provided follow the data_storage variable"
+
+  default = null
 }
