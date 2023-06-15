@@ -91,43 +91,60 @@
 
 ############# CDP Environment #############
     - name: Start set up of CDP Environment Deployment on AWS
-      cloudera.cloud.env:
-        name: "{{ plat__env_name }}"
-        state: started
-        credential: "{{ plat__xacccount_credential_name }}"
-        cloud: "{{ plat__infra_type }}"
-        region: "{{ plat__region }}"
-        default_sg: "{{ plat__aws_security_group_default_id }}"
-        knox_sg: "{{ plat__aws_security_group_knox_id }}"
-        log_location: "{{ plat__aws_log_location }}"
-        log_identity: "{{ plat__aws_log_instance_profile_arn }}"
-        public_key_id: "{{ plat__public_key_id }}"
-        workload_analytics: "{{ plat__workload_analytics }}"
-        vpc_id: "{{ plat__aws_vpc_id }}"
-        subnet_ids: "{{ plat__aws_subnets_for_cdp }}"
-        tags: "{{ plat__tags }}"
-        tunnel: "{{ plat__tunnel }}"
-        endpoint_access_scheme: "{{ plat__endpoint_access_scheme | default(omit) }}"
-        endpoint_access_subnets: "{{ plat__aws_public_subnet_ids | default(omit) }}"
-        freeipa:
-          instanceCountByGroup: "{{ plat__env_freeipa_instances }}"
-          multiAz: "{{ plat__env_multiaz }}"
-      async: 3600 # 1 hour timeout
-      poll: 0
-      register: __cdp_env_setup
+      block:
+        - name: Call cloudera.cloud.env to register CDP environment
+          cloudera.cloud.env:
+            name: "{{ plat__env_name }}"
+            state: started
+            credential: "{{ plat__xacccount_credential_name }}"
+            cloud: "{{ plat__infra_type }}"
+            region: "{{ plat__region }}"
+            default_sg: "{{ plat__aws_security_group_default_id }}"
+            knox_sg: "{{ plat__aws_security_group_knox_id }}"
+            log_location: "{{ plat__aws_log_location }}"
+            log_identity: "{{ plat__aws_log_instance_profile_arn }}"
+            public_key_id: "{{ plat__public_key_id }}"
+            workload_analytics: "{{ plat__workload_analytics }}"
+            vpc_id: "{{ plat__aws_vpc_id }}"
+            subnet_ids: "{{ plat__aws_subnets_for_cdp }}"
+            tags: "{{ plat__tags }}"
+            tunnel: "{{ plat__tunnel }}"
+            endpoint_access_scheme: "{{ plat__endpoint_access_scheme | default(omit) }}"
+            endpoint_access_subnets: "{{ plat__aws_public_subnet_ids | default(omit) }}"
+            freeipa:
+              instanceCountByGroup: "{{ plat__env_freeipa_instances }}"
+              multiAz: "{{ plat__env_multiaz }}"
+          async: 3600 # 1 hour timeout
+          poll: 0
+          register: __cdp_env_setup
 
-    - name: Wait for CDP environment setup to start
-      ansible.builtin.pause:
-        seconds: 60
+        - name: Wait for CDP environment setup to start
+          ansible.builtin.pause:
+            seconds: 60
 
-    # TODO: Put a rescue on the below tasks to fallback to synchronous Env setup 
-    # (i.e. async_status task on __cdp_env_setup.ansible_job_id )
-    - name: Update CDP Environment information
-      cloudera.cloud.env_info:
-        name: "{{ plat__env_name }}"
-      register: plat__cdp_env_info
-      failed_when: plat__cdp_env_info.environments | length == 0
+        - name: Update CDP Environment information
+          cloudera.cloud.env_info:
+            name: "{{ plat__env_name }}"
+          register: plat__cdp_env_info
+          failed_when: plat__cdp_env_info.environments | length == 0
+      rescue:
+        # Fallback to synchronous if environment not found
+        - name: Wait for CDP Environment setup to complete
+          when: __cdp_env_setup.ansible_job_id is defined
+          ansible.builtin.async_status:
+            jid: "{{ __cdp_env_setup.ansible_job_id }}"
+          register: __cdp_env_setup_async
+          until: __cdp_env_setup_async.finished
+          retries: 120
+          delay: 30
 
+        - name: Attempt to update CDP Environment information again
+          cloudera.cloud.env_info:
+            name: "{{ plat__env_name }}"
+          register: plat__cdp_env_info
+          failed_when: plat__cdp_env_info.environments | length == 0
+    
+    # Resume normal service
     - name: Set fact for CDP Environment CRN
       ansible.builtin.set_fact:
         plat__cdp_env_crn: "{{ plat__cdp_env_info.environments[0].crn | default('Unknown') }}"
@@ -268,7 +285,10 @@
 ############# Wait for Completion of Async tasks #############
 
     - name: Wait for CDP Environment setup to complete
-      when: __cdp_env_setup.ansible_job_id is defined
+      when: 
+        - __cdp_env_setup_async is not defined
+        - __cdp_env_setup_async.finished is not defined
+        - __cdp_env_setup.ansible_job_id is defined
       ansible.builtin.async_status:
         jid: "{{ __cdp_env_setup.ansible_job_id }}"
       register: __cdp_env_setup_async
