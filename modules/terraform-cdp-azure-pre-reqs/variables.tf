@@ -51,7 +51,11 @@ variable "env_prefix" {
   description = "Shorthand name for the environment. Used in resource descriptions"
 }
 
+variable "public_key_text" {
+  type = string
 
+  description = "SSH Public key string for the nodes of the CDP environment"
+}
 # ------- CDP Environment Deployment -------
 variable "cdp_profile" {
   type        = string
@@ -80,12 +84,96 @@ variable "deployment_template" {
   }
 }
 
+variable "deploy_cdp" {
+  type = bool
+
+  description = "Deploy the CDP environment as part of Terraform"
+
+  default = true
+}
+
+variable "use_single_resource_group" {
+  type = bool
+
+  description = "Use a single resource group for all provisioned CDP resources"
+
+  default = true
+}
+
+
+variable "enable_ccm_tunnel" {
+  type = bool
+
+  description = "Flag to enable Cluster Connectivity Manager tunnel. If false then access from Cloud to CDP Control Plane CIDRs is required from via SG ingress"
+
+  default = true
+}
+
+variable "enable_raz" {
+  type = bool
+
+  description = "Flag to enable Ranger Authorization Service (RAZ)"
+
+  default = true
+}
+
+variable "freeipa_instances" {
+  type = number
+
+  description = "The number of FreeIPA instances to create in the environment"
+
+  default = 2
+}
+
+variable "workload_analytics" {
+  type = bool
+
+  description = "Flag to specify if workload analytics should be enabled for the CDP environment"
+
+  default = true
+}
+
+variable "datalake_scale" {
+  type = string
+
+  description = "The scale of the datalake. Valid values are LIGHT_DUTY, MEDIUM_DUTY_HA."
+
+  # NOTE: Unable to have validation when we want a default behaviour depending on deployment_template
+  # validation {
+  #   condition     = contains(["LIGHT_DUTY", "MEDIUM_DUTY_HA"], var.datalake_scale)
+  #   error_message = "Valid values for var: datalake_scale are (LIGHT_DUTY, MEDIUM_DUTY_HA)."
+  # }
+
+  default = null
+}
+
+variable "datalake_version" {
+  type = string
+
+  description = "The Datalake Runtime version. Valid values are semantic versions, e.g. 7.2.16"
+
+  validation {
+    condition     = (var.datalake_version == null ? true : length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0)
+    error_message = "Valid values for var: datalake_version must match semantic versioning conventions."
+  }
+
+  default = "7.2.16"
+}
+
 # ------- Network Resources -------
 variable "resourcegroup_name" {
   type        = string
   description = "Resource Group name"
 
   default = null
+}
+
+variable "create_vnet" {
+  type = bool
+
+  description = "Flag to specify if the VNet should be created"
+
+  default = true
 }
 
 variable "vnet_name" {
@@ -101,6 +189,28 @@ variable "vnet_cidr" {
 
   default = "10.10.0.0/16"
 }
+
+variable "cdp_vnet_id" {
+  type        = string
+  description = "VPC ID for CDP environment. Required if create_vnet is false."
+
+  default = null
+}
+
+variable "cdp_public_subnet_ids" {
+  type        = list(any)
+  description = "List of public subnet ids. Required if create_vpc is false."
+
+  default = null
+}
+
+variable "cdp_private_subnet_ids" {
+  type        = list(any)
+  description = "List of private subnet ids. Required if create_vpc is false."
+
+  default = null
+}
+
 
 variable "subnet_count" {
   type        = string
@@ -188,4 +298,230 @@ variable "backup_storage" {
   description = "Optional Backup location for CDP environment. If not provided follow the data_storage variable"
 
   default = null
+}
+
+# ------- Authz Resources -------
+# Cross Account Application
+variable "xaccount_app_name" {
+  type = string
+
+  description = "	Cross account application name within Azure Active Directory"
+
+  default = null
+}
+
+# Managed Identities
+variable "datalake_admin_managed_identity_name" {
+  type = string
+
+  description = "Datalake Admin Managed Identity name"
+
+  default = null
+
+}
+
+variable "idbroker_managed_identity_name" {
+  type = string
+
+  description = "IDBroker Managed Identity name"
+
+  default = null
+
+}
+
+variable "log_data_access_managed_identity_name" {
+  type = string
+
+  description = "Log Data Access Managed Identity name"
+
+  default = null
+
+}
+
+variable "ranger_audit_data_access_managed_identity_name" {
+  type = string
+
+  description = "	Ranger Audit Managed Identity name"
+
+  default = null
+
+}
+
+variable "raz_managed_identity_name" {
+  type = string
+
+  description = "RAZ Managed Identity name"
+
+  default = null
+
+}
+
+# Role Assignments to Manage Identifies
+variable "idbroker_role_assignments" {
+  type = list(object({
+    role        = string
+    description = string
+    })
+  )
+
+  description = "	List of Role Assignments for the IDBroker Managed Identity"
+
+  default = [
+    {
+      "description" : "Assign VM Contributor Role to IDBroker Identity at Subscription Level",
+      "role" : "Virtual Machine Contributor"
+    },
+    {
+      "description" : "Assign Managed Identity Operator Role to IDBroker Identity at Subscription Level",
+      "role" : "Managed Identity Operator"
+    }
+  ]
+
+}
+
+variable "datalake_admin_data_container_role_assignments" {
+  type = list(object({
+    role        = string
+    description = string
+    })
+  )
+
+  description = "List of Role Assignments for the Datalake Admin Managed Identity assigned to the Data Storage Container."
+
+  default = [
+    {
+      "description" : "Assign Storage Blob Data Owner Role to Data Lake Admin Identity at Data Container Level",
+      "role" : "Storage Blob Data Owner"
+    }
+  ]
+
+}
+
+variable "datalake_admin_log_container_role_assignments" {
+  type = list(object({
+    role        = string
+    description = string
+    })
+  )
+
+  description = "List of Role Assignments for the Datalake Admin Managed Identity assigned to the Logs Storage Container."
+
+  default = [
+    {
+      "description" : "Assign Storage Blob Data Owner Role to Data Lake Admin Identity at Logs Container Level",
+      "role" : "Storage Blob Data Owner"
+    }
+  ]
+
+}
+
+variable "datalake_admin_backup_container_role_assignments" {
+  type = list(object({
+    role        = string
+    description = string
+    })
+  )
+
+  description = "List of Role Assignments for the Datalake Admin Managed Identity assigned to the Backup Storage Container."
+
+  default = [
+    {
+      "description" : "Assign Storage Blob Data Owner Role to Data Lake Admin Identity at Backup Container Level",
+      "role" : "Storage Blob Data Owner"
+    }
+  ]
+
+}
+
+variable "log_data_access_role_assignments" {
+  type = list(object({
+    role        = string
+    description = string
+    })
+  )
+
+  description = "List of Role Assignments for the Log Data Access Managed Identity."
+
+  default = [
+    {
+      "description" : "Assign Storage Blob Data Contributor Role to Log Role at Logs and Backup Container level",
+      "role" : "Storage Blob Data Contributor"
+    }
+  ]
+
+}
+
+variable "ranger_audit_data_container_role_assignments" {
+  type = list(object({
+    role        = string
+    description = string
+    })
+  )
+
+  description = "List of Role Assignments for the Ranger Audit Managed Identity assigned to the Data Storage Container."
+
+  default = [
+    {
+      "description" : "Assign Storage Blob Data Contributor Role to Ranger Audit Role at Data Container level",
+      "role" : "Storage Blob Data Contributor"
+    }
+  ]
+
+}
+
+variable "ranger_audit_log_container_role_assignments" {
+  type = list(object({
+    role        = string
+    description = string
+    })
+  )
+
+  description = "List of Role Assignments for the Ranger Audit Managed Identity assigned to the Log Storage Container."
+
+  default = [
+    {
+      "description" : "Assign Storage Blob Data Contributor Role to Ranger Audit Role at Logs Container level",
+      "role" : "Storage Blob Data Contributor"
+    }
+  ]
+
+}
+
+variable "ranger_audit_backup_container_role_assignments" {
+  type = list(object({
+    role        = string
+    description = string
+    })
+  )
+
+  description = "List of Role Assignments for the Ranger Audit Managed Identity assigned to the Backup Storage Container."
+
+  default = [
+    {
+      "description" : "Assign Storage Blob Data Contributor Role to Ranger Audit Role at Backup Container level",
+      "role" : "Storage Blob Data Contributor"
+    }
+  ]
+
+}
+variable "raz_storage_role_assignments" {
+  type = list(object({
+    role        = string
+    description = string
+    })
+  )
+
+  description = "List of Role Assignments for the Ranger Audit Managed Identity assigned to the Log Storage Container."
+
+  default = [
+    {
+      "description" : "Assign Storage Blob Delegator Role to RAZ Identity at Storage Account level",
+      "role" : "Storage Blob Delegator"
+    },
+    {
+      "description" : "Assign Storage Blob Data Owner Role to RAZ Identity at Storage Account level",
+      "role" : "Storage Blob Data Owner"
+    }
+  ]
+
 }

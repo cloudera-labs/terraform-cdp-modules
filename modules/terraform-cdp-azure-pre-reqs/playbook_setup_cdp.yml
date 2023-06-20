@@ -1,0 +1,311 @@
+---
+
+# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#################################################
+# Ansible Playbook to create CDP resources based 
+# on output generated from TF pre-reqs module.
+# Uses the cloudera.cloud Ansible collection
+# 
+# Tasks performed:
+# * Create Cross Account credential
+# * Set up Environment Deployment
+# * Creates user and admin groups and CDP IDBroker Mappings
+# * Set up Datalake
+#############################
+- name: Create CDP Resources
+  hosts: localhost
+  environment:
+    CDP_PROFILE: "{{ plat__cdp_profile }}"
+    CDP_REGION:  "{{ plat__cdp_control_plane_region }}"
+  vars:
+    plat__cdp_iam_identities:
+      role_suffix: role
+      resource_role_suffix: resourceRole
+      env_admin: EnvironmentAdmin
+      env_user: EnvironmentUser
+      dw_admin: DWAdmin
+      dw_user: DWUser
+      ml_admin: MLAdmin
+      ml_user: MLUser
+      df_admin: DFAdmin
+      df_flow_admin: DFFlowAdmin
+      df_flow_user: DFFlowUser
+      de_admin: DEAdmin
+      de_user: DEUser
+    plat__cdp_iam_admin_group_resource_roles_default:
+      - "{{ plat__cdp_iam_identities.env_admin }}"
+      - "{{ plat__cdp_iam_identities.env_user }}"
+      - "{{ plat__cdp_iam_identities.dw_admin }}"
+      - "{{ plat__cdp_iam_identities.dw_user }}"
+      - "{{ plat__cdp_iam_identities.ml_admin }}"
+      - "{{ plat__cdp_iam_identities.ml_user }}"
+      - "{{ plat__cdp_iam_identities.df_admin }}"
+      - "{{ plat__cdp_iam_identities.df_flow_admin }}"
+      - "{{ plat__cdp_iam_identities.df_flow_user }}"
+      - "{{ plat__cdp_iam_identities.de_admin }}"
+      - "{{ plat__cdp_iam_identities.de_user }}"
+    plat__cdp_iam_user_group_resource_roles_default:
+      - "{{ plat__cdp_iam_identities.env_user }}"
+      - "{{ plat__cdp_iam_identities.dw_user }}"
+      - "{{ plat__cdp_iam_identities.ml_user }}"
+      - "{{ plat__cdp_iam_identities.df_flow_admin }}"
+      - "{{ plat__cdp_iam_identities.df_flow_user }}"
+      - "{{ plat__cdp_iam_identities.de_user }}"
+    plat__cdp_iam_admin_group_roles:
+      - "{{ plat__cdp_iam_identities.env_admin }}"      
+    plat__cdp_iam_admin_group_resource_roles:     "{{ plat__cdp_iam_admin_group_resource_roles_default }}"
+    plat__cdp_iam_user_group_roles:
+      - "{{ plat__cdp_iam_identities.env_user }}"
+    plat__cdp_iam_user_group_resource_roles:     "{{ plat__cdp_iam_user_group_resource_roles_default }}"      
+    common__cdp_control_planes:
+      us-west-1:  "crn:altus:iam:us-west-1:altus"
+      eu-1:       "crn:altus:iam:eu-1:altus"
+      ap-1:       "crn:altus:iam:ap-1:altus"
+    common__cdp_control_plane_region:         "{{ plat__cdp_control_plane_region | default('us-west-1') }}"
+    common__cdp_control_plane_crn:            "{{ common__cdp_control_planes[common__cdp_control_plane_region] }}"
+    plat__cdp_control_plane_crn:              "{{ common__cdp_control_plane_crn }}"
+    plat__cdp_iam_role_suffix:                "{{ plat__cdp_iam_identities.role_suffix }}"
+    plat__cdp_iam_resource_suffix:            "{{ plat__cdp_iam_identities.resource_role_suffix }}"    
+  tasks:
+
+############# CDP Credential #############
+    - name: Create CDP Cross Account Credential for Azure
+      cloudera.cloud.env_cred:
+        cloud: "{{ plat__infra_type }}"
+        name: "{{ plat__xacccount_credential_name }}"
+        subscription: "{{ plat__azure_subscription_id }}"
+        tenant: "{{ plat__azure_tenant_id }}"
+        application: "{{ plat__azure_xaccount_app_uuid }}"
+        secret: "{{ plat__azure_xaccount_app_pword }}"
+        state: present
+
+############# CDP Environment #############
+    - name: Start set up of CDP Environment Deployment on Azure
+      block:
+        - name: Call cloudera.cloud.env to register CDP environment
+          cloudera.cloud.env:
+            name: "{{ plat__env_name }}"
+            state: started
+            credential: "{{ plat__xacccount_credential_name }}"
+            cloud: "{{ plat__infra_type }}"
+            region: "{{ plat__region }}"
+            default_sg: "{{ plat__azure_security_group_default_uri }}"
+            knox_sg: "{{ plat__azure_security_group_knox_uri }}"
+            log_location: "{{ plat__azure_log_location }}"
+            log_identity: "{{ plat__azure_log_identity_id }}"
+            backup_location: "{{ plat__azure_backup_location }}"
+            public_key_text: "{{ plat__public_key_text }}"
+            workload_analytics: "{{ plat__workload_analytics }}"
+            network: "{{ plat__azure_vnet_id }}"
+            subnet_ids: "{{ plat__azure_subnet_names_for_cdp }}"
+            tags: "{{ plat__tags }}"
+            tunnel: "{{ plat__tunnel }}"
+            resource_gp: "{{ plat__azure_resourcegroup_name }}"        
+            use_single_resource_group: "{{ plat__use_single_resource_group }}"
+            public_ip: "{{ plat__use_public_ips }}"
+            freeipa:
+              instanceCountByGroup: "{{ plat__env_freeipa_instances }}"
+          async: 3600 # 1 hour timeout
+          poll: 0
+          register: __cdp_env_setup
+
+        - name: Wait for CDP environment setup to start
+          ansible.builtin.pause:
+            seconds: 60
+
+        - name: Update CDP Environment information
+          cloudera.cloud.env_info:
+            name: "{{ plat__env_name }}"
+          register: plat__cdp_env_info
+          failed_when: plat__cdp_env_info.environments | length == 0
+      rescue:
+        # Fallback to synchronous if environment not found
+        - name: Wait for CDP Environment setup to complete
+          when: __cdp_env_setup.ansible_job_id is defined
+          ansible.builtin.async_status:
+            jid: "{{ __cdp_env_setup.ansible_job_id }}"
+          register: __cdp_env_setup_async
+          until: __cdp_env_setup_async.finished
+          retries: 120
+          delay: 30
+
+        - name: Attempt to update CDP Environment information again
+          cloudera.cloud.env_info:
+            name: "{{ plat__env_name }}"
+          register: plat__cdp_env_info
+          failed_when: plat__cdp_env_info.environments | length == 0
+
+    # Resume normal service
+    - name: Set fact for CDP Environment CRN
+      ansible.builtin.set_fact:
+        plat__cdp_env_crn: "{{ plat__cdp_env_info.environments[0].crn | default('Unknown') }}"
+
+    - name: Print Environment CRN
+      debug:
+        msg:
+          - plat__cdp_env_crn is {{ plat__cdp_env_crn }}
+
+############# CDP Groups #############
+    - name: Query CDP Caller to confirm access to Endpoints
+      cloudera.cloud.iam_user_info:
+        current_user: yes
+      register: __cdp_iam_current_user_info
+
+    - name: Set facts for CDP Caller Workload Username and CRN
+      ansible.builtin.set_fact:
+        plat__cdp_workload_username: "{{ __cdp_iam_current_user_info.users[0].workloadUsername }}"
+        plat__cdp_user_crn: "{{ __cdp_iam_current_user_info.users[0].crn }}"
+
+    - name: Set fact for CDP Environment Admin Group Role CRNs
+      ansible.builtin.set_fact:
+        plat__cdp_pub_admin_group_role_crns: "{{ plat__cdp_pub_admin_group_role_crns | default([]) | union([role]) }}"
+      vars:
+        role: "{{ [plat__cdp_control_plane_crn, plat__cdp_iam_role_suffix, __cdp_pub_admin_group_role_item] | join(':') }}"
+      loop_control:
+        loop_var: __cdp_pub_admin_group_role_item
+      loop: "{{ plat__cdp_iam_admin_group_roles }}"
+
+    - name: Set fact for CDP Environment Admin Group Resource Role CRNs
+      ansible.builtin.set_fact:
+        plat__cdp_pub_admin_group_resource_role_crns: "{{ plat__cdp_pub_admin_group_resource_role_crns | default([]) | union([resource_role]) }}"
+      vars:
+        resource_role: "{{ [plat__cdp_control_plane_crn, plat__cdp_iam_resource_suffix, __cdp_env_admin_group_resource_role_item] | join(':') }}"
+      loop_control:
+        loop_var: __cdp_env_admin_group_resource_role_item
+      loop: "{{ plat__cdp_iam_admin_group_resource_roles }}"
+
+    - name: Set fact for CDP Environment User Group Role CRNs
+      ansible.builtin.set_fact:
+        plat__cdp_pub_user_group_role_crns: "{{ plat__cdp_pub_user_group_role_crns | default([]) | union([role]) }}"
+      vars:
+        role: "{{ [plat__cdp_control_plane_crn, plat__cdp_iam_role_suffix, __cdp_pub_user_group_role_item] | join(':') }}"
+      loop_control:
+        loop_var: __cdp_pub_user_group_role_item
+      loop: "{{ plat__cdp_iam_user_group_roles }}"
+
+    - name: Set fact for CDP Environment User Group Resource Role CRNs
+      ansible.builtin.set_fact:
+        plat__cdp_pub_user_group_resource_role_crns: "{{ plat__cdp_pub_user_group_resource_role_crns | default([]) | union([resource_role]) }}"
+      vars:
+        resource_role: "{{ [plat__cdp_control_plane_crn, plat__cdp_iam_resource_suffix, __cdp_pub_user_group_resource_role_item] | join(':') }}"
+      loop_control:
+        loop_var: __cdp_pub_user_group_resource_role_item
+      loop: "{{ plat__cdp_iam_user_group_resource_roles }}"
+
+    - name: Set fact for CDP Admin Group Resource Role assignments
+      ansible.builtin.set_fact:
+        plat__cdp_env_admin_group_resource_role_assignments: "{{ plat__cdp_env_admin_group_resource_role_assignments | default([]) | union([resource_role_assignment]) }}"
+      vars:
+        resource_role_assignment:
+          resource: "{{ plat__cdp_env_crn }}"
+          role: "{{ __cdp_resource_role_item }}"
+      loop_control:
+        loop_var: __cdp_resource_role_item
+      loop: "{{ plat__cdp_pub_admin_group_resource_role_crns }}"
+
+    - name: Create CDP Admin group
+      cloudera.cloud.iam_group:
+        name: "{{ plat__cdp_iam_admin_group_name }}"
+        state: present
+        sync: false
+        roles: "{{ plat__cdp_pub_admin_group_role_crns }}"
+        resource_roles: "{{ plat__cdp_env_admin_group_resource_role_assignments }}"
+        users:
+          - "{{ plat__cdp_user_crn }}"
+      register: __cdp_pub_admin_group_info
+
+    - name: Set fact for CDP Admin Group CRN
+      ansible.builtin.set_fact:
+        plat__cdp_pub_admin_group_crn: "{{ __cdp_pub_admin_group_info | community.general.json_query('group.crn') }}"
+
+    - name: Set fact for CDP User Group Resource Role assignments
+      ansible.builtin.set_fact:
+        plat__cdp_pub_user_group_resource_role_assignments: "{{ plat__cdp_pub_user_group_resource_role_assignments | default([]) | union([resource_role_assignment]) }}"
+      vars:
+        resource_role_assignment:
+          resource: "{{ plat__cdp_env_crn }}"
+          role: "{{ __cdp_resource_role_item }}"
+      loop_control:
+        loop_var: __cdp_resource_role_item
+      loop: "{{ plat__cdp_pub_user_group_resource_role_crns }}"
+
+    - name: Create CDP User group
+      cloudera.cloud.iam_group:
+        name: "{{ plat__cdp_iam_user_group_name }}"
+        state: present
+        sync: false
+        roles: "{{ plat__cdp_pub_user_group_role_crns }}"
+        resource_roles: "{{ plat__cdp_pub_user_group_resource_role_assignments }}"
+      register: __cdp_pub_user_group_info
+
+    - name: Set fact for CDP User Group CRN
+      ansible.builtin.set_fact:
+        plat__cdp_pub_user_group_crn: "{{ __cdp_pub_user_group_info | community.general.json_query('group.crn') }}"
+
+############# IDBroker Mappings #############
+
+    - name: Set IDBroker Mappings for CDP on Azure
+      cloudera.cloud.env_idbroker:
+        name: "{{ plat__env_name }}"
+        sync: no
+        data_access: "{{ plat__azure_datalakeadmin_identity_id }}"
+        ranger_audit: "{{ plat__azure_ranger_audit_identity_id }}"
+        ranger_cloud_access: "{{ (plat__enable_raz | bool) | ternary(plat__azure_raz_identity_id, omit) }}"
+        mappings:
+          - accessor: "{{ plat__cdp_pub_admin_group_crn }}"
+            role: "{{ plat__azure_datalakeadmin_identity_id }}"
+          - accessor: "{{ plat__cdp_pub_user_group_crn }}"
+            role: "{{ plat__azure_datalakeadmin_identity_id }}"
+
+############# CDP Datalake #############
+
+    - name: Start set up of CDP Datalake for Azure
+      cloudera.cloud.datalake:
+        name: "{{ plat__datalake_name }}"
+        env: "{{ plat__env_name }}"
+        managed_identity: "{{ plat__azure_idbroker_identity_id }}"
+        storage: "{{ plat__azure_storage_location }}"
+        runtime: "{{ plat__datalake_version | default(omit) }}"
+        scale: "{{ plat__datalake_scale | default(omit) }}"
+        tags: "{{ plat__tags }}"
+        raz: "{{ plat__enable_raz }}"
+        state: present
+      async: 10000
+      poll: 0
+      register: __cdp_dl_setup            
+
+############# Wait for Completion of Async tasks #############
+
+    - name: Wait for CDP Environment setup to complete
+      when: 
+        - __cdp_env_setup_async is not defined
+        - __cdp_env_setup_async.finished is not defined
+        - __cdp_env_setup.ansible_job_id is defined
+      ansible.builtin.async_status:
+        jid: "{{ __cdp_env_setup.ansible_job_id }}"
+      register: __cdp_env_setup_async
+      until: __cdp_env_setup_async.finished
+      retries: 120
+      delay: 30
+
+    - name: Wait for CDP Datalake setup to complete
+      when: __cdp_dl_setup.ansible_job_id is defined
+      ansible.builtin.async_status:
+        jid: "{{ __cdp_dl_setup.ansible_job_id }}"
+      register: __cdp_dl_setup_async
+      until: __cdp_dl_setup_async.finished
+      retries: 240
+      delay: 30

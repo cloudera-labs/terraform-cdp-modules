@@ -13,9 +13,16 @@
 # limitations under the License.
 
 provider "azurerm" {
-  features {}
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
 
-  tenant_id = "c7f832d2-fcca-4595-9860-1e81b76c28ff"
+}
+
+provider "azuread" {
+
 }
 
 module "ex01_minimal_inputs" {
@@ -23,6 +30,8 @@ module "ex01_minimal_inputs" {
 
   env_prefix   = var.env_prefix
   azure_region = var.azure_region
+
+  public_key_text = var.public_key_text
 
   deployment_template = var.deployment_template
 

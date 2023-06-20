@@ -350,11 +350,22 @@ resource "azurerm_user_assigned_identity" "cdp_log_data_access" {
 }
 
 # Assign the required roles to the managed identity
-resource "azurerm_role_assignment" "cdp_log_data_access_assign" {
+resource "azurerm_role_assignment" "cdp_log_data_access_log_container_assign" {
 
   for_each = { for idx, role in var.log_data_access_role_assignments : idx => role }
 
   scope                = azurerm_storage_container.cdp_log_storage.resource_manager_id
+  role_definition_name = each.value.role
+  principal_id         = azurerm_user_assigned_identity.cdp_log_data_access.principal_id
+
+  description = each.value.description
+}
+
+resource "azurerm_role_assignment" "cdp_log_data_access_backup_container_assign" {
+
+  for_each = { for idx, role in var.log_data_access_role_assignments : idx => role }
+
+  scope                = azurerm_storage_container.cdp_backup_storage.resource_manager_id
   role_definition_name = each.value.role
   principal_id         = azurerm_user_assigned_identity.cdp_log_data_access.principal_id
 
@@ -389,6 +400,17 @@ resource "azurerm_role_assignment" "cdp_ranger_audit_log_container_assign" {
   for_each = { for idx, role in var.ranger_audit_log_container_role_assignments : idx => role }
 
   scope                = azurerm_storage_container.cdp_log_storage.resource_manager_id
+  role_definition_name = each.value.role
+  principal_id         = azurerm_user_assigned_identity.cdp_ranger_audit_data_access.principal_id
+
+  description = each.value.description
+}
+
+resource "azurerm_role_assignment" "cdp_ranger_audit_backup_container_assign" {
+
+  for_each = { for idx, role in var.ranger_audit_backup_container_role_assignments : idx => role }
+
+  scope                = azurerm_storage_container.cdp_backup_storage.resource_manager_id
   role_definition_name = each.value.role
   principal_id         = azurerm_user_assigned_identity.cdp_ranger_audit_data_access.principal_id
 
