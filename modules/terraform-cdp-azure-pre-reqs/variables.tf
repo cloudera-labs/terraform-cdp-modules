@@ -34,7 +34,7 @@ variable "azure_region" {
 
 variable "env_tags" {
   type        = map(any)
-  description = "Tags applied to provised resources"
+  description = "Tags applied to provisioned resources"
 
   default = null
 }
@@ -236,13 +236,13 @@ variable "security_group_knox_name" {
   default = null
 }
 
-variable "cdp_control_plane_cidrs" {
-  type = list(string)
+# variable "cdp_control_plane_cidrs" {
+#   type = list(string)
 
-  description = "CIDR for access to CDP Control Plane"
+#   description = "CIDR for access to CDP Control Plane"
 
-  default = ["52.36.110.208/32", "52.40.165.49/32", "35.166.86.177/32"]
-}
+#   default = ["52.36.110.208/32", "52.40.165.49/32", "35.166.86.177/32"]
+# }
 
 variable "ingress_extra_cidrs_and_ports" {
   type = object({

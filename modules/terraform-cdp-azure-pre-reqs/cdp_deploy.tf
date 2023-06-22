@@ -47,12 +47,8 @@ resource "local_file" "cdp_deployment_template" {
 
     plat__azure_resourcegroup_name   = azurerm_resource_group.cdp_rmgp.name
     plat__azure_vnet_id              = local.vnet_id
-    plat__azure_public_subnet_ids    = jsonencode(local.public_subnet_ids)
-    plat__azure_public_subnet_names  = jsonencode(local.public_subnet_names)
-    plat__azure_private_subnet_ids   = jsonencode(local.private_subnet_ids)
-    plat__azure_private_subnet_names = jsonencode(local.private_subnet_names)
-    plat__azure_subnet_ids_for_cdp   = (var.deployment_template == "public") ? jsonencode(concat(local.public_subnet_ids, local.private_subnet_ids)) : jsonencode(local.private_subnet_ids)
-    plat__azure_subnet_names_for_cdp = (var.deployment_template == "public") ? jsonencode(concat(local.public_subnet_names, local.private_subnet_names)) : jsonencode(local.private_subnet_names)
+    plat__azure_subnet_ids_for_cdp   = jsonencode(local.subnet_ids)
+    plat__azure_subnet_names_for_cdp = jsonencode(local.subnet_names)
 
     plat__azure_storage_location = "abfs://${azurerm_storage_container.cdp_data_storage.name}@${azurerm_storage_container.cdp_data_storage.storage_account_name}.dfs.core.windows.net"
     plat__azure_log_location     = "abfs://${azurerm_storage_container.cdp_log_storage.name}@${azurerm_storage_container.cdp_log_storage.storage_account_name}.dfs.core.windows.net"
@@ -99,9 +95,7 @@ resource "null_resource" "cdp_deployment" {
     azuread_application.cdp_xaccount_app,
     azurerm_network_security_group.cdp_default_sg,
     azurerm_network_security_group.cdp_knox_sg,
-    azurerm_network_security_rule.cdp_default_sg_ingress_cdp_control_plane,
     azurerm_network_security_rule.cdp_default_sg_ingress_extra_access,
-    azurerm_network_security_rule.cdp_knox_sg_ingress_cdp_control_plane,
     azurerm_network_security_rule.cdp_knox_sg_ingress_extra_access,
     azurerm_resource_group.cdp_rmgp,
     random_id.bucket_suffix,
@@ -109,14 +103,12 @@ resource "null_resource" "cdp_deployment" {
     azurerm_storage_container.cdp_backup_storage,
     azurerm_storage_container.cdp_data_storage,
     azurerm_storage_container.cdp_log_storage,
-    azurerm_subnet.cdp_private_subnets,
-    azurerm_subnet.cdp_public_subnets,
+    module.azure_cdp_vnet,
     azurerm_user_assigned_identity.cdp_datalake_admin,
     azurerm_user_assigned_identity.cdp_idbroker,
     azurerm_user_assigned_identity.cdp_log_data_access,
     azurerm_user_assigned_identity.cdp_ranger_audit_data_access,
     azurerm_user_assigned_identity.cdp_raz,
-    azurerm_virtual_network.cdp_vnet,
     azurerm_role_assignment.cdp_datalake_admin_backup_container_assign,
     azurerm_role_assignment.cdp_datalake_admin_data_container_assign,
     azurerm_role_assignment.cdp_datalake_admin_log_container_assign,

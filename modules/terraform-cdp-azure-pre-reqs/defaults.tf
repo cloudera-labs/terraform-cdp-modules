@@ -38,49 +38,15 @@ locals {
 
   security_group_knox_name = coalesce(var.security_group_knox_name, "${var.env_prefix}-knox-sg")
 
-  # Calculate number of subnets based on the deployment_type
-  subnets_required = {
-    total   = (var.deployment_template == "public") ? var.subnet_count : 2 * var.subnet_count
-    public  = var.subnet_count
-    private = (var.deployment_template == "public") ? 0 : var.subnet_count
-  }
-
-  # Public Network infrastructure
-  public_subnets = (local.subnets_required.public == 0 ?
-    [] :
-    [
-      for idx in range(local.subnets_required.public) :
-      {
-        name = "${var.env_prefix}-sbnt-pub-${format("%02d", idx + 1)}"
-        cidr = cidrsubnet(var.vnet_cidr, ceil(log(local.subnets_required.total, 2)), idx)
-      }
-  ])
-
-  # Private Network infrastructure
-  private_subnets = (local.subnets_required.private == 0 ?
-    [] :
-    [
-      for idx in range(local.subnets_required.private) :
-      {
-        name = "${var.env_prefix}-sbnt-pvt-${format("%02d", idx + 1)}"
-        cidr = cidrsubnet(var.vnet_cidr, ceil(log(local.subnets_required.total, 2)), local.subnets_required.public + idx)
-      }
-  ])
 
   vnet_id = (var.create_vnet ?
-  azurerm_virtual_network.cdp_vnet.name : var.cdp_vnet_id)
+  module.azure_cdp_vnet[0].vnet_name : var.cdp_vnet_id)
 
-  public_subnet_ids = (var.create_vnet ?
-  values(azurerm_subnet.cdp_public_subnets)[*].id : var.cdp_public_subnet_ids)
-  public_subnet_names = (var.create_vnet ?
-  values(azurerm_subnet.cdp_public_subnets)[*].name : var.cdp_public_subnet_ids)
-
-  private_subnet_ids = (var.create_vnet ?
-    values(azurerm_subnet.cdp_private_subnets)[*].id : var.cdp_private_subnet_ids
-  )
-  private_subnet_names = (var.create_vnet ?
-    values(azurerm_subnet.cdp_private_subnets)[*].name : var.cdp_private_subnet_ids
-  )
+  subnet_ids = (var.create_vnet ? module.azure_cdp_vnet[0].vnet_subnet_ids
+  : var.cdp_public_subnet_ids)
+  
+  subnet_names = (var.create_vnet ?
+  module.azure_cdp_vnet[0].vnet_subnet_names : var.cdp_public_subnet_ids)
 
   # ------- Storage Resources -------
   storage_suffix = var.random_id_for_bucket ? "${one(random_id.bucket_suffix).hex}" : ""
@@ -128,8 +94,4 @@ locals {
       }
     ]
   ])
-
-
-
-
 }

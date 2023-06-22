@@ -21,51 +21,22 @@ resource "azurerm_resource_group" "cdp_rmgp" {
 }
 
 # ------- VNet -------
-# TODO: Move this to a sub-module & find existing TF modules
-# https://github.com/Azure/terraform-azurerm-network
-resource "azurerm_virtual_network" "cdp_vnet" {
-  name                = local.vnet_name
-  location            = azurerm_resource_group.cdp_rmgp.location
-  resource_group_name = azurerm_resource_group.cdp_rmgp.name
-  address_space       = [var.vnet_cidr]
-  dns_servers         = []
+# Create the VNet & subnets if required
+module "azure_cdp_vnet" {
+  count = var.create_vnet ? 1 : 0
 
-  tags = merge(local.env_tags, { Name = local.vnet_name })
+  source = "./modules/vnet"
+
+  resourcegroup_name =  azurerm_resource_group.cdp_rmgp.name
+  vnet_name           = local.vnet_name
+  vnet_cidr           = var.vnet_cidr
+  vnet_region         = var.azure_region
+  subnet_count        = var.subnet_count
+
+  env_prefix = var.env_prefix
+  tags       = local.env_tags
 }
 
-# ------- Subnets -------
-# TODO: Revisit need for pub vs. priv subnet
-# TODO: Better planning of VNet & subnets as per: https://docs.cloudera.com/cdp-public-cloud/cloud/requirements-azure/topics/mc-azure-vnet-and-subnets.html
-
-# Azure VNet Public Subnets
-resource "azurerm_subnet" "cdp_public_subnets" {
-
-  for_each = { for idx, subnet in local.public_subnets : idx => subnet }
-
-  virtual_network_name = azurerm_virtual_network.cdp_vnet.name
-  resource_group_name  = azurerm_resource_group.cdp_rmgp.name
-  name                 = each.value.name
-  address_prefixes     = [each.value.cidr]
-
-  service_endpoints                         = ["Microsoft.Sql", "Microsoft.Storage"]
-  private_endpoint_network_policies_enabled = true
-
-}
-
-# Azure VNet Pricate Subnets
-resource "azurerm_subnet" "cdp_private_subnets" {
-
-  for_each = { for idx, subnet in local.private_subnets : idx => subnet }
-
-  virtual_network_name = azurerm_virtual_network.cdp_vnet.name
-  resource_group_name  = azurerm_resource_group.cdp_rmgp.name
-  name                 = each.value.name
-  address_prefixes     = [each.value.cidr]
-
-  service_endpoints                         = ["Microsoft.Sql", "Microsoft.Storage"]
-  private_endpoint_network_policies_enabled = true
-
-}
 
 # ------- Security Groups -------
 # Default SG
@@ -78,21 +49,6 @@ resource "azurerm_network_security_group" "cdp_default_sg" {
 
 }
 
-# Create security group rules for CDP control plane ingress
-# TODO: This may not be needed with CCMv2
-resource "azurerm_network_security_rule" "cdp_default_sg_ingress_cdp_control_plane" {
-  name                        = "AllowAccessForCDPControlPlane"
-  priority                    = 901
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_address_prefixes     = var.cdp_control_plane_cidrs
-  destination_address_prefix  = "*"
-  source_port_range           = "*"
-  destination_port_ranges     = [443, 9443]
-  resource_group_name         = azurerm_resource_group.cdp_rmgp.name
-  network_security_group_name = azurerm_network_security_group.cdp_default_sg.name
-}
 
 # Create security group rules for extra list of ingress rules
 # TODO: How to handle the case where ingress_extra_cidrs_and_ports is []
@@ -120,21 +76,6 @@ resource "azurerm_network_security_group" "cdp_knox_sg" {
 
 }
 
-# Create security group rules for CDP control plane ingress
-# TODO: This may not be needed with CCMv2
-resource "azurerm_network_security_rule" "cdp_knox_sg_ingress_cdp_control_plane" {
-  name                        = "AllowAccessForCDPControlPlane"
-  priority                    = 901
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_address_prefixes     = var.cdp_control_plane_cidrs
-  destination_address_prefix  = "*"
-  source_port_range           = "*"
-  destination_port_ranges     = [443, 9443]
-  resource_group_name         = azurerm_resource_group.cdp_rmgp.name
-  network_security_group_name = azurerm_network_security_group.cdp_knox_sg.name
-}
 
 # Create security group rules for extra list of ingress rules
 # TODO: How to handle the case where ingress_extra_cidrs_and_ports is []
