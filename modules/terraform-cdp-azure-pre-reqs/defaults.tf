@@ -38,7 +38,7 @@ locals {
   module.azure_cdp_vnet[0].vnet_subnet_names : var.cdp_subnet_names)
 
   # ------- Storage Resources -------
-  storage_suffix = var.random_id_for_bucket ? "${one(random_id.bucket_suffix).hex}" : ""
+  storage_suffix = var.random_id_for_bucket ? one(random_id.bucket_suffix).hex : ""
 
   # Azure storage containers can only contain numbers and letters
   default_data_storage_name = "${replace(var.env_prefix, "/[-_]/", "")}stor"

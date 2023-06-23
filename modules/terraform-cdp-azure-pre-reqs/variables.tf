@@ -13,18 +13,6 @@
 # limitations under the License.
 
 # ------- Global settings -------
-# variable "infra_type" {
-#   type        = string
-#   description = "Cloud Provider to deploy CDP."
-
-#   default = "azure"
-
-#   validation {
-#     condition     = contains(["azure"], var.infra_type)
-#     error_message = "Valid values for var: infra_type are (azure)."
-#   }
-# }
-
 variable "azure_region" {
   type        = string
   description = "Region which Cloud resources will be created"
@@ -51,28 +39,12 @@ variable "env_prefix" {
   description = "Shorthand name for the environment. Used in resource descriptions"
 }
 
-variable "public_key_text" {
-  type = string
+# variable "public_key_text" {
+#   type = string
 
-  description = "SSH Public key string for the nodes of the CDP environment"
-}
+#   description = "SSH Public key string for the nodes of the CDP environment"
+# }
 # ------- CDP Environment Deployment -------
-# variable "cdp_profile" {
-#   type        = string
-#   description = "Profile for CDP credentials"
-
-#   # Profile is default unless explicitly specified
-#   default = "default"
-# }
-
-# variable "cdp_control_plane_region" {
-#   type        = string
-#   description = "CDP Control Plane Region"
-
-#   # Region is us-west-1 unless explicitly specified
-#   default = "us-west-1"
-# }
-
 variable "deployment_template" {
   type = string
 
@@ -84,23 +56,6 @@ variable "deployment_template" {
   }
 }
 
-# variable "use_single_resource_group" {
-#   type = bool
-
-#   description = "Use a single resource group for all provisioned CDP resources"
-
-#   default = true
-# }
-
-
-# variable "enable_ccm_tunnel" {
-#   type = bool
-
-#   description = "Flag to enable Cluster Connectivity Manager tunnel. If false then access from Cloud to CDP Control Plane CIDRs is required from via SG ingress"
-
-#   default = true
-# }
-
 variable "enable_raz" {
   type = bool
 
@@ -108,49 +63,6 @@ variable "enable_raz" {
 
   default = true
 }
-
-# variable "freeipa_instances" {
-#   type = number
-
-#   description = "The number of FreeIPA instances to create in the environment"
-
-#   default = 2
-# }
-
-# variable "workload_analytics" {
-#   type = bool
-
-#   description = "Flag to specify if workload analytics should be enabled for the CDP environment"
-
-#   default = true
-# }
-
-# variable "datalake_scale" {
-#   type = string
-
-#   description = "The scale of the datalake. Valid values are LIGHT_DUTY, MEDIUM_DUTY_HA."
-
-#   # NOTE: Unable to have validation when we want a default behaviour depending on deployment_template
-#   # validation {
-#   #   condition     = contains(["LIGHT_DUTY", "MEDIUM_DUTY_HA"], var.datalake_scale)
-#   #   error_message = "Valid values for var: datalake_scale are (LIGHT_DUTY, MEDIUM_DUTY_HA)."
-#   # }
-
-#   default = null
-# }
-
-# variable "datalake_version" {
-#   type = string
-
-#   description = "The Datalake Runtime version. Valid values are semantic versions, e.g. 7.2.16"
-
-#   validation {
-#     condition     = (var.datalake_version == null ? true : length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0)
-#     error_message = "Valid values for var: datalake_version must match semantic versioning conventions."
-#   }
-
-#   default = "7.2.16"
-# }
 
 # ------- Network Resources -------
 variable "resourcegroup_name" {
@@ -219,14 +131,6 @@ variable "security_group_knox_name" {
 
   default = null
 }
-
-# variable "cdp_control_plane_cidrs" {
-#   type = list(string)
-
-#   description = "CIDR for access to CDP Control Plane"
-
-#   default = ["52.36.110.208/32", "52.40.165.49/32", "35.166.86.177/32"]
-# }
 
 variable "ingress_extra_cidrs_and_ports" {
   type = object({
