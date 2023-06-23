@@ -13,7 +13,7 @@
 # limitations under the License.
 
 variable "resourcegroup_name" {
-  type              = string
+  type        = string
   description = "Resource Group Name"
 }
 

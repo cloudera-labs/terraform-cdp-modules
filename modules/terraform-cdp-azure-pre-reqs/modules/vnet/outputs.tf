@@ -24,10 +24,10 @@ output "vnet_name" {
 
 output "vnet_subnet_ids" {
   description = "List of IDs of subnets"
-  value = values(azurerm_subnet.cdp_subnets)[*].id
+  value       = values(azurerm_subnet.cdp_subnets)[*].id
 }
 
 output "vnet_subnet_names" {
   description = "Names of the subnets"
-  value = values(azurerm_subnet.cdp_subnets)[*].name
+  value       = values(azurerm_subnet.cdp_subnets)[*].name
 }

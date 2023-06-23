@@ -20,14 +20,6 @@ locals {
     ))
   )
 
-  # ------- CDP Environment Deployment -------
-  datalake_scale = coalesce(
-    var.datalake_scale,
-    (var.deployment_template == "public" ?
-      "LIGHT_DUTY" : "MEDIUM_DUTY_HA"
-    )
-  )
-
   # ------- Network Resources -------
   resourcegroup_name = coalesce(var.resourcegroup_name, "${var.env_prefix}-rmgp")
 
@@ -39,14 +31,11 @@ locals {
   security_group_knox_name = coalesce(var.security_group_knox_name, "${var.env_prefix}-knox-sg")
 
 
-  vnet_id = (var.create_vnet ?
-  module.azure_cdp_vnet[0].vnet_name : var.cdp_vnet_id)
+  cdp_vnet_name = (var.create_vnet ?
+  module.azure_cdp_vnet[0].vnet_name : var.cdp_vnet_name)
 
-  subnet_ids = (var.create_vnet ? module.azure_cdp_vnet[0].vnet_subnet_ids
-  : var.cdp_public_subnet_ids)
-  
-  subnet_names = (var.create_vnet ?
-  module.azure_cdp_vnet[0].vnet_subnet_names : var.cdp_public_subnet_ids)
+  cdp_subnet_names = (var.create_vnet ?
+  module.azure_cdp_vnet[0].vnet_subnet_names : var.cdp_subnet_names)
 
   # ------- Storage Resources -------
   storage_suffix = var.random_id_for_bucket ? "${one(random_id.bucket_suffix).hex}" : ""

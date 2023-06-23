@@ -16,11 +16,11 @@ locals {
 
   # Calculate subnets CIDR and names
   subnets = [
-      for idx in range(var.subnet_count) :
-      {
-        name = "${var.env_prefix}-sbnt-${format("%02d", idx + 1)}"
-        cidr = cidrsubnet(var.vnet_cidr, ceil(log(var.subnet_count, 2)), idx)
-      }
+    for idx in range(var.subnet_count) :
+    {
+      name = "${var.env_prefix}-sbnt-${format("%02d", idx + 1)}"
+      cidr = cidrsubnet(var.vnet_cidr, ceil(log(var.subnet_count, 2)), idx)
+    }
   ]
 
 }

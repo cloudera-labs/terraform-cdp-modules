@@ -27,11 +27,11 @@ module "azure_cdp_vnet" {
 
   source = "./modules/vnet"
 
-  resourcegroup_name =  azurerm_resource_group.cdp_rmgp.name
-  vnet_name           = local.vnet_name
-  vnet_cidr           = var.vnet_cidr
-  vnet_region         = var.azure_region
-  subnet_count        = var.subnet_count
+  resourcegroup_name = azurerm_resource_group.cdp_rmgp.name
+  vnet_name          = local.vnet_name
+  vnet_cidr          = var.vnet_cidr
+  vnet_region        = var.azure_region
+  subnet_count       = var.subnet_count
 
   env_prefix = var.env_prefix
   tags       = local.env_tags
@@ -48,7 +48,6 @@ resource "azurerm_network_security_group" "cdp_default_sg" {
   tags = merge(local.env_tags, { Name = local.security_group_default_name })
 
 }
-
 
 # Create security group rules for extra list of ingress rules
 # TODO: How to handle the case where ingress_extra_cidrs_and_ports is []

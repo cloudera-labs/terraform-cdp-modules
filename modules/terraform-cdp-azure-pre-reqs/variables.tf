@@ -13,17 +13,17 @@
 # limitations under the License.
 
 # ------- Global settings -------
-variable "infra_type" {
-  type        = string
-  description = "Cloud Provider to deploy CDP."
+# variable "infra_type" {
+#   type        = string
+#   description = "Cloud Provider to deploy CDP."
 
-  default = "azure"
+#   default = "azure"
 
-  validation {
-    condition     = contains(["azure"], var.infra_type)
-    error_message = "Valid values for var: infra_type are (azure)."
-  }
-}
+#   validation {
+#     condition     = contains(["azure"], var.infra_type)
+#     error_message = "Valid values for var: infra_type are (azure)."
+#   }
+# }
 
 variable "azure_region" {
   type        = string
@@ -57,21 +57,21 @@ variable "public_key_text" {
   description = "SSH Public key string for the nodes of the CDP environment"
 }
 # ------- CDP Environment Deployment -------
-variable "cdp_profile" {
-  type        = string
-  description = "Profile for CDP credentials"
+# variable "cdp_profile" {
+#   type        = string
+#   description = "Profile for CDP credentials"
 
-  # Profile is default unless explicitly specified
-  default = "default"
-}
+#   # Profile is default unless explicitly specified
+#   default = "default"
+# }
 
-variable "cdp_control_plane_region" {
-  type        = string
-  description = "CDP Control Plane Region"
+# variable "cdp_control_plane_region" {
+#   type        = string
+#   description = "CDP Control Plane Region"
 
-  # Region is us-west-1 unless explicitly specified
-  default = "us-west-1"
-}
+#   # Region is us-west-1 unless explicitly specified
+#   default = "us-west-1"
+# }
 
 variable "deployment_template" {
   type = string
@@ -84,30 +84,22 @@ variable "deployment_template" {
   }
 }
 
-variable "deploy_cdp" {
-  type = bool
+# variable "use_single_resource_group" {
+#   type = bool
 
-  description = "Deploy the CDP environment as part of Terraform"
+#   description = "Use a single resource group for all provisioned CDP resources"
 
-  default = true
-}
-
-variable "use_single_resource_group" {
-  type = bool
-
-  description = "Use a single resource group for all provisioned CDP resources"
-
-  default = true
-}
+#   default = true
+# }
 
 
-variable "enable_ccm_tunnel" {
-  type = bool
+# variable "enable_ccm_tunnel" {
+#   type = bool
 
-  description = "Flag to enable Cluster Connectivity Manager tunnel. If false then access from Cloud to CDP Control Plane CIDRs is required from via SG ingress"
+#   description = "Flag to enable Cluster Connectivity Manager tunnel. If false then access from Cloud to CDP Control Plane CIDRs is required from via SG ingress"
 
-  default = true
-}
+#   default = true
+# }
 
 variable "enable_raz" {
   type = bool
@@ -117,48 +109,48 @@ variable "enable_raz" {
   default = true
 }
 
-variable "freeipa_instances" {
-  type = number
+# variable "freeipa_instances" {
+#   type = number
 
-  description = "The number of FreeIPA instances to create in the environment"
+#   description = "The number of FreeIPA instances to create in the environment"
 
-  default = 2
-}
+#   default = 2
+# }
 
-variable "workload_analytics" {
-  type = bool
+# variable "workload_analytics" {
+#   type = bool
 
-  description = "Flag to specify if workload analytics should be enabled for the CDP environment"
+#   description = "Flag to specify if workload analytics should be enabled for the CDP environment"
 
-  default = true
-}
+#   default = true
+# }
 
-variable "datalake_scale" {
-  type = string
+# variable "datalake_scale" {
+#   type = string
 
-  description = "The scale of the datalake. Valid values are LIGHT_DUTY, MEDIUM_DUTY_HA."
+#   description = "The scale of the datalake. Valid values are LIGHT_DUTY, MEDIUM_DUTY_HA."
 
-  # NOTE: Unable to have validation when we want a default behaviour depending on deployment_template
-  # validation {
-  #   condition     = contains(["LIGHT_DUTY", "MEDIUM_DUTY_HA"], var.datalake_scale)
-  #   error_message = "Valid values for var: datalake_scale are (LIGHT_DUTY, MEDIUM_DUTY_HA)."
-  # }
+#   # NOTE: Unable to have validation when we want a default behaviour depending on deployment_template
+#   # validation {
+#   #   condition     = contains(["LIGHT_DUTY", "MEDIUM_DUTY_HA"], var.datalake_scale)
+#   #   error_message = "Valid values for var: datalake_scale are (LIGHT_DUTY, MEDIUM_DUTY_HA)."
+#   # }
 
-  default = null
-}
+#   default = null
+# }
 
-variable "datalake_version" {
-  type = string
+# variable "datalake_version" {
+#   type = string
 
-  description = "The Datalake Runtime version. Valid values are semantic versions, e.g. 7.2.16"
+#   description = "The Datalake Runtime version. Valid values are semantic versions, e.g. 7.2.16"
 
-  validation {
-    condition     = (var.datalake_version == null ? true : length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0)
-    error_message = "Valid values for var: datalake_version must match semantic versioning conventions."
-  }
+#   validation {
+#     condition     = (var.datalake_version == null ? true : length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0)
+#     error_message = "Valid values for var: datalake_version must match semantic versioning conventions."
+#   }
 
-  default = "7.2.16"
-}
+#   default = "7.2.16"
+# }
 
 # ------- Network Resources -------
 variable "resourcegroup_name" {
@@ -190,27 +182,19 @@ variable "vnet_cidr" {
   default = "10.10.0.0/16"
 }
 
-variable "cdp_vnet_id" {
+variable "cdp_vnet_name" {
   type        = string
-  description = "VPC ID for CDP environment. Required if create_vnet is false."
+  description = "Pre-existing VNet Name for CDP environment. Required if create_vnet is false."
 
   default = null
 }
 
-variable "cdp_public_subnet_ids" {
+variable "cdp_subnet_names" {
   type        = list(any)
-  description = "List of public subnet ids. Required if create_vpc is false."
+  description = "List of subnet names. Required if create_vpc is false."
 
   default = null
 }
-
-variable "cdp_private_subnet_ids" {
-  type        = list(any)
-  description = "List of private subnet ids. Required if create_vpc is false."
-
-  default = null
-}
-
 
 variable "subnet_count" {
   type        = string
