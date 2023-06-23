@@ -5,10 +5,10 @@
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | > 1.3.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 2.39.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 3.45.0 |
-| <a name="requirement_local"></a> [local](#requirement\_local) | 2.2.3 |
-| <a name="requirement_null"></a> [null](#requirement\_null) | 3.2.1 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | 3.4.3 |
 
 ## Providers
 
@@ -16,13 +16,13 @@
 |------|---------|
 | <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 2.39.0 |
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.45.0 |
-| <a name="provider_local"></a> [local](#provider\_local) | 2.2.3 |
-| <a name="provider_null"></a> [null](#provider\_null) | 3.2.1 |
-| <a name="provider_random"></a> [random](#provider\_random) | n/a |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.4.3 |
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_azure_cdp_vnet"></a> [azure\_cdp\_vnet](#module\_azure\_cdp\_vnet) | ./modules/vnet | n/a |
 
 ## Resources
 
@@ -33,9 +33,7 @@ No modules.
 | [azuread_service_principal.cdp_xaccount_app_sp](https://registry.terraform.io/providers/hashicorp/azuread/2.39.0/docs/resources/service_principal) | resource |
 | [azurerm_network_security_group.cdp_default_sg](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/network_security_group) | resource |
 | [azurerm_network_security_group.cdp_knox_sg](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/network_security_group) | resource |
-| [azurerm_network_security_rule.cdp_default_sg_ingress_cdp_control_plane](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/network_security_rule) | resource |
 | [azurerm_network_security_rule.cdp_default_sg_ingress_extra_access](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/network_security_rule) | resource |
-| [azurerm_network_security_rule.cdp_knox_sg_ingress_cdp_control_plane](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/network_security_rule) | resource |
 | [azurerm_network_security_rule.cdp_knox_sg_ingress_extra_access](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/network_security_rule) | resource |
 | [azurerm_resource_group.cdp_rmgp](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/resource_group) | resource |
 | [azurerm_role_assignment.cdp_datalake_admin_backup_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/role_assignment) | resource |
@@ -53,17 +51,12 @@ No modules.
 | [azurerm_storage_container.cdp_backup_storage](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.cdp_data_storage](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.cdp_log_storage](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/storage_container) | resource |
-| [azurerm_subnet.cdp_private_subnets](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/subnet) | resource |
-| [azurerm_subnet.cdp_public_subnets](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/subnet) | resource |
 | [azurerm_user_assigned_identity.cdp_datalake_admin](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/user_assigned_identity) | resource |
 | [azurerm_user_assigned_identity.cdp_idbroker](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/user_assigned_identity) | resource |
 | [azurerm_user_assigned_identity.cdp_log_data_access](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/user_assigned_identity) | resource |
 | [azurerm_user_assigned_identity.cdp_ranger_audit_data_access](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/user_assigned_identity) | resource |
 | [azurerm_user_assigned_identity.cdp_raz](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/user_assigned_identity) | resource |
-| [azurerm_virtual_network.cdp_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/virtual_network) | resource |
-| [local_file.cdp_deployment_template](https://registry.terraform.io/providers/hashicorp/local/2.2.3/docs/resources/file) | resource |
-| [null_resource.cdp_deployment](https://registry.terraform.io/providers/hashicorp/null/3.2.1/docs/resources/resource) | resource |
-| [random_id.bucket_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
+| [random_id.bucket_suffix](https://registry.terraform.io/providers/hashicorp/random/3.4.3/docs/resources/id) | resource |
 | [azuread_client_config.current](https://registry.terraform.io/providers/hashicorp/azuread/2.39.0/docs/data-sources/client_config) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/data-sources/subscription) | data source |
 
@@ -73,32 +66,21 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_deployment_template"></a> [deployment\_template](#input\_deployment\_template) | Deployment Pattern to use for Cloud resources and CDP | `string` | n/a | yes |
 | <a name="input_env_prefix"></a> [env\_prefix](#input\_env\_prefix) | Shorthand name for the environment. Used in resource descriptions | `string` | n/a | yes |
-| <a name="input_public_key_text"></a> [public\_key\_text](#input\_public\_key\_text) | SSH Public key string for the nodes of the CDP environment | `string` | n/a | yes |
 | <a name="input_agent_source_tag"></a> [agent\_source\_tag](#input\_agent\_source\_tag) | Tag to identify deployment source | `map(any)` | <pre>{<br>  "agent_source": "tf-cdp-module"<br>}</pre> | no |
 | <a name="input_azure_region"></a> [azure\_region](#input\_azure\_region) | Region which Cloud resources will be created | `string` | `null` | no |
 | <a name="input_backup_storage"></a> [backup\_storage](#input\_backup\_storage) | Optional Backup location for CDP environment. If not provided follow the data\_storage variable | <pre>object({<br>    backup_storage_bucket = string<br>    backup_storage_object = string<br>  })</pre> | `null` | no |
-| <a name="input_cdp_control_plane_cidrs"></a> [cdp\_control\_plane\_cidrs](#input\_cdp\_control\_plane\_cidrs) | CIDR for access to CDP Control Plane | `list(string)` | <pre>[<br>  "52.36.110.208/32",<br>  "52.40.165.49/32",<br>  "35.166.86.177/32"<br>]</pre> | no |
-| <a name="input_cdp_control_plane_region"></a> [cdp\_control\_plane\_region](#input\_cdp\_control\_plane\_region) | CDP Control Plane Region | `string` | `"us-west-1"` | no |
-| <a name="input_cdp_private_subnet_ids"></a> [cdp\_private\_subnet\_ids](#input\_cdp\_private\_subnet\_ids) | List of private subnet ids. Required if create\_vpc is false. | `list(any)` | `null` | no |
-| <a name="input_cdp_profile"></a> [cdp\_profile](#input\_cdp\_profile) | Profile for CDP credentials | `string` | `"default"` | no |
-| <a name="input_cdp_public_subnet_ids"></a> [cdp\_public\_subnet\_ids](#input\_cdp\_public\_subnet\_ids) | List of public subnet ids. Required if create\_vpc is false. | `list(any)` | `null` | no |
-| <a name="input_cdp_vnet_id"></a> [cdp\_vnet\_id](#input\_cdp\_vnet\_id) | VPC ID for CDP environment. Required if create\_vnet is false. | `string` | `null` | no |
+| <a name="input_cdp_subnet_names"></a> [cdp\_subnet\_names](#input\_cdp\_subnet\_names) | List of subnet names. Required if create\_vpc is false. | `list(any)` | `null` | no |
+| <a name="input_cdp_vnet_name"></a> [cdp\_vnet\_name](#input\_cdp\_vnet\_name) | Pre-existing VNet Name for CDP environment. Required if create\_vnet is false. | `string` | `null` | no |
 | <a name="input_create_vnet"></a> [create\_vnet](#input\_create\_vnet) | Flag to specify if the VNet should be created | `bool` | `true` | no |
 | <a name="input_data_storage"></a> [data\_storage](#input\_data\_storage) | Data storage locations for CDP environment | <pre>object({<br>    data_storage_bucket = string<br>    data_storage_object = string<br>  })</pre> | `null` | no |
 | <a name="input_datalake_admin_backup_container_role_assignments"></a> [datalake\_admin\_backup\_container\_role\_assignments](#input\_datalake\_admin\_backup\_container\_role\_assignments) | List of Role Assignments for the Datalake Admin Managed Identity assigned to the Backup Storage Container. | <pre>list(object({<br>    role        = string<br>    description = string<br>    })<br>  )</pre> | <pre>[<br>  {<br>    "description": "Assign Storage Blob Data Owner Role to Data Lake Admin Identity at Backup Container Level",<br>    "role": "Storage Blob Data Owner"<br>  }<br>]</pre> | no |
 | <a name="input_datalake_admin_data_container_role_assignments"></a> [datalake\_admin\_data\_container\_role\_assignments](#input\_datalake\_admin\_data\_container\_role\_assignments) | List of Role Assignments for the Datalake Admin Managed Identity assigned to the Data Storage Container. | <pre>list(object({<br>    role        = string<br>    description = string<br>    })<br>  )</pre> | <pre>[<br>  {<br>    "description": "Assign Storage Blob Data Owner Role to Data Lake Admin Identity at Data Container Level",<br>    "role": "Storage Blob Data Owner"<br>  }<br>]</pre> | no |
 | <a name="input_datalake_admin_log_container_role_assignments"></a> [datalake\_admin\_log\_container\_role\_assignments](#input\_datalake\_admin\_log\_container\_role\_assignments) | List of Role Assignments for the Datalake Admin Managed Identity assigned to the Logs Storage Container. | <pre>list(object({<br>    role        = string<br>    description = string<br>    })<br>  )</pre> | <pre>[<br>  {<br>    "description": "Assign Storage Blob Data Owner Role to Data Lake Admin Identity at Logs Container Level",<br>    "role": "Storage Blob Data Owner"<br>  }<br>]</pre> | no |
 | <a name="input_datalake_admin_managed_identity_name"></a> [datalake\_admin\_managed\_identity\_name](#input\_datalake\_admin\_managed\_identity\_name) | Datalake Admin Managed Identity name | `string` | `null` | no |
-| <a name="input_datalake_scale"></a> [datalake\_scale](#input\_datalake\_scale) | The scale of the datalake. Valid values are LIGHT\_DUTY, MEDIUM\_DUTY\_HA. | `string` | `null` | no |
-| <a name="input_datalake_version"></a> [datalake\_version](#input\_datalake\_version) | The Datalake Runtime version. Valid values are semantic versions, e.g. 7.2.16 | `string` | `"7.2.16"` | no |
-| <a name="input_deploy_cdp"></a> [deploy\_cdp](#input\_deploy\_cdp) | Deploy the CDP environment as part of Terraform | `bool` | `true` | no |
-| <a name="input_enable_ccm_tunnel"></a> [enable\_ccm\_tunnel](#input\_enable\_ccm\_tunnel) | Flag to enable Cluster Connectivity Manager tunnel. If false then access from Cloud to CDP Control Plane CIDRs is required from via SG ingress | `bool` | `true` | no |
 | <a name="input_enable_raz"></a> [enable\_raz](#input\_enable\_raz) | Flag to enable Ranger Authorization Service (RAZ) | `bool` | `true` | no |
-| <a name="input_env_tags"></a> [env\_tags](#input\_env\_tags) | Tags applied to provised resources | `map(any)` | `null` | no |
-| <a name="input_freeipa_instances"></a> [freeipa\_instances](#input\_freeipa\_instances) | The number of FreeIPA instances to create in the environment | `number` | `2` | no |
+| <a name="input_env_tags"></a> [env\_tags](#input\_env\_tags) | Tags applied to provisioned resources | `map(any)` | `null` | no |
 | <a name="input_idbroker_managed_identity_name"></a> [idbroker\_managed\_identity\_name](#input\_idbroker\_managed\_identity\_name) | IDBroker Managed Identity name | `string` | `null` | no |
 | <a name="input_idbroker_role_assignments"></a> [idbroker\_role\_assignments](#input\_idbroker\_role\_assignments) | List of Role Assignments for the IDBroker Managed Identity | <pre>list(object({<br>    role        = string<br>    description = string<br>    })<br>  )</pre> | <pre>[<br>  {<br>    "description": "Assign VM Contributor Role to IDBroker Identity at Subscription Level",<br>    "role": "Virtual Machine Contributor"<br>  },<br>  {<br>    "description": "Assign Managed Identity Operator Role to IDBroker Identity at Subscription Level",<br>    "role": "Managed Identity Operator"<br>  }<br>]</pre> | no |
-| <a name="input_infra_type"></a> [infra\_type](#input\_infra\_type) | Cloud Provider to deploy CDP. | `string` | `"azure"` | no |
 | <a name="input_ingress_extra_cidrs_and_ports"></a> [ingress\_extra\_cidrs\_and\_ports](#input\_ingress\_extra\_cidrs\_and\_ports) | List of extra CIDR blocks and ports to include in Security Group Ingress rules | <pre>object({<br>    cidrs = list(string)<br>    ports = list(number)<br>  })</pre> | <pre>{<br>  "cidrs": [],<br>  "ports": []<br>}</pre> | no |
 | <a name="input_log_data_access_managed_identity_name"></a> [log\_data\_access\_managed\_identity\_name](#input\_log\_data\_access\_managed\_identity\_name) | Log Data Access Managed Identity name | `string` | `null` | no |
 | <a name="input_log_data_access_role_assignments"></a> [log\_data\_access\_role\_assignments](#input\_log\_data\_access\_role\_assignments) | List of Role Assignments for the Log Data Access Managed Identity. | <pre>list(object({<br>    role        = string<br>    description = string<br>    })<br>  )</pre> | <pre>[<br>  {<br>    "description": "Assign Storage Blob Data Contributor Role to Log Role at Logs and Backup Container level",<br>    "role": "Storage Blob Data Contributor"<br>  }<br>]</pre> | no |
@@ -114,13 +96,29 @@ No modules.
 | <a name="input_security_group_default_name"></a> [security\_group\_default\_name](#input\_security\_group\_default\_name) | Default Security Group for CDP environment | `string` | `null` | no |
 | <a name="input_security_group_knox_name"></a> [security\_group\_knox\_name](#input\_security\_group\_knox\_name) | Knox Security Group for CDP environment | `string` | `null` | no |
 | <a name="input_subnet_count"></a> [subnet\_count](#input\_subnet\_count) | Number of Subnets Required | `string` | `"3"` | no |
-| <a name="input_use_single_resource_group"></a> [use\_single\_resource\_group](#input\_use\_single\_resource\_group) | Use a single resource group for all provisioned CDP resources | `bool` | `true` | no |
 | <a name="input_vnet_cidr"></a> [vnet\_cidr](#input\_vnet\_cidr) | VNet CIDR Block | `string` | `"10.10.0.0/16"` | no |
 | <a name="input_vnet_name"></a> [vnet\_name](#input\_vnet\_name) | VNet name | `string` | `null` | no |
-| <a name="input_workload_analytics"></a> [workload\_analytics](#input\_workload\_analytics) | Flag to specify if workload analytics should be enabled for the CDP environment | `bool` | `true` | no |
 | <a name="input_xaccount_app_name"></a> [xaccount\_app\_name](#input\_xaccount\_app\_name) | Cross account application name within Azure Active Directory | `string` | `null` | no |
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_azure_backup_storage_location"></a> [azure\_backup\_storage\_location](#output\_azure\_backup\_storage\_location) | Azure backup storage location |
+| <a name="output_azure_data_storage_location"></a> [azure\_data\_storage\_location](#output\_azure\_data\_storage\_location) | Azure data storage location |
+| <a name="output_azure_datalakeadmin_identity_id"></a> [azure\_datalakeadmin\_identity\_id](#output\_azure\_datalakeadmin\_identity\_id) | Datalake Admin Managed Identity ID |
+| <a name="output_azure_idbroker_identity_id"></a> [azure\_idbroker\_identity\_id](#output\_azure\_idbroker\_identity\_id) | IDBroker Managed Identity ID |
+| <a name="output_azure_log_identity_id"></a> [azure\_log\_identity\_id](#output\_azure\_log\_identity\_id) | Log Data Access Managed Identity ID |
+| <a name="output_azure_log_storage_location"></a> [azure\_log\_storage\_location](#output\_azure\_log\_storage\_location) | Azure log storage location |
+| <a name="output_azure_ranger_audit_identity_id"></a> [azure\_ranger\_audit\_identity\_id](#output\_azure\_ranger\_audit\_identity\_id) | Ranger Audit Managed Identity ID |
+| <a name="output_azure_raz_identity_id"></a> [azure\_raz\_identity\_id](#output\_azure\_raz\_identity\_id) | RAZ Managed Identity ID. Value returned if RAZ is enabled |
+| <a name="output_azure_resource_group_name"></a> [azure\_resource\_group\_name](#output\_azure\_resource\_group\_name) | Azure Resource Group Name |
+| <a name="output_azure_security_group_default_uri"></a> [azure\_security\_group\_default\_uri](#output\_azure\_security\_group\_default\_uri) | Azure Default Security Group URI |
+| <a name="output_azure_security_group_knox_uri"></a> [azure\_security\_group\_knox\_uri](#output\_azure\_security\_group\_knox\_uri) | Azure Knox Security Group URI |
+| <a name="output_azure_subnet_names"></a> [azure\_subnet\_names](#output\_azure\_subnet\_names) | Azure Virtual Subnet Names |
+| <a name="output_azure_subscription_id"></a> [azure\_subscription\_id](#output\_azure\_subscription\_id) | Subscription ID where the Azure pre-reqs are created |
+| <a name="output_azure_tenant_id"></a> [azure\_tenant\_id](#output\_azure\_tenant\_id) | Tenant ID where the Azure pre-reqs are created |
+| <a name="output_azure_vnet_name"></a> [azure\_vnet\_name](#output\_azure\_vnet\_name) | Azure Virtual Network Name |
+| <a name="output_azure_xaccount_app_pword"></a> [azure\_xaccount\_app\_pword](#output\_azure\_xaccount\_app\_pword) | Password for the Azure AD Cross Account Application |
+| <a name="output_azure_xaccount_app_uuid"></a> [azure\_xaccount\_app\_uuid](#output\_azure\_xaccount\_app\_uuid) | UUID for the Azure AD Cross Account Application |
 <!-- END_TF_DOCS -->
