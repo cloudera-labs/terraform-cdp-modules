@@ -87,13 +87,13 @@ variable "lookup_cdp_account_ids" {
   default = true
 }
 
-variable "enable_raz" {
-  type = bool
+# variable "enable_raz" {
+#   type = bool
 
-  description = "Flag to enable Ranger Authorization Service (RAZ)"
+#   description = "Flag to enable Ranger Authorization Service (RAZ)"
 
-  default = true
-}
+#   default = true
+# }
 
 # ------- Network Resources -------
 variable "create_vpc" {

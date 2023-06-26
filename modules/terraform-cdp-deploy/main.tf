@@ -52,7 +52,7 @@ module "cdp_on_aws" {
   log_storage_location    = var.log_storage_location
   backup_storage_location = var.backup_storage_location
 
-  xaccount_role_arn = var.aws_xaccount_role_arn
+  xaccount_role_arn       = var.aws_xaccount_role_arn
   datalake_admin_role_arn = var.aws_datalake_admin_role_arn
   ranger_audit_role_arn   = var.aws_ranger_audit_role_arn
 

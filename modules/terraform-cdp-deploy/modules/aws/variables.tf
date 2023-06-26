@@ -181,7 +181,7 @@ variable "endpoint_access_scheme" {
 
   description = "The scheme for the workload endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. PRIVATE which restricts the traffic to be internal to the VPC / Vnet. Relevant in Private Networks."
 
-    validation {
+  validation {
     condition     = contains(["PUBLIC", "PRIVATE"], var.endpoint_access_scheme)
     error_message = "Valid values for var: endpoint_access_scheme are (PUBLIC, PRIVATE)."
   }
