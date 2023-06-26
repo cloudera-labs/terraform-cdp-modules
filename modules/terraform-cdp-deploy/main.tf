@@ -12,6 +12,55 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# ------- Call sub-module for AWS Deployment -------
+module "cdp_on_aws" {
+  count = (var.infra_type == "aws") ? 1 : 0
+
+  source = "./modules/aws"
+
+  tags = local.env_tags
+
+  environment_name              = local.environment_name
+  datalake_name                 = local.datalake_name
+  cdp_xacccount_credential_name = local.cdp_xacccount_credential_name
+  cdp_admin_group_name          = local.cdp_admin_group_name
+  cdp_user_group_name           = local.cdp_user_group_name
+
+  security_group_default_id = var.aws_security_group_default_id
+  security_group_knox_id    = var.aws_security_group_knox_id
+
+  datalake_scale         = local.datalake_scale
+  datalake_version       = var.datalake_version
+  enable_ccm_tunnel      = var.enable_ccm_tunnel
+  enable_raz             = var.enable_raz
+  multiaz                = var.multiaz
+  freeipa_instances      = var.freeipa_instances
+  workload_analytics     = var.workload_analytics
+  endpoint_access_scheme = local.endpoint_access_scheme
+
+  cdp_profile              = var.cdp_profile
+  cdp_control_plane_region = var.cdp_control_plane_region
+
+  region             = var.region
+  vpc_id             = var.aws_vpc_id
+  public_subnet_ids  = var.aws_public_subnet_ids
+  private_subnet_ids = var.aws_private_subnet_ids
+  subnets_for_cdp    = local.aws_subnets_for_cdp
+  keypair_name       = var.keypair_name
+
+  data_storage_location   = var.data_storage_location
+  log_storage_location    = var.log_storage_location
+  backup_storage_location = var.backup_storage_location
+
+  xaccount_role_arn = var.aws_xaccount_role_arn
+  datalake_admin_role_arn = var.aws_datalake_admin_role_arn
+  ranger_audit_role_arn   = var.aws_ranger_audit_role_arn
+
+  idbroker_instance_profile_arn = var.aws_idbroker_instance_profile_arn
+  log_instance_profile_arn      = var.aws_log_instance_profile_arn
+
+}
+
 # ------- Call sub-module for Azure Deployment -------
 module "cdp_on_azure" {
   count = (var.infra_type == "azure") ? 1 : 0

@@ -36,21 +36,18 @@ variable "cdp_xacccount_credential_name" {
   type        = string
   description = "Name of the CDP Cross Account Credential."
 
-  default = null
 }
 
 variable "cdp_admin_group_name" {
   type        = string
   description = "Name of the CDP IAM Admin Group associated with the environment."
 
-  default = null
 }
 
 variable "cdp_user_group_name" {
   type        = string
   description = "Name of the CDP IAM User Group associated with the environment."
 
-  default = null
 }
 
 variable "cdp_profile" {

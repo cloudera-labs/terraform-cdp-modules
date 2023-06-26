@@ -51,12 +51,6 @@ variable "env_prefix" {
   description = "Shorthand name for the environment. Used in resource descriptions"
 }
 
-variable "aws_key_pair" {
-  type = string
-
-  description = "Name of the Public SSH key for the CDP environment"
-}
-
 # ------- CDP Environment Deployment -------
 variable "cdp_profile" {
   type        = string
@@ -84,26 +78,11 @@ variable "deployment_template" {
     error_message = "Valid values for var: deployment_template are (public, semi-private, private)."
   }
 }
-variable "deploy_cdp" {
-  type = bool
-
-  description = "Deploy the CDP environment as part of Terraform"
-
-  default = true
-}
 
 variable "lookup_cdp_account_ids" {
   type = bool
 
   description = "Auto lookup CDP Account and External ID using CDP CLI commands. If false then the xaccount_account_id and xaccount_external_id input variables need to be specified"
-
-  default = true
-}
-
-variable "enable_ccm_tunnel" {
-  type = bool
-
-  description = "Flag to enable Cluster Connectivity Manager tunnel. If false then access from Cloud to CDP Control Plane CIDRs is required from via SG ingress"
 
   default = true
 }
@@ -116,56 +95,6 @@ variable "enable_raz" {
   default = true
 }
 
-variable "multiaz" {
-  type = bool
-
-  description = "Flag to specify that the FreeIPA and DataLake instances will be deployed across multi-availability zones"
-
-  default = true
-}
-
-variable "freeipa_instances" {
-  type = number
-
-  description = "The number of FreeIPA instances to create in the environment"
-
-  default = 2
-}
-
-variable "workload_analytics" {
-  type = bool
-
-  description = "Flag to specify if workload analytics should be enabled for the CDP environment"
-
-  default = true
-}
-
-variable "datalake_scale" {
-  type = string
-
-  description = "The scale of the datalake. Valid values are LIGHT_DUTY, MEDIUM_DUTY_HA."
-
-  # NOTE: Unable to have validation when we want a default behaviour depending on deployment_template
-  # validation {
-  #   condition     = contains(["LIGHT_DUTY", "MEDIUM_DUTY_HA"], var.datalake_scale)
-  #   error_message = "Valid values for var: datalake_scale are (LIGHT_DUTY, MEDIUM_DUTY_HA)."
-  # }
-
-  default = null
-}
-
-variable "datalake_version" {
-  type = string
-
-  description = "The Datalake Runtime version. Valid values are semantic versions, e.g. 7.2.16"
-
-  validation {
-    condition     = (var.datalake_version == null ? true : length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0)
-    error_message = "Valid values for var: datalake_version must match semantic versioning conventions."
-  }
-
-  default = "7.2.16"
-}
 # ------- Network Resources -------
 variable "create_vpc" {
   type = bool

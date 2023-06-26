@@ -123,6 +123,14 @@ variable "enable_raz" {
   default = true
 }
 
+variable "multiaz" {
+  type = bool
+
+  description = "Flag to specify that the FreeIPA and DataLake instances will be deployed across multi-availability zones. "
+
+  default = true
+}
+
 variable "freeipa_instances" {
   type = number
 
@@ -166,6 +174,19 @@ variable "datalake_version" {
   default = "7.2.16"
 }
 
+variable "endpoint_access_scheme" {
+  type = string
+
+  description = "The scheme for the workload endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. PRIVATE which restricts the traffic to be internal to the VPC / Vnet. Relevant in Private Networks."
+
+  validation {
+    condition     = (var.endpoint_access_scheme == null ? true : contains(["PUBLIC", "PRIVATE"], var.endpoint_access_scheme))
+    error_message = "Valid values for var: endpoint_access_scheme are (PUBLIC, PRIVATE)."
+  }
+
+  default = null
+
+}
 # ------- Cloud Service Provider Settings - General -------
 variable "region" {
   type        = string
@@ -188,11 +209,102 @@ variable "backup_storage_location" {
   description = "Backup storage location. The location has to be in uri format for the cloud provider - i.e. s3a:// for AWS, abfs:// for Azure,  gs://"
 }
 
+# ------- Cloud Service Provider Settings - AWS specific -------
+
+variable "aws_vpc_id" {
+  type        = string
+  description = "AWS Virtual Private Network ID. Required for CDP deployment on AWS."
+
+  default = null
+}
+
+variable "aws_public_subnet_ids" {
+  type        = list(string)
+  description = "List of public subnet ids. Required for CDP deployment on AWS."
+
+  default = null
+}
+
+variable "aws_private_subnet_ids" {
+  type        = list(string)
+  description = "List of private subnet ids. Required for CDP deployment on AWS."
+
+  default = null
+}
+
+variable "aws_security_group_default_id" {
+  type = string
+
+  description = "ID of the Default Security Group for CDP environment. Required for CDP deployment on AWS."
+
+  default = null
+}
+
+variable "aws_security_group_knox_id" {
+  type = string
+
+  description = "ID of the Knox Security Group for CDP environment. Required for CDP deployment on AWS."
+
+  default = null
+}
+
+variable "keypair_name" {
+  type = string
+
+  description = "SSH Keypair name in Cloud Service Provider. Required for CDP deployment on AWS."
+
+  default = null
+}
+
+variable "aws_datalake_admin_role_arn" {
+  type = string
+
+  description = "Datalake Admin Role ARN. Required for CDP deployment on AWS."
+
+  default = null
+
+}
+
+variable "aws_ranger_audit_role_arn" {
+  type = string
+
+  description = "Ranger Audit Role ARN. Required for CDP deployment on AWS."
+
+  default = null
+
+}
+
+variable "aws_xaccount_role_arn" {
+  type = string
+
+  description = "Cross Account Role ARN. Required for CDP deployment on AWS."
+
+  default = null
+
+}
+
+variable "aws_log_instance_profile_arn" {
+  type = string
+
+  description = "Log Instance Profile ARN. Required for CDP deployment on AWS."
+
+  default = null
+
+}
+
+variable "aws_idbroker_instance_profile_arn" {
+  type = string
+
+  description = "IDBroker Instance Profile ARN. Required for CDP deployment on AWS."
+
+  default = null
+}
+
 # ------- Cloud Service Provider Settings - Azure specific -------
 variable "azure_subscription_id" {
   type = string
 
-  description = "Subscription ID where the Azure pre-reqs are created"
+  description = "Subscription ID where the Azure pre-reqs are created. Required for CDP deployment on Azure."
 
   default = null
 }
@@ -200,7 +312,7 @@ variable "azure_subscription_id" {
 variable "azure_tenant_id" {
   type = string
 
-  description = "Tenant ID where the Azure pre-reqs are created"
+  description = "Tenant ID where the Azure pre-reqs are created. Required for CDP deployment on Azure."
 
   default = null
 }
@@ -248,8 +360,9 @@ variable "public_key_text" {
   type = string
 
   description = "SSH Public key string for the nodes of the CDP environment. Required for CDP deployment on Azure."
-}
 
+  default = null
+}
 
 variable "use_public_ips" {
   type = bool
@@ -262,7 +375,7 @@ variable "use_public_ips" {
 variable "use_single_resource_group" {
   type = bool
 
-  description = "Use a single resource group for all provisioned CDP resources"
+  description = "Use a single resource group for all provisioned CDP resources. Required for CDP deployment on Azure."
 
   default = true
 }
