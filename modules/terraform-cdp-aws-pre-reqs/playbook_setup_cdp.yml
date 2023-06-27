@@ -103,6 +103,7 @@
             knox_sg: "{{ plat__aws_security_group_knox_id }}"
             log_location: "{{ plat__aws_log_location }}"
             log_identity: "{{ plat__aws_log_instance_profile_arn }}"
+            backup_location: "{{ plat__aws_backup_location }}"
             public_key_id: "{{ plat__public_key_id }}"
             workload_analytics: "{{ plat__workload_analytics }}"
             vpc_id: "{{ plat__aws_vpc_id }}"

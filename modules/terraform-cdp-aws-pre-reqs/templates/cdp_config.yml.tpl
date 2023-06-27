@@ -43,6 +43,7 @@ plat__aws_subnets_for_cdp: ${plat__aws_subnets_for_cdp}
 
 plat__aws_storage_location: ${plat__aws_storage_location}
 plat__aws_log_location: ${plat__aws_log_location}
+plat__aws_backup_location: ${plat__aws_backup_location}
 
 plat__public_key_id: ${plat__public_key_id}
 plat__aws_security_group_default_id: ${plat__aws_security_group_default_id}
