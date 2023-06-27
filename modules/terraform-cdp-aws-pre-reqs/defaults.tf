@@ -159,7 +159,7 @@ locals {
   datalake_backup_policy_doc_processed = replace(
     replace(
     data.http.datalake_backup_policy_doc.response_body, "$${ARN_PARTITION}", "aws"),
-  "<BACKUP_LOCATION_BASE>", "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}")
+  "$${BACKUP_LOCATION_BASE}", "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}")
 
   # ...then assign either input or downloaded policy doc to var used in resource
   datalake_backup_policy_doc = coalesce(var.datalake_backup_policy_doc, local.datalake_backup_policy_doc_processed)
@@ -172,7 +172,7 @@ locals {
   datalake_restore_policy_doc_processed = replace(
     replace(
     data.http.datalake_restore_policy_doc.response_body, "$${ARN_PARTITION}", "aws"),
-  "<your-backup-bucket>", "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}")
+  "$${BACKUP_LOCATION_BASE}", "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}")
 
   # ...then assign either input or downloaded policy doc to var used in resource
   datalake_restore_policy_doc = coalesce(var.datalake_restore_policy_doc, local.datalake_restore_policy_doc_processed)
