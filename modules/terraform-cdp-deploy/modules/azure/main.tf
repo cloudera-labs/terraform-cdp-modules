@@ -25,6 +25,7 @@ resource "local_file" "cdp_deployment_template" {
     plat__cdp_iam_admin_group_name  = var.cdp_admin_group_name
     plat__cdp_iam_user_group_name   = var.cdp_user_group_name
     plat__tunnel                    = var.enable_ccm_tunnel
+    plat__endpoint_access_scheme    = var.endpoint_access_scheme
     plat__enable_raz                = var.enable_raz
     plat__use_single_resource_group = var.use_single_resource_group
     plat__use_public_ips            = var.use_public_ips
@@ -43,9 +44,10 @@ resource "local_file" "cdp_deployment_template" {
     plat__azure_subscription_id = var.subscription_id
     plat__azure_tenant_id       = var.tenant_id
 
-    plat__azure_resourcegroup_name   = var.resource_group_name
-    plat__azure_vnet_name            = var.vnet_name
-    plat__azure_subnet_names_for_cdp = jsonencode(var.subnet_names)
+    plat__azure_resourcegroup_name       = var.resource_group_name
+    plat__azure_vnet_name                = var.vnet_name
+    plat__azure_subnet_names_for_cdp     = jsonencode(var.cdp_subnet_names)
+    plat__azure_subnet_names_for_gateway = jsonencode(var.cdp_gateway_subnet_names)
 
     plat__azure_storage_location = var.data_storage_location
     plat__azure_log_location     = var.log_storage_location
@@ -72,7 +74,6 @@ resource "local_file" "cdp_deployment_template" {
 # ------- Create CDP Deployment -------
 resource "null_resource" "cdp_deployment" {
 
-
   # Setup of CDP environment using playbook_setup_cdp.yml Ansible Playbook
   provisioner "local-exec" {
     command = "ansible-playbook -vvv -e '@cdp_config.yml' ${path.module}/playbook_setup_cdp.yml"
@@ -84,38 +85,7 @@ resource "null_resource" "cdp_deployment" {
     command = "ansible-playbook -vvv -e '@cdp_config.yml' ${path.module}/playbook_teardown_cdp.yml"
   }
 
-  # Depends on * resources to ensure CDP environment is setup/deleted after/before all pre-reqs.
-  # TODO: Need to investigate further to see if this list can be trimmed.
   depends_on = [
     local_file.cdp_deployment_template,
-    # azuread_application.cdp_xaccount_app,
-    # azurerm_network_security_group.cdp_default_sg,
-    # azurerm_network_security_group.cdp_knox_sg,
-    # azurerm_network_security_rule.cdp_default_sg_ingress_extra_access,
-    # azurerm_network_security_rule.cdp_knox_sg_ingress_extra_access,
-    # azurerm_resource_group.cdp_rmgp,
-    # random_id.bucket_suffix,
-    # azurerm_storage_account.cdp_storage_locations,
-    # azurerm_storage_container.cdp_backup_storage,
-    # azurerm_storage_container.cdp_data_storage,
-    # azurerm_storage_container.cdp_log_storage,
-    # module.azure_cdp_vnet,
-    # azurerm_user_assigned_identity.cdp_datalake_admin,
-    # azurerm_user_assigned_identity.cdp_idbroker,
-    # azurerm_user_assigned_identity.cdp_log_data_access,
-    # azurerm_user_assigned_identity.cdp_ranger_audit_data_access,
-    # azurerm_user_assigned_identity.cdp_raz,
-    # azurerm_role_assignment.cdp_datalake_admin_backup_container_assign,
-    # azurerm_role_assignment.cdp_datalake_admin_data_container_assign,
-    # azurerm_role_assignment.cdp_datalake_admin_log_container_assign,
-    # azurerm_role_assignment.cdp_idbroker_assign,
-    # azurerm_role_assignment.cdp_log_data_access_backup_container_assign,
-    # azurerm_role_assignment.cdp_log_data_access_log_container_assign,
-    # azurerm_role_assignment.cdp_ranger_audit_backup_container_assign,
-    # azurerm_role_assignment.cdp_ranger_audit_data_container_assign,
-    # azurerm_role_assignment.cdp_ranger_audit_log_container_assign,
-    # azurerm_role_assignment.cdp_raz_assign,
-    # azurerm_role_assignment.cdp_xaccount_role
-
   ]
 }

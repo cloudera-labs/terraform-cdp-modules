@@ -12,6 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+variable "deployment_template" {
+  type = string
+
+  description = "Deployment Pattern to use for Cloud resources and CDP"
+
+  validation {
+    condition     = contains(["public", "semi-private", "private"], var.deployment_template)
+    error_message = "Valid values for var: deployment_template are (public, semi-private, private)."
+  }
+}
+
 variable "resourcegroup_name" {
   type        = string
   description = "Resource Group Name"

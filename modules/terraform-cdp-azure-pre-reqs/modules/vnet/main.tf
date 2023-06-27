@@ -28,7 +28,21 @@ resource "azurerm_virtual_network" "cdp_vnet" {
 # Azure VNet Public Subnets
 resource "azurerm_subnet" "cdp_subnets" {
 
-  for_each = { for idx, subnet in local.subnets : idx => subnet }
+  for_each = { for idx, subnet in local.cdp_subnets : idx => subnet }
+
+  virtual_network_name = azurerm_virtual_network.cdp_vnet.name
+  resource_group_name  = var.resourcegroup_name
+  name                 = each.value.name
+  address_prefixes     = [each.value.cidr]
+
+  service_endpoints                         = ["Microsoft.Sql", "Microsoft.Storage"]
+  private_endpoint_network_policies_enabled = true
+
+}
+
+resource "azurerm_subnet" "gateway_subnets" {
+
+  for_each = { for idx, subnet in local.gw_subnets : idx => subnet }
 
   virtual_network_name = azurerm_virtual_network.cdp_vnet.name
   resource_group_name  = var.resourcegroup_name

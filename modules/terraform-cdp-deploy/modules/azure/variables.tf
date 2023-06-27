@@ -170,13 +170,24 @@ variable "vnet_name" {
 
 }
 
-variable "subnet_names" {
+variable "cdp_subnet_names" {
   type        = list(any)
-  description = "Azure Subnet Names."
+  description = "Azure Subnet Names for CDP resources."
 
   validation {
-    condition     = var.subnet_names != null
-    error_message = "Valid values for var: subnet_names must be a list of existing Azure Virtual Subnets."
+    condition     = var.cdp_subnet_names != null
+    error_message = "Valid values for var: cdp_subnet_names must be a list of existing Azure Virtual Subnets."
+  }
+
+}
+
+variable "cdp_gateway_subnet_names" {
+  type        = list(any)
+  description = "Azure Subnet Names for Endpoint Access Gateway."
+
+  validation {
+    condition     = var.cdp_gateway_subnet_names != null
+    error_message = "Valid values for var: cdp_gateway_subnet_names must be a list of existing Azure Virtual Subnets."
   }
 
 }
@@ -201,6 +212,17 @@ variable "security_group_knox_uri" {
     error_message = "Valid values for var: security_group_knox_uri must be a valid Azure SG Uri for the Knox SG."
   }
 
+}
+
+variable "endpoint_access_scheme" {
+  type = string
+
+  description = "The scheme for the workload endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. PRIVATE which restricts the traffic to be internal to the VPC / Vnet. Relevant in Private Networks."
+
+  validation {
+    condition     = contains(["PUBLIC", "PRIVATE"], var.endpoint_access_scheme)
+    error_message = "Valid values for var: endpoint_access_scheme are (PUBLIC, PRIVATE)."
+  }
 }
 
 variable "public_key_text" {

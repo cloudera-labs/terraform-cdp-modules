@@ -15,11 +15,29 @@
 locals {
 
   # Calculate subnets CIDR and names
-  subnets = [
-    for idx in range(var.subnet_count) :
+  subnets_required = {
+    total           = (var.deployment_template == "semi-private") ? var.subnet_count + 1 : var.subnet_count
+    cdp_subnets     = var.subnet_count
+    gateway_subnets = (var.deployment_template == "semi-private") ? 1 : 0
+    # name            = "${var.env_prefix}-sbnt-${format("%02d", idx + 1)}"
+    # cidr            = cidrsubnet(var.vnet_cidr, ceil(log(var.subnet_count, 2)), idx)
+  }
+
+  # Network infrastructure for CDP resources
+  cdp_subnets = [
+    for idx in range(local.subnets_required.cdp_subnets) :
     {
       name = "${var.env_prefix}-sbnt-${format("%02d", idx + 1)}"
-      cidr = cidrsubnet(var.vnet_cidr, ceil(log(var.subnet_count, 2)), idx)
+      cidr = cidrsubnet(var.vnet_cidr, ceil(log(local.subnets_required.total, 2)), idx)
+    }
+  ]
+
+  # Network infrastructure for CDP resources
+  gw_subnets = [
+    for idx in range(local.subnets_required.gateway_subnets) :
+    {
+      name = "${var.env_prefix}-gw-sbnt-${format("%02d", idx + 1)}"
+      cidr = cidrsubnet(var.vnet_cidr, ceil(log(local.subnets_required.total, 2)), local.subnets_required.cdp_subnets + idx)
     }
   ]
 

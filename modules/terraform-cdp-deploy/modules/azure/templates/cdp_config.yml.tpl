@@ -22,6 +22,7 @@ plat__cdp_iam_user_group_name: ${plat__cdp_iam_user_group_name}
 plat__datalake_scale: ${plat__datalake_scale}
 plat__datalake_version: ${plat__datalake_version}
 plat__tunnel: ${plat__tunnel}
+plat__endpoint_access_scheme: ${plat__endpoint_access_scheme}
 plat__use_public_ips: ${plat__use_public_ips}
 plat__enable_raz: ${plat__enable_raz}
 plat__use_single_resource_group: ${plat__use_single_resource_group}
@@ -43,6 +44,7 @@ plat__azure_tenant_id: ${plat__azure_tenant_id}
 plat__azure_vnet_name: ${plat__azure_vnet_name}
 plat__azure_resourcegroup_name: ${plat__azure_resourcegroup_name}
 plat__azure_subnet_names_for_cdp: ${plat__azure_subnet_names_for_cdp}
+plat__azure_subnet_names_for_gateway: ${plat__azure_subnet_names_for_gateway}
 
 plat__azure_storage_location: ${plat__azure_storage_location}
 plat__azure_log_location: ${plat__azure_log_location}

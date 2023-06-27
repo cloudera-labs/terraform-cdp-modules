@@ -113,6 +113,8 @@
             subnet_ids: "{{ plat__azure_subnet_names_for_cdp }}"
             tags: "{{ plat__tags }}"
             tunnel: "{{ plat__tunnel }}"
+            # endpoint_access_scheme: "{{ plat__endpoint_access_scheme | default(omit) }}"
+            # endpoint_access_subnets: "{{ plat__azure_subnet_names_for_gateway | default(omit) }}" 
             resource_gp: "{{ plat__azure_resourcegroup_name }}"        
             use_single_resource_group: "{{ plat__use_single_resource_group }}"
             public_ip: "{{ plat__use_public_ips }}"

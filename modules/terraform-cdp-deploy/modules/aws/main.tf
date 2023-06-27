@@ -80,7 +80,6 @@ resource "null_resource" "cdp_deployment" {
     command = "ansible-playbook -vvv -e '@cdp_config.yml' ${path.module}/playbook_teardown_cdp.yml"
   }
 
-  # Depends on * resources to ensure CDP environment is setup/deleted after/before all pre-reqs.
   depends_on = [
     local_file.cdp_deployment_template,
   ]

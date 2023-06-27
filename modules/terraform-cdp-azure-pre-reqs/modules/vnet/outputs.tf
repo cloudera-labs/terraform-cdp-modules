@@ -22,12 +22,22 @@ output "vnet_name" {
   value       = azurerm_virtual_network.cdp_vnet.name
 }
 
-output "vnet_subnet_ids" {
-  description = "List of IDs of subnets"
+output "vnet_cdp_subnet_ids" {
+  description = "List of IDs of subnets for CDP Resources"
   value       = values(azurerm_subnet.cdp_subnets)[*].id
 }
 
-output "vnet_subnet_names" {
-  description = "Names of the subnets"
+output "vnet_cdp_subnet_names" {
+  description = "Names of the subnets for CDP Resources"
   value       = values(azurerm_subnet.cdp_subnets)[*].name
+}
+
+output "vnet_gateway_subnet_ids" {
+  description = "List of IDs of subnets for CDP Gateway"
+  value       = values(azurerm_subnet.gateway_subnets)[*].id
+}
+
+output "vnet_gateway_subnet_names" {
+  description = "Names of the subnets for CDP Gateway"
+  value       = values(azurerm_subnet.gateway_subnets)[*].name
 }

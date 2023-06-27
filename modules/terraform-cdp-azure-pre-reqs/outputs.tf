@@ -36,10 +36,16 @@ output "azure_vnet_name" {
   description = "Azure Virtual Network Name"
 }
 
-output "azure_subnet_names" {
+output "azure_cdp_subnet_names" {
   value = local.cdp_subnet_names
 
-  description = "Azure Virtual Subnet Names"
+  description = "Azure Virtual Subnet Names for CDP Resources"
+}
+
+output "azure_cdp_gateway_subnet_names" {
+  value = local.cdp_gateway_subnet_names
+
+  description = "Azure Virtual Subnet Names for CDP Endpoint Access Gateway"
 }
 
 output "azure_security_group_default_uri" {

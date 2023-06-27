@@ -57,7 +57,7 @@ locals {
 
   # ------- Cloud Service Provider Settings - AWS specific -------
   aws_subnets_for_cdp = (
-  var.deployment_template == "public") ? (concat(var.aws_public_subnet_ids, var.aws_private_subnet_ids)) : (var.aws_private_subnet_ids)
+  var.infra_type == "aws" && var.deployment_template == "public") ? (concat(var.aws_public_subnet_ids, var.aws_private_subnet_ids)) : (var.aws_private_subnet_ids)
 
   # ------- Cloud Service Provider Settings - Azure specific -------
   use_public_ips = coalesce(

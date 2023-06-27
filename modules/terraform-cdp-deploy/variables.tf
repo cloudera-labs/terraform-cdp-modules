@@ -332,9 +332,17 @@ variable "azure_vnet_name" {
 
 }
 
-variable "azure_subnet_names" {
+variable "azure_cdp_subnet_names" {
   type        = list(any)
-  description = "List of Azure Subnet Names. Required for CDP deployment on Azure."
+  description = "List of Azure Subnet Names for CDP Resources. Required for CDP deployment on Azure."
+
+  default = null
+
+}
+
+variable "azure_cdp_gateway_subnet_names" {
+  type        = list(any)
+  description = "List of Azure Subnet Names CDP Endpoint Access Gateway. Required for CDP deployment on Azure."
 
   default = null
 

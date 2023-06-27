@@ -1,24 +1,26 @@
 # Terraform Modules for CDP Prerequisites
 
-This module contains resource files and example variable definition files for creation of the pre-requisite Cloud resources on AWS and optional deployment of Cloudera Data Platform (CDP) Public Cloud.
+This repository contains a number of Terraform modules for creation of the pre-requisite Cloud resources on AWS and Azure and the deployment of Cloudera Data Platform (CDP) Public Cloud.
+
+## Modules
+
+* For AWS pre-requisite Cloud resources see [terraform-cdp-aws-prereqs](modules/terraform-cdp-aws-pre-reqs/README.md).
+* For Azure pre-requisite Cloud resources see [terraform-cdp-azure-prereqs](modules/terraform-cdp-azure-pre-reqs/README.md).
+* For deployment of CDP on Azure or AWS see [terraform-cdp-deploy](modules/terraform-cdp-deploy/README.md).
+
+Each module contains Terraform resource configuration and example variable definition files.
 
 ## Usage
 
-The [examples](./modules/terraform-cdp-aws-pre-reqs/examples) directory has example AWS Cloud Service Provider deployments for different scenarios:
+The [cdp-tf-quickstarts](https://github.com/cloudera-labs/cdp-tf-quickstarts) repository demonstrates how to use the modules together to deploy CDP on different cloud environments.
 
-* `ex01-minimal-inputs` uses the minimum set of inputs for the module.
-
-* `ex02-existing-vpc` creates a VPC and subnets outside of the module and passes this as an additional input. CDP deployment then uses these network assets.
-
-* `ex03-create-keypair` creates the AWS EC2 Keypair in the module caller and passes this as an additional input.
-
-* TODO: `ex04-all_inputs_specified` contains an example with all input parameters for the module.
-
-In each directory an example `terraform.tfvars.sample` values file is included to show input variable values.
+Each module also has a set of examples to show different configuration options for that module.
 
 ## Deployment
 
 ### Create infrastructure
+
+Note that the instructions below give the steps to create pre-requisite resources and the CDP deployment all together. The modules can be used on their own to allow further customization.
 
 1. Clone this repository using the following commands:
 
@@ -27,10 +29,10 @@ git clone https://github.com/cloudera-labs/terraform-cdp-modules.git
 cd terraform-cdp-modules
 ```
 
-2. Choose one of the deployment types in the [examples](./modules/terraform-cdp-aws-pre-reqs/examples) directory and change to this directory.
+2. To create cloud pre-requisite resources and the CDP deployment all together, change to the [terraform-cdp-deploy directory](./modules/terraform-cdp-deploy) and select one of the cloud providers.
 
 ```bash
-cd modules/terraform-cdp-aws-pre-reqs/examples/ex<deployment_type>/
+cd modules/terraform-cdp-deploy/examples/ex<deployment_type>/
 ```
 
 3. Create a `terraform.tfvars` file with variable definitions to run the module. Reference the `terraform.tfvars.sample` file in each example folder to create this file.
@@ -73,7 +75,7 @@ pip install ansible-core==2.12.10 jmespath==1.0.1
 pip install git+https://github.com/cloudera-labs/cdpy@main#egg=cdpy
 
 # Install the cloudera.cloud Ansible Collection
-ansible-galaxy collection install git+https://github.com/cloudera-labs/cloudera.cloud.git
+ansible-galaxy collection install git+https://github.com/cloudera-labs/cloudera.cloud.git,devel
 
 # Install the community.general Ansible Collection
 ansible-galaxy collection install community.general:==5.5.0
@@ -83,7 +85,3 @@ cdp configure
 ```
 
 NOTE - See the [CDP documentation for steps to Generate the API access key](https://docs.cloudera.com/cdp-public-cloud/cloud/cli/topics/mc-cli-generating-an-api-access-key.html) required in the `cdp configure` command above.
-
-## Modules
-
-See [terraform-cdp-aws-prereqs](modules/terraform-cdp-aws-pre-reqs/README.md).

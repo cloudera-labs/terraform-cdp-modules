@@ -78,12 +78,13 @@ module "cdp_on_azure" {
   security_group_default_uri = var.azure_security_group_default_uri
   security_group_knox_uri    = var.azure_security_group_knox_uri
 
-  datalake_scale     = local.datalake_scale
-  datalake_version   = var.datalake_version
-  enable_ccm_tunnel  = var.enable_ccm_tunnel
-  enable_raz         = var.enable_raz
-  freeipa_instances  = var.freeipa_instances
-  workload_analytics = var.workload_analytics
+  datalake_scale         = local.datalake_scale
+  datalake_version       = var.datalake_version
+  enable_ccm_tunnel      = var.enable_ccm_tunnel
+  enable_raz             = var.enable_raz
+  freeipa_instances      = var.freeipa_instances
+  workload_analytics     = var.workload_analytics
+  endpoint_access_scheme = local.endpoint_access_scheme
 
   cdp_profile              = var.cdp_profile
   cdp_control_plane_region = var.cdp_control_plane_region
@@ -94,11 +95,12 @@ module "cdp_on_azure" {
   subscription_id = var.azure_subscription_id
   tenant_id       = var.azure_tenant_id
 
-  region              = var.region
-  resource_group_name = var.azure_resource_group_name
-  vnet_name           = var.azure_vnet_name
-  subnet_names        = var.azure_subnet_names
-  public_key_text     = var.public_key_text
+  region                   = var.region
+  resource_group_name      = var.azure_resource_group_name
+  vnet_name                = var.azure_vnet_name
+  cdp_subnet_names         = var.azure_cdp_subnet_names
+  cdp_gateway_subnet_names = var.azure_cdp_gateway_subnet_names
+  public_key_text          = var.public_key_text
 
   data_storage_location   = var.data_storage_location
   log_storage_location    = var.log_storage_location

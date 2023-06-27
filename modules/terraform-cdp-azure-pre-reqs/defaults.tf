@@ -30,12 +30,14 @@ locals {
 
   security_group_knox_name = coalesce(var.security_group_knox_name, "${var.env_prefix}-knox-sg")
 
-
   cdp_vnet_name = (var.create_vnet ?
   module.azure_cdp_vnet[0].vnet_name : var.cdp_vnet_name)
 
   cdp_subnet_names = (var.create_vnet ?
-  module.azure_cdp_vnet[0].vnet_subnet_names : var.cdp_subnet_names)
+  module.azure_cdp_vnet[0].vnet_cdp_subnet_names : var.cdp_subnet_names)
+
+  cdp_gateway_subnet_names = (var.create_vnet ?
+  module.azure_cdp_vnet[0].vnet_gateway_subnet_names : var.cdp_gw_subnet_names)
 
   # ------- Storage Resources -------
   storage_suffix = var.random_id_for_bucket ? one(random_id.bucket_suffix).hex : ""
