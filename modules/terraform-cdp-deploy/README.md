@@ -1,6 +1,18 @@
 <!-- BEGIN_TF_DOCS -->
 # Terraform Module for CDP Deployment
 
+This module contains resource files and example variable definition files for deployment of Cloudera Data Platform (CDP) Public Cloud environment and Datalake creation on AWS or Azure.
+
+## Usage
+
+The [examples](./examples) directory has example CDP deployments:
+
+* `ex01-aws-basic` creates a basic CDP deployment on AWS. This example makes use of the p[terraform-cdp-aws-pre-reqs module](../terraform-cdp-aws-pre-reqs) to create the required cloud resources.
+
+* `ex02-azure-basic` creates a basic CDP deployment on Azure. This example makes use of the [terraform-cdp-azure-pre-reqs module](../terraform-cdp-azure-pre-reqs) to create the required cloud resources.
+
+In each directory an example `terraform.tfvars.sample` values file is included to show input variable values.
+
 ## Requirements
 
 | Name | Version |
@@ -45,6 +57,8 @@ No resources.
 | <a name="input_aws_security_group_knox_id"></a> [aws\_security\_group\_knox\_id](#input\_aws\_security\_group\_knox\_id) | ID of the Knox Security Group for CDP environment. Required for CDP deployment on AWS. | `string` | `null` | no |
 | <a name="input_aws_vpc_id"></a> [aws\_vpc\_id](#input\_aws\_vpc\_id) | AWS Virtual Private Network ID. Required for CDP deployment on AWS. | `string` | `null` | no |
 | <a name="input_aws_xaccount_role_arn"></a> [aws\_xaccount\_role\_arn](#input\_aws\_xaccount\_role\_arn) | Cross Account Role ARN. Required for CDP deployment on AWS. | `string` | `null` | no |
+| <a name="input_azure_cdp_gateway_subnet_names"></a> [azure\_cdp\_gateway\_subnet\_names](#input\_azure\_cdp\_gateway\_subnet\_names) | List of Azure Subnet Names CDP Endpoint Access Gateway. Required for CDP deployment on Azure. | `list(any)` | `null` | no |
+| <a name="input_azure_cdp_subnet_names"></a> [azure\_cdp\_subnet\_names](#input\_azure\_cdp\_subnet\_names) | List of Azure Subnet Names for CDP Resources. Required for CDP deployment on Azure. | `list(any)` | `null` | no |
 | <a name="input_azure_datalakeadmin_identity_id"></a> [azure\_datalakeadmin\_identity\_id](#input\_azure\_datalakeadmin\_identity\_id) | Datalake Admin Managed Identity ID. Required for CDP deployment on Azure. | `string` | `null` | no |
 | <a name="input_azure_idbroker_identity_id"></a> [azure\_idbroker\_identity\_id](#input\_azure\_idbroker\_identity\_id) | IDBroker Managed Identity ID. Required for CDP deployment on Azure. | `string` | `null` | no |
 | <a name="input_azure_log_identity_id"></a> [azure\_log\_identity\_id](#input\_azure\_log\_identity\_id) | Log Data Access Managed Identity ID. Required for CDP deployment on Azure. | `string` | `null` | no |
@@ -53,7 +67,6 @@ No resources.
 | <a name="input_azure_resource_group_name"></a> [azure\_resource\_group\_name](#input\_azure\_resource\_group\_name) | Azure Resource Group name. Required for CDP deployment on Azure. | `string` | `null` | no |
 | <a name="input_azure_security_group_default_uri"></a> [azure\_security\_group\_default\_uri](#input\_azure\_security\_group\_default\_uri) | Azure Default Security Group URI. Required for CDP deployment on Azure. | `string` | `null` | no |
 | <a name="input_azure_security_group_knox_uri"></a> [azure\_security\_group\_knox\_uri](#input\_azure\_security\_group\_knox\_uri) | Azure Knox Security Group URI. Required for CDP deployment on Azure. | `string` | `null` | no |
-| <a name="input_azure_subnet_names"></a> [azure\_subnet\_names](#input\_azure\_subnet\_names) | List of Azure Subnet Names. Required for CDP deployment on Azure. | `list(any)` | `null` | no |
 | <a name="input_azure_subscription_id"></a> [azure\_subscription\_id](#input\_azure\_subscription\_id) | Subscription ID where the Azure pre-reqs are created. Required for CDP deployment on Azure. | `string` | `null` | no |
 | <a name="input_azure_tenant_id"></a> [azure\_tenant\_id](#input\_azure\_tenant\_id) | Tenant ID where the Azure pre-reqs are created. Required for CDP deployment on Azure. | `string` | `null` | no |
 | <a name="input_azure_vnet_name"></a> [azure\_vnet\_name](#input\_azure\_vnet\_name) | Azure Virtual Network ID. Required for CDP deployment on Azure. | `string` | `null` | no |

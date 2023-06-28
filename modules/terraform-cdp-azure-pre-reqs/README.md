@@ -1,6 +1,16 @@
 <!-- BEGIN_TF_DOCS -->
 # Terraform Module for CDP Prerequisites on Azure
 
+This module contains resource files and example variable definition files for creation of the pre-requisite Azure cloud resources required for Cloudera Data Platform (CDP) Public Cloud.
+
+## Usage
+
+The [examples](./examples) directory has example Azure Cloud Service Provider deployments for different scenarios:
+
+* `ex01-minimal-inputs` uses the minimum set of inputs for the module.
+
+In each directory an example `terraform.tfvars.sample` values file is included to show input variable values.
+
 ## Requirements
 
 | Name | Version |
@@ -69,7 +79,8 @@
 | <a name="input_agent_source_tag"></a> [agent\_source\_tag](#input\_agent\_source\_tag) | Tag to identify deployment source | `map(any)` | <pre>{<br>  "agent_source": "tf-cdp-module"<br>}</pre> | no |
 | <a name="input_azure_region"></a> [azure\_region](#input\_azure\_region) | Region which Cloud resources will be created | `string` | `null` | no |
 | <a name="input_backup_storage"></a> [backup\_storage](#input\_backup\_storage) | Optional Backup location for CDP environment. If not provided follow the data\_storage variable | <pre>object({<br>    backup_storage_bucket = string<br>    backup_storage_object = string<br>  })</pre> | `null` | no |
-| <a name="input_cdp_subnet_names"></a> [cdp\_subnet\_names](#input\_cdp\_subnet\_names) | List of subnet names. Required if create\_vpc is false. | `list(any)` | `null` | no |
+| <a name="input_cdp_gw_subnet_names"></a> [cdp\_gw\_subnet\_names](#input\_cdp\_gw\_subnet\_names) | List of subnet names for CDP Gateway. Required if create\_vpc is false. | `list(any)` | `null` | no |
+| <a name="input_cdp_subnet_names"></a> [cdp\_subnet\_names](#input\_cdp\_subnet\_names) | List of subnet names for CDP Resources. Required if create\_vpc is false. | `list(any)` | `null` | no |
 | <a name="input_cdp_vnet_name"></a> [cdp\_vnet\_name](#input\_cdp\_vnet\_name) | Pre-existing VNet Name for CDP environment. Required if create\_vnet is false. | `string` | `null` | no |
 | <a name="input_create_vnet"></a> [create\_vnet](#input\_create\_vnet) | Flag to specify if the VNet should be created | `bool` | `true` | no |
 | <a name="input_data_storage"></a> [data\_storage](#input\_data\_storage) | Data storage locations for CDP environment | <pre>object({<br>    data_storage_bucket = string<br>    data_storage_object = string<br>  })</pre> | `null` | no |
@@ -105,6 +116,8 @@
 | Name | Description |
 |------|-------------|
 | <a name="output_azure_backup_storage_location"></a> [azure\_backup\_storage\_location](#output\_azure\_backup\_storage\_location) | Azure backup storage location |
+| <a name="output_azure_cdp_gateway_subnet_names"></a> [azure\_cdp\_gateway\_subnet\_names](#output\_azure\_cdp\_gateway\_subnet\_names) | Azure Virtual Subnet Names for CDP Endpoint Access Gateway |
+| <a name="output_azure_cdp_subnet_names"></a> [azure\_cdp\_subnet\_names](#output\_azure\_cdp\_subnet\_names) | Azure Virtual Subnet Names for CDP Resources |
 | <a name="output_azure_data_storage_location"></a> [azure\_data\_storage\_location](#output\_azure\_data\_storage\_location) | Azure data storage location |
 | <a name="output_azure_datalakeadmin_identity_id"></a> [azure\_datalakeadmin\_identity\_id](#output\_azure\_datalakeadmin\_identity\_id) | Datalake Admin Managed Identity ID |
 | <a name="output_azure_idbroker_identity_id"></a> [azure\_idbroker\_identity\_id](#output\_azure\_idbroker\_identity\_id) | IDBroker Managed Identity ID |
@@ -115,7 +128,6 @@
 | <a name="output_azure_resource_group_name"></a> [azure\_resource\_group\_name](#output\_azure\_resource\_group\_name) | Azure Resource Group Name |
 | <a name="output_azure_security_group_default_uri"></a> [azure\_security\_group\_default\_uri](#output\_azure\_security\_group\_default\_uri) | Azure Default Security Group URI |
 | <a name="output_azure_security_group_knox_uri"></a> [azure\_security\_group\_knox\_uri](#output\_azure\_security\_group\_knox\_uri) | Azure Knox Security Group URI |
-| <a name="output_azure_subnet_names"></a> [azure\_subnet\_names](#output\_azure\_subnet\_names) | Azure Virtual Subnet Names |
 | <a name="output_azure_subscription_id"></a> [azure\_subscription\_id](#output\_azure\_subscription\_id) | Subscription ID where the Azure pre-reqs are created |
 | <a name="output_azure_tenant_id"></a> [azure\_tenant\_id](#output\_azure\_tenant\_id) | Tenant ID where the Azure pre-reqs are created |
 | <a name="output_azure_vnet_name"></a> [azure\_vnet\_name](#output\_azure\_vnet\_name) | Azure Virtual Network Name |
