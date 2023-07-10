@@ -7,7 +7,7 @@ This module contains resource files and example variable definition files for de
 
 The [examples](./examples) directory has example CDP deployments:
 
-* `ex01-aws-basic` creates a basic CDP deployment on AWS. This example makes use of the p[terraform-cdp-aws-pre-reqs module](../terraform-cdp-aws-pre-reqs) to create the required cloud resources.
+* `ex01-aws-basic` creates a basic CDP deployment on AWS. This example makes use of the [terraform-cdp-aws-pre-reqs module](../terraform-cdp-aws-pre-reqs) to create the required cloud resources.
 
 * `ex02-azure-basic` creates a basic CDP deployment on Azure. This example makes use of the [terraform-cdp-azure-pre-reqs module](../terraform-cdp-azure-pre-reqs) to create the required cloud resources.
 

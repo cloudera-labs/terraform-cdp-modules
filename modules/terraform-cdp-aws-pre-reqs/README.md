@@ -1,5 +1,5 @@
 <!-- BEGIN_TF_DOCS -->
-# Terraform Module for CDP Prerequisites
+# Terraform Module for CDP Prerequisites on AWS
 
 This module contains resource files and example variable definition files for creation of the pre-requisite AWS cloud resources required for Cloudera Data Platform (CDP) Public Cloud.
 
