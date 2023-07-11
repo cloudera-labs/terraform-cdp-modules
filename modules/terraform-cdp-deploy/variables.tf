@@ -136,7 +136,7 @@ variable "freeipa_instances" {
 
   description = "The number of FreeIPA instances to create in the environment"
 
-  default = 2
+  default = 3
 }
 
 variable "workload_analytics" {
