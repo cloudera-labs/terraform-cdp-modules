@@ -13,22 +13,20 @@
 # limitations under the License.
 
 # ------- Global settings -------
-variable "aws_profile" {
+variable "env_prefix" {
   type        = string
-  description = "Profile for AWS cloud credentials"
-
-  # Profile is default unless explicitly specified
-  default = "default"
+  description = "Shorthand name for the environment. Used in resource descriptions"
 }
 
-variable "aws_region" {
+variable "azure_region" {
   type        = string
   description = "Region which Cloud resources will be created"
 }
 
-variable "env_prefix" {
-  type        = string
-  description = "Shorthand name for the environment. Used in resource descriptions"
+variable "public_key_text" {
+  type = string
+
+  description = "SSH Public key string for the nodes of the CDP environment"
 }
 
 # ------- CDP Environment Deployment -------

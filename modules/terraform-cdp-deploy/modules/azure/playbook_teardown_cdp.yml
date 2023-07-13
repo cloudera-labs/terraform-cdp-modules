@@ -1,0 +1,58 @@
+---
+
+# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#################################################
+# Ansible Playbook to remove CDP resources based 
+# on output generated from TF pre-reqs module.
+# Uses the cloudera.cloud Ansible collection
+# 
+# Tasks performed:
+# * Cascading delete to remove Environment, DL, DataHubs and Data Services
+# * Delete user and admin groups
+# * Delete Cross Account credential
+#############################
+
+- name: Remove CDP Resources
+  hosts: localhost
+  environment:
+    CDP_PROFILE: "{{ plat__cdp_profile }}"  
+  vars:
+  tasks:
+
+############# Cascading Delete of CDP Environment #############
+    - name: Delete CDP Environment Deployment on AWS
+      cloudera.cloud.env:
+        name: "{{ plat__env_name }}"
+        cascading: True
+        state: absent
+
+############# CDP Groups #############
+    - name: Remove CDP Admin group
+      cloudera.cloud.iam_group:
+        name: "{{ plat__cdp_iam_admin_group_name }}"
+        state: absent
+
+    - name: Remove CDP User group
+      cloudera.cloud.iam_group:
+        name: "{{ plat__cdp_iam_user_group_name }}"
+        state: absent
+
+############# CDP Credential #############
+    - name: Remove CDP Cross Account Credential for AWS
+      cloudera.cloud.env_cred:
+        name: "{{ plat__xacccount_credential_name }}"
+        state: absent
+

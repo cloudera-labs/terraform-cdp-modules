@@ -23,14 +23,14 @@ plat__datalake_version: ${plat__datalake_version}
 plat__tunnel: ${plat__tunnel}
 plat__endpoint_access_scheme: ${plat__endpoint_access_scheme}
 plat__enable_raz: ${plat__enable_raz}
-plat__env_multiaz: ${plat__env_multiaz} 
+plat__env_multiaz: ${plat__env_multiaz}
 plat__env_freeipa_instances: ${plat__env_freeipa_instances} 
 plat__workload_analytics: ${plat__workload_analytics}
 plat__tags: ${plat__tags}
 
 # CDP settings
 plat__cdp_profile: ${plat__cdp_profile}
-plat__cdp_control_plane_region:  ${plat__cdp_control_plane_region}
+plat__cdp_control_plane_region: ${plat__cdp_control_plane_region}
 
 # CSP settings
 plat__infra_type: ${plat__infra_type} 
@@ -50,8 +50,8 @@ plat__aws_security_group_default_id: ${plat__aws_security_group_default_id}
 plat__aws_security_group_knox_id: ${plat__aws_security_group_knox_id}
 
 plat__aws_datalake_admin_role_arn: ${plat__aws_datalake_admin_role_arn}
-plat__aws_ranger_audit_role_arn: ${plat__aws_ranger_audit_role_arn} 
-plat__aws_xaccount_role_arn: ${plat__aws_xaccount_role_arn}  
+plat__aws_ranger_audit_role_arn: ${plat__aws_ranger_audit_role_arn}
+plat__aws_xaccount_role_arn: ${plat__aws_xaccount_role_arn}
 
-plat__aws_log_instance_profile_arn: ${plat__aws_log_instance_profile_arn} 
+plat__aws_log_instance_profile_arn: ${plat__aws_log_instance_profile_arn}
 plat__aws_idbroker_instance_profile_arn: ${plat__aws_idbroker_instance_profile_arn}

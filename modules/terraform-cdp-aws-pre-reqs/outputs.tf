@@ -12,74 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# CDP environment & DL settings
-output "cdp_env_name" {
-  value = "${var.env_prefix}-cdp-env"
-
-  description = "CDP environment name"
-}
-
-output "cdp_datalake_name" {
-  value = "${var.env_prefix}-aws-dl"
-
-  description = "CDP Datalake name"
-}
-
-output "cdp_xacccount_credential_name" {
-  value = "${var.env_prefix}-xaccount-cred"
-
-  description = "Cross Account credential name"
-}
-
-
-output "cdp_iam_admin_group_name" {
-  value = "${var.env_prefix}-cdp-admin-group"
-
-  description = "CDP IAM admin group name"
-}
-
-output "cdp_iam_user_group_name" {
-  value = "${var.env_prefix}-cdp-user-group"
-
-  description = "CDP IAM user group name"
-}
-
-output "cdp_tunnel_enabled" {
-  value = (var.deployment_template == "public") ? "false" : "true"
-
-  description = "Flag to enable SSH tunnelling for the CDP environment"
-}
-
-output "cdp_endpoint_access_scheme" {
-  value = (var.deployment_template == "semi-private") ? "PUBLIC" : "PRIVATE"
-
-  description = "The scheme for the workload endpoint gateway. `PUBLIC` creates an external endpoint that can be accessed over the Internet. `PRIVATE` restricts the traffic to be internal to the VPC / Vnet. Relevant in Private Networks."
-}
-
-output "cdp_enable_raz" {
-  value = var.enable_raz
-
-  description = "Flag to enable Ranger Authorization Service (RAZ) for the CDP environment"
-}
-
-output "cdp_enable_multiaz" {
-  value = var.multiaz
-
-  description = "Flag to specify if multi-AZ deployment is enabled for the CDP environment"
-}
-
-output "cdp_freeipa_instances" {
-  value = var.freeipa_instances
-
-  description = "Number of instances for the FreeIPA service of the environment"
-}
-
-output "cdp_workload_analytics" {
-  value = var.workload_analytics
-
-  description = "Flag to enable Workload Analytics"
-}
-
 output "tags" {
   value = local.env_tags
 
@@ -100,12 +32,6 @@ output "cdp_control_plane_region" {
 }
 
 # CSP settings
-output "infra_type" {
-  value = var.infra_type
-
-  description = "Cloud Service Provider type"
-}
-
 output "aws_region" {
   value = var.aws_region
 
@@ -155,28 +81,22 @@ output "aws_vpc_subnets" {
   description = "List of subnets associated with the CDP VPC"
 }
 
-output "aws_storage_location" {
+output "aws_data_storage_location" {
   value = "s3a://${local.data_storage.data_storage_bucket}${local.storage_suffix}/${local.data_storage.data_storage_object}"
 
   description = "AWS data storage location"
 }
 
-output "aws_log_location" {
+output "aws_log_storage_location" {
   value = "s3a://${local.log_storage.log_storage_bucket}${local.storage_suffix}/${local.log_storage.log_storage_object}"
 
   description = "AWS log storage location"
 }
 
-output "aws_backup_location" {
+output "aws_backup_storage_location" {
   value = "s3a://${local.backup_storage.backup_storage_bucket}${local.storage_suffix}/${local.backup_storage.backup_storage_object}"
 
   description = "AWS backup storage location"
-}
-
-output "public_key_id" {
-  value = var.aws_key_pair
-
-  description = "Keypair name in Cloud Service Provider"
 }
 
 output "aws_security_group_default_id" {

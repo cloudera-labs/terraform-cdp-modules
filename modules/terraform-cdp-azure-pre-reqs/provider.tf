@@ -14,17 +14,13 @@
 
 terraform {
   required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "3.45.0"
     }
-    http = {
-      source  = "hashicorp/http"
-      version = "3.2.1"
-    }
-    external = {
-      source  = "hashicorp/external"
-      version = "2.3.1"
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "2.39.0"
     }
     random = {
       source  = "hashicorp/random"
