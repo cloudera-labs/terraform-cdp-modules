@@ -31,13 +31,6 @@ variable "env_prefix" {
   description = "Shorthand name for the environment. Used in resource descriptions"
 }
 
-variable "aws_key_pair" {
-  type = string
-
-  description = "Name of the Public SSH key for the CDP environment"
-
-}
-
 # ------- CDP Environment Deployment -------
 variable "deployment_template" {
   type = string
