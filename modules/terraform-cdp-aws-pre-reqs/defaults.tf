@@ -22,14 +22,6 @@ locals {
 
   caller_account_id = data.aws_caller_identity.current.account_id
 
-  # ------- CDP Environment Deployment -------
-  datalake_scale = coalesce(
-    var.datalake_scale,
-    (var.deployment_template == "public" ?
-      "LIGHT_DUTY" : "MEDIUM_DUTY_HA"
-    )
-  )
-
   # ------- Network Resources -------
   vpc_id = (var.create_vpc ?
   module.aws_cdp_vpc[0].vpc_id : var.cdp_vpc_id)

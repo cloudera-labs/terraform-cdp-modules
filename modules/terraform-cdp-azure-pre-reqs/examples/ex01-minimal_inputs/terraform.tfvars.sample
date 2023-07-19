@@ -16,7 +16,7 @@
 env_prefix = "<ENTER_VALUE>" # Required name prefix for cloud and CDP resources, e.g. cldr1
 
 # ------- Cloud Settings -------
-aws_region = "<ENTER_VALUE>" # Change this to specify Cloud Provider region, e.g. eu-west-1
+azure_region = "<ENTER_VALUE>" # Change this to specify Cloud Provider region, e.g. eastus
 
 # ------- CDP Environment Deployment -------
 deployment_template = "<ENTER_VALUE>"  # Specify the deployment pattern below. Options are public, semi-private or private

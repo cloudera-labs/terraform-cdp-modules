@@ -13,17 +13,28 @@
 # limitations under the License.
 
 # ------- Global settings -------
-env_prefix = "<ENTER_VALUE>" # Required name prefix for cloud and CDP resources, e.g. cldr1
+variable "env_prefix" {
+  type        = string
+  description = "Shorthand name for the environment. Used in resource descriptions"
+}
 
-# ------- Cloud Settings -------
-aws_region = "<ENTER_VALUE>" # Change this to specify Cloud Provider region, e.g. eu-west-1
+variable "azure_region" {
+  type        = string
+  description = "Region which Cloud resources will be created"
+}
 
 # ------- CDP Environment Deployment -------
-deployment_template = "<ENTER_VALUE>"  # Specify the deployment pattern below. Options are public, semi-private or private
+variable "deployment_template" {
+  type = string
 
-# ------- Network Settings -------
-# **NOTE: If required change the values below any additional CIDRs to add the the AWS Security Groups**
-ingress_extra_cidrs_and_ports = {
- cidrs = ["<ENTER_IP_VALUE>/32", "<ENTER_IP_VALUE>/32"],
- ports = [443, 22]
+  description = "Deployment Pattern to use for Cloud resources and CDP"
+}
+
+# ------- Network Resources -------
+variable "ingress_extra_cidrs_and_ports" {
+  type = object({
+    cidrs = list(string)
+    ports = list(number)
+  })
+  description = "List of extra CIDR blocks and ports to include in Security Group Ingress rules"
 }
