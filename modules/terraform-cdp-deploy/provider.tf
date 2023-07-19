@@ -14,15 +14,11 @@
 
 terraform {
   required_providers {
-    local = {
-      source  = "hashicorp/local"
-      version = "2.2.3"
+    cdp = {
+      source  = "cloudera-labs/cdp"
+      version = "0.1.3-pre"
     }
-    null = {
-      source  = "hashicorp/null"
-      version = "3.2.1"
-    }
-  }
 
-  required_version = "> 1.3.0"
+    required_version = "> 1.3.0"
+  }
 }
