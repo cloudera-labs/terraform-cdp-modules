@@ -12,25 +12,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.0"
-    }
-    http = {
-      source  = "hashicorp/http"
-      version = "3.2.1"
-    }
-    external = {
-      source  = "hashicorp/external"
-      version = "2.3.1"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = "3.4.3"
+provider "azurerm" {
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
     }
   }
 
-  required_version = "> 1.3.0"
+}
+
+provider "azuread" {
+
+}
+
+module "ex01_minimal_inputs" {
+  source = "../.."
+
+  env_prefix   = var.env_prefix
+  azure_region = var.azure_region
+
+  deployment_template = var.deployment_template
+
+  ingress_extra_cidrs_and_ports = var.ingress_extra_cidrs_and_ports
+
 }

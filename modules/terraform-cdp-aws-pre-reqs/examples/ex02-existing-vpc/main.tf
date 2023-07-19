@@ -23,8 +23,6 @@ module "ex02_existing_vpc" {
   env_prefix = var.env_prefix
   aws_region = var.aws_region
 
-  aws_key_pair = var.aws_key_pair
-
   deployment_template = var.deployment_template
 
   ingress_extra_cidrs_and_ports = var.ingress_extra_cidrs_and_ports
