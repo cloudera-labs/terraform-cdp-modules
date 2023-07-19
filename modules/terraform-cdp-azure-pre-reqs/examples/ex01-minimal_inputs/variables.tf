@@ -23,12 +23,6 @@ variable "azure_region" {
   description = "Region which Cloud resources will be created"
 }
 
-variable "public_key_text" {
-  type = string
-
-  description = "SSH Public key string for the nodes of the CDP environment"
-}
-
 # ------- CDP Environment Deployment -------
 variable "deployment_template" {
   type = string
