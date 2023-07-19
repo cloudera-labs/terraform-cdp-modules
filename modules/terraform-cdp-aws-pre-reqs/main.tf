@@ -310,6 +310,13 @@ resource "aws_iam_role_policy_attachment" "cdp_xaccount_role_attach" {
   policy_arn = aws_iam_policy.cdp_xaccount_policy.arn
 }
 
+# Wait for propagation of IAM xaccount role.
+# Required for CDP credential
+resource "time_sleep" "iam_propagation" {
+  depends_on      = [aws_iam_role.cdp_xaccount_role]
+  create_duration = "45s"
+}
+
 # ------- AWS Service Roles - CDP IDBroker -------
 # First create the Assume role policy document
 data "aws_iam_policy_document" "cdp_idbroker_role_policy_doc" {
