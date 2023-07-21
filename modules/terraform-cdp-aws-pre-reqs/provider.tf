@@ -22,10 +22,6 @@ terraform {
       source  = "hashicorp/http"
       version = "3.2.1"
     }
-    cdp = {
-      source  = "cloudera/cdp"
-      version = "0.1.3-pre"
-    }
     random = {
       source  = "hashicorp/random"
       version = "3.4.3"

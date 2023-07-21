@@ -18,19 +18,6 @@ output "tags" {
   description = "Tags associated with the environment and its resources"
 }
 
-# CDP settings
-output "cdp_profile" {
-  value = var.cdp_profile
-
-  description = "Profile for CDP credentials"
-}
-
-output "cdp_control_plane_region" {
-  value = var.cdp_control_plane_region
-
-  description = "CDP Control Plane region"
-}
-
 # CSP settings
 output "aws_region" {
   value = var.aws_region

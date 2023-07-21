@@ -52,21 +52,13 @@ variable "env_prefix" {
 }
 
 # ------- CDP Environment Deployment -------
-variable "cdp_profile" {
-  type        = string
-  description = "Profile for CDP credentials"
+# variable "cdp_control_plane_region" {
+#   type        = string
+#   description = "CDP Control Plane Region"
 
-  # Profile is default unless explicitly specified
-  default = "default"
-}
-
-variable "cdp_control_plane_region" {
-  type        = string
-  description = "CDP Control Plane Region"
-
-  # Region is us-west-1 unless explicitly specified
-  default = "us-west-1"
-}
+#   # Region is us-west-1 unless explicitly specified
+#   default = "us-west-1"
+# }
 
 variable "deployment_template" {
   type = string
@@ -340,14 +332,12 @@ variable "xaccount_account_id" {
   type        = string
   description = "Account ID of the cross account"
 
-  default = null
 }
 
 variable "xaccount_external_id" {
   type        = string
   description = "External ID of the cross account"
 
-  default = null
 }
 
 # IDBroker service role
