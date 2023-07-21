@@ -15,7 +15,7 @@
 terraform {
   required_providers {
     cdp = {
-      source  = "cloudera-labs/cdp"
+      source  = "cloudera/cdp"
       version = "0.1.3-pre"
     }
   }
