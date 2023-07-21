@@ -282,14 +282,14 @@ data "aws_iam_policy_document" "cdp_xaccount_role_policy_doc" {
 
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::${local.xaccount_account_id}:root"]
+      identifiers = ["arn:aws:iam::${var.xaccount_account_id}:root"]
     }
 
     condition {
       test     = "StringEquals"
       variable = "sts:ExternalId"
 
-      values = [local.xaccount_external_id]
+      values = [var.xaccount_external_id]
     }
   }
 }

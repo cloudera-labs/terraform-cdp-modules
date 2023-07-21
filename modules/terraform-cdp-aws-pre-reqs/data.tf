@@ -70,6 +70,3 @@ data "http" "datalake_backup_policy_doc" {
 data "http" "datalake_restore_policy_doc" {
   url = "https://raw.githubusercontent.com/hortonworks/cloudbreak/master/cloud-aws-cloudformation/src/main/resources/definitions/aws-datalake-restore-policy.json"
 }
-
-# Lookup the CDP control plane account and external ids
-data "cdp_environments_aws_credential_prerequisites" "cdp_prereqs" {}

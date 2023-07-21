@@ -172,10 +172,6 @@ locals {
   # ------- Roles -------
   xaccount_role_name = coalesce(var.xaccount_role_name, "${var.env_prefix}-xaccount-role")
 
-  xaccount_account_id = coalesce(var.xaccount_account_id, var.lookup_cdp_account_ids ? data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.account_id : null)
-
-  xaccount_external_id = coalesce(var.xaccount_external_id, var.lookup_cdp_account_ids ? data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.external_id : null)
-
   idbroker_role_name = coalesce(var.idbroker_role_name, "${var.env_prefix}-idbroker-role")
 
   log_role_name = coalesce(var.log_role_name, "${var.env_prefix}-logs-role")

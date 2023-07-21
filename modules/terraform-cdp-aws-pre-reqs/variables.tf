@@ -79,14 +79,6 @@ variable "deployment_template" {
   }
 }
 
-variable "lookup_cdp_account_ids" {
-  type = bool
-
-  description = "Auto lookup CDP Account and External ID using CDP CLI commands. If false then the xaccount_account_id and xaccount_external_id input variables need to be specified"
-
-  default = true
-}
-
 # variable "enable_raz" {
 #   type = bool
 
