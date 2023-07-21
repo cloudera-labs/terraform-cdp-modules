@@ -12,80 +12,127 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# ------- Create Configuration file for CDP Deployment via Ansible -------
-resource "local_file" "cdp_deployment_template" {
-
-  content = templatefile("${path.module}/templates/cdp_config.yml.tpl", {
-    # CDP environment & DL settings
-    plat__env_name                  = var.environment_name
-    plat__datalake_name             = var.datalake_name
-    plat__datalake_scale            = var.datalake_scale
-    plat__datalake_version          = var.datalake_version
-    plat__xacccount_credential_name = var.cdp_xacccount_credential_name
-    plat__cdp_iam_admin_group_name  = var.cdp_admin_group_name
-    plat__cdp_iam_user_group_name   = var.cdp_user_group_name
-    plat__tunnel                    = var.enable_ccm_tunnel
-    plat__endpoint_access_scheme    = var.endpoint_access_scheme
-    plat__enable_raz                = var.enable_raz
-    plat__use_single_resource_group = var.use_single_resource_group
-    plat__use_public_ips            = var.use_public_ips
-    plat__env_freeipa_instances     = var.freeipa_instances
-    plat__workload_analytics        = var.workload_analytics
-    plat__tags                      = jsonencode(var.tags)
-
-    # CDP settings
-    plat__cdp_profile              = var.cdp_profile
-    plat__cdp_control_plane_region = var.cdp_control_plane_region
-
-    # # CSP settings
-    plat__infra_type = "azure"
-    plat__region     = var.region
-
-    plat__azure_subscription_id = var.subscription_id
-    plat__azure_tenant_id       = var.tenant_id
-
-    plat__azure_resourcegroup_name       = var.resource_group_name
-    plat__azure_vnet_name                = var.vnet_name
-    plat__azure_subnet_names_for_cdp     = jsonencode(var.cdp_subnet_names)
-    plat__azure_subnet_names_for_gateway = jsonencode(var.cdp_gateway_subnet_names)
-
-    plat__azure_storage_location = var.data_storage_location
-    plat__azure_log_location     = var.log_storage_location
-    plat__azure_backup_location  = var.backup_storage_location
-
-    plat__public_key_text                  = var.public_key_text
-    plat__azure_security_group_default_uri = var.security_group_default_uri
-    plat__azure_security_group_knox_uri    = var.security_group_knox_uri
-
-    plat__azure_xaccount_app_uuid  = var.xaccount_app_uuid
-    plat__azure_xaccount_app_pword = var.xaccount_app_pword
-
-    plat__azure_idbroker_identity_id      = var.idbroker_identity_id
-    plat__azure_datalakeadmin_identity_id = var.datalakeadmin_identity_id
-    plat__azure_ranger_audit_identity_id  = var.ranger_audit_identity_id
-    plat__azure_log_identity_id           = var.log_identity_id
-    plat__azure_raz_identity_id           = var.raz_identity_id
-
-    }
-  )
-  filename = "cdp_config.yml"
+# ------- CDP Credential -------
+resource "cdp_environments_azure_credential" "cdp_cred" {
+  credential_name = var.cdp_xacccount_credential_name
+  subscription_id = var.subscription_id
+  tenant_id       = var.tenant_id
+  app_based = {
+    application_id = var.xaccount_app_uuid
+    secret_key     = var.xaccount_app_pword
+  }
+  description = "Azure Cross Account Credential for Azure env ${var.environment_name}"
 }
 
-# ------- Create CDP Deployment -------
-resource "null_resource" "cdp_deployment" {
+# ------- CDP Environment -------
+resource "cdp_environments_azure_environment" "cdp_env" {
+  environment_name = var.environment_name
+  credential_name  = cdp_environments_azure_credential.cdp_cred.credential_name
+  region           = var.region
 
-  # Setup of CDP environment using playbook_setup_cdp.yml Ansible Playbook
-  provisioner "local-exec" {
-    command = "ansible-playbook -vvv -e '@cdp_config.yml' ${path.module}/playbook_setup_cdp.yml"
+  security_access = {
+    default_security_group_id  = var.security_group_default_uri
+    security_group_id_for_knox = var.security_group_knox_uri
   }
 
-  # Deletion of CDP environment using playbook_teardown_cdp.yml Ansible Playbook
-  provisioner "local-exec" {
-    when    = destroy
-    command = "ansible-playbook -vvv -e '@cdp_config.yml' ${path.module}/playbook_teardown_cdp.yml"
+  log_storage = {
+    storage_location_base        = var.log_storage_location
+    backup_storage_location_base = var.backup_storage_location
+    managed_identity             = var.log_identity_id
   }
+
+  public_key = var.public_key_text
+
+  use_public_ip = var.use_public_ips
+  existing_network_params = {
+    resource_group_name = var.resource_group_name
+    network_id          = var.vnet_name
+    subnet_ids          = var.cdp_subnet_names
+  }
+  # TODO: Test once new cdp api is release
+  # endpoint_access_gateway_scheme     = var.endpoint_access_scheme
+  # endpoint_access_gateway_subnet_ids = var.public_subnet_ids
+
+  # Set this parameter to deploy all resources into a single resource group
+  resource_group_name = var.use_single_resource_group ? var.resource_group_name : null
+
+  freeipa = {
+    instance_count_by_group = var.freeipa_instances
+  }
+
+  workload_analytics = var.workload_analytics
+  enable_tunnel      = var.enable_ccm_tunnel
+  # tags               = var.tags # NOTE: Waiting on provider fix
 
   depends_on = [
-    local_file.cdp_deployment_template,
+    cdp_environments_azure_credential.cdp_cred
+  ]
+
+}
+
+# ------- CDP Admin Group -------
+# Create group
+resource "cdp_iam_group" "cdp_admin_group" {
+  group_name                    = var.cdp_admin_group_name
+  sync_membership_on_user_login = false
+}
+
+# TODO: Assign roles and resource roles to the group
+
+# TODO: Assign users to the group
+
+# ------- CDP User Group -------
+# Create group
+resource "cdp_iam_group" "cdp_user_group" {
+  group_name                    = var.cdp_user_group_name
+  sync_membership_on_user_login = false
+}
+
+# TODO: Assign roles and resource roles to the group
+
+# TODO: Assign users to the group
+
+# ------- IdBroker Mappings -------
+resource "cdp_environments_id_broker_mappings" "cdp_idbroker" {
+  environment_name = cdp_environments_azure_environment.cdp_env.environment_name
+  environment_crn  = cdp_environments_azure_environment.cdp_env.crn
+
+  ranger_audit_role                   = var.ranger_audit_identity_id
+  data_access_role                    = var.datalakeadmin_identity_id
+  ranger_cloud_access_authorizer_role = var.enable_raz ? var.raz_identity_id : null
+
+  mappings = [{
+    accessor_crn = cdp_iam_group.cdp_admin_group.crn
+    role         = var.datalakeadmin_identity_id
+    },
+    {
+      accessor_crn = cdp_iam_group.cdp_user_group.crn
+      role         = var.datalakeadmin_identity_id
+    }
+  ]
+
+  depends_on = [
+    cdp_environments_azure_environment.cdp_env
+  ]
+}
+
+# ------- CDP Datalake -------
+resource "cdp_datalake_azure_datalake" "cdp_datalake" {
+  datalake_name    = var.datalake_name
+  environment_name = cdp_environments_azure_environment.cdp_env.environment_name
+
+  managed_identity = var.idbroker_identity_id
+  storage_location = var.data_storage_location
+
+  runtime           = var.datalake_version
+  scale             = var.datalake_scale
+  enable_ranger_raz = var.enable_raz
+
+  # tags = var.tags # NOTE: Waiting on provider fix
+
+  depends_on = [
+    cdp_environments_azure_credential.cdp_cred,
+    cdp_environments_azure_environment.cdp_env,
+    cdp_environments_id_broker_mappings.cdp_idbroker
   ]
 }

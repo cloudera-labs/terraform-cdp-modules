@@ -80,21 +80,14 @@ variable "cdp_user_group_name" {
   default = null
 }
 
-variable "cdp_profile" {
-  type        = string
-  description = "Profile for CDP credentials"
+# TODO: Will be re-introducted once provider supports other regions
+# variable "cdp_control_plane_region" {
+#   type        = string
+#   description = "CDP Control Plane Region"
 
-  # Profile is default unless explicitly specified
-  default = "default"
-}
-
-variable "cdp_control_plane_region" {
-  type        = string
-  description = "CDP Control Plane Region"
-
-  # Region is us-west-1 unless explicitly specified
-  default = "us-west-1"
-}
+#   # Region is us-west-1 unless explicitly specified
+#   default = "us-west-1"
+# }
 
 variable "deployment_template" {
   type = string

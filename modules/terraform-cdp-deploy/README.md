@@ -17,8 +17,8 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | > 1.3.0 |
 | <a name="requirement_cdp"></a> [cdp](#requirement\_cdp) | 0.1.3-pre |
-| <a name="requirement_required_version"></a> [required\_version](#requirement\_required\_version) | > 1.3.0 |
 
 ## Providers
 
@@ -72,8 +72,6 @@ No resources.
 | <a name="input_azure_xaccount_app_pword"></a> [azure\_xaccount\_app\_pword](#input\_azure\_xaccount\_app\_pword) | Password for the Azure AD Cross Account Application. Required for CDP deployment on Azure. | `string` | `null` | no |
 | <a name="input_azure_xaccount_app_uuid"></a> [azure\_xaccount\_app\_uuid](#input\_azure\_xaccount\_app\_uuid) | UUID for the Azure AD Cross Account Application. Required for CDP deployment on Azure. | `string` | `null` | no |
 | <a name="input_cdp_admin_group_name"></a> [cdp\_admin\_group\_name](#input\_cdp\_admin\_group\_name) | Name of the CDP IAM Admin Group associated with the environment. Defaults to '<env\_prefix>-cdp-admin-group' if not specified. | `string` | `null` | no |
-| <a name="input_cdp_control_plane_region"></a> [cdp\_control\_plane\_region](#input\_cdp\_control\_plane\_region) | CDP Control Plane Region | `string` | `"us-west-1"` | no |
-| <a name="input_cdp_profile"></a> [cdp\_profile](#input\_cdp\_profile) | Profile for CDP credentials | `string` | `"default"` | no |
 | <a name="input_cdp_user_group_name"></a> [cdp\_user\_group\_name](#input\_cdp\_user\_group\_name) | Name of the CDP IAM User Group associated with the environment. Defaults to '<env\_prefix>-cdp-user-group' if not specified. | `string` | `null` | no |
 | <a name="input_cdp_xacccount_credential_name"></a> [cdp\_xacccount\_credential\_name](#input\_cdp\_xacccount\_credential\_name) | Name of the CDP Cross Account Credential. Defaults to '<env\_prefix>-xaccount-cred' if not specified. | `string` | `null` | no |
 | <a name="input_datalake_name"></a> [datalake\_name](#input\_datalake\_name) | Name of the CDP datalake. Defaults to '<env\_prefix>-<aw\|az\|gc\|>-dl' if not specified. | `string` | `null` | no |

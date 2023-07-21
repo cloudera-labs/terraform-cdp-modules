@@ -50,17 +50,12 @@ variable "cdp_user_group_name" {
 
 }
 
-variable "cdp_profile" {
-  type        = string
-  description = "Profile for CDP credentials"
+# TODO: Will be re-introducted once provider supports other regions
+# variable "cdp_control_plane_region" {
+#   type        = string
+#   description = "CDP Control Plane Region"
 
-}
-
-variable "cdp_control_plane_region" {
-  type        = string
-  description = "CDP Control Plane Region"
-
-}
+# }
 
 variable "enable_ccm_tunnel" {
   type = bool

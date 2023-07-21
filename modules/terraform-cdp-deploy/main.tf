@@ -38,15 +38,15 @@ module "cdp_on_aws" {
   workload_analytics     = var.workload_analytics
   endpoint_access_scheme = local.endpoint_access_scheme
 
-  cdp_profile              = var.cdp_profile
-  cdp_control_plane_region = var.cdp_control_plane_region
+  # TODO: Will be re-introducted once provider supports other regions
+  # cdp_control_plane_region = var.cdp_control_plane_region
 
-  region             = var.region
-  vpc_id             = var.aws_vpc_id
-  public_subnet_ids  = var.aws_public_subnet_ids
-  private_subnet_ids = var.aws_private_subnet_ids
-  subnets_for_cdp    = local.aws_subnets_for_cdp
-  keypair_name       = var.keypair_name
+  region            = var.region
+  vpc_id            = var.aws_vpc_id
+  public_subnet_ids = var.aws_public_subnet_ids
+  # private_subnet_ids = var.aws_private_subnet_ids
+  subnets_for_cdp = local.aws_subnets_for_cdp
+  keypair_name    = var.keypair_name
 
   data_storage_location   = var.data_storage_location
   log_storage_location    = var.log_storage_location
@@ -86,8 +86,8 @@ module "cdp_on_azure" {
   workload_analytics     = var.workload_analytics
   endpoint_access_scheme = local.endpoint_access_scheme
 
-  cdp_profile              = var.cdp_profile
-  cdp_control_plane_region = var.cdp_control_plane_region
+  # TODO: Will be re-introducted once provider supports other regions
+  # cdp_control_plane_region = var.cdp_control_plane_region
 
   use_single_resource_group = var.use_single_resource_group
   use_public_ips            = local.use_public_ips
