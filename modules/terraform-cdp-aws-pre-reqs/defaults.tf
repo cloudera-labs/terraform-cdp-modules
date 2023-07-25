@@ -99,7 +99,7 @@ locals {
       replace(
       data.http.log_data_access_policy_doc.response_body, "$${ARN_PARTITION}", "aws"),
     "$${LOGS_BUCKET}", "${local.log_storage.log_storage_bucket}${local.storage_suffix}"),
-  "$${LOGS_LOCATION_BASE}", "${local.log_storage.log_storage_bucket}${local.storage_suffix}/${replace(local.log_storage.log_storage_object, "/", "")}")
+  "$${LOGS_LOCATION_BASE}", "${local.log_storage.log_storage_bucket}${local.storage_suffix}")
 
   # ...then assign either input or downloaded policy doc to var used in resource
   log_data_access_policy_doc = coalesce(var.log_data_access_policy_doc, local.log_data_access_policy_doc_processed)
