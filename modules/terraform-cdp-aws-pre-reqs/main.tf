@@ -91,12 +91,56 @@ resource "aws_security_group_rule" "cdp_knox_sg_ingress_self" {
   self              = true
 }
 
+# # Create security group rules from combining the default and extra list of ingress rules
+# resource "aws_security_group_rule" "cdp_knox_sg_ingress" {
+#   count = length(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))
+
+#   description       = "Ingress rule for Knox CDP Security Group"
+#   security_group_id = aws_security_group.cdp_knox_sg.id
+#   type              = "ingress"
+#   cidr_blocks       = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].cidr
+#   from_port         = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].port
+#   to_port           = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].port
+#   protocol          = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].protocol
+# }
+
+# # Terraform removes the default ALLOW ALL egress. Let's recreate this
+# resource "aws_security_group_rule" "cdp_knox_sg_egress" {
+
+#   description       = "Egress rule for Knox CDP Security Group"
+#   security_group_id = aws_security_group.cdp_knox_sg.id
+#   type              = "egress"
+#   cidr_blocks       = var.cdp_knox_sg_egress_cidrs
+#   from_port         = 0
+#   to_port           = 0
+#   protocol          = "all"
+# }
+
+# VPC Endpoint SG
+resource "aws_security_group" "cdp_endpoint_sg" {
+  vpc_id      = local.vpc_id
+  name        = local.security_group_endpoint_name
+  description = local.security_group_endpoint_name
+  tags        = merge(local.env_tags, { Name = local.security_group_endpoint_name })
+}
+
+# Create self reference ingress rule to allow communication within the security group
+resource "aws_security_group_rule" "cdp_endpoint_ingress_self" {
+  security_group_id = aws_security_group.cdp_endpoint_sg.id
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 0
+  description       = "Self-reference ingress rule"
+  protocol          = "all"
+  self              = true
+}
+
 # Create security group rules from combining the default and extra list of ingress rules
-resource "aws_security_group_rule" "cdp_knox_sg_ingress" {
+resource "aws_security_group_rule" "cdp_endpoint_sg_ingress" {
   count = length(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))
 
-  description       = "Ingress rule for Knox CDP Security Group"
-  security_group_id = aws_security_group.cdp_knox_sg.id
+  description       = "Ingress rules for Endpoint Security Group"
+  security_group_id = aws_security_group.cdp_endpoint_sg.id
   type              = "ingress"
   cidr_blocks       = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].cidr
   from_port         = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].port
@@ -105,15 +149,45 @@ resource "aws_security_group_rule" "cdp_knox_sg_ingress" {
 }
 
 # Terraform removes the default ALLOW ALL egress. Let's recreate this
-resource "aws_security_group_rule" "cdp_knox_sg_egress" {
+resource "aws_security_group_rule" "cdp_endpoint_sg_egress" {
 
-  description       = "Egress rule for Knox CDP Security Group"
-  security_group_id = aws_security_group.cdp_knox_sg.id
+  description       = "Egress rule for Endpoint CDP Security Group"
+  security_group_id = aws_security_group.cdp_endpoint_sg.id
   type              = "egress"
-  cidr_blocks       = var.cdp_knox_sg_egress_cidrs
+  cidr_blocks       = var.cdp_endpoint_sg_egress_cidrs
   from_port         = 0
   to_port           = 0
   protocol          = "all"
+}
+
+# ------- VPC Endpoints -------
+# S3 Gateway endpoint
+resource "aws_vpc_endpoint" "gateway_endpoints" {
+
+  for_each = toset(var.vpc_endpoint_gateway_services)
+
+  vpc_id            = local.vpc_id
+  service_name      = data.aws_vpc_endpoint_service.gateway_endpoints[each.key].service_name
+  vpc_endpoint_type = "Gateway"
+  route_table_ids = concat([local.default_route_table_id], local.public_route_table_ids, local.private_route_table_ids)
+
+  tags = merge(local.env_tags, { Name = "${var.env_prefix}-${each.key}-gateway-endpoint" })
+}
+
+# S3 Interface endpoint
+resource "aws_vpc_endpoint" "interface_endpoints" {
+
+  for_each = toset(var.vpc_endpoint_interface_services)
+
+  vpc_id            = local.vpc_id
+  service_name      = data.aws_vpc_endpoint_service.interface_endpoints[each.key].service_name
+  vpc_endpoint_type = "Interface"
+  private_dns_enabled = true
+  
+  subnet_ids = concat(local.public_subnet_ids, local.public_subnet_ids)
+  security_group_ids = [ aws_security_group.cdp_endpoint_sg.id ]
+
+  tags = merge(local.env_tags, { Name = "${var.env_prefix}-${each.key}-interface-endpoint" })
 }
 
 # ------- S3 Buckets -------

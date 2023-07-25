@@ -35,6 +35,22 @@ data "aws_subnets" "vpc_subnets" {
   }
 }
 
+# Find details about S3 Gateway endpoint services
+data "aws_vpc_endpoint_service" "gateway_endpoints" {
+  for_each = toset(var.vpc_endpoint_gateway_services)
+
+  service      = each.key
+  service_type = "Gateway"
+}
+
+# Find details about S3 Gateway endpoint services
+data "aws_vpc_endpoint_service" "interface_endpoints" {
+  for_each = toset(var.vpc_endpoint_interface_services)
+
+  service      = each.key
+  service_type = "Interface"
+}
+
 # HTTP get request to download policy documents
 # ..Cross Account Policy
 data "http" "xaccount_account_policy_doc" {

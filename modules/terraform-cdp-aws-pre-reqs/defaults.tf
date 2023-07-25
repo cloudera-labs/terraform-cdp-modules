@@ -41,6 +41,8 @@ locals {
   security_group_default_name = coalesce(var.security_group_default_name, "${var.env_prefix}-default-sg")
 
   security_group_knox_name = coalesce(var.security_group_knox_name, "${var.env_prefix}-knox-sg")
+  
+  security_group_endpoint_name = coalesce(var.security_group_endpoint_name, "${var.env_prefix}-endpoint-sg")
 
   security_group_rules_ingress = [
     {

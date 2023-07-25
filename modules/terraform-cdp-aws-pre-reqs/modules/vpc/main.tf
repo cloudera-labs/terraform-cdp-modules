@@ -16,7 +16,7 @@ module "cdp_vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.19.0"
 
-  name = "${var.env_prefix}-net"
+  name = "${var.env_prefix}-cdp-vpc" # NOTE: This changed
   cidr = var.vpc_cidr
 
   azs = [for v in local.zones_in_region : v]
@@ -41,7 +41,7 @@ module "cdp_vpc" {
     "kubernetes.io/role/elb" = "1"
   }
 
-  enable_nat_gateway   = true
+  enable_nat_gateway   = local.enable_nat_gateway # NOTE: This changed and is now derived
   enable_dns_support   = true
   enable_dns_hostnames = true
 
