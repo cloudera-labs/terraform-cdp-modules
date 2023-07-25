@@ -59,6 +59,9 @@ module "cdp_on_aws" {
   idbroker_instance_profile_arn = var.aws_idbroker_instance_profile_arn
   log_instance_profile_arn      = var.aws_log_instance_profile_arn
 
+  # NOTE: New inputs for proxy
+  proxy_ip = var.proxy_ip
+  proxy_port = var.proxy_port
 }
 
 # ------- Call sub-module for Azure Deployment -------

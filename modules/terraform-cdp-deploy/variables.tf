@@ -449,3 +449,22 @@ variable "azure_raz_identity_id" {
   default = null
 
 }
+
+# NOTE: New inputs for proxy
+variable "proxy_ip" {
+  type = string
+
+  description = "IP address for Proxy"
+
+  default = null
+
+}
+
+variable "proxy_port" {
+  type = string
+
+  description = "Port number for Proxy"
+
+  default = null
+
+}

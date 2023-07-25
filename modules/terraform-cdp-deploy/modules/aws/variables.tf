@@ -121,6 +121,21 @@ variable "datalake_version" {
 
 }
 
+# NOTE: New inputs for proxy
+variable "proxy_ip" {
+  type = string
+
+  description = "IP address for Proxy"
+
+}
+
+variable "proxy_port" {
+  type = string
+
+  description = "Port number for Proxy"
+
+}
+
 # ------- Cloud Service Provider Settings -------
 variable "region" {
   type        = string

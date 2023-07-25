@@ -18,6 +18,10 @@
 resource "local_file" "cdp_deployment_template" {
 
   content = templatefile("${path.module}/templates/cdp_config.yml.tpl", {
+    # NOTE: New inputs for proxy
+    proxy_vm_host = var.proxy_ip
+    proxy_vm_port = var.proxy_port
+
     # CDP environment & DL settings
     plat__env_name                  = var.environment_name
     plat__datalake_name             = var.datalake_name
@@ -67,20 +71,20 @@ resource "local_file" "cdp_deployment_template" {
 }
 
 # ------- Create CDP Deployment -------
-resource "null_resource" "cdp_deployment" {
+# resource "null_resource" "cdp_deployment" {
 
-  # Setup of CDP environment using playbook_setup_cdp.yml.yml Ansible Playbook
-  provisioner "local-exec" {
-    command = "ansible-playbook -vvv -e '@cdp_config.yml' ${path.module}/playbook_setup_cdp.yml"
-  }
+#   # Setup of CDP environment using playbook_setup_cdp.yml.yml Ansible Playbook
+#   provisioner "local-exec" {
+#     command = "ansible-playbook -vvv -e '@cdp_config.yml' ${path.module}/playbook_setup_cdp.yml"
+#   }
 
-  # Deletion of CDP environment using playbook_teardown_cdp.yml Ansible Playbook
-  provisioner "local-exec" {
-    when    = destroy
-    command = "ansible-playbook -vvv -e '@cdp_config.yml' ${path.module}/playbook_teardown_cdp.yml"
-  }
+#   # Deletion of CDP environment using playbook_teardown_cdp.yml Ansible Playbook
+#   provisioner "local-exec" {
+#     when    = destroy
+#     command = "ansible-playbook -vvv -e '@cdp_config.yml' ${path.module}/playbook_teardown_cdp.yml"
+#   }
 
-  depends_on = [
-    local_file.cdp_deployment_template,
-  ]
-}
+#   depends_on = [
+#     local_file.cdp_deployment_template,
+#   ]
+# }

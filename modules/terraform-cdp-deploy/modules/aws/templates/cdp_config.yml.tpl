@@ -12,6 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# NOTE: New inputs for proxy
+proxy_vm_host: ${proxy_vm_host}
+proxy_vm_port: ${proxy_vm_port}
+
 # CDP environment & DL settings
 plat__env_name: ${plat__env_name}
 plat__datalake_name: ${plat__datalake_name}
