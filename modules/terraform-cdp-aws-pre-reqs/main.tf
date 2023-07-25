@@ -91,30 +91,30 @@ resource "aws_security_group_rule" "cdp_knox_sg_ingress_self" {
   self              = true
 }
 
-# # Create security group rules from combining the default and extra list of ingress rules
-# resource "aws_security_group_rule" "cdp_knox_sg_ingress" {
-#   count = length(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))
+# Create security group rules from combining the default and extra list of ingress rules
+resource "aws_security_group_rule" "cdp_knox_sg_ingress" {
+  count = length(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))
 
-#   description       = "Ingress rule for Knox CDP Security Group"
-#   security_group_id = aws_security_group.cdp_knox_sg.id
-#   type              = "ingress"
-#   cidr_blocks       = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].cidr
-#   from_port         = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].port
-#   to_port           = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].port
-#   protocol          = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].protocol
-# }
+  description       = "Ingress rule for Knox CDP Security Group"
+  security_group_id = aws_security_group.cdp_knox_sg.id
+  type              = "ingress"
+  cidr_blocks       = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].cidr
+  from_port         = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].port
+  to_port           = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].port
+  protocol          = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].protocol
+}
 
-# # Terraform removes the default ALLOW ALL egress. Let's recreate this
-# resource "aws_security_group_rule" "cdp_knox_sg_egress" {
+# Terraform removes the default ALLOW ALL egress. Let's recreate this
+resource "aws_security_group_rule" "cdp_knox_sg_egress" {
 
-#   description       = "Egress rule for Knox CDP Security Group"
-#   security_group_id = aws_security_group.cdp_knox_sg.id
-#   type              = "egress"
-#   cidr_blocks       = var.cdp_knox_sg_egress_cidrs
-#   from_port         = 0
-#   to_port           = 0
-#   protocol          = "all"
-# }
+  description       = "Egress rule for Knox CDP Security Group"
+  security_group_id = aws_security_group.cdp_knox_sg.id
+  type              = "egress"
+  cidr_blocks       = var.cdp_knox_sg_egress_cidrs
+  from_port         = 0
+  to_port           = 0
+  protocol          = "all"
+}
 
 # VPC Endpoint SG
 resource "aws_security_group" "cdp_endpoint_sg" {
