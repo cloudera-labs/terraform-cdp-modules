@@ -60,16 +60,6 @@ resource "aws_security_group_rule" "proxy_egress" {
 
 }
 
-data "template_file" "proxy_user_data" {
-  template                     = "${file("${path.module}/files/user-data-squid-proxy.sh")}"
-
-  # vars {
-  #   aws_private_vpc_cidr       = "${var.aws_private_vpc_cidr}"
-  #   aws_public_vpc_cidr        = "${var.aws_public_vpc_cidr}"
-  #   squid_port                 = "${var.squid_port}"
-  # }
-}
-
 resource "aws_instance" "proxy" {
 
   ami           = local.aws_ami
@@ -84,7 +74,8 @@ resource "aws_instance" "proxy" {
   source_dest_check           = false # need to stop Source/destination check for the proxy instance
   associate_public_ip_address = true
 
-  user_data = data.template_file.proxy_user_data.rendered
+  user_data = templatefile("${path.module}/files/user-data-squid-proxy.sh", {})
+
   tags = merge(local.env_tags, { Name = "${var.env_prefix}-proxy" })
 }
 
