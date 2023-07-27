@@ -220,8 +220,16 @@ variable "vpc_endpoint_interface_services" {
     "cloudformation",
     "autoscaling",
     ]
-
 }
+
+variable "create_s3_global_vpc_endpoint_interface" {
+  type = bool
+
+  description = "Flag to specify if S3-Global VPC Interface Endpoint should be created"
+
+  default = true
+}
+
 # ------- Storage Resources -------
 variable "random_id_for_bucket" {
   type = bool
