@@ -60,6 +60,18 @@ output "azure_security_group_knox_uri" {
   description = "Azure Knox Security Group URI"
 }
 
+output "azure_data_storage_account" {
+  value = azurerm_storage_container.cdp_data_storage.storage_account_name
+
+  description = "Azure data storage account name"
+}
+
+output "azure_data_storage_container" {
+  value = azurerm_storage_container.cdp_data_storage.name
+
+  description = "Azure data storage container name"
+}
+
 output "azure_data_storage_location" {
   value = "abfs://${azurerm_storage_container.cdp_data_storage.name}@${azurerm_storage_container.cdp_data_storage.storage_account_name}.dfs.core.windows.net"
 
@@ -67,11 +79,35 @@ output "azure_data_storage_location" {
 
 }
 
+output "azure_log_storage_account" {
+  value = azurerm_storage_container.cdp_log_storage.storage_account_name
+
+  description = "Azure log storage account name"
+}
+
+output "azure_log_storage_container" {
+  value = azurerm_storage_container.cdp_log_storage.name
+
+  description = "Azure log storage container name"
+}
+
 output "azure_log_storage_location" {
   value = "abfs://${azurerm_storage_container.cdp_log_storage.name}@${azurerm_storage_container.cdp_log_storage.storage_account_name}.dfs.core.windows.net"
 
   description = "Azure log storage location"
 
+}
+
+output "azure_backup_storage_account" {
+  value = azurerm_storage_container.cdp_backup_storage.storage_account_name
+
+  description = "Azure backup storage account name"
+}
+
+output "azure_backup_storage_container" {
+  value = azurerm_storage_container.cdp_backup_storage.name
+
+  description = "Azure backup storage container name"
 }
 
 output "azure_backup_storage_location" {
