@@ -81,16 +81,34 @@ output "aws_vpc_subnets" {
   description = "List of subnets associated with the CDP VPC"
 }
 
+output "aws_data_storage_bucket" {
+  value = "${local.data_storage.data_storage_bucket}${local.storage_suffix}"
+
+  description = "AWS data storage bucket"
+}
+
 output "aws_data_storage_location" {
   value = "s3a://${local.data_storage.data_storage_bucket}${local.storage_suffix}/${local.data_storage.data_storage_object}"
 
   description = "AWS data storage location"
 }
 
+output "aws_log_storage_bucket" {
+  value = "${local.log_storage.log_storage_bucket}${local.storage_suffix}"
+
+  description = "AWS log storage bucket"
+}
+
 output "aws_log_storage_location" {
   value = "s3a://${local.log_storage.log_storage_bucket}${local.storage_suffix}/${local.log_storage.log_storage_object}"
 
   description = "AWS log storage location"
+}
+
+output "aws_backup_storage_bucket" {
+  value = "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}"
+
+  description = "AWS backup storage bucket"
 }
 
 output "aws_backup_storage_location" {

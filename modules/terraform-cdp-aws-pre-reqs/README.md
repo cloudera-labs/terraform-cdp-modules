@@ -174,12 +174,15 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 
 | Name | Description |
 |------|-------------|
+| <a name="output_aws_backup_storage_bucket"></a> [aws\_backup\_storage\_bucket](#output\_aws\_backup\_storage\_bucket) | AWS backup storage bucket |
 | <a name="output_aws_backup_storage_location"></a> [aws\_backup\_storage\_location](#output\_aws\_backup\_storage\_location) | AWS backup storage location |
+| <a name="output_aws_data_storage_bucket"></a> [aws\_data\_storage\_bucket](#output\_aws\_data\_storage\_bucket) | AWS data storage bucket |
 | <a name="output_aws_data_storage_location"></a> [aws\_data\_storage\_location](#output\_aws\_data\_storage\_location) | AWS data storage location |
 | <a name="output_aws_datalake_admin_role_arn"></a> [aws\_datalake\_admin\_role\_arn](#output\_aws\_datalake\_admin\_role\_arn) | Datalake Admin role ARN |
 | <a name="output_aws_default_route_table_id"></a> [aws\_default\_route\_table\_id](#output\_aws\_default\_route\_table\_id) | AWS default route table ID |
 | <a name="output_aws_idbroker_instance_profile_arn"></a> [aws\_idbroker\_instance\_profile\_arn](#output\_aws\_idbroker\_instance\_profile\_arn) | IDBroker instance profile ARN |
 | <a name="output_aws_log_instance_profile_arn"></a> [aws\_log\_instance\_profile\_arn](#output\_aws\_log\_instance\_profile\_arn) | Log instance profile ARN |
+| <a name="output_aws_log_storage_bucket"></a> [aws\_log\_storage\_bucket](#output\_aws\_log\_storage\_bucket) | AWS log storage bucket |
 | <a name="output_aws_log_storage_location"></a> [aws\_log\_storage\_location](#output\_aws\_log\_storage\_location) | AWS log storage location |
 | <a name="output_aws_private_route_table_ids"></a> [aws\_private\_route\_table\_ids](#output\_aws\_private\_route\_table\_ids) | AWS private route table IDs |
 | <a name="output_aws_private_subnet_ids"></a> [aws\_private\_subnet\_ids](#output\_aws\_private\_subnet\_ids) | AWS private subnet IDs |
