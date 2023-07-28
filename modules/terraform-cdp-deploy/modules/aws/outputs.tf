@@ -11,3 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+output "cdp_environment_name" {
+  value = cdp_environments_aws_environment.cdp_env.environment_name
+
+  description = "CDP Environment Name"
+}
+
+output "cdp_environment_crn" {
+  value = cdp_environments_aws_environment.cdp_env.crn
+
+  description = "CDP Environment CRN"
+}
