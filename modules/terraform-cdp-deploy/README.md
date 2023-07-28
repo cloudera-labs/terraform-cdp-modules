@@ -93,5 +93,8 @@ No resources.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_cdp_environment_crn"></a> [cdp\_environment\_crn](#output\_cdp\_environment\_crn) | CDP Environment CRN |
+| <a name="output_cdp_environment_name"></a> [cdp\_environment\_name](#output\_cdp\_environment\_name) | CDP Environment Name |
 <!-- END_TF_DOCS -->
