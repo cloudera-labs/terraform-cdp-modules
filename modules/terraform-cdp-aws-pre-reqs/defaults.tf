@@ -30,8 +30,9 @@ locals {
   public_route_table_ids  = (var.create_vpc ? module.aws_cdp_vpc[0].public_route_tables : null)
   private_route_table_ids = (var.create_vpc ? module.aws_cdp_vpc[0].private_route_tables : null)
 
+  # If we create the vpc and have private deployment template public subnets are always empty
   public_subnet_ids = (var.create_vpc ?
-  module.aws_cdp_vpc[0].public_subnets : var.cdp_public_subnet_ids)
+  (var.deployment_template == "private" ? [] : module.aws_cdp_vpc[0].public_subnets) : var.cdp_public_subnet_ids)
 
   private_subnet_ids = (var.create_vpc ?
     module.aws_cdp_vpc[0].private_subnets : var.cdp_private_subnet_ids

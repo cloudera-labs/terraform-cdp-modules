@@ -43,7 +43,7 @@ resource "cdp_environments_aws_environment" "cdp_env" {
   vpc_id                             = var.vpc_id
   subnet_ids                         = var.subnets_for_cdp
   endpoint_access_gateway_scheme     = var.endpoint_access_scheme
-  endpoint_access_gateway_subnet_ids = var.public_subnet_ids
+  endpoint_access_gateway_subnet_ids = (length(var.public_subnet_ids) > 0) ? var.public_subnet_ids : null 
 
   freeipa = {
     instance_count_by_group = var.freeipa_instances

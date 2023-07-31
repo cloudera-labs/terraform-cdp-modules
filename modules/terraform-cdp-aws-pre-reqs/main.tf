@@ -20,10 +20,11 @@ module "aws_cdp_vpc" {
 
   source = "./modules/vpc"
 
-  deployment_template = var.deployment_template
-  vpc_cidr            = var.vpc_cidr
-  env_prefix          = var.env_prefix
-  tags                = local.env_tags
+  deployment_template        = var.deployment_template
+  vpc_cidr                   = var.vpc_cidr
+  private_network_extensions = var.private_network_extensions
+  env_prefix                 = var.env_prefix
+  tags                       = local.env_tags
 
 }
 

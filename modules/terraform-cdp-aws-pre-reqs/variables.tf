@@ -95,6 +95,14 @@ variable "vpc_cidr" {
   default = "10.10.0.0/16"
 }
 
+variable "private_network_extensions" {
+  type = bool
+
+  description = "Enable creation of resources for connectivity to CDP Control Plane (public subnet and NAT Gateway) for Private Deployment. Only relevant for private deployment template"
+
+  default = true
+}
+
 variable "cdp_vpc_id" {
   type        = string
   description = "VPC ID for CDP environment. Required if create_vpc is false."
