@@ -14,8 +14,8 @@
 
 output "cdp_environment_name" {
   value = try(
-        module.cdp_on_aws[0].cdp_environment_name,
-        module.cdp_on_azure[0].cdp_environment_name
+    module.cdp_on_aws[0].cdp_environment_name,
+    module.cdp_on_azure[0].cdp_environment_name
   )
 
   description = "CDP Environment Name"
@@ -23,8 +23,8 @@ output "cdp_environment_name" {
 
 output "cdp_environment_crn" {
   value = try(
-        module.cdp_on_aws[0].cdp_environment_crn,
-        module.cdp_on_azure[0].cdp_environment_crn
+    module.cdp_on_aws[0].cdp_environment_crn,
+    module.cdp_on_azure[0].cdp_environment_crn
   )
 
   description = "CDP Environment CRN"
