@@ -36,17 +36,17 @@ variable "vpc_attachments" {
   type = any
 
   default = {}
-  
+
   # example
-#   vpc1 = {
-#     vpc_id = 
-#     subnet_ids = 
-#     create_tgw_route_table
-#   },
-#   vpc 2 = {
-#     vpc_id = 
-#     subnet_ids =
-#   }
+  #   vpc1 = {
+  #     vpc_id = 
+  #     subnet_ids = 
+  #     create_tgw_route_table
+  #   },
+  #   vpc 2 = {
+  #     vpc_id = 
+  #     subnet_ids =
+  #   }
 
   description = "Map of map of VPC details to attach to the Transit Gateway. Type any to avoid validation on map key but should at least contain the vpc id and subnet id for the TGW attachment."
 }

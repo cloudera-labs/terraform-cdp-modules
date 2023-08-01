@@ -18,10 +18,10 @@ data "aws_ami" "proxy_default" {
   most_recent = true
 
   filter {
-    name   = "name"
+    name = "name"
     # values = ["amzn2-ami-hvm-*-x86_64-ebs"]
-# values = ["amzn-ami-hvm-*-x86_64-gp2"]
-values = ["al2023-ami-2023*-x86_64"]
+    # values = ["amzn-ami-hvm-*-x86_64-gp2"]
+    values = ["al2023-ami-2023*-x86_64"]
   }
 
   owners = ["amazon"]

@@ -33,7 +33,7 @@ locals {
     [
       for rt in route.route_tables :
       {
-        route_table = rt
+        route_table            = rt
         destination_cidr_block = route.destination_cidr_block
       }
     ]

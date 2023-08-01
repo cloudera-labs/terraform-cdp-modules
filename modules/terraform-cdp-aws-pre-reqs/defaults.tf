@@ -31,7 +31,7 @@ locals {
   private_route_table_ids = (var.create_vpc ? module.aws_cdp_vpc[0].private_route_tables : null)
 
   public_subnet_ids = (var.create_vpc ?
-  module.aws_cdp_vpc[0].public_subnets : var.cdp_public_subnet_ids)
+  (var.deployment_template == "private" ? [] : module.aws_cdp_vpc[0].public_subnets) : var.cdp_public_subnet_ids)
 
   private_subnet_ids = (var.create_vpc ?
     module.aws_cdp_vpc[0].private_subnets : var.cdp_private_subnet_ids
@@ -41,7 +41,7 @@ locals {
   security_group_default_name = coalesce(var.security_group_default_name, "${var.env_prefix}-default-sg")
 
   security_group_knox_name = coalesce(var.security_group_knox_name, "${var.env_prefix}-knox-sg")
-  
+
   security_group_endpoint_name = coalesce(var.security_group_endpoint_name, "${var.env_prefix}-endpoint-sg")
 
   security_group_rules_ingress = [

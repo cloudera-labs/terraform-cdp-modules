@@ -40,9 +40,9 @@ variable "vpc_cidr" {
 
 variable "enable_nat_gateway" {
 
-  type = bool
+  type        = bool
   description = "Provision NAT Gateways for each of your private networks"
 
   default = true
-  
+
 }

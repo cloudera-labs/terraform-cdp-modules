@@ -19,11 +19,10 @@ locals {
   # Create a list of supported zones in the region
   zones_in_region = tolist(setsubtract(data.aws_availability_zones.zones_in_region.names, local.azs_to_exclude))
 
-  enable_nat_gateway = (var.deployment_template == "private") ? false : true
   # ------- Determine subnet details from inputs -------
   subnets_required = {
-    total   = (var.deployment_template == "public") ? length(local.zones_in_region) : ((var.deployment_template == "semi-private") ? 2 * length(local.zones_in_region) : length(local.zones_in_region))
-    public  = (var.deployment_template == "private") ? 0 : length(local.zones_in_region)
+    total   = contains(["public", "private"], var.deployment_template) ? length(local.zones_in_region) : 2 * length(local.zones_in_region)
+    public  = (var.deployment_template == "private") ? (var.private_network_extensions ? 1 : 0) : length(local.zones_in_region)
     private = (var.deployment_template == "public") ? 0 : length(local.zones_in_region)
   }
 }

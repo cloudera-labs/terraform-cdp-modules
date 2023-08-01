@@ -81,9 +81,9 @@ resource "aws_instance" "proxy" {
 
 # TODO: Review if this is best place to create the route for eni
 resource "aws_route" "vpc_tgw_route" {
-  for_each = { 
-    for k,v in local.route_tables_to_update: k => v
-    }
+  for_each = {
+    for k, v in local.route_tables_to_update : k => v
+  }
 
   route_table_id         = each.value.route_table
   destination_cidr_block = each.value.destination_cidr_block

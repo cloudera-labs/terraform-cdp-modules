@@ -34,22 +34,22 @@ locals {
     ]
     if can(attach_value.tgw_routes)
   ])
- 
- vpc_attachment_with_vpc_routes = flatten([
+
+  vpc_attachment_with_vpc_routes = flatten([
     for attach, attach_value in var.vpc_attachments :
     [
       for route in try(attach_value.vpc_routes, []) :
       [
-      for rt in try(route.route_tables, []) :
-      {
-        create_vpc_routes  = attach_value.create_vpc_routes
-        route_table        = rt
-        attachement_key     = attach
-        destination_cidr_block = route.destination_cidr_block
-      }
+        for rt in try(route.route_tables, []) :
+        {
+          create_vpc_routes      = attach_value.create_vpc_routes
+          route_table            = rt
+          attachement_key        = attach
+          destination_cidr_block = route.destination_cidr_block
+        }
       ]
     ]
-    if (can(attach_value.vpc_routes) && try(attach_value.create_vpc_routes,false))
+    if(can(attach_value.vpc_routes) && try(attach_value.create_vpc_routes, false))
   ])
 
 }

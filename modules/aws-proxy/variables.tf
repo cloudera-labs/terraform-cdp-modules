@@ -110,7 +110,7 @@ variable "egress_rules" {
     protocol  = string
   }))
   default = [{
-    cidrs     = [ "0.0.0.0/0" ]
+    cidrs     = ["0.0.0.0/0"]
     from_port = 0
     to_port   = 0
     protocol  = "all"
@@ -120,7 +120,7 @@ variable "egress_rules" {
 variable "route_tables_to_update" {
   description = "List of any route tables to update to point to the Network interface of the Proxy VM"
   type = list(object({
-    route_tables = list(string)
+    route_tables           = list(string)
     destination_cidr_block = string
   }))
 }

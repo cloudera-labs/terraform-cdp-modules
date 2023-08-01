@@ -111,6 +111,14 @@ variable "vpc_cidr" {
   default = "10.10.0.0/16"
 }
 
+variable "private_network_extensions" {
+  type = bool
+
+  description = "Enable creation of resources for connectivity to CDP Control Plane (public subnet and NAT Gateway) for Private Deployment. Only relevant for private deployment template"
+
+  default = true
+}
+
 variable "cdp_vpc_id" {
   type        = string
   description = "VPC ID for CDP environment. Required if create_vpc is false."
@@ -199,7 +207,7 @@ variable "vpc_endpoint_gateway_services" {
 
   description = "List of AWS services used for VPC Gateway Endpoints"
 
-  default = [ "s3" ]
+  default = ["s3"]
 
 }
 
@@ -219,13 +227,13 @@ variable "vpc_endpoint_interface_services" {
     "ec2",
     "cloudformation",
     "autoscaling",
-    ]
+  ]
 }
 
-variable "create_s3_global_vpc_endpoint_interface" {
+variable "create_vpc_endpoints" {
   type = bool
 
-  description = "Flag to specify if S3-Global VPC Interface Endpoint should be created"
+  description = "Flag to specify if VPC Endpoints should be created"
 
   default = true
 }

@@ -19,7 +19,7 @@ locals {
       { env_prefix = var.env_prefix }
     ))
   )
- 
+
   # ------- Determine subnet details from inputs -------
   subnets_required = {
     total   = 2 * length(data.aws_availability_zones.zones_in_region.names)

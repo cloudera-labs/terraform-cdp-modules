@@ -87,14 +87,14 @@ resource "aws_ec2_transit_gateway_route_table_propagation" "tgw_rt_propag" {
 # Create Static Transit Gateway Route Table Entries
 resource "aws_ec2_transit_gateway_route" "tgw_routes" {
 
-  for_each = { 
-    for k,v in local.vpc_attachment_with_tgw_routes: k => v 
+  for_each = {
+    for k, v in local.vpc_attachment_with_tgw_routes : k => v
     if try(v.create_tgw_route_table, true) == true
-    }
+  }
 
-  destination_cidr_block         = each.value.destination_cidr_block
-  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw_vpc_attach[each.value.route_attachement_key].id
-  
+  destination_cidr_block        = each.value.destination_cidr_block
+  transit_gateway_attachment_id = aws_ec2_transit_gateway_vpc_attachment.tgw_vpc_attach[each.value.route_attachement_key].id
+
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_rt[each.value.route_table_key].id
 }
 
@@ -104,10 +104,10 @@ resource "aws_ec2_transit_gateway_route" "tgw_routes" {
 # CDP VPC
 #routing of CDP VPC to transit Gateway. 
 resource "aws_route" "vpc_tgw_route" {
-  for_each = { 
-    for k,v in local.vpc_attachment_with_vpc_routes: k => v 
+  for_each = {
+    for k, v in local.vpc_attachment_with_vpc_routes : k => v
     if try(v.create_vpc_routes, false) == true
-    }
+  }
 
   route_table_id         = each.value.route_table
   destination_cidr_block = each.value.destination_cidr_block
