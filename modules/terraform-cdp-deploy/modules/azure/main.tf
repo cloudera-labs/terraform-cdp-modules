@@ -49,9 +49,9 @@ resource "cdp_environments_azure_environment" "cdp_env" {
     network_id          = var.vnet_name
     subnet_ids          = var.cdp_subnet_names
   }
-  # TODO: Test once new cdp api is release
-  # endpoint_access_gateway_scheme     = var.endpoint_access_scheme
-  # endpoint_access_gateway_subnet_ids = var.public_subnet_ids
+
+  endpoint_access_gateway_scheme     = var.endpoint_access_scheme
+  endpoint_access_gateway_subnet_ids = (length(var.cdp_gateway_subnet_names) > 0) ? var.cdp_gateway_subnet_names : null
 
   # Set this parameter to deploy all resources into a single resource group
   resource_group_name = var.use_single_resource_group ? var.resource_group_name : null
@@ -122,7 +122,7 @@ resource "cdp_datalake_azure_datalake" "cdp_datalake" {
   environment_name = cdp_environments_azure_environment.cdp_env.environment_name
 
   managed_identity = var.idbroker_identity_id
-  storage_location = var.data_storage_location
+  storage_location_base = var.data_storage_location
 
   runtime           = var.datalake_version
   scale             = var.datalake_scale

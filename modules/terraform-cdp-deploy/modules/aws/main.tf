@@ -111,7 +111,7 @@ resource "cdp_datalake_aws_datalake" "cdp_datalake" {
   environment_name = cdp_environments_aws_environment.cdp_env.environment_name
 
   instance_profile        = var.idbroker_instance_profile_arn
-  storage_bucket_location = var.data_storage_location
+  storage_location_base = var.data_storage_location
 
   runtime           = var.datalake_version
   scale             = var.datalake_scale

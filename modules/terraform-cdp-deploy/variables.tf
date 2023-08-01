@@ -164,7 +164,7 @@ variable "datalake_version" {
     error_message = "Valid values for var: datalake_version must match semantic versioning conventions."
   }
 
-  default = "7.2.16"
+  default = "7.2.17"
 }
 
 variable "endpoint_access_scheme" {
