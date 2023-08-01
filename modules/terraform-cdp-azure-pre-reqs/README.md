@@ -68,6 +68,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [azurerm_user_assigned_identity.cdp_raz](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/user_assigned_identity) | resource |
 | [random_id.bucket_suffix](https://registry.terraform.io/providers/hashicorp/random/3.4.3/docs/resources/id) | resource |
 | [azuread_client_config.current](https://registry.terraform.io/providers/hashicorp/azuread/2.39.0/docs/data-sources/client_config) | data source |
+| [azurerm_resource_group.cdp_rmgp](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/data-sources/resource_group) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/data-sources/subscription) | data source |
 
 ## Inputs
@@ -80,6 +81,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_azure_region"></a> [azure\_region](#input\_azure\_region) | Region which Cloud resources will be created | `string` | `null` | no |
 | <a name="input_backup_storage"></a> [backup\_storage](#input\_backup\_storage) | Optional Backup location for CDP environment. If not provided follow the data\_storage variable | <pre>object({<br>    backup_storage_bucket = string<br>    backup_storage_object = string<br>  })</pre> | `null` | no |
 | <a name="input_cdp_gw_subnet_names"></a> [cdp\_gw\_subnet\_names](#input\_cdp\_gw\_subnet\_names) | List of subnet names for CDP Gateway. Required if create\_vpc is false. | `list(any)` | `null` | no |
+| <a name="input_cdp_resourcegroup_name"></a> [cdp\_resourcegroup\_name](#input\_cdp\_resourcegroup\_name) | Pre-existing Resource Group for CDP environment. Required if create\_vnet is false. | `string` | `null` | no |
 | <a name="input_cdp_subnet_names"></a> [cdp\_subnet\_names](#input\_cdp\_subnet\_names) | List of subnet names for CDP Resources. Required if create\_vpc is false. | `list(any)` | `null` | no |
 | <a name="input_cdp_vnet_name"></a> [cdp\_vnet\_name](#input\_cdp\_vnet\_name) | Pre-existing VNet Name for CDP environment. Required if create\_vnet is false. | `string` | `null` | no |
 | <a name="input_create_vnet"></a> [create\_vnet](#input\_create\_vnet) | Flag to specify if the VNet should be created | `bool` | `true` | no |

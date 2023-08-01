@@ -121,7 +121,7 @@ resource "cdp_datalake_azure_datalake" "cdp_datalake" {
   datalake_name    = var.datalake_name
   environment_name = cdp_environments_azure_environment.cdp_env.environment_name
 
-  managed_identity = var.idbroker_identity_id
+  managed_identity      = var.idbroker_identity_id
   storage_location_base = var.data_storage_location
 
   runtime           = var.datalake_version

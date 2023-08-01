@@ -22,5 +22,5 @@ data "azuread_client_config" "current" {}
 data "azurerm_resource_group" "cdp_rmgp" {
   name = local.cdp_resourcegroup_name
 
-  depends_on = [ azurerm_resource_group.cdp_rmgp ]
+  depends_on = [azurerm_resource_group.cdp_rmgp]
 }

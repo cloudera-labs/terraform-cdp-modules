@@ -14,7 +14,7 @@
 
 # ------- Azure Resource Group -------
 resource "azurerm_resource_group" "cdp_rmgp" {
-  
+
   count = var.create_vnet ? 1 : 0
 
   name     = local.resourcegroup_name
