@@ -25,7 +25,7 @@ output "azure_tenant_id" {
 }
 
 output "azure_resource_group_name" {
-  value = azurerm_resource_group.cdp_rmgp.name
+  value = local.cdp_resourcegroup_name
 
   description = "Azure Resource Group Name"
 }

@@ -14,6 +14,9 @@
 
 # ------- Azure Resource Group -------
 resource "azurerm_resource_group" "cdp_rmgp" {
+  
+  count = var.create_vnet ? 1 : 0
+
   name     = local.resourcegroup_name
   location = var.azure_region
 
@@ -28,7 +31,7 @@ module "azure_cdp_vnet" {
   source = "./modules/vnet"
 
   deployment_template = var.deployment_template
-  resourcegroup_name  = azurerm_resource_group.cdp_rmgp.name
+  resourcegroup_name  = local.cdp_resourcegroup_name
   vnet_name           = local.vnet_name
   vnet_cidr           = var.vnet_cidr
   vnet_region         = var.azure_region
@@ -43,8 +46,8 @@ module "azure_cdp_vnet" {
 # Default SG
 resource "azurerm_network_security_group" "cdp_default_sg" {
   name                = local.security_group_default_name
-  location            = azurerm_resource_group.cdp_rmgp.location
-  resource_group_name = azurerm_resource_group.cdp_rmgp.name
+  location            = data.azurerm_resource_group.cdp_rmgp.location
+  resource_group_name = local.cdp_resourcegroup_name
 
   tags = merge(local.env_tags, { Name = local.security_group_default_name })
 
@@ -62,15 +65,15 @@ resource "azurerm_network_security_rule" "cdp_default_sg_ingress_extra_access" {
   destination_address_prefix  = "*"
   source_port_range           = "*"
   destination_port_ranges     = var.ingress_extra_cidrs_and_ports.ports
-  resource_group_name         = azurerm_resource_group.cdp_rmgp.name
+  resource_group_name         = local.cdp_resourcegroup_name
   network_security_group_name = azurerm_network_security_group.cdp_default_sg.name
 }
 
 # Knox SG
 resource "azurerm_network_security_group" "cdp_knox_sg" {
   name                = local.security_group_knox_name
-  location            = azurerm_resource_group.cdp_rmgp.location
-  resource_group_name = azurerm_resource_group.cdp_rmgp.name
+  location            = data.azurerm_resource_group.cdp_rmgp.location
+  resource_group_name = local.cdp_resourcegroup_name
 
   tags = merge(local.env_tags, { Name = local.security_group_knox_name })
 
@@ -89,7 +92,7 @@ resource "azurerm_network_security_rule" "cdp_knox_sg_ingress_extra_access" {
   destination_address_prefix  = "*"
   source_port_range           = "*"
   destination_port_ranges     = var.ingress_extra_cidrs_and_ports.ports
-  resource_group_name         = azurerm_resource_group.cdp_rmgp.name
+  resource_group_name         = local.cdp_resourcegroup_name
   network_security_group_name = azurerm_network_security_group.cdp_knox_sg.name
 }
 
@@ -106,8 +109,8 @@ resource "azurerm_storage_account" "cdp_storage_locations" {
   for_each = toset(concat([local.data_storage.data_storage_bucket], [local.log_storage.log_storage_bucket], [local.backup_storage.backup_storage_bucket]))
 
   name                = "${each.value}${local.storage_suffix}"
-  resource_group_name = azurerm_resource_group.cdp_rmgp.name
-  location            = azurerm_resource_group.cdp_rmgp.location
+  resource_group_name = local.cdp_resourcegroup_name
+  location            = data.azurerm_resource_group.cdp_rmgp.location
 
   # TODO: Review and parameterize these options
   account_kind             = "StorageV2"
@@ -155,31 +158,6 @@ resource "azurerm_storage_container" "cdp_backup_storage" {
   ]
 }
 
-# NOTE: I don't think below is needed by default - it's a customization
-# ------- Azure Cross Account Role -------
-
-# resource "azurerm_role_definition" "cdp_xaccount_role" {
-#   # TODO:
-#   name        = local.xaccount_role_name
-#   # TODO:
-#   scope       = data.azurerm_subscription.primary.id
-#   description = "CDP Cross Account role for ${var.env_prefix}"
-
-#   # TODO:
-#   permissions {
-#     actions     = ["*"]
-#     data_actions = []
-#     not_actions = []
-#     not_data_actions =
-#   }
-
-#   # TODO:
-#   assignable_scopes = [
-#     data.azurerm_subscription.primary.id, # /subscriptions/00000000-0000-0000-0000-000000000000
-#   ]
-# }
-
-
 # ------- Azure Cross Account App -------
 
 # Create Azure AD Application
@@ -213,9 +191,9 @@ resource "azuread_application_password" "cdp_xaccount_app_password" {
 
 # Create Azure Managed Identity
 resource "azurerm_user_assigned_identity" "cdp_idbroker" {
-  location            = azurerm_resource_group.cdp_rmgp.location
+  location            = data.azurerm_resource_group.cdp_rmgp.location
   name                = local.idbroker_managed_identity_name
-  resource_group_name = azurerm_resource_group.cdp_rmgp.name
+  resource_group_name = local.cdp_resourcegroup_name
 
   tags = merge(local.env_tags, { Name = local.idbroker_managed_identity_name })
 }
@@ -236,9 +214,9 @@ resource "azurerm_role_assignment" "cdp_idbroker_assign" {
 
 # Create Azure Managed Identity
 resource "azurerm_user_assigned_identity" "cdp_datalake_admin" {
-  location            = azurerm_resource_group.cdp_rmgp.location
+  location            = data.azurerm_resource_group.cdp_rmgp.location
   name                = local.datalake_admin_managed_identity_name
-  resource_group_name = azurerm_resource_group.cdp_rmgp.name
+  resource_group_name = local.cdp_resourcegroup_name
 
   tags = merge(local.env_tags, { Name = local.datalake_admin_managed_identity_name })
 }
@@ -283,9 +261,9 @@ resource "azurerm_role_assignment" "cdp_datalake_admin_backup_container_assign" 
 
 # Create Azure Managed Identity
 resource "azurerm_user_assigned_identity" "cdp_log_data_access" {
-  location            = azurerm_resource_group.cdp_rmgp.location
+  location            = data.azurerm_resource_group.cdp_rmgp.location
   name                = local.log_data_access_managed_identity_name
-  resource_group_name = azurerm_resource_group.cdp_rmgp.name
+  resource_group_name = local.cdp_resourcegroup_name
 
   tags = merge(local.env_tags, { Name = local.log_data_access_managed_identity_name })
 }
@@ -317,9 +295,9 @@ resource "azurerm_role_assignment" "cdp_log_data_access_backup_container_assign"
 
 # Create Azure Managed Identity
 resource "azurerm_user_assigned_identity" "cdp_ranger_audit_data_access" {
-  location            = azurerm_resource_group.cdp_rmgp.location
+  location            = data.azurerm_resource_group.cdp_rmgp.location
   name                = local.ranger_audit_data_access_managed_identity_name
-  resource_group_name = azurerm_resource_group.cdp_rmgp.name
+  resource_group_name = local.cdp_resourcegroup_name
 
   tags = merge(local.env_tags, { Name = local.ranger_audit_data_access_managed_identity_name })
 }
@@ -365,9 +343,9 @@ resource "azurerm_user_assigned_identity" "cdp_raz" {
 
   count = var.enable_raz ? 1 : 0
 
-  location            = azurerm_resource_group.cdp_rmgp.location
+  location            = data.azurerm_resource_group.cdp_rmgp.location
   name                = local.raz_managed_identity_name
-  resource_group_name = azurerm_resource_group.cdp_rmgp.name
+  resource_group_name = local.cdp_resourcegroup_name
 
   tags = merge(local.env_tags, { Name = local.raz_managed_identity_name })
 }
