@@ -110,14 +110,14 @@ variable "cdp_vnet_name" {
 
 variable "cdp_subnet_names" {
   type        = list(any)
-  description = "List of subnet names for CDP Resources. Required if create_vpc is false."
+  description = "List of subnet names for CDP Resources. Required if create_vnet is false."
 
   default = null
 }
 
 variable "cdp_gw_subnet_names" {
   type        = list(any)
-  description = "List of subnet names for CDP Gateway. Required if create_vpc is false."
+  description = "List of subnet names for CDP Gateway. Required if create_vnet is false."
 
   default = null
 }
