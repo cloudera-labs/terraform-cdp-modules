@@ -93,6 +93,12 @@ output "aws_data_storage_location" {
   description = "AWS data storage location"
 }
 
+output "aws_data_storage_object" {
+  value = local.data_storage.data_storage_object
+
+  description = "AWS data storage object"
+}
+
 output "aws_log_storage_bucket" {
   value = "${local.log_storage.log_storage_bucket}${local.storage_suffix}"
 
@@ -105,10 +111,22 @@ output "aws_log_storage_location" {
   description = "AWS log storage location"
 }
 
+output "aws_log_storage_object" {
+  value = local.log_storage.log_storage_object
+
+  description = "AWS log storage object"
+}
+
 output "aws_backup_storage_bucket" {
   value = "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}"
 
   description = "AWS backup storage bucket"
+}
+
+output "aws_backup_storage_object" {
+  value = local.backup_storage.backup_storage_object
+
+  description = "AWS backup storage object"
 }
 
 output "aws_backup_storage_location" {
@@ -145,6 +163,12 @@ output "aws_xaccount_role_arn" {
   value = aws_iam_role.cdp_xaccount_role.arn
 
   description = "Cross Account role ARN"
+}
+
+output "aws_log_role_name" {
+  value = aws_iam_role.cdp_log_role.name
+
+  description = "Log role Name"
 }
 
 output "aws_log_instance_profile_arn" {
