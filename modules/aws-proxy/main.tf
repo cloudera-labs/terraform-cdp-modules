@@ -72,7 +72,7 @@ resource "aws_instance" "proxy" {
   ]
 
   source_dest_check           = false # need to stop Source/destination check for the proxy instance
-  associate_public_ip_address = true
+  associate_public_ip_address = var.proxy_public_ip
 
   user_data = templatefile("${path.module}/files/user-data-squid-proxy.sh", {})
 

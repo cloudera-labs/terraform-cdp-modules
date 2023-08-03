@@ -66,6 +66,14 @@ variable "subnet_id" {
 
 }
 
+variable "proxy_public_ip" {
+  type = bool
+
+  description = "Assign a public IP address to the Proxy VM"
+
+  default = false
+}
+
 variable "create_proxy_sg" {
   type = bool
 
