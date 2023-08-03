@@ -111,6 +111,15 @@ variable "vpc_cidr" {
   default = "10.10.0.0/16"
 }
 
+variable "vpc_name" {
+  type = string
+
+  description = "Name of the VPC. Defaults to <env_prefix>-net if not specified"
+
+  default = null
+}
+
+
 variable "private_network_extensions" {
   type = bool
 
