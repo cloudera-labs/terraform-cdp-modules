@@ -30,8 +30,7 @@ module "cdp_azure_prereqs" {
   env_prefix   = var.env_prefix
   azure_region = var.azure_region
 
-  deployment_template = var.deployment_template
-
+  deployment_template           = var.deployment_template
   ingress_extra_cidrs_and_ports = var.ingress_extra_cidrs_and_ports
 
   # Inputs for BYO-VNet
