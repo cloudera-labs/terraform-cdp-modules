@@ -18,7 +18,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_cdp"></a> [cdp](#requirement\_cdp) | 0.1.3-pre |
+| <a name="requirement_cdp"></a> [cdp](#requirement\_cdp) | 0.1.4-pre |
 
 ## Providers
 
