@@ -23,19 +23,21 @@ variable "infra_type" {
   }
 }
 
-variable "env_tags" {
-  type        = map(any)
-  description = "Tags applied to provisioned resources"
+# NOTE: Waiting on provider fix
+# variable "env_tags" {
+#   type        = map(any)
+#   description = "Tags applied to provisioned resources"
 
-  default = null
-}
+#   default = null
+# }
 
-variable "agent_source_tag" {
-  type        = map(any)
-  description = "Tag to identify deployment source"
+# NOTE: Waiting on provider fix
+# variable "agent_source_tag" {
+#   type        = map(any)
+#   description = "Tag to identify deployment source"
 
-  default = { agent_source = "tf-cdp-module" }
-}
+#   default = { agent_source = "tf-cdp-module" }
+# }
 
 variable "env_prefix" {
   type        = string

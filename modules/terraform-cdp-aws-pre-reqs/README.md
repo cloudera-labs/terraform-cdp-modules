@@ -19,7 +19,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | > 1.3.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | 4.67.0 |
 | <a name="requirement_http"></a> [http](#requirement\_http) | 3.2.1 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | 3.4.3 |

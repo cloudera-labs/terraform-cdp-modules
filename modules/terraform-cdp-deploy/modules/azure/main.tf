@@ -50,8 +50,8 @@ resource "cdp_environments_azure_environment" "cdp_env" {
     subnet_ids          = var.cdp_subnet_names
   }
 
-  endpoint_access_gateway_scheme     = var.endpoint_access_scheme
-  endpoint_access_gateway_subnet_ids = (length(var.cdp_gateway_subnet_names) > 0) ? var.cdp_gateway_subnet_names : null
+  # endpoint_access_gateway_scheme     = var.endpoint_access_scheme
+  # endpoint_access_gateway_subnet_ids = (length(var.cdp_gateway_subnet_names) > 0) ? var.cdp_gateway_subnet_names : null
 
   # Set this parameter to deploy all resources into a single resource group
   resource_group_name = var.use_single_resource_group ? var.resource_group_name : null

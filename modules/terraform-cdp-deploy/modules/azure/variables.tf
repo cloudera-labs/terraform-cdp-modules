@@ -13,11 +13,12 @@
 # limitations under the License.
 
 # ------- Global settings -------
-variable "tags" {
-  type        = map(any)
-  description = "Tags applied to provisioned resources"
+# NOTE: Waiting on provider fix
+# variable "tags" {
+#   type        = map(any)
+#   description = "Tags applied to provisioned resources"
 
-}
+# }
 
 # ------- CDP Environment Deployment -------
 variable "environment_name" {

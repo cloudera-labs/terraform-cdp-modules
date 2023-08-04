@@ -18,7 +18,7 @@ module "cdp_on_aws" {
 
   source = "./modules/aws"
 
-  tags = local.env_tags
+  # tags = local.env_tags # NOTE: Waiting on provider fix
 
   environment_name              = local.environment_name
   datalake_name                 = local.datalake_name
@@ -67,7 +67,7 @@ module "cdp_on_azure" {
 
   source = "./modules/azure"
 
-  tags = local.env_tags
+  # tags = local.env_tags # NOTE: Waiting on provider fix
 
   environment_name              = local.environment_name
   datalake_name                 = local.datalake_name

@@ -17,8 +17,8 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | > 1.3.0 |
-| <a name="requirement_cdp"></a> [cdp](#requirement\_cdp) | 0.1.4-pre |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
+| <a name="requirement_cdp"></a> [cdp](#requirement\_cdp) | 0.1.3-pre |
 
 ## Providers
 
@@ -45,7 +45,6 @@ No resources.
 | <a name="input_infra_type"></a> [infra\_type](#input\_infra\_type) | Cloud Provider to deploy CDP. | `string` | n/a | yes |
 | <a name="input_log_storage_location"></a> [log\_storage\_location](#input\_log\_storage\_location) | Log storage location. The location has to be in uri format for the cloud provider - i.e. s3a:// for AWS, abfs:// for Azure,  gs:// | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | Region which cloud resources will be created | `string` | n/a | yes |
-| <a name="input_agent_source_tag"></a> [agent\_source\_tag](#input\_agent\_source\_tag) | Tag to identify deployment source | `map(any)` | <pre>{<br>  "agent_source": "tf-cdp-module"<br>}</pre> | no |
 | <a name="input_aws_datalake_admin_role_arn"></a> [aws\_datalake\_admin\_role\_arn](#input\_aws\_datalake\_admin\_role\_arn) | Datalake Admin Role ARN. Required for CDP deployment on AWS. | `string` | `null` | no |
 | <a name="input_aws_idbroker_instance_profile_arn"></a> [aws\_idbroker\_instance\_profile\_arn](#input\_aws\_idbroker\_instance\_profile\_arn) | IDBroker Instance Profile ARN. Required for CDP deployment on AWS. | `string` | `null` | no |
 | <a name="input_aws_log_instance_profile_arn"></a> [aws\_log\_instance\_profile\_arn](#input\_aws\_log\_instance\_profile\_arn) | Log Instance Profile ARN. Required for CDP deployment on AWS. | `string` | `null` | no |
@@ -81,7 +80,6 @@ No resources.
 | <a name="input_enable_raz"></a> [enable\_raz](#input\_enable\_raz) | Flag to enable Ranger Authorization Service (RAZ) | `bool` | `true` | no |
 | <a name="input_endpoint_access_scheme"></a> [endpoint\_access\_scheme](#input\_endpoint\_access\_scheme) | The scheme for the workload endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. PRIVATE which restricts the traffic to be internal to the VPC / Vnet. Relevant in Private Networks. | `string` | `null` | no |
 | <a name="input_env_prefix"></a> [env\_prefix](#input\_env\_prefix) | Shorthand name for the environment. Used in CDP resource descriptions. This will be used to construct the value of where any of the CDP resource variables (e.g. environment\_name, cdp\_iam\_admin\_group\_name) are not defined. | `string` | `null` | no |
-| <a name="input_env_tags"></a> [env\_tags](#input\_env\_tags) | Tags applied to provisioned resources | `map(any)` | `null` | no |
 | <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Name of the CDP environment. Defaults to '<env\_prefix>-cdp-env' if not specified. | `string` | `null` | no |
 | <a name="input_freeipa_instances"></a> [freeipa\_instances](#input\_freeipa\_instances) | The number of FreeIPA instances to create in the environment | `number` | `3` | no |
 | <a name="input_keypair_name"></a> [keypair\_name](#input\_keypair\_name) | SSH Keypair name in Cloud Service Provider. Required for CDP deployment on AWS. | `string` | `null` | no |
