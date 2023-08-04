@@ -71,7 +71,7 @@ variable "proxy_public_ip" {
 
   description = "Assign a public IP address to the Proxy VM"
 
-  default = false
+  default = true
 }
 
 variable "create_proxy_sg" {
