@@ -18,6 +18,20 @@ variable "vpc_cidr" {
 
 }
 
+variable "private_cidr_range" {
+  type        = number
+  description = "Size of each private subnet"
+
+  default = 19
+}
+
+variable "public_cidr_range" {
+  type        = number
+  description = "Size of each public subnet"
+
+  default = 24
+}
+
 variable "tags" {
   type        = map(any)
   description = "Tags applied to provised resources"
@@ -46,3 +60,5 @@ variable "private_network_extensions" {
   description = "Enable creation of resources for connectivity to CDP Control Plane (public subnet and NAT Gateway) for Private Deployment. Only relevant for private deployment template."
 
 }
+
+  
