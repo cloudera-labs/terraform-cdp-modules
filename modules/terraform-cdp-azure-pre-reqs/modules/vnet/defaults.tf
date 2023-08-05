@@ -26,7 +26,7 @@ locals {
   # Extract the VNet CIDR range from the user-provided CIDR
   vnet_cidr_range = split("/",var.vnet_cidr)[1]
   
-  # Calculate the first suitable CIDR range for public subnets after CDP subnets have been allocated.
+  # Calculate the first suitable CIDR range for public subnets after private subnets have been allocated (normalize the offset, expressed as a multiplier of gateway subnet ranges)
   gateway_subnet_offset = ceil(local.subnets_required.cdp_subnets * pow(2, 32-var.cdp_subnet_range)/pow(2, 32-var.gateway_subnet_range))
 
 
