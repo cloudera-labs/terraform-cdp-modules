@@ -23,7 +23,7 @@ module "cdp_vpc" {
   private_subnets = (local.subnets_required.private == 0 ?
     [] :
     [
-      for k, v in local.zones_in_region : cidrsubnet(var.vpc_cidr, ceil(log(local.subnets_required.total, 2)), local.subnets_required.public + k)
+      for i in range(local.subnets_required.private) : cidrsubnet(var.vpc_cidr, ceil(log(local.subnets_required.total, 2)), local.subnets_required.public + i)
     ]
   )
   private_subnet_tags = {
@@ -33,7 +33,7 @@ module "cdp_vpc" {
   public_subnets = (local.subnets_required.public == 0 ?
     [] :
     [
-      for k, v in local.zones_in_region : cidrsubnet(var.vpc_cidr, ceil(log(local.subnets_required.total, 2)), k)
+      for i in range(local.subnets_required.public) : cidrsubnet(var.vpc_cidr, ceil(log(local.subnets_required.total, 2)), i)
     ]
   )
 
@@ -41,7 +41,8 @@ module "cdp_vpc" {
     "kubernetes.io/role/elb" = "1"
   }
 
-  enable_nat_gateway   = true
+  enable_nat_gateway   = (var.deployment_template == "private") ? (var.private_network_extensions ? true : false) : true
+  single_nat_gateway   = (var.deployment_template == "private") ? (var.private_network_extensions ? true : false) : false
   enable_dns_support   = true
   enable_dns_hostnames = true
 

@@ -13,11 +13,12 @@
 # limitations under the License.
 
 # ------- Global settings -------
-variable "tags" {
-  type        = map(any)
-  description = "Tags applied to provisioned resources"
+# NOTE: Waiting on provider fix
+# variable "tags" {
+#   type        = map(any)
+#   description = "Tags applied to provisioned resources"
 
-}
+# }
 
 # ------- CDP Environment Deployment -------
 variable "environment_name" {
@@ -50,17 +51,12 @@ variable "cdp_user_group_name" {
 
 }
 
-variable "cdp_profile" {
-  type        = string
-  description = "Profile for CDP credentials"
+# TODO: Will be re-introducted once provider supports other regions
+# variable "cdp_control_plane_region" {
+#   type        = string
+#   description = "CDP Control Plane Region"
 
-}
-
-variable "cdp_control_plane_region" {
-  type        = string
-  description = "CDP Control Plane Region"
-
-}
+# }
 
 variable "enable_ccm_tunnel" {
   type = bool
@@ -152,11 +148,11 @@ variable "public_subnet_ids" {
   description = "List of public subnet ids."
 }
 
-variable "private_subnet_ids" {
-  type        = list(string)
-  description = "List of private subnet ids."
+# variable "private_subnet_ids" {
+#   type        = list(string)
+#   description = "List of private subnet ids."
 
-}
+# }
 
 variable "subnets_for_cdp" {
   type        = list(string)

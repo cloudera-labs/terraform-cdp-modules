@@ -21,8 +21,8 @@ locals {
 
   # ------- Determine subnet details from inputs -------
   subnets_required = {
-    total   = (var.deployment_template == "public") ? length(local.zones_in_region) : 2 * length(local.zones_in_region)
-    public  = length(local.zones_in_region)
+    total   = contains(["public", "private"], var.deployment_template) ? length(local.zones_in_region) : 2 * length(local.zones_in_region)
+    public  = (var.deployment_template == "private") ? (var.private_network_extensions ? 1 : 0) : length(local.zones_in_region)
     private = (var.deployment_template == "public") ? 0 : length(local.zones_in_region)
   }
 }

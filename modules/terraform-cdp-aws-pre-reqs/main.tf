@@ -20,10 +20,11 @@ module "aws_cdp_vpc" {
 
   source = "./modules/vpc"
 
-  deployment_template = var.deployment_template
-  vpc_cidr            = var.vpc_cidr
-  env_prefix          = var.env_prefix
-  tags                = local.env_tags
+  deployment_template        = var.deployment_template
+  vpc_cidr                   = var.vpc_cidr
+  private_network_extensions = var.private_network_extensions
+  env_prefix                 = var.env_prefix
+  tags                       = local.env_tags
 
 }
 
@@ -135,18 +136,19 @@ resource "aws_s3_bucket" "cdp_storage_locations" {
 }
 
 # ------- AWS Buckets directory structures -------
-# Data Storage Objects
-resource "aws_s3_object" "cdp_data_storage_object" {
+# # Data Storage Objects
+# NOTE: Removing creation of the data storage object because CDP overrides this
+# resource "aws_s3_object" "cdp_data_storage_object" {
 
-  bucket = "${local.data_storage.data_storage_bucket}${local.storage_suffix}"
+#   bucket = "${local.data_storage.data_storage_bucket}${local.storage_suffix}"
 
-  key          = local.data_storage.data_storage_object
-  content_type = "application/x-directory"
+#   key          = local.data_storage.data_storage_object
+#   content_type = "application/x-directory"
 
-  depends_on = [
-    aws_s3_bucket.cdp_storage_locations
-  ]
-}
+#   depends_on = [
+#     aws_s3_bucket.cdp_storage_locations
+#   ]
+# }
 
 # Log Storage Objects
 resource "aws_s3_object" "cdp_log_storage_object" {
@@ -282,14 +284,14 @@ data "aws_iam_policy_document" "cdp_xaccount_role_policy_doc" {
 
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::${local.xaccount_account_id}:root"]
+      identifiers = ["arn:aws:iam::${var.xaccount_account_id}:root"]
     }
 
     condition {
       test     = "StringEquals"
       variable = "sts:ExternalId"
 
-      values = [local.xaccount_external_id]
+      values = [var.xaccount_external_id]
     }
   }
 }
@@ -308,6 +310,13 @@ resource "aws_iam_role" "cdp_xaccount_role" {
 resource "aws_iam_role_policy_attachment" "cdp_xaccount_role_attach" {
   role       = aws_iam_role.cdp_xaccount_role.name
   policy_arn = aws_iam_policy.cdp_xaccount_policy.arn
+}
+
+# Wait for propagation of IAM xaccount role.
+# Required for CDP credential
+resource "time_sleep" "iam_propagation" {
+  depends_on      = [aws_iam_role.cdp_xaccount_role]
+  create_duration = "45s"
 }
 
 # ------- AWS Service Roles - CDP IDBroker -------

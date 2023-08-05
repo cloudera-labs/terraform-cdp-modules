@@ -17,3 +17,10 @@ data "azurerm_subscription" "current" {}
 
 # Get the configuration of the AzureAD provider
 data "azuread_client_config" "current" {}
+
+# Find details of the Azure Resource group
+data "azurerm_resource_group" "cdp_rmgp" {
+  name = local.cdp_resourcegroup_name
+
+  depends_on = [azurerm_resource_group.cdp_rmgp]
+}
