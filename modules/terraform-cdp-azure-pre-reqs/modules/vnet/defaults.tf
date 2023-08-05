@@ -23,6 +23,7 @@ locals {
     # cidr            = cidrsubnet(var.vnet_cidr, ceil(log(var.subnet_count, 2)), idx)
   }
 
+  # Extract the VNet CIDR range from the user-provided CIDR
   vnet_cidr_range = split("/",var.vnet_cidr)[1]
   
   # Calculate the first suitable CIDR range for public subnets after CDP subnets have been allocated.

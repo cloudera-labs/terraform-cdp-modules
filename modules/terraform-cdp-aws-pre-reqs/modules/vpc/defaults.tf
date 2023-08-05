@@ -26,6 +26,7 @@ locals {
     private = (var.deployment_template == "public") ? 0 : length(local.zones_in_region)
   }
   
+  # Extract the VPC CIDR range from the user-provided CIDR
   vpc_cidr_range = split("/",var.vpc_cidr)[1]
   
   # Calculate the first suitable CIDR range for public subnets after private subnets have been allocated.
