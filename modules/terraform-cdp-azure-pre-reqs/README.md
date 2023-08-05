@@ -15,7 +15,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | > 1.3.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 2.39.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 3.45.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | 3.4.3 |
@@ -68,6 +68,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [azurerm_user_assigned_identity.cdp_raz](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/user_assigned_identity) | resource |
 | [random_id.bucket_suffix](https://registry.terraform.io/providers/hashicorp/random/3.4.3/docs/resources/id) | resource |
 | [azuread_client_config.current](https://registry.terraform.io/providers/hashicorp/azuread/2.39.0/docs/data-sources/client_config) | data source |
+| [azurerm_resource_group.cdp_rmgp](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/data-sources/resource_group) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/data-sources/subscription) | data source |
 
 ## Inputs
@@ -79,8 +80,9 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_agent_source_tag"></a> [agent\_source\_tag](#input\_agent\_source\_tag) | Tag to identify deployment source | `map(any)` | <pre>{<br>  "agent_source": "tf-cdp-module"<br>}</pre> | no |
 | <a name="input_azure_region"></a> [azure\_region](#input\_azure\_region) | Region which Cloud resources will be created | `string` | `null` | no |
 | <a name="input_backup_storage"></a> [backup\_storage](#input\_backup\_storage) | Optional Backup location for CDP environment. If not provided follow the data\_storage variable | <pre>object({<br>    backup_storage_bucket = string<br>    backup_storage_object = string<br>  })</pre> | `null` | no |
-| <a name="input_cdp_gw_subnet_names"></a> [cdp\_gw\_subnet\_names](#input\_cdp\_gw\_subnet\_names) | List of subnet names for CDP Gateway. Required if create\_vpc is false. | `list(any)` | `null` | no |
-| <a name="input_cdp_subnet_names"></a> [cdp\_subnet\_names](#input\_cdp\_subnet\_names) | List of subnet names for CDP Resources. Required if create\_vpc is false. | `list(any)` | `null` | no |
+| <a name="input_cdp_gw_subnet_names"></a> [cdp\_gw\_subnet\_names](#input\_cdp\_gw\_subnet\_names) | List of subnet names for CDP Gateway. Required if create\_vnet is false. | `list(any)` | `null` | no |
+| <a name="input_cdp_resourcegroup_name"></a> [cdp\_resourcegroup\_name](#input\_cdp\_resourcegroup\_name) | Pre-existing Resource Group for CDP environment. Required if create\_vnet is false. | `string` | `null` | no |
+| <a name="input_cdp_subnet_names"></a> [cdp\_subnet\_names](#input\_cdp\_subnet\_names) | List of subnet names for CDP Resources. Required if create\_vnet is false. | `list(any)` | `null` | no |
 | <a name="input_cdp_vnet_name"></a> [cdp\_vnet\_name](#input\_cdp\_vnet\_name) | Pre-existing VNet Name for CDP environment. Required if create\_vnet is false. | `string` | `null` | no |
 | <a name="input_create_vnet"></a> [create\_vnet](#input\_create\_vnet) | Flag to specify if the VNet should be created | `bool` | `true` | no |
 | <a name="input_data_storage"></a> [data\_storage](#input\_data\_storage) | Data storage locations for CDP environment | <pre>object({<br>    data_storage_bucket = string<br>    data_storage_object = string<br>  })</pre> | `null` | no |
@@ -115,13 +117,19 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 
 | Name | Description |
 |------|-------------|
+| <a name="output_azure_backup_storage_account"></a> [azure\_backup\_storage\_account](#output\_azure\_backup\_storage\_account) | Azure backup storage account name |
+| <a name="output_azure_backup_storage_container"></a> [azure\_backup\_storage\_container](#output\_azure\_backup\_storage\_container) | Azure backup storage container name |
 | <a name="output_azure_backup_storage_location"></a> [azure\_backup\_storage\_location](#output\_azure\_backup\_storage\_location) | Azure backup storage location |
 | <a name="output_azure_cdp_gateway_subnet_names"></a> [azure\_cdp\_gateway\_subnet\_names](#output\_azure\_cdp\_gateway\_subnet\_names) | Azure Virtual Subnet Names for CDP Endpoint Access Gateway |
 | <a name="output_azure_cdp_subnet_names"></a> [azure\_cdp\_subnet\_names](#output\_azure\_cdp\_subnet\_names) | Azure Virtual Subnet Names for CDP Resources |
+| <a name="output_azure_data_storage_account"></a> [azure\_data\_storage\_account](#output\_azure\_data\_storage\_account) | Azure data storage account name |
+| <a name="output_azure_data_storage_container"></a> [azure\_data\_storage\_container](#output\_azure\_data\_storage\_container) | Azure data storage container name |
 | <a name="output_azure_data_storage_location"></a> [azure\_data\_storage\_location](#output\_azure\_data\_storage\_location) | Azure data storage location |
 | <a name="output_azure_datalakeadmin_identity_id"></a> [azure\_datalakeadmin\_identity\_id](#output\_azure\_datalakeadmin\_identity\_id) | Datalake Admin Managed Identity ID |
 | <a name="output_azure_idbroker_identity_id"></a> [azure\_idbroker\_identity\_id](#output\_azure\_idbroker\_identity\_id) | IDBroker Managed Identity ID |
 | <a name="output_azure_log_identity_id"></a> [azure\_log\_identity\_id](#output\_azure\_log\_identity\_id) | Log Data Access Managed Identity ID |
+| <a name="output_azure_log_storage_account"></a> [azure\_log\_storage\_account](#output\_azure\_log\_storage\_account) | Azure log storage account name |
+| <a name="output_azure_log_storage_container"></a> [azure\_log\_storage\_container](#output\_azure\_log\_storage\_container) | Azure log storage container name |
 | <a name="output_azure_log_storage_location"></a> [azure\_log\_storage\_location](#output\_azure\_log\_storage\_location) | Azure log storage location |
 | <a name="output_azure_ranger_audit_identity_id"></a> [azure\_ranger\_audit\_identity\_id](#output\_azure\_ranger\_audit\_identity\_id) | Ranger Audit Managed Identity ID |
 | <a name="output_azure_raz_identity_id"></a> [azure\_raz\_identity\_id](#output\_azure\_raz\_identity\_id) | RAZ Managed Identity ID. Value returned if RAZ is enabled |

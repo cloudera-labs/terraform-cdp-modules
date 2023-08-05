@@ -94,6 +94,13 @@ variable "vnet_cidr" {
   default = "10.10.0.0/16"
 }
 
+variable "cdp_resourcegroup_name" {
+  type        = string
+  description = "Pre-existing Resource Group for CDP environment. Required if create_vnet is false."
+
+  default = null
+}
+
 variable "cdp_vnet_name" {
   type        = string
   description = "Pre-existing VNet Name for CDP environment. Required if create_vnet is false."
@@ -103,14 +110,14 @@ variable "cdp_vnet_name" {
 
 variable "cdp_subnet_names" {
   type        = list(any)
-  description = "List of subnet names for CDP Resources. Required if create_vpc is false."
+  description = "List of subnet names for CDP Resources. Required if create_vnet is false."
 
   default = null
 }
 
 variable "cdp_gw_subnet_names" {
   type        = list(any)
-  description = "List of subnet names for CDP Gateway. Required if create_vpc is false."
+  description = "List of subnet names for CDP Gateway. Required if create_vnet is false."
 
   default = null
 }

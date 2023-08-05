@@ -30,6 +30,9 @@ locals {
 
   security_group_knox_name = coalesce(var.security_group_knox_name, "${var.env_prefix}-knox-sg")
 
+  cdp_resourcegroup_name = (var.create_vnet ?
+  azurerm_resource_group.cdp_rmgp[0].name : var.cdp_resourcegroup_name)
+
   cdp_vnet_name = (var.create_vnet ?
   module.azure_cdp_vnet[0].vnet_name : var.cdp_vnet_name)
 

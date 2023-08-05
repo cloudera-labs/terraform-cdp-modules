@@ -54,34 +54,17 @@ If you no longer need the infrastructure that’s provisioned by the Terraform m
 terraform destroy
 ```
 
-## External dependencies
+## Dependencies
 
-The module includes the option to discover the cross account Ids and to run the CDP deployment using external tools.
+To set up CDP via deployment automation using this guide, the following dependencies must be installed in your local environment:
 
-To utilize these options extra requirements are needed - Python 3, Ansible 2.12, the CDP CLI, the [jq utility](https://stedolan.github.io/jq/download/) and a number of support Python libraries and Ansible collections.
+* Terraform can be installed by following the instructions at https://developer.hashicorp.com/terraform/downloads
 
-A summary of the install and configuration steps for these additional requirements is given below.
-We recommend these steps be performed within an Python virtual environment.
+Configure Terraform Provider for AWS or Azure
 
-```bash
-# Install jq as per instructions at https://stedolan.github.io/jq/download/
-# Example for MacOS using homebew shown below
-brew install jq
+* Configure the Terraform Provider for CDP with access key ID and private key by dowloading or creating a CDP configuation file.
+  * See the [CDP documentation for steps to Generate the API access key](https://docs.cloudera.com/cdp-public-cloud/cloud/cli/topics/mc-cli-generating-an-api-access-key.html).
 
-# Install the Ansible core Python package
-pip install ansible-core==2.12.10 jmespath==1.0.1
-
-# Install cdpy, a Pythonic wrapper for Cloudera CDP CLI. This in turn installs the CDP CLI.
-pip install git+https://github.com/cloudera-labs/cdpy@main#egg=cdpy
-
-# Install the cloudera.cloud Ansible Collection
-ansible-galaxy collection install git+https://github.com/cloudera-labs/cloudera.cloud.git,devel
-
-# Install the community.general Ansible Collection
-ansible-galaxy collection install community.general:==5.5.0
-
-# Configure cdp with CDP API access key ID and private key
-cdp configure
-```
-
-NOTE - See the [CDP documentation for steps to Generate the API access key](https://docs.cloudera.com/cdp-public-cloud/cloud/cli/topics/mc-cli-generating-an-api-access-key.html) required in the `cdp configure` command above.
+* To create resources in the Cloud Provider, access credentials or service account are needed for authentication.
+  * For **AWS** access keys are required to be able to create the Cloud resources via the Terraform aws provider. See the [AWS Terraform Provider Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration).
+  * For **Azure**, authentication with the Azure subscription is required. There are a number of ways to do this outlined in the [Azure Terraform Provider Documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#authenticating-to-azure).

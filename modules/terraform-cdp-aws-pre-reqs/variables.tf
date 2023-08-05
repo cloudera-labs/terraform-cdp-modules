@@ -52,21 +52,13 @@ variable "env_prefix" {
 }
 
 # ------- CDP Environment Deployment -------
-variable "cdp_profile" {
-  type        = string
-  description = "Profile for CDP credentials"
+# variable "cdp_control_plane_region" {
+#   type        = string
+#   description = "CDP Control Plane Region"
 
-  # Profile is default unless explicitly specified
-  default = "default"
-}
-
-variable "cdp_control_plane_region" {
-  type        = string
-  description = "CDP Control Plane Region"
-
-  # Region is us-west-1 unless explicitly specified
-  default = "us-west-1"
-}
+#   # Region is us-west-1 unless explicitly specified
+#   default = "us-west-1"
+# }
 
 variable "deployment_template" {
   type = string
@@ -77,14 +69,6 @@ variable "deployment_template" {
     condition     = contains(["public", "semi-private", "private"], var.deployment_template)
     error_message = "Valid values for var: deployment_template are (public, semi-private, private)."
   }
-}
-
-variable "lookup_cdp_account_ids" {
-  type = bool
-
-  description = "Auto lookup CDP Account and External ID using CDP CLI commands. If false then the xaccount_account_id and xaccount_external_id input variables need to be specified"
-
-  default = true
 }
 
 # variable "enable_raz" {
@@ -109,6 +93,14 @@ variable "vpc_cidr" {
   description = "VPC CIDR Block"
 
   default = "10.10.0.0/16"
+}
+
+variable "private_network_extensions" {
+  type = bool
+
+  description = "Enable creation of resources for connectivity to CDP Control Plane (public subnet and NAT Gateway) for Private Deployment. Only relevant for private deployment template"
+
+  default = true
 }
 
 variable "cdp_vpc_id" {
@@ -348,14 +340,12 @@ variable "xaccount_account_id" {
   type        = string
   description = "Account ID of the cross account"
 
-  default = null
 }
 
 variable "xaccount_external_id" {
   type        = string
   description = "External ID of the cross account"
 
-  default = null
 }
 
 # IDBroker service role
