@@ -89,9 +89,23 @@ variable "vnet_name" {
 
 variable "vnet_cidr" {
   type        = string
-  description = "VNet CIDR Block"
+  description = "VNet CIDR Block. Required if create_vpc is true."
 
   default = "10.10.0.0/16"
+}
+
+variable "cdp_subnet_range" {
+  type        = number
+  description = "Size of each (internal) cluster subnet. Required if create_vpc is true."
+
+  default = 19
+}
+
+variable "gateway_subnet_range" {
+  type        = number
+  description = "Size of each gateway subnet. Required if create_vpc is true."
+
+  default = 24  
 }
 
 variable "cdp_resourcegroup_name" {

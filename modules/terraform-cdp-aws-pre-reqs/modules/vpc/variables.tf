@@ -21,15 +21,11 @@ variable "vpc_cidr" {
 variable "private_cidr_range" {
   type        = number
   description = "Size of each private subnet"
-
-  default = 19
 }
 
 variable "public_cidr_range" {
   type        = number
   description = "Size of each public subnet"
-
-  default = 24
 }
 
 variable "tags" {
