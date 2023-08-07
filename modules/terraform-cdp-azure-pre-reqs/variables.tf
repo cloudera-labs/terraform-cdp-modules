@@ -99,7 +99,7 @@ variable "gateway_subnet_range" {
   type        = number
   description = "Size of each gateway subnet. Required if create_vpc is true."
 
-  default = 24  
+  default = 24
 }
 
 variable "cdp_resourcegroup_name" {
