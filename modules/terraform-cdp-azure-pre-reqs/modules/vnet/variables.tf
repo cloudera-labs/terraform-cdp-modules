@@ -44,14 +44,12 @@ variable "cdp_subnet_range" {
   type        = number
   description = "Size of each (internal) cluster subnet"
 
-  default = 19
 }
 
 variable "gateway_subnet_range" {
   type        = number
   description = "Size of each gateway subnet"
 
-  default = 24  
 }
 
 variable "vnet_region" {

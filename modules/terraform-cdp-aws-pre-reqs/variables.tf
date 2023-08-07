@@ -90,9 +90,23 @@ variable "create_vpc" {
 
 variable "vpc_cidr" {
   type        = string
-  description = "VPC CIDR Block"
+  description = "VPC CIDR Block. Required if create_vpc is true."
 
   default = "10.10.0.0/16"
+}
+
+variable "private_cidr_range" {
+  type        = number
+  description = "Size of each private subnet. Required if create_vpc is true. Number of subnets will be automatically selected to match on the number of Availability Zones in the selected AWS region. (Depending on the selected deployment pattern, one subnet will be created per region.)"
+
+  default = 19
+}
+
+variable "public_cidr_range" {
+  type        = number
+  description = "Size of each public subnet. Required if create_vpc is true. Number of subnets will be automatically selected to match on the number of Availability Zones in the selected AWS region. (Depending on the selected deployment pattern, one subnet will be created per region.)"
+
+  default = 24
 }
 
 variable "private_network_extensions" {
