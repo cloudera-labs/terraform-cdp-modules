@@ -13,7 +13,7 @@
 # limitations under the License.
 
 locals {
-  
+
   # Calculate subnets CIDR and names
   subnets_required = {
     total           = (var.deployment_template == "semi-private") ? var.subnet_count + 1 : var.subnet_count
@@ -24,10 +24,10 @@ locals {
   }
 
   # Extract the VNet CIDR range from the user-provided CIDR
-  vnet_cidr_range = split("/",var.vnet_cidr)[1]
-  
+  vnet_cidr_range = split("/", var.vnet_cidr)[1]
+
   # Calculate the first suitable CIDR range for public subnets after private subnets have been allocated (normalize the offset, expressed as a multiplier of gateway subnet ranges)
-  gateway_subnet_offset = ceil(local.subnets_required.cdp_subnets * pow(2, 32-var.cdp_subnet_range)/pow(2, 32-var.gateway_subnet_range))
+  gateway_subnet_offset = ceil(local.subnets_required.cdp_subnets * pow(2, 32 - var.cdp_subnet_range) / pow(2, 32 - var.gateway_subnet_range))
 
 
   # Network infrastructure for CDP resources
