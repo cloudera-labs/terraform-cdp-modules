@@ -39,10 +39,10 @@ module "azure_cdp_vnet" {
 
   env_prefix = var.env_prefix
   tags       = local.env_tags
-  
-  cdp_subnet_range = var.cdp_subnet_range
+
+  cdp_subnet_range     = var.cdp_subnet_range
   gateway_subnet_range = var.gateway_subnet_range
-    
+
 }
 
 
