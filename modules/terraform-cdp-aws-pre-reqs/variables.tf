@@ -141,6 +141,14 @@ variable "security_group_knox_name" {
   default = null
 }
 
+variable "security_group_endpoint_name" {
+  type = string
+
+  description = "Security Group for VPC Endpoints"
+
+  default = null
+}
+
 variable "ingress_extra_cidrs_and_ports" {
   type = object({
     cidrs = list(string)
@@ -168,6 +176,50 @@ variable "cdp_knox_sg_egress_cidrs" {
   description = "List of egress CIDR blocks for CDP Knox Security Group Egress rule"
 
   default = ["0.0.0.0/0"]
+}
+
+variable "cdp_endpoint_sg_egress_cidrs" {
+  type = list(string)
+
+  description = "List of egress CIDR blocks for VPC Endpoint Security Group Egress rule"
+
+  default = ["0.0.0.0/0"]
+}
+
+variable "create_vpc_endpoints" {
+  type = bool
+
+  description = "Flag to specify if VPC Endpoints should be created"
+
+  default = true
+}
+
+variable "vpc_endpoint_gateway_services" {
+  type = list(string)
+
+  description = "List of AWS services used for VPC Gateway Endpoints"
+
+  default = ["s3"]
+
+}
+
+variable "vpc_endpoint_interface_services" {
+  type = list(string)
+
+  description = "List of AWS services used for VPC Interface Endpoints"
+
+  default = [
+    "sts",
+    "rds",
+    "elasticloadbalancing",
+    "elasticfilesystem",
+    "eks",
+    "ecr.dkr",
+    "ecr.api",
+    "ec2",
+    "cloudformation",
+    "autoscaling",
+  ]
 }
 
 # ------- Storage Resources -------
