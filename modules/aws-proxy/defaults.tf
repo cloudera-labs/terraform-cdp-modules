@@ -39,4 +39,38 @@ locals {
     ]
   ])
 
+  # Load Balancer
+  network_load_balancer_name = coalesce(var.network_load_balancer_name, "${var.env_prefix}-proxy-nlb")
+  target_group_proxy_name    = coalesce(var.target_group_proxy_name, "${var.env_prefix}-proxy-tg")
+
+  # Launch Template & Auto-scaling groups
+  launch_template_proxy_name   = coalesce(var.launch_template_proxy_name, "${var.env_prefix}-proxy-lt")
+  autoscaling_group_proxy_name = coalesce(var.autoscaling_group_proxy_name, "${var.env_prefix}-proxy-asg")
+
+  # Route table to eni association
+  #
+  lb_eni_details = [
+    for eni in data.aws_network_interface.proxy_lb :
+    {
+      eni_id    = eni.id
+      az        = eni.availability_zone
+      subnet_id = eni.subnet_id
+    }
+  ]
+
+  route_table_details = [
+    for rt in data.aws_route_table.proxy_rt :
+    {
+      rt_id      = rt.id
+      subnet_ids = rt.associations[*].subnet_id
+    }
+  ]
+
+  route_table_to_lb_eni_assoc = {
+    for k, v in data.aws_route_table.proxy_rt : "${v.id}" => {
+      # TODO: eni of same subnet assoc if possible otherwise the first eni_id in lb_eni_details
+      eni = local.lb_eni_details[0].eni_id
+    }
+  }
+
 }

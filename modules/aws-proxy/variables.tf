@@ -35,7 +35,7 @@ variable "aws_instance_type" {
   type        = string
   description = "The EC2 instance type to use for the proxy VM"
 
-  default = "t2.micro"
+  default = "t3.medium"
 
 }
 
@@ -59,10 +59,17 @@ variable "vpc_id" {
 
 }
 
-variable "subnet_id" {
-  type = string
+variable "proxy_subnet_ids" {
+  type = list(any)
 
-  description = "The ID of the subnet where the proxy VM will run"
+  description = "The IDs of the subnet where the proxy VMs will run"
+
+}
+
+variable "lb_subnet_ids" {
+  type = list(any)
+
+  description = "The IDs of the subnet for the Network Load Balancer"
 
 }
 
@@ -72,6 +79,14 @@ variable "proxy_public_ip" {
   description = "Assign a public IP address to the Proxy VM"
 
   default = true
+}
+
+variable "proxy_port" {
+  type = number
+
+  description = "Port number which the proxy and NLB listens"
+
+  default = 3129
 }
 
 variable "create_proxy_sg" {
@@ -96,6 +111,55 @@ variable "proxy_security_group_id" {
   description = "ID for existing Security Group to be used for the proxy VM. Required when create_proxy_sg is false"
 
   default = null
+}
+
+variable "network_load_balancer_name" {
+  type = string
+
+  description = "Name of Network Load Balancer for the Proxy."
+
+  default = null
+}
+
+variable "target_group_proxy_name" {
+  type = string
+
+  description = "Name of Target Group for the Proxy."
+
+  default = null
+}
+
+
+variable "launch_template_proxy_name" {
+  type = string
+
+  description = "Name of Launch Template for the Proxy VMs."
+
+  default = null
+}
+
+variable "autoscaling_group_proxy_name" {
+  type = string
+
+  description = "Name of Autoscaling Group for the Proxy VMs."
+
+  default = null
+}
+
+variable "autoscaling_group_scaling" {
+  type = object({
+    min_size         = number
+    max_size         = number
+    desired_capacity = number
+  })
+
+  description = "Minimum, maximum and desired size of EC2 instance in the Auto Scaling Group."
+
+  default = {
+    min_size         = 3
+    max_size         = 6
+    desired_capacity = 3
+  }
 }
 
 variable "ingress_rules" {

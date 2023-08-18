@@ -25,20 +25,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-output "proxy_private_ip" {
-  value = aws_instance.proxy.private_ip
+# DNS name of the NLB
+output "proxy_lb_dns_name" {
+  value = aws_lb.proxy_lb.dns_name
 
-  description = "Private IP of the Proxy VM"
+  description = "DNS Name of the Proxy Load Balancer"
 }
 
-output "proxy_public_ip" {
-  value = aws_instance.proxy.public_ip
+output "proxy_lb_arn" {
+  value = aws_lb.proxy_lb.arn
 
-  description = "Public IP of the Proxy VM"
+  description = "ARN of the Proxy Load Balancer"
 }
 
+# Proxy port
 output "proxy_port" {
-  value = "3129"
+  value = var.proxy_port
 
   description = "Port where Proxy is running"
 }

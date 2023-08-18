@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 # VPC Endpoint SG
 resource "aws_security_group" "proxy_sg" {
 
@@ -42,6 +41,19 @@ resource "aws_security_group_rule" "proxy_ingress" {
 
 }
 
+# Access from NLB to Proxy VMs within the VPC
+resource "aws_security_group_rule" "proxy_lb_ingress" {
+
+  security_group_id = aws_security_group.proxy_sg[0].id
+  type              = "ingress"
+  description       = "Allow traffic from NLB to Proxy VMs"
+
+  cidr_blocks = data.aws_vpc.proxy_vpc.cidr_block_associations[*].cidr_block
+  from_port   = var.proxy_port
+  to_port     = var.proxy_port
+  protocol    = "TCP"
+}
+
 # Create egress SG rule
 resource "aws_security_group_rule" "proxy_egress" {
 
@@ -60,26 +72,96 @@ resource "aws_security_group_rule" "proxy_egress" {
 
 }
 
-resource "aws_instance" "proxy" {
+# Proxy launch template and Auto-Scaling Groups
+resource "aws_launch_template" "proxy_lt" {
 
-  ami           = local.aws_ami
+  name = local.launch_template_proxy_name
+
+  image_id      = local.aws_ami
   instance_type = var.aws_instance_type
   key_name      = var.aws_keypair_name
 
-  subnet_id = var.subnet_id
-  vpc_security_group_ids = [
-    local.proxy_security_group_id
-  ]
+  user_data = base64encode(templatefile("${path.module}/files/user-data-squid-proxy.sh", {}))
 
-  source_dest_check           = false # need to stop Source/destination check for the proxy instance
-  associate_public_ip_address = var.proxy_public_ip
+  network_interfaces {
+    associate_public_ip_address = var.proxy_public_ip
+    security_groups             = [local.proxy_security_group_id]
+  }
 
-  user_data = templatefile("${path.module}/files/user-data-squid-proxy.sh", {})
-
-  tags = merge(local.env_tags, { Name = "${var.env_prefix}-proxy" })
 }
 
-# TODO: Review if this is best place to create the route for eni
+# 
+resource "aws_autoscaling_group" "proxy_asg" {
+  name             = local.autoscaling_group_proxy_name
+  min_size         = var.autoscaling_group_scaling.min_size
+  max_size         = var.autoscaling_group_scaling.max_size
+  desired_capacity = var.autoscaling_group_scaling.desired_capacity
+  # health_check_type         = "ELB" # TODO: Review this
+  target_group_arns = [aws_lb_target_group.proxy_tg.arn]
+
+  vpc_zone_identifier = var.proxy_subnet_ids
+
+  launch_template {
+    id      = aws_launch_template.proxy_lt.id
+    version = "$Latest"
+  }
+
+  # TODO: incorporate local.env_tags to tags
+  tag {
+    key                 = "Name"
+    value               = "${var.env_prefix}-proxy"
+    propagate_at_launch = true
+  }
+}
+
+# TODO: Handling Auto-Scaling Policies for scale-up & scale-down
+
+# Network load balancer
+resource "aws_lb" "proxy_lb" {
+  name               = local.network_load_balancer_name
+  internal           = true
+  load_balancer_type = "network"
+  subnets            = var.lb_subnet_ids
+
+  # security_groups = [local.proxy_security_group_id]
+
+  tags = local.env_tags
+}
+
+# Listeners are assigned a specific port to keep an ear out for incoming traffic.
+resource "aws_lb_listener" "proxy_lb_listener" {
+  load_balancer_arn = aws_lb.proxy_lb.arn
+  port              = var.proxy_port
+  protocol          = "TCP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.proxy_tg.arn
+  }
+
+  tags = local.env_tags
+}
+
+# Target groups are essentially the end point of the LB
+resource "aws_lb_target_group" "proxy_tg" {
+  name        = local.target_group_proxy_name
+  target_type = "instance"
+  port        = var.proxy_port
+  protocol    = "TCP"
+  vpc_id      = var.vpc_id
+
+  # TODO: Review health checks on the TG
+
+  tags = local.env_tags
+}
+
+# Now we have a target group we need to assign something to it. This is done through target group attachments
+resource "aws_autoscaling_attachment" "proxy_asg_tg_attach" {
+  autoscaling_group_name = aws_autoscaling_group.proxy_asg.id
+  lb_target_group_arn    = aws_lb_target_group.proxy_tg.arn
+}
+
+# Update the route tables to point to eni of NLB
 resource "aws_route" "vpc_tgw_route" {
   for_each = {
     for k, v in local.route_tables_to_update : k => v
@@ -87,6 +169,18 @@ resource "aws_route" "vpc_tgw_route" {
 
   route_table_id         = each.value.route_table
   destination_cidr_block = each.value.destination_cidr_block
-  network_interface_id   = aws_instance.proxy.primary_network_interface_id
+  network_interface_id   = local.route_table_to_lb_eni_assoc[each.value.route_table].eni
 }
 
+# NOTE: Used for testing
+# output "rt_details" {
+#   value = local.route_table_details
+# }
+
+# output "lb_details" {
+#   value = local.lb_eni_details
+# }
+
+# output "rt_eni_assoc_details" {
+#   value = local.route_table_to_lb_eni_assoc
+# }

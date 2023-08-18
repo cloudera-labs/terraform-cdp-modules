@@ -26,3 +26,35 @@ data "aws_ami" "proxy_default" {
 
   owners = ["amazon"]
 }
+
+# Find details of the VPC
+data "aws_vpc" "proxy_vpc" {
+  id = var.vpc_id
+}
+
+# Find the network interface for the load balancer
+data "aws_network_interface" "proxy_lb" {
+
+  for_each = { for k, v in var.lb_subnet_ids : k => v }
+
+  filter {
+    name   = "description"
+    values = ["ELB ${aws_lb.proxy_lb.arn_suffix}"]
+  }
+
+  filter {
+    name   = "subnet-id"
+    values = [each.value]
+  }
+}
+
+# Find route table details
+data "aws_route_table" "proxy_rt" {
+
+  for_each = {
+    for k, v in local.route_tables_to_update : k => v
+  }
+
+  route_table_id = each.value.route_table
+
+}
