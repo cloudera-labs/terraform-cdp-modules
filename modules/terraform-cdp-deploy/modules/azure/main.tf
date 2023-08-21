@@ -124,10 +124,13 @@ resource "cdp_datalake_azure_datalake" "cdp_datalake" {
   managed_identity = var.idbroker_identity_id
   storage_location = var.data_storage_location
 
-  runtime           = var.datalake_version
+  runtime           = var.datalake_version == "latest" ? null : var.datalake_version
   scale             = var.datalake_scale
   enable_ranger_raz = var.enable_raz
 
+  image        = var.datalake_image
+  java_version = var.datalake_java_version
+  recipes      = var.datalake_recipes
   # tags = var.tags # NOTE: Waiting on provider fix
 
   depends_on = [

@@ -113,11 +113,15 @@ resource "cdp_datalake_aws_datalake" "cdp_datalake" {
   instance_profile        = var.idbroker_instance_profile_arn
   storage_bucket_location = var.data_storage_location
 
-  runtime           = var.datalake_version
+  runtime           = var.datalake_version == "latest" ? null : var.datalake_version
   scale             = var.datalake_scale
   enable_ranger_raz = var.enable_raz
   multi_az          = var.multiaz
 
+  custom_instance_groups = var.datalake_custom_instance_groups
+  image                  = var.datalake_image
+  java_version           = var.datalake_java_version
+  recipes                = var.datalake_recipes
   # tags = var.tags # NOTE: Waiting on provider fix
 
   depends_on = [

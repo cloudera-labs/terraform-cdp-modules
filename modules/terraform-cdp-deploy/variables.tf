@@ -145,11 +145,11 @@ variable "workload_analytics" {
 variable "datalake_scale" {
   type = string
 
-  description = "The scale of the datalake. Valid values are LIGHT_DUTY, MEDIUM_DUTY_HA."
+  description = "The scale of the datalake. Valid values are LIGHT_DUTY, ENTERPRISE."
 
   validation {
-    condition     = (var.datalake_scale == null ? true : contains(["LIGHT_DUTY", "MEDIUM_DUTY_HA"], var.datalake_scale))
-    error_message = "Valid values for var: datalake_scale are (LIGHT_DUTY, MEDIUM_DUTY_HA)."
+    condition     = (var.datalake_scale == null ? true : contains(["LIGHT_DUTY", "ENTERPRISE", "MEDIUM_DUTY_HA"], var.datalake_scale))
+    error_message = "Valid values for var: datalake_scale are (LIGHT_DUTY, ENTERPRISE, MEDIUM_DUTY_HA)."
   }
 
   default = null
@@ -159,14 +159,14 @@ variable "datalake_scale" {
 variable "datalake_version" {
   type = string
 
-  description = "The Datalake Runtime version. Valid values are semantic versions, e.g. 7.2.16"
+  description = "The Datalake Runtime version. Valid values are latest or a semantic version, e.g. 7.2.17"
 
   validation {
-    condition     = (var.datalake_version == null ? true : length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0)
-    error_message = "Valid values for var: datalake_version must match semantic versioning conventions."
+    condition     = (var.datalake_version == "latest" ? true : length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0)
+    error_message = "Valid values for var: datalake_version are 'latest' or a semantic versioning conventions."
   }
 
-  default = "7.2.17"
+  default = "latest"
 }
 
 variable "endpoint_access_scheme" {
@@ -182,6 +182,52 @@ variable "endpoint_access_scheme" {
   default = null
 
 }
+
+variable "datalake_custom_instance_groups" {
+  type = list(
+    object({
+      name          = string,
+      instance_type = optional(string)
+    })
+  )
+
+  description = "A set of custom instance groups for the datalake. Only applicable for CDP deployment on AWS."
+
+  default = null
+}
+
+variable "datalake_image" {
+  type = object({
+    id      = optional(string)
+    catalog = optional(string)
+  })
+
+  description = "The image to use for the datalake. Can only be used when the 'datalake_version' parameter is set to null. You can use 'catalog' name and/or 'id' for selecting an image."
+
+  default = null
+}
+
+variable "datalake_java_version" {
+  type = number
+
+  description = "The Java major version to use on the datalake cluster."
+
+  default = null
+}
+
+variable "datalake_recipes" {
+  type = list(
+    object({
+      instance_group_name = string,
+      recipe_names        = string
+    })
+  )
+
+  description = "Additional recipes that will be attached on the datalake instances"
+
+  default = null
+}
+
 # ------- Cloud Service Provider Settings - General -------
 variable "region" {
   type        = string

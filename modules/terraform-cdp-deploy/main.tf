@@ -59,6 +59,11 @@ module "cdp_on_aws" {
   idbroker_instance_profile_arn = var.aws_idbroker_instance_profile_arn
   log_instance_profile_arn      = var.aws_log_instance_profile_arn
 
+  # Optional parameters defaulting to null
+  datalake_custom_instance_groups = var.datalake_custom_instance_groups
+  datalake_image                  = var.datalake_image
+  datalake_java_version           = var.datalake_java_version
+  datalake_recipes                = var.datalake_recipes
 }
 
 # ------- Call sub-module for Azure Deployment -------
@@ -114,4 +119,9 @@ module "cdp_on_azure" {
   ranger_audit_identity_id  = var.azure_ranger_audit_identity_id
   log_identity_id           = var.azure_log_identity_id
   raz_identity_id           = var.azure_raz_identity_id
+
+  # Optional parameters defaulting to null
+  datalake_image        = var.datalake_image
+  datalake_java_version = var.datalake_java_version
+  datalake_recipes      = var.datalake_recipes
 }
