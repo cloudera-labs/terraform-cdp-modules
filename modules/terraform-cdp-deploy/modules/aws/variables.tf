@@ -86,12 +86,55 @@ variable "freeipa_instances" {
 
 }
 
+variable "freeipa_catalog" {
+  type = string
+
+  description = "Image catalog to use for FreeIPA image selection"
+
+}
+
+variable "freeipa_image_id" {
+  type = string
+
+  description = "Image ID to use for creating FreeIPA instances"
+
+}
+
+variable "freeipa_instance_type" {
+  type = string
+
+  description = "Instance Type to use for creating FreeIPA instances"
+
+}
+
+variable "freeipa_recipes" {
+  type = set(string)
+
+  description = "The recipes for the FreeIPA cluster"
+
+}
+
+variable "proxy_config_name" {
+  type = string
+
+  description = "Name of the proxy config to use for the environment."
+
+}
+
+variable "s3_guard_table_name" {
+  type = string
+
+  description = "Name for the DynamoDB table backing S3Guard. Only applicable for CDP deployment on AWS."
+
+}
+
 variable "workload_analytics" {
   type = bool
 
   description = "Flag to specify if workload analytics should be enabled for the CDP environment"
 
 }
+
 
 variable "datalake_scale" {
   type = string
@@ -168,7 +211,15 @@ variable "region" {
 variable "keypair_name" {
   type = string
 
-  description = "SSH Keypair name in Cloud Service Provider. Required for CDP deployment on AWS."
+  description = "SSH Keypair name in Cloud Service Provider. Either 'keypair_name' or 'public_key_text' needs to be set."
+
+  default = null
+}
+
+variable "public_key_text" {
+  type = string
+
+  description = "SSH Public key string for the nodes of the CDP environment. Either 'keypair_name' or 'public_key_text' needs to be set."
 
   default = null
 }
@@ -223,6 +274,14 @@ variable "endpoint_access_scheme" {
     error_message = "Valid values for var: endpoint_access_scheme are (PUBLIC, PRIVATE)."
   }
 }
+
+variable "encryption_key_arn" {
+  type = string
+
+  description = "ARN of the AWS KMS CMK to use for the server-side encryption of AWS storage resources."
+
+}
+
 
 variable "data_storage_location" {
   type        = string

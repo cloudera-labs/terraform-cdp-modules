@@ -79,6 +79,33 @@ variable "freeipa_instances" {
 
 }
 
+variable "freeipa_catalog" {
+  type = string
+
+  description = "Image catalog to use for FreeIPA image selection"
+
+}
+
+variable "freeipa_image_id" {
+  type = string
+
+  description = "Image ID to use for creating FreeIPA instances"
+
+}
+
+variable "freeipa_instance_type" {
+  type = string
+
+  description = "Instance Type to use for creating FreeIPA instances"
+
+}
+
+variable "freeipa_recipes" {
+  type = set(string)
+
+  description = "The recipes for the FreeIPA cluster"
+
+}
 
 variable "workload_analytics" {
   type = bool
@@ -86,6 +113,36 @@ variable "workload_analytics" {
   description = "Flag to specify if workload analytics should be enabled for the CDP environment"
 
 }
+
+variable "enable_outbound_load_balancer" {
+  type = bool
+
+  description = "Create outbound load balancers for Azure environments."
+
+  default = null
+}
+
+variable "encryption_key_resource_group_name" {
+  type = string
+
+  description = "Name of the existing Azure resource group hosting the Azure Key Vault containing customer managed key which will be used to encrypt the Azure Managed Disk."
+
+}
+
+variable "encryption_key_url" {
+  type = string
+
+  description = "URL of the key which will be used to encrypt the Azure Managed Disks."
+
+}
+
+variable "proxy_config_name" {
+  type = string
+
+  description = "Name of the proxy config to use for the environment."
+
+}
+
 
 variable "datalake_scale" {
   type = string
@@ -202,6 +259,18 @@ variable "cdp_subnet_names" {
     condition     = var.cdp_subnet_names != null
     error_message = "Valid values for var: cdp_subnet_names must be a list of existing Azure Virtual Subnets."
   }
+
+}
+
+variable "azure_aks_private_dns_zone_id" {
+  type        = string
+  description = "The ID of an existing private DNS zone used for the AKS."
+
+}
+
+variable "azure_database_private_dns_zone_id" {
+  type        = string
+  description = "The ID of an existing private DNS zone used for the database."
 
 }
 
