@@ -200,7 +200,7 @@ resource "aws_vpc_endpoint" "interface_endpoints" {
   vpc_endpoint_type   = "Interface"
   private_dns_enabled = true
 
-  subnet_ids         = concat(local.public_subnet_ids, local.private_subnet_ids)
+  subnet_ids         = var.deployment_template == "public" ? local.public_subnet_ids : local.private_subnet_ids
   security_group_ids = [aws_security_group.cdp_endpoint_sg[0].id]
 
   tags = merge(local.env_tags, { Name = "${var.env_prefix}-${each.key}-interface-endpoint" })
@@ -215,7 +215,7 @@ resource "aws_vpc_endpoint" "s3_global_interface_endpoint" {
   vpc_endpoint_type   = "Interface"
   private_dns_enabled = true
 
-  subnet_ids         = concat(local.public_subnet_ids, local.private_subnet_ids)
+  subnet_ids         = var.deployment_template == "public" ? local.public_subnet_ids : local.private_subnet_ids
   security_group_ids = [aws_security_group.cdp_endpoint_sg[0].id]
 
   tags = merge(local.env_tags, { Name = "${var.env_prefix}-s3-global-interface-endpoint" })
