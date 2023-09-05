@@ -1,0 +1,9 @@
+---
+#region TODO: Remove once https://github.com/aquasecurity/tfsec/issues/1799 is fixed
+exclude:
+  - aws-s3-block-public-acls
+  - aws-s3-block-public-policy
+  - aws-s3-ignore-public-acls
+  - aws-s3-no-public-buckets
+  - aws-s3-specify-public-access-block
+#endregion

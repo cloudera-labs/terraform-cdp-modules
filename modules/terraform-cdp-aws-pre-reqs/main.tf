@@ -240,6 +240,19 @@ resource "aws_s3_bucket" "cdp_storage_locations" {
   force_destroy = true
 }
 
+resource "aws_s3_bucket_public_access_block" "cdp_storage_locations" {
+
+  for_each = aws_s3_bucket.cdp_storage_locations
+
+  bucket = each.value.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+
+}
+
 # ------- AWS Buckets directory structures -------
 # # Data Storage Objects
 # NOTE: Removing creation of the data storage object because CDP overrides this
