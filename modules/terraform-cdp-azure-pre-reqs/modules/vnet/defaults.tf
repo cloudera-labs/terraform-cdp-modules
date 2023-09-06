@@ -23,12 +23,19 @@ locals {
     # cidr            = cidrsubnet(var.vnet_cidr, ceil(log(var.subnet_count, 2)), idx)
   }
 
+  # Extract the VNet CIDR range from the user-provided CIDR
+  vnet_cidr_range = split("/", var.vnet_cidr)[1]
+
+  # Calculate the first suitable CIDR range for public subnets after private subnets have been allocated (normalize the offset, expressed as a multiplier of gateway subnet ranges)
+  gateway_subnet_offset = ceil(local.subnets_required.cdp_subnets * pow(2, 32 - var.cdp_subnet_range) / pow(2, 32 - var.gateway_subnet_range))
+
+
   # Network infrastructure for CDP resources
   cdp_subnets = [
     for idx in range(local.subnets_required.cdp_subnets) :
     {
       name = "${var.env_prefix}-sbnt-${format("%02d", idx + 1)}"
-      cidr = cidrsubnet(var.vnet_cidr, ceil(log(local.subnets_required.total, 2)), idx)
+      cidr = cidrsubnet(var.vnet_cidr, var.cdp_subnet_range - local.vnet_cidr_range, idx)
     }
   ]
 
@@ -37,7 +44,7 @@ locals {
     for idx in range(local.subnets_required.gateway_subnets) :
     {
       name = "${var.env_prefix}-gw-sbnt-${format("%02d", idx + 1)}"
-      cidr = cidrsubnet(var.vnet_cidr, ceil(log(local.subnets_required.total, 2)), local.subnets_required.cdp_subnets + idx)
+      cidr = cidrsubnet(var.vnet_cidr, var.gateway_subnet_range - local.vnet_cidr_range, idx + local.gateway_subnet_offset)
     }
   ]
 

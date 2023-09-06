@@ -26,6 +26,8 @@ module "aws_cdp_vpc" {
   env_prefix                 = var.env_prefix
   tags                       = local.env_tags
 
+  private_cidr_range = var.private_cidr_range
+  public_cidr_range  = var.public_cidr_range
 }
 
 # ------- Security Groups -------
