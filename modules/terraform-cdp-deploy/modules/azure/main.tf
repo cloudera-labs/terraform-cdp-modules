@@ -45,9 +45,11 @@ resource "cdp_environments_azure_environment" "cdp_env" {
 
   use_public_ip = var.use_public_ips
   existing_network_params = {
-    resource_group_name = var.resource_group_name
-    network_id          = var.vnet_name
-    subnet_ids          = var.cdp_subnet_names
+    resource_group_name          = var.resource_group_name
+    network_id                   = var.vnet_name
+    subnet_ids                   = var.cdp_subnet_names
+    aks_private_dns_zone_id      = var.azure_aks_private_dns_zone_id
+    database_private_dns_zone_id = var.azure_database_private_dns_zone_id
   }
 
   endpoint_access_gateway_scheme     = var.endpoint_access_scheme
@@ -58,10 +60,20 @@ resource "cdp_environments_azure_environment" "cdp_env" {
 
   freeipa = {
     instance_count_by_group = var.freeipa_instances
+    catalog                 = var.freeipa_catalog
+    image_id                = var.freeipa_image_id
+    instance_type           = var.freeipa_instance_type
+    recipes                 = var.freeipa_recipes
   }
 
+  proxy_config_name  = var.proxy_config_name
   workload_analytics = var.workload_analytics
   enable_tunnel      = var.enable_ccm_tunnel
+
+  enable_outbound_load_balancer      = var.enable_outbound_load_balancer
+  encryption_key_resource_group_name = var.encryption_key_resource_group_name
+  encryption_key_url                 = var.encryption_key_url
+
   # tags               = var.tags # NOTE: Waiting on provider fix
 
   depends_on = [
@@ -124,10 +136,13 @@ resource "cdp_datalake_azure_datalake" "cdp_datalake" {
   managed_identity = var.idbroker_identity_id
   storage_location = var.data_storage_location
 
-  runtime           = var.datalake_version
+  runtime           = var.datalake_version == "latest" ? null : var.datalake_version
   scale             = var.datalake_scale
   enable_ranger_raz = var.enable_raz
 
+  image        = var.datalake_image
+  java_version = var.datalake_java_version
+  recipes      = var.datalake_recipes
   # tags = var.tags # NOTE: Waiting on provider fix
 
   depends_on = [

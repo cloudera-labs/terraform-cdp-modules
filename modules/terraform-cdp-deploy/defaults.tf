@@ -40,7 +40,7 @@ locals {
   datalake_scale = coalesce(
     var.datalake_scale,
     (var.deployment_template == "public" ?
-      "LIGHT_DUTY" : "MEDIUM_DUTY_HA"
+      "LIGHT_DUTY" : "ENTERPRISE"
     )
   )
 
