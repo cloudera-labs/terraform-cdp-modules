@@ -86,6 +86,48 @@ variable "freeipa_instances" {
 
 }
 
+variable "freeipa_catalog" {
+  type = string
+
+  description = "Image catalog to use for FreeIPA image selection"
+
+}
+
+variable "freeipa_image_id" {
+  type = string
+
+  description = "Image ID to use for creating FreeIPA instances"
+
+}
+
+variable "freeipa_instance_type" {
+  type = string
+
+  description = "Instance Type to use for creating FreeIPA instances"
+
+}
+
+variable "freeipa_recipes" {
+  type = set(string)
+
+  description = "The recipes for the FreeIPA cluster"
+
+}
+
+variable "proxy_config_name" {
+  type = string
+
+  description = "Name of the proxy config to use for the environment."
+
+}
+
+variable "s3_guard_table_name" {
+  type = string
+
+  description = "Name for the DynamoDB table backing S3Guard. Only applicable for CDP deployment on AWS."
+
+}
+
 variable "workload_analytics" {
   type = bool
 
@@ -93,14 +135,15 @@ variable "workload_analytics" {
 
 }
 
+
 variable "datalake_scale" {
   type = string
 
-  description = "The scale of the datalake. Valid values are LIGHT_DUTY, MEDIUM_DUTY_HA."
+  description = "The scale of the datalake. Valid values are LIGHT_DUTY, ENTERPRISE."
 
   validation {
-    condition     = contains(["LIGHT_DUTY", "MEDIUM_DUTY_HA"], var.datalake_scale)
-    error_message = "Valid values for var: datalake_scale are (LIGHT_DUTY, MEDIUM_DUTY_HA)."
+    condition     = contains(["LIGHT_DUTY", "ENTERPRISE", "MEDIUM_DUTY_HA"], var.datalake_scale)
+    error_message = "Valid values for var: datalake_scale are (LIGHT_DUTY, ENTERPRISE, MEDIUM_DUTY_HA)."
   }
 
 }
@@ -108,15 +151,56 @@ variable "datalake_scale" {
 variable "datalake_version" {
   type = string
 
-  description = "The Datalake Runtime version. Valid values are semantic versions, e.g. 7.2.16"
+  description = "The Datalake Runtime version. Valid values are latest or a semantic version, e.g. 7.2.17"
 
   validation {
-    condition     = length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0
-    error_message = "Valid values for var: datalake_version must match semantic versioning conventions."
+    condition     = (var.datalake_version == "latest" ? true : length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0)
+    error_message = "Valid values for var: datalake_version are 'latest' or a semantic versioning conventions."
   }
+
+  default = "latest"
+}
+
+variable "datalake_custom_instance_groups" {
+  type = list(
+    object({
+      name          = string,
+      instance_type = optional(string)
+    })
+  )
+
+  description = "A set of custom instance groups for the datalake."
 
 }
 
+variable "datalake_image" {
+  type = object({
+    id      = optional(string)
+    catalog = optional(string)
+  })
+
+  description = "The image to use for the datalake. Can only be used when the 'datalake_version' parameter is set to null. You can use 'catalog' name and/or 'id' for selecting an image."
+
+}
+
+variable "datalake_java_version" {
+  type = number
+
+  description = "The Java major version to use on the datalake cluster."
+
+}
+
+variable "datalake_recipes" {
+  type = list(
+    object({
+      instance_group_name = string,
+      recipe_names        = string
+    })
+  )
+
+  description = "Additional recipes that will be attached on the datalake instances"
+
+}
 # ------- Cloud Service Provider Settings -------
 variable "region" {
   type        = string
@@ -127,7 +211,15 @@ variable "region" {
 variable "keypair_name" {
   type = string
 
-  description = "SSH Keypair name in Cloud Service Provider. Required for CDP deployment on AWS."
+  description = "SSH Keypair name in Cloud Service Provider. Either 'keypair_name' or 'public_key_text' needs to be set."
+
+  default = null
+}
+
+variable "public_key_text" {
+  type = string
+
+  description = "SSH Public key string for the nodes of the CDP environment. Either 'keypair_name' or 'public_key_text' needs to be set."
 
   default = null
 }
@@ -182,6 +274,14 @@ variable "endpoint_access_scheme" {
     error_message = "Valid values for var: endpoint_access_scheme are (PUBLIC, PRIVATE)."
   }
 }
+
+variable "encryption_key_arn" {
+  type = string
+
+  description = "ARN of the AWS KMS CMK to use for the server-side encryption of AWS storage resources."
+
+}
+
 
 variable "data_storage_location" {
   type        = string

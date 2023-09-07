@@ -46,7 +46,7 @@ variable "env_prefix" {
   default = null
 }
 
-# ------- CDP Environment Deployment -------
+# ------- CDP Environment Deployment - General -------
 variable "environment_name" {
   type        = string
   description = "Name of the CDP environment. Defaults to '<env_prefix>-cdp-env' if not specified."
@@ -134,6 +134,46 @@ variable "freeipa_instances" {
   default = 3
 }
 
+variable "freeipa_catalog" {
+  type = string
+
+  description = "Image catalog to use for FreeIPA image selection"
+
+  default = null
+}
+
+variable "freeipa_image_id" {
+  type = string
+
+  description = "Image ID to use for creating FreeIPA instances"
+
+  default = null
+}
+
+variable "freeipa_instance_type" {
+  type = string
+
+  description = "Instance Type to use for creating FreeIPA instances"
+
+  default = null
+}
+
+variable "freeipa_recipes" {
+  type = set(string)
+
+  description = "The recipes for the FreeIPA cluster"
+
+  default = null
+}
+
+variable "proxy_config_name" {
+  type = string
+
+  description = "Name of the proxy config to use for the environment."
+
+  default = null
+}
+
 variable "workload_analytics" {
   type = bool
 
@@ -145,11 +185,11 @@ variable "workload_analytics" {
 variable "datalake_scale" {
   type = string
 
-  description = "The scale of the datalake. Valid values are LIGHT_DUTY, MEDIUM_DUTY_HA."
+  description = "The scale of the datalake. Valid values are LIGHT_DUTY, ENTERPRISE."
 
   validation {
-    condition     = (var.datalake_scale == null ? true : contains(["LIGHT_DUTY", "MEDIUM_DUTY_HA"], var.datalake_scale))
-    error_message = "Valid values for var: datalake_scale are (LIGHT_DUTY, MEDIUM_DUTY_HA)."
+    condition     = (var.datalake_scale == null ? true : contains(["LIGHT_DUTY", "ENTERPRISE", "MEDIUM_DUTY_HA"], var.datalake_scale))
+    error_message = "Valid values for var: datalake_scale are (LIGHT_DUTY, ENTERPRISE, MEDIUM_DUTY_HA)."
   }
 
   default = null
@@ -159,14 +199,14 @@ variable "datalake_scale" {
 variable "datalake_version" {
   type = string
 
-  description = "The Datalake Runtime version. Valid values are semantic versions, e.g. 7.2.16"
+  description = "The Datalake Runtime version. Valid values are latest or a semantic version, e.g. 7.2.17"
 
   validation {
-    condition     = (var.datalake_version == null ? true : length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0)
-    error_message = "Valid values for var: datalake_version must match semantic versioning conventions."
+    condition     = (var.datalake_version == "latest" ? true : length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0)
+    error_message = "Valid values for var: datalake_version are 'latest' or a semantic versioning conventions."
   }
 
-  default = "7.2.17"
+  default = "latest"
 }
 
 variable "endpoint_access_scheme" {
@@ -182,11 +222,115 @@ variable "endpoint_access_scheme" {
   default = null
 
 }
+
+variable "datalake_image" {
+  type = object({
+    id      = optional(string)
+    catalog = optional(string)
+  })
+
+  description = "The image to use for the datalake. Can only be used when the 'datalake_version' parameter is set to null. You can use 'catalog' name and/or 'id' for selecting an image."
+
+  default = null
+}
+
+variable "datalake_java_version" {
+  type = number
+
+  description = "The Java major version to use on the datalake cluster."
+
+  default = null
+}
+
+variable "datalake_recipes" {
+  type = list(
+    object({
+      instance_group_name = string,
+      recipe_names        = string
+    })
+  )
+
+  description = "Additional recipes that will be attached on the datalake instances"
+
+  default = null
+}
+
+# ------- CDP Environment Deployment - AWS specific -------
+variable "encryption_key_arn" {
+  type = string
+
+  description = "ARN of the AWS KMS CMK to use for the server-side encryption of AWS storage resources. Only applicable for CDP deployment on AWS."
+
+  default = null
+}
+
+variable "datalake_custom_instance_groups" {
+  type = list(
+    object({
+      name          = string,
+      instance_type = optional(string)
+    })
+  )
+
+  description = "A set of custom instance groups for the datalake. Only applicable for CDP deployment on AWS."
+
+  default = null
+}
+
+variable "s3_guard_table_name" {
+  type = string
+
+  description = "Name for the DynamoDB table backing S3Guard. Only applicable for CDP deployment on AWS."
+
+  default = null
+}
+
+# ------- CDP Environment Deployment - Azure specific -------
+variable "enable_outbound_load_balancer" {
+  type = bool
+
+  description = "Create outbound load balancers for Azure environments. Only applicable for CDP deployment on Azure."
+
+  default = null
+}
+
+variable "encryption_key_resource_group_name" {
+  type = string
+
+  description = "Name of the existing Azure resource group hosting the Azure Key Vault containing customer managed key which will be used to encrypt the Azure Managed Disk. Only applicable for CDP deployment on Azure."
+
+  default = null
+}
+
+variable "encryption_key_url" {
+  type = string
+
+  description = "URL of the key which will be used to encrypt the Azure Managed Disks. Only applicable for CDP deployment on Azure."
+
+  default = null
+}
+
 # ------- Cloud Service Provider Settings - General -------
 variable "region" {
   type        = string
   description = "Region which cloud resources will be created"
 
+}
+
+variable "keypair_name" {
+  type = string
+
+  description = "SSH Keypair name in Cloud Service Provider. For CDP deployment on AWS, either 'keypair_name' or 'public_key_text' needs to be set."
+
+  default = null
+}
+
+variable "public_key_text" {
+  type = string
+
+  description = "SSH Public key string for the nodes of the CDP environment. Required for CDP deployment on Azure. For CDP deployment on AWS, either 'keypair_name' or 'public_key_text' needs to be set."
+
+  default = null
 }
 
 variable "data_storage_location" {
@@ -239,14 +383,6 @@ variable "aws_security_group_knox_id" {
   type = string
 
   description = "ID of the Knox Security Group for CDP environment. Required for CDP deployment on AWS."
-
-  default = null
-}
-
-variable "keypair_name" {
-  type = string
-
-  description = "SSH Keypair name in Cloud Service Provider. Required for CDP deployment on AWS."
 
   default = null
 }
@@ -327,6 +463,22 @@ variable "azure_vnet_name" {
 
 }
 
+variable "azure_aks_private_dns_zone_id" {
+  type        = string
+  description = "The ID of an existing private DNS zone used for the AKS."
+
+  default = null
+
+}
+
+variable "azure_database_private_dns_zone_id" {
+  type        = string
+  description = "The ID of an existing private DNS zone used for the database."
+
+  default = null
+
+}
+
 variable "azure_cdp_subnet_names" {
   type        = list(any)
   description = "List of Azure Subnet Names for CDP Resources. Required for CDP deployment on Azure."
@@ -357,14 +509,6 @@ variable "azure_security_group_knox_uri" {
 
   default = null
 
-}
-
-variable "public_key_text" {
-  type = string
-
-  description = "SSH Public key string for the nodes of the CDP environment. Required for CDP deployment on Azure."
-
-  default = null
 }
 
 variable "use_public_ips" {

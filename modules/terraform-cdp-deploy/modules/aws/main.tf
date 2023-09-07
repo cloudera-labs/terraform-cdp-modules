@@ -37,6 +37,7 @@ resource "cdp_environments_aws_environment" "cdp_env" {
   }
 
   authentication = {
+    public_key    = var.public_key_text
     public_key_id = var.keypair_name
   }
 
@@ -48,10 +49,18 @@ resource "cdp_environments_aws_environment" "cdp_env" {
   freeipa = {
     instance_count_by_group = var.freeipa_instances
     multi_az                = var.multiaz
+    catalog                 = var.freeipa_catalog
+    image_id                = var.freeipa_image_id
+    instance_type           = var.freeipa_instance_type
+    recipes                 = var.freeipa_recipes
   }
 
-  workload_analytics = var.workload_analytics
-  enable_tunnel      = var.enable_ccm_tunnel
+  proxy_config_name   = var.proxy_config_name
+  s3_guard_table_name = var.s3_guard_table_name
+  workload_analytics  = var.workload_analytics
+  enable_tunnel       = var.enable_ccm_tunnel
+
+  encryption_key_arn = var.encryption_key_arn
   # tags               = var.tags # NOTE: Waiting on provider fix
 
   depends_on = [
@@ -113,11 +122,15 @@ resource "cdp_datalake_aws_datalake" "cdp_datalake" {
   instance_profile        = var.idbroker_instance_profile_arn
   storage_bucket_location = var.data_storage_location
 
-  runtime           = var.datalake_version
+  runtime           = var.datalake_version == "latest" ? null : var.datalake_version
   scale             = var.datalake_scale
   enable_ranger_raz = var.enable_raz
   multi_az          = var.multiaz
 
+  custom_instance_groups = var.datalake_custom_instance_groups
+  image                  = var.datalake_image
+  java_version           = var.datalake_java_version
+  recipes                = var.datalake_recipes
   # tags = var.tags # NOTE: Waiting on provider fix
 
   depends_on = [

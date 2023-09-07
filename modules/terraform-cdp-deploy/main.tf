@@ -46,7 +46,9 @@ module "cdp_on_aws" {
   public_subnet_ids = var.aws_public_subnet_ids
   # private_subnet_ids = var.aws_private_subnet_ids
   subnets_for_cdp = local.aws_subnets_for_cdp
+  # One of key settings below need to be set
   keypair_name    = var.keypair_name
+  public_key_text = var.public_key_text
 
   data_storage_location   = var.data_storage_location
   log_storage_location    = var.log_storage_location
@@ -59,6 +61,21 @@ module "cdp_on_aws" {
   idbroker_instance_profile_arn = var.aws_idbroker_instance_profile_arn
   log_instance_profile_arn      = var.aws_log_instance_profile_arn
 
+  # Optional parameters defaulting to null
+  freeipa_catalog       = var.freeipa_catalog
+  freeipa_image_id      = var.freeipa_image_id
+  freeipa_instance_type = var.freeipa_instance_type
+  freeipa_recipes       = var.freeipa_recipes
+
+  encryption_key_arn = var.encryption_key_arn
+
+  proxy_config_name   = var.proxy_config_name
+  s3_guard_table_name = var.s3_guard_table_name
+
+  datalake_custom_instance_groups = var.datalake_custom_instance_groups
+  datalake_image                  = var.datalake_image
+  datalake_java_version           = var.datalake_java_version
+  datalake_recipes                = var.datalake_recipes
 }
 
 # ------- Call sub-module for Azure Deployment -------
@@ -114,4 +131,24 @@ module "cdp_on_azure" {
   ranger_audit_identity_id  = var.azure_ranger_audit_identity_id
   log_identity_id           = var.azure_log_identity_id
   raz_identity_id           = var.azure_raz_identity_id
+
+  # Optional parameters defaulting to null
+  freeipa_catalog       = var.freeipa_catalog
+  freeipa_image_id      = var.freeipa_image_id
+  freeipa_instance_type = var.freeipa_instance_type
+  freeipa_recipes       = var.freeipa_recipes
+
+  enable_outbound_load_balancer = var.enable_outbound_load_balancer
+
+  encryption_key_resource_group_name = var.encryption_key_resource_group_name
+  encryption_key_url                 = var.encryption_key_url
+
+  azure_aks_private_dns_zone_id      = var.azure_aks_private_dns_zone_id
+  azure_database_private_dns_zone_id = var.azure_database_private_dns_zone_id
+
+  proxy_config_name = var.proxy_config_name
+
+  datalake_image        = var.datalake_image
+  datalake_java_version = var.datalake_java_version
+  datalake_recipes      = var.datalake_recipes
 }
