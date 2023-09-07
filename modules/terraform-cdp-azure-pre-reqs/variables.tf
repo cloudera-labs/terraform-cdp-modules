@@ -39,12 +39,6 @@ variable "env_prefix" {
   description = "Shorthand name for the environment. Used in resource descriptions"
 }
 
-# variable "public_key_text" {
-#   type = string
-
-#   description = "SSH Public key string for the nodes of the CDP environment"
-# }
-# ------- CDP Environment Deployment -------
 variable "deployment_template" {
   type = string
 
@@ -89,9 +83,23 @@ variable "vnet_name" {
 
 variable "vnet_cidr" {
   type        = string
-  description = "VNet CIDR Block"
+  description = "VNet CIDR Block. Required if create_vpc is true."
 
   default = "10.10.0.0/16"
+}
+
+variable "cdp_subnet_range" {
+  type        = number
+  description = "Size of each (internal) cluster subnet. Required if create_vpc is true."
+
+  default = 19
+}
+
+variable "gateway_subnet_range" {
+  type        = number
+  description = "Size of each gateway subnet. Required if create_vpc is true."
+
+  default = 24
 }
 
 variable "cdp_resourcegroup_name" {

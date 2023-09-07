@@ -23,7 +23,7 @@ module "cdp_vpc" {
   private_subnets = (local.subnets_required.private == 0 ?
     [] :
     [
-      for i in range(local.subnets_required.private) : cidrsubnet(var.vpc_cidr, ceil(log(local.subnets_required.total, 2)), local.subnets_required.public + i)
+      for i in range(local.subnets_required.private) : cidrsubnet(var.vpc_cidr, var.private_cidr_range - local.vpc_cidr_range, i)
     ]
   )
   private_subnet_tags = {
@@ -33,7 +33,7 @@ module "cdp_vpc" {
   public_subnets = (local.subnets_required.public == 0 ?
     [] :
     [
-      for i in range(local.subnets_required.public) : cidrsubnet(var.vpc_cidr, ceil(log(local.subnets_required.total, 2)), i)
+      for i in range(local.subnets_required.public) : cidrsubnet(var.vpc_cidr, var.public_cidr_range - local.vpc_cidr_range, i + local.public_subnet_offset)
     ]
   )
 
