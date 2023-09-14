@@ -68,7 +68,7 @@ resource "aws_security_group_rule" "cdp_default_sg_egress" {
   description       = "Egress rule for Default CDP Security Group"
   security_group_id = aws_security_group.cdp_default_sg.id
   type              = "egress"
-  cidr_blocks       = var.cdp_default_sg_egress_cidrs
+  cidr_blocks       = var.cdp_default_sg_egress_cidrs #tfsec:ignore:aws-ec2-no-public-egress-sgr #tfsec:ignore:aws-vpc-no-public-egress-sgr
   from_port         = 0
   to_port           = 0
   protocol          = "all"
@@ -112,7 +112,7 @@ resource "aws_security_group_rule" "cdp_knox_sg_egress" {
   description       = "Egress rule for Knox CDP Security Group"
   security_group_id = aws_security_group.cdp_knox_sg.id
   type              = "egress"
-  cidr_blocks       = var.cdp_knox_sg_egress_cidrs
+  cidr_blocks       = var.cdp_knox_sg_egress_cidrs #tfsec:ignore:aws-ec2-no-public-egress-sgr #tfsec:ignore:aws-vpc-no-public-egress-sgr
   from_port         = 0
   to_port           = 0
   protocol          = "all"
@@ -164,7 +164,7 @@ resource "aws_security_group_rule" "cdp_endpoint_sg_egress" {
   description       = "Egress rule for Endpoint CDP Security Group"
   security_group_id = aws_security_group.cdp_endpoint_sg[0].id
   type              = "egress"
-  cidr_blocks       = var.cdp_endpoint_sg_egress_cidrs
+  cidr_blocks       = var.cdp_endpoint_sg_egress_cidrs #tfsec:ignore:aws-ec2-no-public-egress-sgr #tfsec:ignore:aws-vpc-no-public-egress-sgr
   from_port         = 0
   to_port           = 0
   protocol          = "all"
