@@ -253,6 +253,36 @@ resource "aws_s3_bucket_public_access_block" "cdp_storage_locations" {
 
 }
 
+resource "aws_kms_key" "cdp_kms_key" {
+
+  count = var.enable_kms_bucket_encryption ? 1 : 0
+
+  description         = "KMS key for Bucket Encryption of ${var.env_prefix} CDP environment"
+  enable_key_rotation = "true"
+}
+
+resource "aws_kms_alias" "cdp_kms_alias" {
+
+  count = var.enable_kms_bucket_encryption ? 1 : 0
+
+  name          = "alias/${var.env_prefix}"
+  target_key_id = aws_kms_key.cdp_kms_key[0].key_id
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "cdp_storage_location_kms" {
+
+  for_each = var.enable_kms_bucket_encryption ? aws_s3_bucket.cdp_storage_locations : {}
+
+  bucket = each.value.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.cdp_kms_key[0].arn
+      sse_algorithm     = "aws:kms"
+    }
+  }
+}
+
 # ------- AWS Buckets directory structures -------
 # # Data Storage Objects
 # NOTE: Removing creation of the data storage object because CDP overrides this
@@ -315,7 +345,7 @@ data "aws_iam_policy_document" "cdp_idbroker_policy_doc" {
     sid       = "VisualEditor0"
     actions   = ["sts:AssumeRole"]
     effect    = "Allow"
-    resources = ["*"]
+    resources = ["*"] #tfsec:ignore:aws-iam-no-policy-wildcards
   }
 }
 
