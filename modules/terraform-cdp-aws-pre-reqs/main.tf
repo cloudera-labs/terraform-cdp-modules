@@ -27,6 +27,13 @@ module "aws_cdp_vpc" {
   env_prefix                 = var.env_prefix
   tags                       = local.env_tags
 
+  vpc_public_subnets_map_public_ip_on_launch = var.vpc_public_subnets_map_public_ip_on_launch
+
+  vpc_public_inbound_acl_rules   = var.vpc_public_inbound_acl_rules
+  vpc_public_outbound_acl_rules  = var.vpc_public_outbound_acl_rules
+  vpc_private_inbound_acl_rules  = var.vpc_private_inbound_acl_rules
+  vpc_private_outbound_acl_rules = var.vpc_private_outbound_acl_rules
+
 }
 
 # ------- Security Groups -------
