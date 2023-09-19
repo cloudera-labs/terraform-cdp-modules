@@ -68,3 +68,7 @@ Configure Terraform Provider for AWS or Azure
 * To create resources in the Cloud Provider, access credentials or service account are needed for authentication.
   * For **AWS** access keys are required to be able to create the Cloud resources via the Terraform aws provider. See the [AWS Terraform Provider Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration).
   * For **Azure**, authentication with the Azure subscription is required. There are a number of ways to do this outlined in the [Azure Terraform Provider Documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#authenticating-to-azure).
+
+## Local Development Environment
+
+See the [DEVELOPMENT.md](./DEVELOPMENT.md) file for instructions on how to set up an environment for local development of modules.
