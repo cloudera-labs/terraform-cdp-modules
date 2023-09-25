@@ -279,6 +279,16 @@ variable "backup_storage" {
   default = null
 }
 
+variable "enable_kms_bucket_encryption" {
+
+  type = bool
+
+  description = "Flag to create AWS KMS for encryption of S3 buckets. Currently disabled as further settings needed for successful CDP deployment."
+
+  default = false
+
+}
+
 # ------- Policies -------
 # Cross Account Policy (name and document)
 variable "xaccount_policy_name" {
