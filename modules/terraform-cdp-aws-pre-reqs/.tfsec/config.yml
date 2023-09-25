@@ -14,4 +14,5 @@ exclude:
 #region3 TODO: Explore how to expose these parameters
   - aws-s3-enable-versioning 
   - aws-s3-enable-bucket-logging
+  - aws-ec2-require-vpc-flow-logs-for-all-vpcs
 #endregion3

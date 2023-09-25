@@ -57,4 +57,32 @@ variable "private_network_extensions" {
 
 }
 
-  
+variable "vpc_public_subnets_map_public_ip_on_launch" {
+  description = "Auto-assign public IP on launch for instances created in Public Subnets.  Exposes default value of VPC module variable to allow for overriding. Only used when create_vpc is true."
+  type        = bool
+
+}
+
+variable "vpc_public_inbound_acl_rules" {
+  description = "Inbound network ACLs for Public subnets. Exposes default value of VPC module variable to allow for overriding."
+  type        = list(map(string))
+
+}
+
+variable "vpc_public_outbound_acl_rules" {
+  description = "Public subnets outbound network ACLs. Exposes default value of VPC module variable to allow for overriding."
+  type        = list(map(string))
+
+}
+
+variable "vpc_private_inbound_acl_rules" {
+  description = "Private subnets inbound network ACLs. Exposes default value of VPC module variable to allow for overriding."
+  type        = list(map(string))
+
+}
+
+variable "vpc_private_outbound_acl_rules" {
+  description = "Private subnets outbound network ACLs.  Exposes default value of VPC module variable to allow for overriding."
+  type        = list(map(string))
+
+}
