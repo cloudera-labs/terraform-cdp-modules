@@ -1,0 +1,18 @@
+# ---
+exclude:
+#region1 TODO: Remove once https://github.com/aquasecurity/tfsec/issues/1799 is fixed
+  - aws-s3-block-public-acls
+  - aws-s3-block-public-policy
+  - aws-s3-ignore-public-acls
+  - aws-s3-no-public-buckets
+  - aws-s3-specify-public-access-block
+#endregion1
+#region2 TODO: Remove once have tested CDP deployment with bucket encryption
+  - aws-s3-enable-bucket-encryption
+  - aws-s3-encryption-customer-key
+#endregion2
+#region3 TODO: Explore how to expose these parameters
+  - aws-s3-enable-versioning 
+  - aws-s3-enable-bucket-logging
+  - aws-ec2-require-vpc-flow-logs-for-all-vpcs
+#endregion3
