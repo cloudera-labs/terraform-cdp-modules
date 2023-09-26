@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#tfsec:ignore:aws-ec2-no-excessive-port-access
+#tfsec:ignore:aws-ec2-no-public-ingress-acl
+#tfsec:ignore:aws-ec2-no-public-ip-subnet
 module "cdp_vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.19.0"
@@ -45,6 +48,13 @@ module "cdp_vpc" {
   single_nat_gateway   = (var.deployment_template == "private") ? (var.private_network_extensions ? true : false) : false
   enable_dns_support   = true
   enable_dns_hostnames = true
+
+  map_public_ip_on_launch = var.vpc_public_subnets_map_public_ip_on_launch
+
+  public_inbound_acl_rules   = var.vpc_public_inbound_acl_rules
+  public_outbound_acl_rules  = var.vpc_public_outbound_acl_rules
+  private_inbound_acl_rules  = var.vpc_private_inbound_acl_rules
+  private_outbound_acl_rules = var.vpc_private_outbound_acl_rules
 
   tags = var.tags
 }

@@ -117,6 +117,77 @@ variable "private_network_extensions" {
   default = true
 }
 
+variable "vpc_public_subnets_map_public_ip_on_launch" {
+  description = "Auto-assign public IP on launch for instances created in Public Subnets.  Exposes default value of VPC module variable to allow for overriding. Only used when create_vpc is true."
+  type        = bool
+
+  default = true
+}
+
+variable "vpc_public_inbound_acl_rules" {
+  description = "Inbound network ACLs for Public subnets. Exposes default value of VPC module variable to allow for overriding. Only used when create_vpc is true."
+  type        = list(map(string))
+
+  default = [
+    {
+      rule_number = 100
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "0.0.0.0/0"
+    },
+  ]
+}
+
+variable "vpc_public_outbound_acl_rules" {
+  description = "Public subnets outbound network ACLs. Exposes default value of VPC module variable to allow for overriding. Only used when create_vpc is true."
+  type        = list(map(string))
+
+  default = [
+    {
+      rule_number = 100
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "0.0.0.0/0"
+    },
+  ]
+}
+
+variable "vpc_private_inbound_acl_rules" {
+  description = "Private subnets inbound network ACLs. Exposes default value of VPC module variable to allow for overriding. Only used when create_vpc is true."
+  type        = list(map(string))
+
+  default = [
+    {
+      rule_number = 100
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "0.0.0.0/0"
+    },
+  ]
+}
+
+variable "vpc_private_outbound_acl_rules" {
+  description = "Private subnets outbound network ACLs. Exposes default value of VPC module variable to allow for overriding. Only used when create_vpc is true."
+  type        = list(map(string))
+
+  default = [
+    {
+      rule_number = 100
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "0.0.0.0/0"
+    },
+  ]
+}
+
 variable "cdp_vpc_id" {
   type        = string
   description = "VPC ID for CDP environment. Required if create_vpc is false."
@@ -277,6 +348,16 @@ variable "backup_storage" {
   description = "Optional Backup location for CDP environment. If not provided follow the data_storage variable"
 
   default = null
+}
+
+variable "enable_kms_bucket_encryption" {
+
+  type = bool
+
+  description = "Flag to create AWS KMS for encryption of S3 buckets. Currently disabled as further settings needed for successful CDP deployment."
+
+  default = false
+
 }
 
 # ------- Policies -------
