@@ -214,21 +214,6 @@ resource "aws_vpc_endpoint" "interface_endpoints" {
 
   tags = merge(local.env_tags, { Name = "${var.env_prefix}-${each.key}-interface-endpoint" })
 }
-# S3-Global Interface endpoint
-resource "aws_vpc_endpoint" "s3_global_interface_endpoint" {
-
-  count = (var.create_vpc && var.create_vpc_endpoints) ? 1 : 0
-
-  vpc_id              = local.vpc_id
-  service_name        = "com.amazonaws.s3-global.accesspoint"
-  vpc_endpoint_type   = "Interface"
-  private_dns_enabled = true
-
-  subnet_ids         = var.deployment_template == "public" ? local.public_subnet_ids : local.private_subnet_ids
-  security_group_ids = [aws_security_group.cdp_endpoint_sg[0].id]
-
-  tags = merge(local.env_tags, { Name = "${var.env_prefix}-s3-global-interface-endpoint" })
-}
 
 # ------- S3 Buckets -------
 resource "random_id" "bucket_suffix" {
