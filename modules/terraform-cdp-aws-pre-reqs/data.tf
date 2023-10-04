@@ -37,7 +37,7 @@ data "aws_subnets" "vpc_subnets" {
 
 # Find details about S3 Gateway endpoint services
 data "aws_vpc_endpoint_service" "gateway_endpoints" {
-  for_each = toset(var.vpc_endpoint_gateway_services)
+  for_each = var.create_vpc && var.create_vpc_endpoints ? toset(var.vpc_endpoint_gateway_services) : []
 
   service      = each.key
   service_type = "Gateway"
@@ -45,7 +45,7 @@ data "aws_vpc_endpoint_service" "gateway_endpoints" {
 
 # Find details about S3 Gateway endpoint services
 data "aws_vpc_endpoint_service" "interface_endpoints" {
-  for_each = toset(var.vpc_endpoint_interface_services)
+  for_each = var.create_vpc && var.create_vpc_endpoints ? toset(var.vpc_endpoint_interface_services) : []
 
   service      = each.key
   service_type = "Interface"
