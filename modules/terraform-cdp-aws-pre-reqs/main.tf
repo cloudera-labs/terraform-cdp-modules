@@ -129,7 +129,7 @@ resource "aws_security_group_rule" "cdp_knox_sg_egress" {
 # VPC Endpoint SG
 resource "aws_security_group" "cdp_endpoint_sg" {
 
-  count = var.create_vpc_endpoints ? 1 : 0
+  count = (var.create_vpc && var.create_vpc_endpoints) ? 1 : 0
 
   vpc_id      = local.vpc_id
   name        = local.security_group_endpoint_name
@@ -140,7 +140,7 @@ resource "aws_security_group" "cdp_endpoint_sg" {
 # Create self reference ingress rule to allow communication within the security group
 resource "aws_security_group_rule" "cdp_endpoint_ingress_self" {
 
-  count = var.create_vpc_endpoints ? 1 : 0
+  count = (var.create_vpc && var.create_vpc_endpoints) ? 1 : 0
 
   security_group_id = aws_security_group.cdp_endpoint_sg[0].id
   type              = "ingress"
@@ -153,7 +153,7 @@ resource "aws_security_group_rule" "cdp_endpoint_ingress_self" {
 
 # Create security group rules from combining the default and extra list of ingress rules
 resource "aws_security_group_rule" "cdp_endpoint_sg_ingress" {
-  count = var.create_vpc_endpoints ? length(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress)) : 0
+  count = (var.create_vpc && var.create_vpc_endpoints) ? length(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress)) : 0
 
   description       = "Ingress rules for Endpoint Security Group"
   security_group_id = aws_security_group.cdp_endpoint_sg[0].id
@@ -167,7 +167,7 @@ resource "aws_security_group_rule" "cdp_endpoint_sg_ingress" {
 # Terraform removes the default ALLOW ALL egress. Let's recreate this
 resource "aws_security_group_rule" "cdp_endpoint_sg_egress" {
 
-  count = var.create_vpc_endpoints ? 1 : 0
+  count = (var.create_vpc && var.create_vpc_endpoints) ? 1 : 0
 
   description       = "Egress rule for Endpoint CDP Security Group"
   security_group_id = aws_security_group.cdp_endpoint_sg[0].id
@@ -184,7 +184,7 @@ resource "aws_vpc_endpoint" "gateway_endpoints" {
 
   for_each = {
     for k, v in toset(var.vpc_endpoint_gateway_services) : k => v
-    if var.create_vpc_endpoints == true
+    if var.create_vpc && var.create_vpc_endpoints
   }
 
   vpc_id            = local.vpc_id
@@ -201,7 +201,7 @@ resource "aws_vpc_endpoint" "interface_endpoints" {
 
   for_each = {
     for k, v in toset(var.vpc_endpoint_interface_services) : k => v
-    if var.create_vpc_endpoints == true
+    if var.create_vpc && var.create_vpc_endpoints
   }
 
   vpc_id              = local.vpc_id
@@ -213,21 +213,6 @@ resource "aws_vpc_endpoint" "interface_endpoints" {
   security_group_ids = [aws_security_group.cdp_endpoint_sg[0].id]
 
   tags = merge(local.env_tags, { Name = "${var.env_prefix}-${each.key}-interface-endpoint" })
-}
-# S3-Global Interface endpoint
-resource "aws_vpc_endpoint" "s3_global_interface_endpoint" {
-
-  count = var.create_vpc_endpoints ? 1 : 0
-
-  vpc_id              = local.vpc_id
-  service_name        = "com.amazonaws.s3-global.accesspoint"
-  vpc_endpoint_type   = "Interface"
-  private_dns_enabled = true
-
-  subnet_ids         = var.deployment_template == "public" ? local.public_subnet_ids : local.private_subnet_ids
-  security_group_ids = [aws_security_group.cdp_endpoint_sg[0].id]
-
-  tags = merge(local.env_tags, { Name = "${var.env_prefix}-s3-global-interface-endpoint" })
 }
 
 # ------- S3 Buckets -------
