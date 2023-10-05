@@ -24,6 +24,7 @@
 yum update -y
 yum install -y squid
 
+# Generate self-signed cert
 openssl req \
     -x509 -new -sha256 -nodes \
     -newkey rsa:2048 -days 365 \
@@ -31,6 +32,7 @@ openssl req \
     -out /etc/squid/cert.pem \
     -subj "/C=GB/ST=London/L=London/O=Example/OU=Example/CN=example.com"
 
+# Squid proxy configuration file
 cat > /etc/squid/squid.conf << EOF
 # Working Config File for non-transparent proxy
 # Recommended minimum configuration:
@@ -61,8 +63,7 @@ acl Safe_ports port 777        # multiling http
 
 
 
-#acl whitelist_url dstdomain .yahoo.com
-#acl http-whitelist dstdomain "/etc/squid/whitelist.txt"
+acl http-whitelist dstdomain "/etc/squid/whitelist.txt"
 #http_access allow http-whitelist
 
 
@@ -137,6 +138,66 @@ refresh_pattern .        0    20%    4320
 
 EOF
 
+# Genearte whitelist file
+cat > /etc/squid/whitelist.txt << EOF
+# TEST VAR aws_region is ${aws_region}
+#ML AMPS
+https://raw.githubusercontent.com
+https://github.com
+
+#CCMV2 US West
+.v2.us-west-1.ccm.cdp.cloudera.com
+
+#WXM
+dbusapi.us-west-1.sigma.altus.cloudera.com
+
+.s3.amazonaws.com
+
+#Parcels
+archive.cloudera.com
+
+#CDP API - CDF,CDE & CML
+api.us-west-1.cdp.cloudera.com
+
+#CDE - AWS Services API
+cloudformation.us-east-2.amazonaws.com
+autoscaling.us-east-2.amazonaws.com
+
+
+#CDE - K8s ContropPlane API
+.eks.amazonws.com
+
+eks.us-east-2.amazonaws.com
+#cloudformation.*.amazonaws.com
+
+
+##Docker Images
+
+container.repository.cloudera.com
+
+docker.repository.cloudera.com
+container.repo.cloudera.com
+
+.s3.us-west-2.amazonaws.com
+
+s3-r-w.us-west-2.amazonaws.com
+
+.execute-api.us-west-2.amazonaws.com
+
+#IDP DF
+consoleauth.us-west-1.core.altus.cloudera.com
+#DE DF Pub Key Signing
+consoleauth.altus.cloudera.com
+
+#DW RDS API
+rds.*.amazonaws.com
+
+#DW Service quotas
+servicequotas.*.amazonaws.com
+
+#DW Pricing list
+pricing.*.amazonaws.com
+EOF
 # Start and enable squid
 systemctl enable squid
 systemctl start squid
