@@ -96,7 +96,6 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [aws_security_group_rule.cdp_knox_sg_ingress_self](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/security_group_rule) | resource |
 | [aws_vpc_endpoint.gateway_endpoints](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/vpc_endpoint) | resource |
 | [aws_vpc_endpoint.interface_endpoints](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/vpc_endpoint) | resource |
-| [aws_vpc_endpoint.s3_global_interface_endpoint](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/vpc_endpoint) | resource |
 | [random_id.bucket_suffix](https://registry.terraform.io/providers/hashicorp/random/3.4.3/docs/resources/id) | resource |
 | [time_sleep.iam_propagation](https://registry.terraform.io/providers/hashicorp/time/0.9.1/docs/resources/sleep) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/caller_identity) | data source |
@@ -185,14 +184,18 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 |------|-------------|
 | <a name="output_aws_backup_storage_bucket"></a> [aws\_backup\_storage\_bucket](#output\_aws\_backup\_storage\_bucket) | AWS backup storage bucket |
 | <a name="output_aws_backup_storage_location"></a> [aws\_backup\_storage\_location](#output\_aws\_backup\_storage\_location) | AWS backup storage location |
+| <a name="output_aws_backup_storage_object"></a> [aws\_backup\_storage\_object](#output\_aws\_backup\_storage\_object) | AWS backup storage object |
 | <a name="output_aws_data_storage_bucket"></a> [aws\_data\_storage\_bucket](#output\_aws\_data\_storage\_bucket) | AWS data storage bucket |
 | <a name="output_aws_data_storage_location"></a> [aws\_data\_storage\_location](#output\_aws\_data\_storage\_location) | AWS data storage location |
+| <a name="output_aws_data_storage_object"></a> [aws\_data\_storage\_object](#output\_aws\_data\_storage\_object) | AWS data storage object |
 | <a name="output_aws_datalake_admin_role_arn"></a> [aws\_datalake\_admin\_role\_arn](#output\_aws\_datalake\_admin\_role\_arn) | Datalake Admin role ARN |
 | <a name="output_aws_default_route_table_id"></a> [aws\_default\_route\_table\_id](#output\_aws\_default\_route\_table\_id) | AWS default route table ID |
 | <a name="output_aws_idbroker_instance_profile_arn"></a> [aws\_idbroker\_instance\_profile\_arn](#output\_aws\_idbroker\_instance\_profile\_arn) | IDBroker instance profile ARN |
 | <a name="output_aws_log_instance_profile_arn"></a> [aws\_log\_instance\_profile\_arn](#output\_aws\_log\_instance\_profile\_arn) | Log instance profile ARN |
+| <a name="output_aws_log_role_name"></a> [aws\_log\_role\_name](#output\_aws\_log\_role\_name) | Log role Name |
 | <a name="output_aws_log_storage_bucket"></a> [aws\_log\_storage\_bucket](#output\_aws\_log\_storage\_bucket) | AWS log storage bucket |
 | <a name="output_aws_log_storage_location"></a> [aws\_log\_storage\_location](#output\_aws\_log\_storage\_location) | AWS log storage location |
+| <a name="output_aws_log_storage_object"></a> [aws\_log\_storage\_object](#output\_aws\_log\_storage\_object) | AWS log storage object |
 | <a name="output_aws_private_route_table_ids"></a> [aws\_private\_route\_table\_ids](#output\_aws\_private\_route\_table\_ids) | AWS private route table IDs |
 | <a name="output_aws_private_subnet_ids"></a> [aws\_private\_subnet\_ids](#output\_aws\_private\_subnet\_ids) | AWS private subnet IDs |
 | <a name="output_aws_public_route_table_ids"></a> [aws\_public\_route\_table\_ids](#output\_aws\_public\_route\_table\_ids) | AWS public route table IDs |
