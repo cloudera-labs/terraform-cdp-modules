@@ -95,6 +95,15 @@ variable "vpc_cidr" {
   default = "10.10.0.0/16"
 }
 
+variable "vpc_name" {
+  type = string
+
+  description = "Name of the VPC. Defaults to <env_prefix>-net if not specified"
+
+  default = null
+}
+
+
 variable "private_cidr_range" {
   type        = number
   description = "Size of each private subnet. Required if create_vpc is true. Number of subnets will be automatically selected to match on the number of Availability Zones in the selected AWS region. (Depending on the selected deployment pattern, one subnet will be created per region.)"

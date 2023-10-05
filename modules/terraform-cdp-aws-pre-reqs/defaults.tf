@@ -26,6 +26,8 @@ locals {
   vpc_id = (var.create_vpc ?
   module.aws_cdp_vpc[0].vpc_id : var.cdp_vpc_id)
 
+  vpc_name = coalesce(var.vpc_name, "${var.env_prefix}-net")
+  
   default_route_table_id  = (var.create_vpc ? module.aws_cdp_vpc[0].default_route_table : null)
   public_route_table_ids  = (var.create_vpc ? module.aws_cdp_vpc[0].public_route_tables : null)
   private_route_table_ids = (var.create_vpc ? module.aws_cdp_vpc[0].private_route_tables : null)

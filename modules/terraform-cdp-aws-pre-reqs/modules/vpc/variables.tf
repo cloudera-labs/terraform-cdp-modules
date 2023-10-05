@@ -12,6 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+variable "vpc_name" {
+  type = string
+
+  description = "Name of the VPC."
+
+}
+
 variable "vpc_cidr" {
   type        = string
   description = "VPC CIDR Block"
