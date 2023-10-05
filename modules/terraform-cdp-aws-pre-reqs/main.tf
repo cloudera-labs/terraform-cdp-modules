@@ -27,13 +27,15 @@ module "aws_cdp_vpc" {
   env_prefix                 = var.env_prefix
   tags                       = local.env_tags
 
+  private_cidr_range = var.private_cidr_range
+  public_cidr_range  = var.public_cidr_range
+
   vpc_public_subnets_map_public_ip_on_launch = var.vpc_public_subnets_map_public_ip_on_launch
 
   vpc_public_inbound_acl_rules   = var.vpc_public_inbound_acl_rules
   vpc_public_outbound_acl_rules  = var.vpc_public_outbound_acl_rules
   vpc_private_inbound_acl_rules  = var.vpc_private_inbound_acl_rules
   vpc_private_outbound_acl_rules = var.vpc_private_outbound_acl_rules
-
 }
 
 # ------- Security Groups -------
@@ -128,7 +130,7 @@ resource "aws_security_group_rule" "cdp_knox_sg_egress" {
 # VPC Endpoint SG
 resource "aws_security_group" "cdp_endpoint_sg" {
 
-  count = var.create_vpc_endpoints ? 1 : 0
+  count = (var.create_vpc && var.create_vpc_endpoints) ? 1 : 0
 
   vpc_id      = local.vpc_id
   name        = local.security_group_endpoint_name
@@ -139,7 +141,7 @@ resource "aws_security_group" "cdp_endpoint_sg" {
 # Create self reference ingress rule to allow communication within the security group
 resource "aws_security_group_rule" "cdp_endpoint_ingress_self" {
 
-  count = var.create_vpc_endpoints ? 1 : 0
+  count = (var.create_vpc && var.create_vpc_endpoints) ? 1 : 0
 
   security_group_id = aws_security_group.cdp_endpoint_sg[0].id
   type              = "ingress"
@@ -152,7 +154,7 @@ resource "aws_security_group_rule" "cdp_endpoint_ingress_self" {
 
 # Create security group rules from combining the default and extra list of ingress rules
 resource "aws_security_group_rule" "cdp_endpoint_sg_ingress" {
-  count = var.create_vpc_endpoints ? length(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress)) : 0
+  count = (var.create_vpc && var.create_vpc_endpoints) ? length(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress)) : 0
 
   description       = "Ingress rules for Endpoint Security Group"
   security_group_id = aws_security_group.cdp_endpoint_sg[0].id
@@ -166,7 +168,7 @@ resource "aws_security_group_rule" "cdp_endpoint_sg_ingress" {
 # Terraform removes the default ALLOW ALL egress. Let's recreate this
 resource "aws_security_group_rule" "cdp_endpoint_sg_egress" {
 
-  count = var.create_vpc_endpoints ? 1 : 0
+  count = (var.create_vpc && var.create_vpc_endpoints) ? 1 : 0
 
   description       = "Egress rule for Endpoint CDP Security Group"
   security_group_id = aws_security_group.cdp_endpoint_sg[0].id
@@ -183,7 +185,7 @@ resource "aws_vpc_endpoint" "gateway_endpoints" {
 
   for_each = {
     for k, v in toset(var.vpc_endpoint_gateway_services) : k => v
-    if var.create_vpc_endpoints == true
+    if var.create_vpc && var.create_vpc_endpoints
   }
 
   vpc_id            = local.vpc_id
@@ -200,7 +202,7 @@ resource "aws_vpc_endpoint" "interface_endpoints" {
 
   for_each = {
     for k, v in toset(var.vpc_endpoint_interface_services) : k => v
-    if var.create_vpc_endpoints == true
+    if var.create_vpc && var.create_vpc_endpoints
   }
 
   vpc_id              = local.vpc_id
@@ -208,25 +210,10 @@ resource "aws_vpc_endpoint" "interface_endpoints" {
   vpc_endpoint_type   = "Interface"
   private_dns_enabled = true
 
-  subnet_ids         = concat(local.public_subnet_ids, local.private_subnet_ids)
+  subnet_ids         = var.deployment_template == "public" ? local.public_subnet_ids : local.private_subnet_ids
   security_group_ids = [aws_security_group.cdp_endpoint_sg[0].id]
 
   tags = merge(local.env_tags, { Name = "${var.env_prefix}-${each.key}-interface-endpoint" })
-}
-# S3-Global Interface endpoint
-resource "aws_vpc_endpoint" "s3_global_interface_endpoint" {
-
-  count = var.create_vpc_endpoints ? 1 : 0
-
-  vpc_id              = local.vpc_id
-  service_name        = "com.amazonaws.s3-global.accesspoint"
-  vpc_endpoint_type   = "Interface"
-  private_dns_enabled = true
-
-  subnet_ids         = concat(local.public_subnet_ids, local.private_subnet_ids)
-  security_group_ids = [aws_security_group.cdp_endpoint_sg[0].id]
-
-  tags = merge(local.env_tags, { Name = "${var.env_prefix}-s3-global-interface-endpoint" })
 }
 
 # ------- S3 Buckets -------
@@ -439,14 +426,14 @@ data "aws_iam_policy_document" "cdp_xaccount_role_policy_doc" {
 
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::${local.xaccount_account_id}:root"]
+      identifiers = ["arn:aws:iam::${var.xaccount_account_id}:root"]
     }
 
     condition {
       test     = "StringEquals"
       variable = "sts:ExternalId"
 
-      values = [local.xaccount_external_id]
+      values = [var.xaccount_external_id]
     }
   }
 }
@@ -465,6 +452,13 @@ resource "aws_iam_role" "cdp_xaccount_role" {
 resource "aws_iam_role_policy_attachment" "cdp_xaccount_role_attach" {
   role       = aws_iam_role.cdp_xaccount_role.name
   policy_arn = aws_iam_policy.cdp_xaccount_policy.arn
+}
+
+# Wait for propagation of IAM xaccount role.
+# Required for CDP credential
+resource "time_sleep" "iam_propagation" {
+  depends_on      = [aws_iam_role.cdp_xaccount_role]
+  create_duration = "45s"
 }
 
 # ------- AWS Service Roles - CDP IDBroker -------

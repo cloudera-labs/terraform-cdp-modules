@@ -25,6 +25,16 @@ variable "vpc_cidr" {
 
 }
 
+variable "private_cidr_range" {
+  type        = number
+  description = "Size of each private subnet"
+}
+
+variable "public_cidr_range" {
+  type        = number
+  description = "Size of each public subnet"
+}
+
 variable "tags" {
   type        = map(any)
   description = "Tags applied to provised resources"

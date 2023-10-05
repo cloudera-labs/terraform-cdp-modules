@@ -16,21 +16,21 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.0"
+      version = "4.67.0"
     }
     http = {
       source  = "hashicorp/http"
       version = "3.2.1"
     }
-    external = {
-      source  = "hashicorp/external"
-      version = "2.3.1"
-    }
     random = {
       source  = "hashicorp/random"
       version = "3.4.3"
     }
+    time = {
+      source  = "hashicorp/time"
+      version = "0.9.1"
+    }
   }
 
-  required_version = "> 1.3.0"
+  required_version = ">= 1.3.0"
 }

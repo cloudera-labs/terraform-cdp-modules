@@ -37,7 +37,7 @@ data "aws_subnets" "vpc_subnets" {
 
 # Find details about S3 Gateway endpoint services
 data "aws_vpc_endpoint_service" "gateway_endpoints" {
-  for_each = toset(var.vpc_endpoint_gateway_services)
+  for_each = var.create_vpc && var.create_vpc_endpoints ? toset(var.vpc_endpoint_gateway_services) : []
 
   service      = each.key
   service_type = "Gateway"
@@ -45,7 +45,7 @@ data "aws_vpc_endpoint_service" "gateway_endpoints" {
 
 # Find details about S3 Gateway endpoint services
 data "aws_vpc_endpoint_service" "interface_endpoints" {
-  for_each = toset(var.vpc_endpoint_interface_services)
+  for_each = var.create_vpc && var.create_vpc_endpoints ? toset(var.vpc_endpoint_interface_services) : []
 
   service      = each.key
   service_type = "Interface"
@@ -85,17 +85,4 @@ data "http" "datalake_backup_policy_doc" {
 # ..CDP Data Lake Restore Policies
 data "http" "datalake_restore_policy_doc" {
   url = "https://raw.githubusercontent.com/hortonworks/cloudbreak/CB-2.73.0/cloud-aws-cloudformation/src/main/resources/definitions/aws-datalake-restore-policy.json"
-}
-
-# Use the cdp cli to determin the 
-data "external" "cdpcli" {
-
-  count = var.lookup_cdp_account_ids == true ? 1 : 0
-
-  program = ["bash", "${path.module}/run_cdp_get_cred_prereqs.sh"]
-  query = {
-    infra_type  = var.infra_type
-    cdp_profile = var.cdp_profile
-    cdp_region  = var.cdp_control_plane_region
-  }
 }

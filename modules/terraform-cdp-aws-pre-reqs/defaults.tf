@@ -27,11 +27,12 @@ locals {
   module.aws_cdp_vpc[0].vpc_id : var.cdp_vpc_id)
 
   vpc_name = coalesce(var.vpc_name, "${var.env_prefix}-net")
-
+  
   default_route_table_id  = (var.create_vpc ? module.aws_cdp_vpc[0].default_route_table : null)
   public_route_table_ids  = (var.create_vpc ? module.aws_cdp_vpc[0].public_route_tables : null)
   private_route_table_ids = (var.create_vpc ? module.aws_cdp_vpc[0].private_route_tables : null)
 
+  # If we create the vpc and have private deployment template public subnets are always empty
   public_subnet_ids = (var.create_vpc ?
   (var.deployment_template == "private" ? [] : module.aws_cdp_vpc[0].public_subnets) : var.cdp_public_subnet_ids)
 
@@ -155,7 +156,7 @@ locals {
   datalake_backup_policy_doc_processed = replace(
     replace(
     data.http.datalake_backup_policy_doc.response_body, "$${ARN_PARTITION}", "aws"),
-  "$${BACKUP_LOCATION_BASE}", "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}")
+  "$${BACKUP_LOCATION_BASE}", "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}/${replace(local.backup_storage.backup_storage_object, "/", "")}")
 
   # ...then assign either input or downloaded policy doc to var used in resource
   datalake_backup_policy_doc = coalesce(var.datalake_backup_policy_doc, local.datalake_backup_policy_doc_processed)
@@ -168,17 +169,13 @@ locals {
   datalake_restore_policy_doc_processed = replace(
     replace(
     data.http.datalake_restore_policy_doc.response_body, "$${ARN_PARTITION}", "aws"),
-  "$${BACKUP_LOCATION_BASE}", "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}")
+  "$${BACKUP_LOCATION_BASE}", "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}/${replace(local.backup_storage.backup_storage_object, "/", "")}")
 
   # ...then assign either input or downloaded policy doc to var used in resource
   datalake_restore_policy_doc = coalesce(var.datalake_restore_policy_doc, local.datalake_restore_policy_doc_processed)
 
   # ------- Roles -------
   xaccount_role_name = coalesce(var.xaccount_role_name, "${var.env_prefix}-xaccount-role")
-
-  xaccount_account_id = coalesce(var.xaccount_account_id, var.lookup_cdp_account_ids ? data.external.cdpcli[0].result.account_id : null)
-
-  xaccount_external_id = coalesce(var.xaccount_external_id, var.lookup_cdp_account_ids ? data.external.cdpcli[0].result.external_id : null)
 
   idbroker_role_name = coalesce(var.idbroker_role_name, "${var.env_prefix}-idbroker-role")
 

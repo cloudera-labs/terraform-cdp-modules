@@ -18,19 +18,6 @@ output "tags" {
   description = "Tags associated with the environment and its resources"
 }
 
-# CDP settings
-output "cdp_profile" {
-  value = var.cdp_profile
-
-  description = "Profile for CDP credentials"
-}
-
-output "cdp_control_plane_region" {
-  value = var.cdp_control_plane_region
-
-  description = "CDP Control Plane region"
-}
-
 # CSP settings
 output "aws_region" {
   value = var.aws_region
@@ -105,16 +92,16 @@ output "aws_log_storage_bucket" {
   description = "AWS log storage bucket"
 }
 
-output "aws_log_storage_location" {
-  value = "s3a://${local.log_storage.log_storage_bucket}${local.storage_suffix}/${local.log_storage.log_storage_object}"
-
-  description = "AWS log storage location"
-}
-
 output "aws_log_storage_object" {
   value = local.log_storage.log_storage_object
 
   description = "AWS log storage object"
+}
+
+output "aws_log_storage_location" {
+  value = "s3a://${local.log_storage.log_storage_bucket}${local.storage_suffix}/${local.log_storage.log_storage_object}"
+
+  description = "AWS log storage location"
 }
 
 output "aws_backup_storage_bucket" {
@@ -128,7 +115,6 @@ output "aws_backup_storage_object" {
 
   description = "AWS backup storage object"
 }
-
 output "aws_backup_storage_location" {
   value = "s3a://${local.backup_storage.backup_storage_bucket}${local.storage_suffix}/${local.backup_storage.backup_storage_object}"
 

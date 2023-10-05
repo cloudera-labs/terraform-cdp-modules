@@ -1,3 +1,4 @@
+# ---
 exclude:
 #region1 TODO: Remove once https://github.com/aquasecurity/tfsec/issues/1799 is fixed
   - aws-s3-block-public-acls

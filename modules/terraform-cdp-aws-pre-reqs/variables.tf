@@ -52,21 +52,13 @@ variable "env_prefix" {
 }
 
 # ------- CDP Environment Deployment -------
-variable "cdp_profile" {
-  type        = string
-  description = "Profile for CDP credentials"
+# variable "cdp_control_plane_region" {
+#   type        = string
+#   description = "CDP Control Plane Region"
 
-  # Profile is default unless explicitly specified
-  default = "default"
-}
-
-variable "cdp_control_plane_region" {
-  type        = string
-  description = "CDP Control Plane Region"
-
-  # Region is us-west-1 unless explicitly specified
-  default = "us-west-1"
-}
+#   # Region is us-west-1 unless explicitly specified
+#   default = "us-west-1"
+# }
 
 variable "deployment_template" {
   type = string
@@ -77,14 +69,6 @@ variable "deployment_template" {
     condition     = contains(["public", "semi-private", "private"], var.deployment_template)
     error_message = "Valid values for var: deployment_template are (public, semi-private, private)."
   }
-}
-
-variable "lookup_cdp_account_ids" {
-  type = bool
-
-  description = "Auto lookup CDP Account and External ID using CDP CLI commands. If false then the xaccount_account_id and xaccount_external_id input variables need to be specified"
-
-  default = true
 }
 
 # variable "enable_raz" {
@@ -106,7 +90,7 @@ variable "create_vpc" {
 
 variable "vpc_cidr" {
   type        = string
-  description = "VPC CIDR Block"
+  description = "VPC CIDR Block. Required if create_vpc is true."
 
   default = "10.10.0.0/16"
 }
@@ -119,6 +103,20 @@ variable "vpc_name" {
   default = null
 }
 
+
+variable "private_cidr_range" {
+  type        = number
+  description = "Size of each private subnet. Required if create_vpc is true. Number of subnets will be automatically selected to match on the number of Availability Zones in the selected AWS region. (Depending on the selected deployment pattern, one subnet will be created per region.)"
+
+  default = 19
+}
+
+variable "public_cidr_range" {
+  type        = number
+  description = "Size of each public subnet. Required if create_vpc is true. Number of subnets will be automatically selected to match on the number of Availability Zones in the selected AWS region. (Depending on the selected deployment pattern, one subnet will be created per region.)"
+
+  default = 24
+}
 
 variable "private_network_extensions" {
   type = bool
@@ -282,6 +280,14 @@ variable "cdp_endpoint_sg_egress_cidrs" {
   default = ["0.0.0.0/0"]
 }
 
+variable "create_vpc_endpoints" {
+  type = bool
+
+  description = "Flag to specify if VPC Endpoints should be created"
+
+  default = true
+}
+
 variable "vpc_endpoint_gateway_services" {
   type = list(string)
 
@@ -308,14 +314,6 @@ variable "vpc_endpoint_interface_services" {
     "cloudformation",
     "autoscaling",
   ]
-}
-
-variable "create_vpc_endpoints" {
-  type = bool
-
-  description = "Flag to specify if VPC Endpoints should be created"
-
-  default = true
 }
 
 # ------- Storage Resources -------
@@ -498,14 +496,12 @@ variable "xaccount_account_id" {
   type        = string
   description = "Account ID of the cross account"
 
-  default = null
 }
 
 variable "xaccount_external_id" {
   type        = string
   description = "External ID of the cross account"
 
-  default = null
 }
 
 # IDBroker service role
