@@ -139,6 +139,14 @@ variable "freeipa_instances" {
   default = 3
 }
 
+variable "freeipa_recipes" {
+  type = set(string)
+
+  description = "The recipes for the FreeIPA cluster"
+
+  default = null
+}
+
 variable "workload_analytics" {
   type = bool
 
@@ -187,6 +195,20 @@ variable "endpoint_access_scheme" {
   default = null
 
 }
+
+variable "datalake_recipes" {
+  type = list(
+    object({
+      instance_group_name = string,
+      recipe_names        = list(string)
+    })
+  )
+
+  description = "Additional recipes that will be attached on the datalake instances"
+
+  default = null
+}
+
 # ------- Cloud Service Provider Settings - General -------
 variable "region" {
   type        = string

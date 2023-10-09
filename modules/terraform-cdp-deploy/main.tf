@@ -35,6 +35,7 @@ module "cdp_on_aws" {
   enable_raz             = var.enable_raz
   multiaz                = var.multiaz
   freeipa_instances      = var.freeipa_instances
+  freeipa_recipes       = var.freeipa_recipes
   workload_analytics     = var.workload_analytics
   endpoint_access_scheme = local.endpoint_access_scheme
 
@@ -62,6 +63,8 @@ module "cdp_on_aws" {
   # NOTE: New inputs for proxy
   proxy_ip   = var.proxy_ip
   proxy_port = var.proxy_port
+
+  datalake_recipes = var.datalake_recipes
 }
 
 # ------- Call sub-module for Azure Deployment -------

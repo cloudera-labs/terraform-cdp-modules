@@ -90,6 +90,13 @@ variable "freeipa_instances" {
 
 }
 
+variable "freeipa_recipes" {
+  type = set(string)
+
+  description = "The recipes for the FreeIPA cluster"
+
+}
+
 variable "workload_analytics" {
   type = bool
 
@@ -118,6 +125,18 @@ variable "datalake_version" {
     condition     = length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0
     error_message = "Valid values for var: datalake_version must match semantic versioning conventions."
   }
+
+}
+
+variable "datalake_recipes" {
+  type = list(
+    object({
+      instance_group_name = string,
+      recipe_names        = list(string)
+    })
+  )
+
+  description = "Additional recipes that will be attached on the datalake instances"
 
 }
 

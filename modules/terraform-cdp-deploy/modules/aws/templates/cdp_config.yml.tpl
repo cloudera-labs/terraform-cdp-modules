@@ -24,11 +24,13 @@ plat__cdp_iam_admin_group_name: ${plat__cdp_iam_admin_group_name}
 plat__cdp_iam_user_group_name: ${plat__cdp_iam_user_group_name} 
 plat__datalake_scale: ${plat__datalake_scale}
 plat__datalake_version: ${plat__datalake_version}
+plat__datalake_recipes: ${plat__datalake_recipes}
 plat__tunnel: ${plat__tunnel}
 plat__endpoint_access_scheme: ${plat__endpoint_access_scheme}
 plat__enable_raz: ${plat__enable_raz}
 plat__env_multiaz: ${plat__env_multiaz}
 plat__env_freeipa_instances: ${plat__env_freeipa_instances} 
+plat__env_freeipa_recipes: ${plat__env_freeipa_recipes} 
 plat__workload_analytics: ${plat__workload_analytics}
 plat__tags: ${plat__tags}
 

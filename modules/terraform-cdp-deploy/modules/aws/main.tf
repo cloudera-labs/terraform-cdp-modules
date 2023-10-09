@@ -27,6 +27,7 @@ resource "local_file" "cdp_deployment_template" {
     plat__datalake_name             = var.datalake_name
     plat__datalake_scale            = var.datalake_scale
     plat__datalake_version          = var.datalake_version
+    plat__datalake_recipes          = var.datalake_recipes == null ? jsonencode([]) : jsonencode(var.datalake_recipes)
     plat__xacccount_credential_name = var.cdp_xacccount_credential_name
     plat__cdp_iam_admin_group_name  = var.cdp_admin_group_name
     plat__cdp_iam_user_group_name   = var.cdp_user_group_name
@@ -35,6 +36,7 @@ resource "local_file" "cdp_deployment_template" {
     plat__enable_raz                = var.enable_raz
     plat__env_multiaz               = var.multiaz
     plat__env_freeipa_instances     = var.freeipa_instances
+    plat__env_freeipa_recipes       = var.freeipa_recipes == null ? jsonencode([]) : jsonencode(var.freeipa_recipes)
     plat__workload_analytics        = var.workload_analytics
     plat__tags                      = jsonencode(var.tags)
 
