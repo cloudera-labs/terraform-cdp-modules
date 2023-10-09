@@ -81,7 +81,7 @@ resource "aws_launch_template" "proxy_lt" {
   instance_type = var.aws_instance_type
   key_name      = var.aws_keypair_name
 
-  user_data = base64encode(templatefile("${path.module}/files/user-data-squid-proxy.sh", {aws_region = "eu-west-1"}))
+  user_data = base64encode(templatefile("${path.module}/files/user-data-squid-proxy.sh", {cdp_region = "us-west-1"}))
 
   network_interfaces {
     associate_public_ip_address = var.proxy_public_ip
