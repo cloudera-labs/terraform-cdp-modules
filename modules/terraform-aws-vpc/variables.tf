@@ -46,6 +46,7 @@ variable "tags" {
   type        = map(any)
   description = "Tags applied to VPC resources"
 
+  default = null
 }
 
 variable "private_subnet_tags" {
