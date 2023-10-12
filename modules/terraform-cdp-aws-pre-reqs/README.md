@@ -38,7 +38,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aws_cdp_vpc"></a> [aws\_cdp\_vpc](#module\_aws\_cdp\_vpc) | ./modules/vpc | n/a |
+| <a name="module_aws_cdp_vpc"></a> [aws\_cdp\_vpc](#module\_aws\_cdp\_vpc) | ../terraform-aws-vpc | n/a |
 
 ## Resources
 
@@ -169,6 +169,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | VPC CIDR Block. Required if create\_vpc is true. | `string` | `"10.10.0.0/16"` | no |
 | <a name="input_vpc_endpoint_gateway_services"></a> [vpc\_endpoint\_gateway\_services](#input\_vpc\_endpoint\_gateway\_services) | List of AWS services used for VPC Gateway Endpoints | `list(string)` | <pre>[<br>  "s3"<br>]</pre> | no |
 | <a name="input_vpc_endpoint_interface_services"></a> [vpc\_endpoint\_interface\_services](#input\_vpc\_endpoint\_interface\_services) | List of AWS services used for VPC Interface Endpoints | `list(string)` | <pre>[<br>  "sts",<br>  "rds",<br>  "elasticloadbalancing",<br>  "elasticfilesystem",<br>  "eks",<br>  "ecr.dkr",<br>  "ecr.api",<br>  "ec2",<br>  "cloudformation",<br>  "autoscaling"<br>]</pre> | no |
+| <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | Name of the VPC. Defaults to <env\_prefix>-net if not specified | `string` | `null` | no |
 | <a name="input_vpc_private_inbound_acl_rules"></a> [vpc\_private\_inbound\_acl\_rules](#input\_vpc\_private\_inbound\_acl\_rules) | Private subnets inbound network ACLs. Exposes default value of VPC module variable to allow for overriding. Only used when create\_vpc is true. | `list(map(string))` | <pre>[<br>  {<br>    "cidr_block": "0.0.0.0/0",<br>    "from_port": 0,<br>    "protocol": "-1",<br>    "rule_action": "allow",<br>    "rule_number": 100,<br>    "to_port": 0<br>  }<br>]</pre> | no |
 | <a name="input_vpc_private_outbound_acl_rules"></a> [vpc\_private\_outbound\_acl\_rules](#input\_vpc\_private\_outbound\_acl\_rules) | Private subnets outbound network ACLs. Exposes default value of VPC module variable to allow for overriding. Only used when create\_vpc is true. | `list(map(string))` | <pre>[<br>  {<br>    "cidr_block": "0.0.0.0/0",<br>    "from_port": 0,<br>    "protocol": "-1",<br>    "rule_action": "allow",<br>    "rule_number": 100,<br>    "to_port": 0<br>  }<br>]</pre> | no |
 | <a name="input_vpc_public_inbound_acl_rules"></a> [vpc\_public\_inbound\_acl\_rules](#input\_vpc\_public\_inbound\_acl\_rules) | Inbound network ACLs for Public subnets. Exposes default value of VPC module variable to allow for overriding. Only used when create\_vpc is true. | `list(map(string))` | <pre>[<br>  {<br>    "cidr_block": "0.0.0.0/0",<br>    "from_port": 0,<br>    "protocol": "-1",<br>    "rule_action": "allow",<br>    "rule_number": 100,<br>    "to_port": 0<br>  }<br>]</pre> | no |

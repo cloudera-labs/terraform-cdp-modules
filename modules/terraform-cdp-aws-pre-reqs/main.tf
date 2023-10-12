@@ -18,14 +18,14 @@ module "aws_cdp_vpc" {
 
   count = var.create_vpc ? 1 : 0
 
-  source = "./modules/vpc"
+  source = "../terraform-aws-vpc"
 
   deployment_template        = var.deployment_template
   vpc_name                   = local.vpc_name
   vpc_cidr                   = var.vpc_cidr
   private_network_extensions = var.private_network_extensions
-  env_prefix                 = var.env_prefix
-  tags                       = local.env_tags
+
+  tags = local.env_tags
 
   private_cidr_range = var.private_cidr_range
   public_cidr_range  = var.public_cidr_range
