@@ -4,9 +4,12 @@ This repository contains a number of Terraform modules for creation of the pre-r
 
 ## Modules
 
-* For AWS pre-requisite Cloud resources see [terraform-cdp-aws-prereqs](modules/terraform-cdp-aws-pre-reqs/README.md).
-* For Azure pre-requisite Cloud resources see [terraform-cdp-azure-prereqs](modules/terraform-cdp-azure-pre-reqs/README.md).
-* For deployment of CDP on Azure or AWS see [terraform-cdp-deploy](modules/terraform-cdp-deploy/README.md).
+| Module name | Description |
+| ----------- | ----------- |
+| [terraform-cdp-aws-prereqs](modules/terraform-cdp-aws-pre-reqs/README.md) | For all AWS pre-requisite Cloud resources |
+| [terraform-cdp-azure-prereqs](modules/terraform-cdp-azure-pre-reqs/README.md) | For all Azure pre-requisite Cloud resources |
+| [terraform-cdp-deploy](modules/terraform-cdp-deploy/README.md) | For deployment of CDP on Azure or AWS see |
+| [terraform-aws-vpc](modules/terraform-aws-vpc/README.md) | Standalone module for creation of the VPC on AWS. |
 
 Each module contains Terraform resource configuration and example variable definition files.
 
