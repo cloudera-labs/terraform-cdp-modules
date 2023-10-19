@@ -105,8 +105,6 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [aws_iam_policy_document.cdp_log_role_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.cdp_ranger_audit_role_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.cdp_xaccount_role_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/iam_policy_document) | data source |
-| [aws_subnets.vpc_subnets](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/subnets) | data source |
-| [aws_vpc.cdp_vpc](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/vpc) | data source |
 | [aws_vpc_endpoint_service.gateway_endpoints](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/vpc_endpoint_service) | data source |
 | [aws_vpc_endpoint_service.interface_endpoints](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/vpc_endpoint_service) | data source |
 | [http_http.bucket_access_policy_doc](https://registry.terraform.io/providers/hashicorp/http/3.2.1/docs/data-sources/http) | data source |
