@@ -37,6 +37,8 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | Name | Type |
 |------|------|
 | [aws_availability_zones.zones_in_region](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/availability_zones) | data source |
+| [aws_subnets.vpc_subnets](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/subnets) | data source |
+| [aws_vpc.vpc](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/vpc) | data source |
 
 ## Inputs
 
@@ -47,10 +49,14 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | VPC CIDR Block | `string` | n/a | yes |
 | <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | Name of the VPC. | `string` | n/a | yes |
 | <a name="input_cdp_vpc"></a> [cdp\_vpc](#input\_cdp\_vpc) | Flag to indicate if the VPC is for a CDP environment | `bool` | `true` | no |
+| <a name="input_create_vpc"></a> [create\_vpc](#input\_create\_vpc) | Flag to specify if the VPC should be created. Otherwise data sources will be used to lookup details of existing resources. | `bool` | `true` | no |
 | <a name="input_deployment_template"></a> [deployment\_template](#input\_deployment\_template) | Deployment Pattern to use for Cloud resources and CDP | `string` | `null` | no |
 | <a name="input_enable_dns_hostnames"></a> [enable\_dns\_hostnames](#input\_enable\_dns\_hostnames) | Enable DNS Hostname support for the VPC | `bool` | `true` | no |
 | <a name="input_enable_dns_support"></a> [enable\_dns\_support](#input\_enable\_dns\_support) | Enable DNS support for the VPC | `bool` | `true` | no |
 | <a name="input_enable_nat_gateway"></a> [enable\_nat\_gateway](#input\_enable\_nat\_gateway) | Enable NAT Gateway for VPC | `bool` | `null` | no |
+| <a name="input_existing_private_subnet_ids"></a> [existing\_private\_subnet\_ids](#input\_existing\_private\_subnet\_ids) | List of existing private subnet ids. Required if create\_vpc is false. | `list(any)` | `null` | no |
+| <a name="input_existing_public_subnet_ids"></a> [existing\_public\_subnet\_ids](#input\_existing\_public\_subnet\_ids) | List of existing public subnet ids. Required if create\_vpc is false. | `list(any)` | `null` | no |
+| <a name="input_existing_vpc_id"></a> [existing\_vpc\_id](#input\_existing\_vpc\_id) | ID of existing VPC. Required if create\_vpc is false. | `string` | `null` | no |
 | <a name="input_private_network_extensions"></a> [private\_network\_extensions](#input\_private\_network\_extensions) | Enable creation of resources for connectivity to CDP Control Plane (public subnet and NAT Gateway) for Private Deployment. Only relevant for private deployment template. | `bool` | `null` | no |
 | <a name="input_private_subnet_tags"></a> [private\_subnet\_tags](#input\_private\_subnet\_tags) | Extra tags to apply to Private Subnets | `map(any)` | `null` | no |
 | <a name="input_public_subnet_tags"></a> [public\_subnet\_tags](#input\_public\_subnet\_tags) | Extra tags to apply to Private Subnets | `map(any)` | `null` | no |
@@ -71,5 +77,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="output_private_subnets"></a> [private\_subnets](#output\_private\_subnets) | List of IDs of private subnets |
 | <a name="output_public_route_tables"></a> [public\_route\_tables](#output\_public\_route\_tables) | List of IDs of the public route tables |
 | <a name="output_public_subnets"></a> [public\_subnets](#output\_public\_subnets) | List of IDs of public subnets |
+| <a name="output_vpc_cidr_blocks"></a> [vpc\_cidr\_blocks](#output\_vpc\_cidr\_blocks) | CIDR Block Associations for the VPC |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The ID of the VPC |
+| <a name="output_vpc_subnets"></a> [vpc\_subnets](#output\_vpc\_subnets) | Full list of subnets associated with the VPC |
 <!-- END_TF_DOCS -->

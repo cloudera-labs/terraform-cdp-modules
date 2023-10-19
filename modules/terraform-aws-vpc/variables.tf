@@ -12,6 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+variable "create_vpc" {
+  type = bool
+
+  description = "Flag to specify if the VPC should be created. Otherwise data sources will be used to lookup details of existing resources."
+
+  default = true
+}
+
 variable "vpc_name" {
   type = string
 
@@ -182,4 +190,26 @@ variable "vpc_private_outbound_acl_rules" {
       cidr_block  = "0.0.0.0/0"
     },
   ]
+}
+
+# VPC and Subnet IDs for existing resources (used when create_vpc = false)
+variable "existing_vpc_id" {
+  type        = string
+  description = "ID of existing VPC. Required if create_vpc is false."
+
+  default = null
+}
+
+variable "existing_public_subnet_ids" {
+  type        = list(any)
+  description = "List of existing public subnet ids. Required if create_vpc is false."
+
+  default = null
+}
+
+variable "existing_private_subnet_ids" {
+  type        = list(any)
+  description = "List of existing private subnet ids. Required if create_vpc is false."
+
+  default = null
 }

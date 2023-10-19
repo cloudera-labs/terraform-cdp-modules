@@ -85,4 +85,26 @@ locals {
     : false),
   false)
 
+  # Determine the output Ids based on create_vpc flag and deployment_template
+  vpc_id = (var.create_vpc ?
+  module.vpc[0].vpc_id : var.existing_vpc_id)
+
+  # If module creates the vpc:
+  # * and it's a cdp vpc with private deployment template public subnets are always empty
+  # * otherwise (i.e. not private deployment or cdp vpc ids from created vpc
+  # If module doesn't create vpc:
+  # * using existing ids
+  public_subnet_ids = (var.create_vpc ?
+    (var.cdp_vpc && (var.deployment_template == "private") ? [] : module.vpc[0].public_subnets)
+  : var.existing_public_subnet_ids)
+
+  private_subnet_ids = (var.create_vpc ?
+    module.vpc[0].private_subnets : var.existing_private_subnet_ids
+  )
+
+  # Currently we only know the RT info if we create the VPC. Further work needed to lookup these resources when create_vpc is false.
+  default_route_table_id  = (var.create_vpc ? module.vpc[0].default_route_table_id : null)
+  public_route_table_ids  = (var.create_vpc ? module.vpc[0].public_route_table_ids : null)
+  private_route_table_ids = (var.create_vpc ? module.vpc[0].private_route_table_ids : null)
+
 }
