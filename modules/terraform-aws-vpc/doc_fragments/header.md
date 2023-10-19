@@ -4,7 +4,7 @@ This module contains resource files and example variable definition files for cr
 
 ## Usage
 
-The [examples](./examples) directory has example AWS Cloud Service Provider deployments for different scenarios:
+The [examples](./examples) directory has example AWS VPCs for different scenarios:
 
 * `ex01-cdp-vpc` uses the minimum set of inputs to create a AWS VPC suitable for CDP Public Cloud.
 
