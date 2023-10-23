@@ -25,3 +25,10 @@ module "ex01_nfs_filesahre" {
   nfs_storage_account_name                = var.nfs_storage_account_name
 
 }
+
+output "nfs_file_share_url" {
+  value = module.ex01_nfs_filesahre.nfs_file_share_url
+}
+output "nfs_vm_public_ip" {
+  value = module.ex01_nfs_filesahre.nfs_vm_public_ip
+}
