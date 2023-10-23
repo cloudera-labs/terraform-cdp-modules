@@ -60,24 +60,21 @@ acl Safe_ports port 488        # gss-http
 acl Safe_ports port 591        # filemaker
 acl Safe_ports port 777        # multiling http
 
-
-
-
+# ACL for the whitelist
 acl http-whitelist dstdomain "/etc/squid/whitelist.txt"
-#http_access allow http-whitelist
 
+# Deny access to URLs not in the whitelist
+http_access allow http-whitelist
 
 http_port 3129 cert=/etc/squid/cert.pem key=/etc/squid/private.key
 https_port 3129 cert=/etc/squid/cert.pem key=/etc/squid/private.key
-#http_port 3128 intercept
-#visible_hostname squid.proxy
 ssl_bump bump all
 sslcrtd_program /usr/lib/squid/ssl_crtd -s /var/lib/ssl_db -M 4MB
 sslcrtd_children 8 startup=1 idle=1
-#acl allowed_domains dstdomain .google.com
-#http_access allow allowed_domains
-#http_access deny all
-#
+
+# Deny access to all other URLs
+http_access deny all
+
 # Recommended minimum Access Permission configuration:
 # Deny requests to certain unsafe ports
 http_access deny !Safe_ports
@@ -142,9 +139,9 @@ EOF
 cat > /etc/squid/whitelist.txt << EOF
 # TEST VAR cdp_region is ${cdp_region}
 
-*.v2.us-west-1.ccm.cdp.cloudera.com
+.v2.us-west-1.ccm.cdp.cloudera.com
 dbusapi.us-west-1.sigma.altus.cloudera.com
-https://cloudera-dbus-prod.s3.amazonaws.com
+cloudera-dbus-prod.s3.amazonaws.com
 
 archive.cloudera.com
 api.us-west-1.cdp.cloudera.com
@@ -154,15 +151,16 @@ docker.repository.cloudera.com
 
 prod-us-west-2-starport-layer-bucket.s3.us-west-2.amazonaws.com
 s3-r-w.us-west-2.amazonaws.com
-*.execute-api.us-west-2.amazonaws.com
-*.s3.us-west-1.amazonaws.com
+.execute-api.us-west-2.amazonaws.com
+.s3.us-west-1.amazonaws.com
 console.us-west-1.cdp.cloudera.com
 
 pypi.org
-https://raw.githubusercontent.com
-https://github.com
-https://github.com/cloudera/learning-hub-content
-eks.*.amazonaws.com
+raw.githubusercontent.com
+github.com
+#eks.*.amazonaws.com
+# Added after
+s3.amazonaws.com
 EOF
 
 # Start and enable squid
