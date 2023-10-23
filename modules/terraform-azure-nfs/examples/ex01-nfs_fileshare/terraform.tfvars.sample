@@ -12,8 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# ------- Global settings -------
-env_prefix = "<ENTER_VALUE>" # Required name prefix for cloud and CDP resources, e.g. cldr1
+private_endpoint_prefix = "<ENTER_VALUE>"
 
 # ------- Cloud Settings -------
 azure_region = "<ENTER_VALUE>" # Change this to specify Cloud Provider region, e.g. eastus
@@ -21,6 +20,13 @@ azure_region = "<ENTER_VALUE>" # Change this to specify Cloud Provider region, e
 resourcegroup_name                      = "<ENTER_VALUE>"
 nfs_file_share_name                     = "<ENTER_VALUE>"
 nfs_file_share_size                     = <ENTER_VALUE>
-nfs_private_endpoint_target_subnet_name = "<ENTER_VALUE>"
+nfs_private_endpoint_target_subnet_names = ["<ENTER_VALUE>", "<ENTER_VALUE>"]
 vnet_name                               = "<ENTER_VALUE>"
 nfs_storage_account_name                = "<ENTER_VALUE>"
+nfsvm_public_ip_name                    = "<ENTER_VALUE>"
+nfsvm_nic_name                          = "<ENTER_VALUE>"
+nfsvm_sg_name                           = <ENTER_VALUE>
+nfs_vnet_link_name                      = "<ENTER_VALUE>"
+nfsvm_name                              = "<ENTER_VALUE>"
+public_key_text                         = "<ENTER_VALUE>"
+source_address_prefixes                 = ["<ENTER_VALUE>", "<ENTER_VALUE>"]

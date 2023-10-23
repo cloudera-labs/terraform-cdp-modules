@@ -13,45 +13,48 @@
 # limitations under the License.
 
 resource "azurerm_storage_account" "nfs_storage_account" {
-  name = var.nfs_storage_account_name
-  resource_group_name = var.resourcegroup_name
-  location = var.azure_region
-  account_tier = "Premium"
-  account_replication_type = "LRS"
-  account_kind = "FileStorage"
+  name                      = var.nfs_storage_account_name
+  resource_group_name       = var.resourcegroup_name
+  location                  = var.azure_region
+  account_tier              = "Premium"
+  account_replication_type  = "LRS"
+  account_kind              = "FileStorage"
   enable_https_traffic_only = false
 }
 
 
 resource "azurerm_storage_share" "nfs_storage_share" {
-  name = var.nfs_file_share_name
+  name                 = var.nfs_file_share_name
   storage_account_name = azurerm_storage_account.nfs_storage_account.name
-  enabled_protocol = "NFS"
-  quota = var.nfs_file_share_size
+  enabled_protocol     = "NFS"
+  quota                = var.nfs_file_share_size
 }
 
 
 resource "azurerm_private_dns_zone" "nfs_privatednszone" {
-  name = "privatelink.file.core.windows.net"
+  name                = "privatelink.file.core.windows.net"
   resource_group_name = var.resourcegroup_name
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "nfs_vnet_link" {
-  name = "${var.env_prefix}_vnetlink"
-  resource_group_name = var.resourcegroup_name
+  name                  = var.nfs_vnet_link_name
+  resource_group_name   = var.resourcegroup_name
   private_dns_zone_name = azurerm_private_dns_zone.nfs_privatednszone.name
-  virtual_network_id = data.azurerm_virtual_network.nfs_vnet.id
+  virtual_network_id    = data.azurerm_virtual_network.nfs_vnet.id
 }
 
 
 resource "azurerm_private_endpoint" "nfs_private_endpoint" {
-  name = "${var.env_prefix}_${data.azurerm_subnet.nfs_subnet.name}_nfs_private_endpoint"
-  location = var.azure_region
+
+  for_each = data.azurerm_subnet.nfs_subnets
+
+  name                = "${var.private_endpoint_prefix}_${each.value.name}_nfs_private_endpoint"
+  location            = var.azure_region
   resource_group_name = var.resourcegroup_name
-  subnet_id = data.azurerm_subnet.nfs_subnet.id
+  subnet_id           = each.value.id
 
   private_service_connection {
-    name = "nfs-privateserviceconnection"
+    name                           = "nfs-privateserviceconnection"
     private_connection_resource_id = azurerm_storage_account.nfs_storage_account.id
     subresource_names = [
 
@@ -63,80 +66,85 @@ resource "azurerm_private_endpoint" "nfs_private_endpoint" {
   private_dns_zone_group {
     name = "nfs-dns-zone-group"
     private_dns_zone_ids = [
-      azurerm_private_dns_zone.nfs_privatednszone.id]
+      azurerm_private_dns_zone.nfs_privatednszone.id
+    ]
   }
 }
 
 resource "azurerm_public_ip" "nfsvm_public_ip" {
-  name = "${var.env_prefix}nfsvm-publicip"
+  name                = var.nfsvm_public_ip_name
   resource_group_name = var.resourcegroup_name
-  location = var.azure_region
-  allocation_method = "Static"
-  sku = "Standard"
+  location            = var.azure_region
+  allocation_method   = "Static"
+  sku                 = "Standard"
 }
 
 resource "azurerm_network_interface" "nfsvm_nic" {
-  name = "${var.env_prefix}nfsvm-nic"
+  name                = var.nfsvm_nic_name
   resource_group_name = var.resourcegroup_name
-  location = var.azure_region
+  location            = var.azure_region
 
   ip_configuration {
-    name = "internal"
-    subnet_id = data.azurerm_subnet.nfs_subnet.id
+    name                          = "internal"
+    subnet_id                     = data.azurerm_subnet.nfs_subnets[var.nfs_private_endpoint_target_subnet_names[0]].id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id = azurerm_public_ip.nfsvm_public_ip.id
+    public_ip_address_id          = azurerm_public_ip.nfsvm_public_ip.id
   }
 }
 
 resource "azurerm_network_security_group" "nfsvm_sg" {
-  name = "${var.env_prefix}nfsvm-sg"
+  name                = var.nfsvm_sg_name
   resource_group_name = var.resourcegroup_name
-  location = var.azure_region
-
-  security_rule {
-    name = "allowssh"
-    priority = 100
-    direction = "Inbound"
-    access = "Allow"
-    protocol = "Tcp"
-    source_port_range = "*"
-    destination_port_range = "22"
-    source_address_prefix = "*"
-    destination_address_prefix = "*"
-  }
+  location            = var.azure_region
 }
 
+
+resource "azurerm_network_security_rule" "nfsvm_sg_rule" {
+  name                        = "allowssh"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "22"
+  source_address_prefixes     = var.source_address_prefixes
+  destination_address_prefix  = "*"
+  resource_group_name         = var.resourcegroup_name
+  network_security_group_name = azurerm_network_security_group.nfsvm_sg.name
+}
+
+
 resource "azurerm_network_interface_security_group_association" "nfsvm_nic_sg" {
-  network_interface_id = azurerm_network_interface.nfsvm_nic.id
+  network_interface_id      = azurerm_network_interface.nfsvm_nic.id
   network_security_group_id = azurerm_network_security_group.nfsvm_sg.id
 }
 
 
 resource "azurerm_linux_virtual_machine" "nfs_vm" {
-  name = "${var.env_prefix}nfsvm"
+  name                = var.nfsvm_name
   resource_group_name = var.resourcegroup_name
-  location = var.azure_region
-  size = "Standard_F2"
-  admin_username = "adminuser"
+  location            = var.azure_region
+  size                = "Standard_F2"
+  admin_username      = "adminuser"
   network_interface_ids = [
     azurerm_network_interface.nfsvm_nic.id,
   ]
 
   admin_ssh_key {
-    username = "adminuser"
-    public_key = file("~/.ssh/id_rsa.pub")
+    username   = "adminuser"
+    public_key = var.public_key_text
   }
 
   os_disk {
-    caching = "ReadWrite"
+    caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
 
   source_image_reference {
     publisher = "Canonical"
-    offer = "0001-com-ubuntu-server-focal"
-    sku = "20_04-lts"
-    version = "latest"
+    offer     = "0001-com-ubuntu-server-focal"
+    sku       = "20_04-lts"
+    version   = "latest"
   }
 }
 

@@ -11,14 +11,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+data "azurerm_subnet" "nfs_subnets" {
 
-data "azurerm_subnet" "nfs_subnet" {
-  name = var.nfs_private_endpoint_target_subnet_name
+  for_each = toset(var.nfs_private_endpoint_target_subnet_names)
+
+  name                 = each.value
   virtual_network_name = var.vnet_name
-  resource_group_name = var.resourcegroup_name
+  resource_group_name  = var.resourcegroup_name
 }
 
+
 data "azurerm_virtual_network" "nfs_vnet" {
-  name = var.vnet_name
+  name                = var.vnet_name
   resource_group_name = var.resourcegroup_name
 }

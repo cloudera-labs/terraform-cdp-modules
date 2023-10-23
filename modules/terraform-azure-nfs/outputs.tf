@@ -14,11 +14,16 @@
 
 
 output "nfs_file_share_url" {
-  value = azurerm_storage_share.nfs_storage_share.url
+  value       = azurerm_storage_share.nfs_storage_share.url
   description = "NFS File Share url"
 }
 
 output "nfs_vm_public_ip" {
-  value = azurerm_public_ip.nfsvm_public_ip.ip_address
+  value       = azurerm_public_ip.nfsvm_public_ip.ip_address
   description = "NFS VM public IP address"
+}
+
+output "nfs_vm_username" {
+  value       = azurerm_linux_virtual_machine.nfs_vm.admin_username
+  description = "NFS VM Admin Username"
 }

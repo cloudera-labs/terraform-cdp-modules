@@ -14,45 +14,83 @@
 
 
 variable "resourcegroup_name" {
-  type = string
+  type        = string
   description = "Resource Group Name"
 }
 
 variable "vnet_name" {
-  type = string
+  type        = string
   description = "Vnet name"
 
 }
 
 
 variable "azure_region" {
-  type = string
+  type        = string
   description = "Region for CDP"
 
 }
 
-variable "env_prefix" {
-  type = string
+variable "private_endpoint_prefix" {
+  type        = string
   description = "Shorthand name for the environment. Used in resource descriptions"
 }
 
 
 variable "nfs_file_share_name" {
-  type = string
+  type        = string
   description = "nfs file share name"
 }
 
-variable "nfs_private_endpoint_target_subnet_name" {
-  type = string
-  description = "Subnet to which private endpoint is created"
+variable "nfs_private_endpoint_target_subnet_names" {
+  type        = list(string)
+  description = "Subnets to which private endpoints are created"
 }
 
 variable "nfs_storage_account_name" {
-  type = string
+  type        = string
   description = "NFS Storage account name"
 }
 
 variable "nfs_file_share_size" {
-  type = number
+  type        = number
   description = "NFS File Share size"
+}
+
+
+variable "nfsvm_public_ip_name" {
+  type        = string
+  description = "Name for NFS VM Public IP"
+}
+
+variable "nfsvm_nic_name" {
+  type        = string
+  description = "Name for NFS VM NIC"
+}
+
+variable "nfsvm_sg_name" {
+  type        = string
+  description = "Name for NFS VM Security Group"
+}
+
+variable "nfs_vnet_link_name" {
+  type        = string
+  description = "Name for NFS VNET Link"
+}
+
+
+variable "nfsvm_name" {
+  type        = string
+  description = "Name for NFS VM"
+}
+
+variable "public_key_text" {
+  type = string
+
+  description = "SSH Public key string for the nodes of the CDP environment"
+}
+
+variable "source_address_prefixes" {
+  type        = list(string)
+  description = "Source address prefixes for VM ssh access"
 }

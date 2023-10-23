@@ -13,5 +13,5 @@
 # limitations under the License.
 
 locals {
-  nfs_file_share_size = 100
+
 }
