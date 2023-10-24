@@ -79,6 +79,13 @@ variable "multiaz" {
 
 }
 
+variable "environment_polling_timeout" {
+  type = number
+
+  description = " Timeout value in minutes for how long to poll for CDP Environment resource creation/deletion"
+
+}
+
 variable "freeipa_instances" {
   type = number
 
@@ -191,14 +198,21 @@ variable "datalake_java_version" {
 }
 
 variable "datalake_recipes" {
-  type = list(
+  type = set(
     object({
       instance_group_name = string,
-      recipe_names        = string
+      recipe_names        = set(object({}))
     })
   )
 
   description = "Additional recipes that will be attached on the datalake instances"
+
+}
+
+variable "datalake_polling_timeout" {
+  type = number
+
+  description = "Timeout value in minutes for how long to poll for CDP datalake resource creation/deletion"
 
 }
 # ------- Cloud Service Provider Settings -------

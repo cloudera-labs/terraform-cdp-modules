@@ -61,6 +61,11 @@ resource "cdp_environments_aws_environment" "cdp_env" {
   enable_tunnel       = var.enable_ccm_tunnel
 
   encryption_key_arn = var.encryption_key_arn
+
+  polling_options = {
+    polling_timeout = var.environment_polling_timeout
+  }
+
   # tags               = var.tags # NOTE: Waiting on provider fix
 
   depends_on = [
@@ -119,8 +124,8 @@ resource "cdp_datalake_aws_datalake" "cdp_datalake" {
   datalake_name    = var.datalake_name
   environment_name = cdp_environments_aws_environment.cdp_env.environment_name
 
-  instance_profile        = var.idbroker_instance_profile_arn
-  storage_bucket_location = var.data_storage_location
+  instance_profile      = var.idbroker_instance_profile_arn
+  storage_location_base = var.data_storage_location
 
   runtime           = var.datalake_version == "latest" ? null : var.datalake_version
   scale             = var.datalake_scale
@@ -131,6 +136,11 @@ resource "cdp_datalake_aws_datalake" "cdp_datalake" {
   image                  = var.datalake_image
   java_version           = var.datalake_java_version
   recipes                = var.datalake_recipes
+
+  polling_options = {
+    polling_timeout = var.datalake_polling_timeout
+  }
+
   # tags = var.tags # NOTE: Waiting on provider fix
 
   depends_on = [

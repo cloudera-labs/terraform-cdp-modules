@@ -118,6 +118,14 @@ variable "enable_raz" {
   default = true
 }
 
+variable "environment_polling_timeout" {
+  type = number
+
+  description = " Timeout value in minutes for how long to poll for CDP Environment resource creation/deletion"
+
+  default = 60
+}
+
 variable "multiaz" {
   type = bool
 
@@ -243,16 +251,24 @@ variable "datalake_java_version" {
 }
 
 variable "datalake_recipes" {
-  type = list(
+  type = set(
     object({
       instance_group_name = string,
-      recipe_names        = string
+      recipe_names        = set(object({}))
     })
   )
 
   description = "Additional recipes that will be attached on the datalake instances"
 
   default = null
+}
+
+variable "datalake_polling_timeout" {
+  type = number
+
+  description = "Timeout value in minutes for how long to poll for CDP datalake resource creation/deletion"
+
+  default = 90
 }
 
 # ------- CDP Environment Deployment - AWS specific -------
