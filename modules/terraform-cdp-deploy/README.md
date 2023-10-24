@@ -18,7 +18,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_cdp"></a> [cdp](#requirement\_cdp) | 0.1.4-pre |
+| <a name="requirement_cdp"></a> [cdp](#requirement\_cdp) | 0.2.0 |
 
 ## Providers
 
@@ -79,7 +79,8 @@ No resources.
 | <a name="input_datalake_image"></a> [datalake\_image](#input\_datalake\_image) | The image to use for the datalake. Can only be used when the 'datalake\_version' parameter is set to null. You can use 'catalog' name and/or 'id' for selecting an image. | <pre>object({<br>    id      = optional(string)<br>    catalog = optional(string)<br>  })</pre> | `null` | no |
 | <a name="input_datalake_java_version"></a> [datalake\_java\_version](#input\_datalake\_java\_version) | The Java major version to use on the datalake cluster. | `number` | `null` | no |
 | <a name="input_datalake_name"></a> [datalake\_name](#input\_datalake\_name) | Name of the CDP datalake. Defaults to '<env\_prefix>-<aw\|az\|gc\|>-dl' if not specified. | `string` | `null` | no |
-| <a name="input_datalake_recipes"></a> [datalake\_recipes](#input\_datalake\_recipes) | Additional recipes that will be attached on the datalake instances | <pre>list(<br>    object({<br>      instance_group_name = string,<br>      recipe_names        = string<br>    })<br>  )</pre> | `null` | no |
+| <a name="input_datalake_polling_timeout"></a> [datalake\_polling\_timeout](#input\_datalake\_polling\_timeout) | Timeout value in minutes for how long to poll for CDP datalake resource creation/deletion | `number` | `90` | no |
+| <a name="input_datalake_recipes"></a> [datalake\_recipes](#input\_datalake\_recipes) | Additional recipes that will be attached on the datalake instances | <pre>set(<br>    object({<br>      instance_group_name = string,<br>      recipe_names        = set(object({}))<br>    })<br>  )</pre> | `null` | no |
 | <a name="input_datalake_scale"></a> [datalake\_scale](#input\_datalake\_scale) | The scale of the datalake. Valid values are LIGHT\_DUTY, ENTERPRISE. | `string` | `null` | no |
 | <a name="input_datalake_version"></a> [datalake\_version](#input\_datalake\_version) | The Datalake Runtime version. Valid values are latest or a semantic version, e.g. 7.2.17 | `string` | `"latest"` | no |
 | <a name="input_enable_ccm_tunnel"></a> [enable\_ccm\_tunnel](#input\_enable\_ccm\_tunnel) | Flag to enable Cluster Connectivity Manager tunnel. If false then access from Cloud to CDP Control Plane CIDRs is required from via SG ingress | `bool` | `true` | no |
@@ -91,6 +92,7 @@ No resources.
 | <a name="input_endpoint_access_scheme"></a> [endpoint\_access\_scheme](#input\_endpoint\_access\_scheme) | The scheme for the workload endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. PRIVATE which restricts the traffic to be internal to the VPC / Vnet. Relevant in Private Networks. | `string` | `null` | no |
 | <a name="input_env_prefix"></a> [env\_prefix](#input\_env\_prefix) | Shorthand name for the environment. Used in CDP resource descriptions. This will be used to construct the value of where any of the CDP resource variables (e.g. environment\_name, cdp\_iam\_admin\_group\_name) are not defined. | `string` | `null` | no |
 | <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Name of the CDP environment. Defaults to '<env\_prefix>-cdp-env' if not specified. | `string` | `null` | no |
+| <a name="input_environment_polling_timeout"></a> [environment\_polling\_timeout](#input\_environment\_polling\_timeout) | Timeout value in minutes for how long to poll for CDP Environment resource creation/deletion | `number` | `60` | no |
 | <a name="input_freeipa_catalog"></a> [freeipa\_catalog](#input\_freeipa\_catalog) | Image catalog to use for FreeIPA image selection | `string` | `null` | no |
 | <a name="input_freeipa_image_id"></a> [freeipa\_image\_id](#input\_freeipa\_image\_id) | Image ID to use for creating FreeIPA instances | `string` | `null` | no |
 | <a name="input_freeipa_instance_type"></a> [freeipa\_instance\_type](#input\_freeipa\_instance\_type) | Instance Type to use for creating FreeIPA instances | `string` | `null` | no |

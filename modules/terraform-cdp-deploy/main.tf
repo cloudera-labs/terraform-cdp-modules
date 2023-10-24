@@ -38,6 +38,9 @@ module "cdp_on_aws" {
   workload_analytics     = var.workload_analytics
   endpoint_access_scheme = local.endpoint_access_scheme
 
+  environment_polling_timeout = var.environment_polling_timeout
+  datalake_polling_timeout    = var.datalake_polling_timeout
+
   # TODO: Will be re-introducted once provider supports other regions
   # cdp_control_plane_region = var.cdp_control_plane_region
 
@@ -102,6 +105,9 @@ module "cdp_on_azure" {
   freeipa_instances      = var.freeipa_instances
   workload_analytics     = var.workload_analytics
   endpoint_access_scheme = local.endpoint_access_scheme
+
+  environment_polling_timeout = var.environment_polling_timeout
+  datalake_polling_timeout    = var.datalake_polling_timeout
 
   # TODO: Will be re-introducted once provider supports other regions
   # cdp_control_plane_region = var.cdp_control_plane_region
