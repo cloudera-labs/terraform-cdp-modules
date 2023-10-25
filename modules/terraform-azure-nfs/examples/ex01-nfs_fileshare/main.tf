@@ -44,3 +44,8 @@ output "nfs_vm_username" {
   value       = module.ex01_nfs_fileshare.nfs_vm_username
   description = "NFS VM Admin Username"
 }
+
+output "nfs_vm_mount_path" {
+  value       = module.ex01_nfs_fileshare.nfs_vm_mount_path
+  description = "Path where NFS is mounted on the VM"
+}

@@ -19,11 +19,16 @@ output "nfs_file_share_url" {
 }
 
 output "nfs_vm_public_ip" {
-  value       = azurerm_public_ip.nfsvm_public_ip.ip_address
+  value       = var.create_vm_mounting_nfs ? azurerm_public_ip.nfsvm_public_ip[0].ip_address : null
   description = "NFS VM public IP address"
 }
 
 output "nfs_vm_username" {
-  value       = azurerm_linux_virtual_machine.nfs_vm.admin_username
+  value       = var.create_vm_mounting_nfs ? azurerm_linux_virtual_machine.nfs_vm[0].admin_username : null
   description = "NFS VM Admin Username"
+}
+
+output "nfs_vm_mount_path" {
+  value       = var.create_vm_mounting_nfs ? "/mount/${var.nfs_storage_account_name}/${var.nfs_file_share_name}" : null
+  description = "Path where NFS is mounted on the VM"
 }

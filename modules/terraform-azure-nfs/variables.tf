@@ -96,3 +96,9 @@ variable "source_address_prefixes" {
   type        = list(string)
   description = "Source address prefixes for VM ssh access"
 }
+
+variable "create_vm_mounting_nfs" {
+  type        = bool
+  description = "Whether to create a VM which mounts this NFS"
+  default     = true
+}

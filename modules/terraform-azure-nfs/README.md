@@ -25,12 +25,14 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >=3.11.0, <4.0 |
+| <a name="requirement_template"></a> [template](#requirement\_template) | >= 2.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >=3.11.0, <4.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.77.0 |
+| <a name="provider_template"></a> [template](#provider\_template) | 2.2.0 |
 
 ## Modules
 
@@ -53,6 +55,7 @@ No modules.
 | [azurerm_storage_share.nfs_storage_share](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_share) | resource |
 | [azurerm_subnet.nfs_subnets](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | data source |
 | [azurerm_virtual_network.nfs_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
+| [template_file.vm-cloud-init](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 
 ## Inputs
 
@@ -72,6 +75,7 @@ No modules.
 | <a name="input_resourcegroup_name"></a> [resourcegroup\_name](#input\_resourcegroup\_name) | Resource Group Name | `string` | n/a | yes |
 | <a name="input_source_address_prefixes"></a> [source\_address\_prefixes](#input\_source\_address\_prefixes) | Source address prefixes for VM ssh access | `list(string)` | n/a | yes |
 | <a name="input_vnet_name"></a> [vnet\_name](#input\_vnet\_name) | Vnet name | `string` | n/a | yes |
+| <a name="input_create_vm_mounting_nfs"></a> [create\_vm\_mounting\_nfs](#input\_create\_vm\_mounting\_nfs) | Whether to create a VM which mounts this NFS | `bool` | `true` | no |
 | <a name="input_nfs_file_share_size"></a> [nfs\_file\_share\_size](#input\_nfs\_file\_share\_size) | NFS File Share size | `number` | `100` | no |
 
 ## Outputs
@@ -79,6 +83,7 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_nfs_file_share_url"></a> [nfs\_file\_share\_url](#output\_nfs\_file\_share\_url) | NFS File Share url |
+| <a name="output_nfs_vm_mount_path"></a> [nfs\_vm\_mount\_path](#output\_nfs\_vm\_mount\_path) | Path where NFS is mounted on the VM |
 | <a name="output_nfs_vm_public_ip"></a> [nfs\_vm\_public\_ip](#output\_nfs\_vm\_public\_ip) | NFS VM public IP address |
 | <a name="output_nfs_vm_username"></a> [nfs\_vm\_username](#output\_nfs\_vm\_username) | NFS VM Admin Username |
 <!-- END_TF_DOCS -->

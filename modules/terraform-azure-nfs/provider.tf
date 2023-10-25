@@ -18,6 +18,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = ">=3.11.0, <4.0"
     }
+    template = {
+      source  = "hashicorp/template"
+      version = ">= 2.1"
+    }
   }
 
   required_version = ">= 1.3.0"
