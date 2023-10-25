@@ -97,6 +97,6 @@ locals {
   nfsvm_public_ip_name     = "${var.env_prefix}-nfs-vm-public-ip"
   nfsvm_sg_name            = "${var.env_prefix}-nfs-vm-sg"
   nfs_vnet_link_name       = "${var.env_prefix}-nfs-vm-vent-link"
-  nfsvm_name               = "${var.env_prefix}-nfs_vm"
+  nfsvm_name               = "${var.env_prefix}-nfs-vm"
   private_endpoint_prefix  = var.env_prefix
 }
