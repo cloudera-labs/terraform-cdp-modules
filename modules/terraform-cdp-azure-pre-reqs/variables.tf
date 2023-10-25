@@ -440,7 +440,7 @@ variable "public_key_text" {
   type = string
 
   description = "SSH Public key string for the nodes of the CDP environment"
-  default = null
+  default     = null
 }
 
 variable "create_azure_cml_nfs" {
@@ -452,13 +452,13 @@ variable "create_azure_cml_nfs" {
 variable "nfs_file_share_name" {
   type        = string
   description = "nfs file share name"
-  default = null
+  default     = null
 }
 
 variable "nfs_storage_account_name" {
   type        = string
   description = "NFS Storage account name"
-  default = null
+  default     = null
 }
 
 variable "create_vm_mounting_nfs" {

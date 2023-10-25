@@ -165,12 +165,12 @@ output "azure_raz_identity_id" {
 
 
 output "nfs_file_share_url" {
-  value = module.azure_cml_nfs[0].nfs_file_share_url
+  value       = module.azure_cml_nfs[0].nfs_file_share_url
   description = "NFS File Share Url"
 }
 
 output "nfs_vm_public_ip" {
-  value = module.azure_cml_nfs[0].nfs_vm_public_ip
+  value       = module.azure_cml_nfs[0].nfs_vm_public_ip
   description = "NFS VM Public IP"
 }
 
