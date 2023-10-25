@@ -366,3 +366,25 @@ resource "azurerm_role_assignment" "cdp_raz_assign" {
 
   description = each.value.description
 }
+
+module "azure_cml_nfs" {
+  count  = var.create_azure_cml_nfs ? 1 : 0
+  source = "../terraform-azure-nfs"
+
+  resourcegroup_name                       = var.resourcegroup_name
+  azure_region                             = var.azure_region
+  nfs_file_share_name                      = local.nfs_file_share_name
+  nfs_file_share_size                      = var.nfs_file_share_size
+  nfs_private_endpoint_target_subnet_names = local.cdp_subnet_names
+  vnet_name                                = var.vnet_name
+  nfs_storage_account_name                 = local.nfs_storage_account_name
+  source_address_prefixes                  = var.ingress_extra_cidrs_and_ports.cidrs
+  nfsvm_nic_name                           = local.nfsvm_nic_name
+  nfsvm_public_ip_name                     = local.nfsvm_public_ip_name
+  nfsvm_sg_name                            = local.nfsvm_sg_name
+  nfs_vnet_link_name                       = local.nfs_vnet_link_name
+  nfsvm_name                               = local.nfsvm_name
+  public_key_text                          = var.public_key_text
+  private_endpoint_prefix                  = local.private_endpoint_prefix
+  create_vm_mounting_nfs                   = var.create_vm_mounting_nfs
+}

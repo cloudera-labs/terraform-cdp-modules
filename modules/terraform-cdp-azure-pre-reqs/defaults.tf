@@ -88,4 +88,15 @@ locals {
       }
     ]
   ])
+
+  # ---- Azure CML NFS Resources
+
+  nfs_file_share_name      = coalesce(var.nfs_file_share_name, "${var.env_prefix}-nfs-file-share")
+  nfs_storage_account_name = coalesce(var.nfs_storage_account_name, "${replace(var.env_prefix, "/[-_]/", "")}nfsstor")
+  nfsvm_nic_name           = "${var.env_prefix}-nfs-vm-nic"
+  nfsvm_public_ip_name     = "${var.env_prefix}-nfs-vm-public-ip"
+  nfsvm_sg_name            = "${var.env_prefix}-nfs-vm-sg"
+  nfs_vnet_link_name       = "${var.env_prefix}-nfs-vm-vent-link"
+  nfsvm_name               = "${var.env_prefix}-nfs_vm"
+  private_endpoint_prefix  = var.env_prefix
 }

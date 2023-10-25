@@ -33,6 +33,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_azure_cdp_vnet"></a> [azure\_cdp\_vnet](#module\_azure\_cdp\_vnet) | ./modules/vnet | n/a |
+| <a name="module_azure_cml_nfs"></a> [azure\_cml\_nfs](#module\_azure\_cml\_nfs) | ../terraform-azure-nfs | n/a |
 
 ## Resources
 
@@ -77,13 +78,19 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 |------|-------------|------|---------|:--------:|
 | <a name="input_deployment_template"></a> [deployment\_template](#input\_deployment\_template) | Deployment Pattern to use for Cloud resources and CDP | `string` | n/a | yes |
 | <a name="input_env_prefix"></a> [env\_prefix](#input\_env\_prefix) | Shorthand name for the environment. Used in resource descriptions | `string` | n/a | yes |
+| <a name="input_nfs_file_share_name"></a> [nfs\_file\_share\_name](#input\_nfs\_file\_share\_name) | nfs file share name | `string` | n/a | yes |
+| <a name="input_nfs_storage_account_name"></a> [nfs\_storage\_account\_name](#input\_nfs\_storage\_account\_name) | NFS Storage account name | `string` | n/a | yes |
+| <a name="input_public_key_text"></a> [public\_key\_text](#input\_public\_key\_text) | SSH Public key string for the nodes of the CDP environment | `string` | n/a | yes |
 | <a name="input_agent_source_tag"></a> [agent\_source\_tag](#input\_agent\_source\_tag) | Tag to identify deployment source | `map(any)` | <pre>{<br>  "agent_source": "tf-cdp-module"<br>}</pre> | no |
 | <a name="input_azure_region"></a> [azure\_region](#input\_azure\_region) | Region which Cloud resources will be created | `string` | `null` | no |
 | <a name="input_backup_storage"></a> [backup\_storage](#input\_backup\_storage) | Optional Backup location for CDP environment. If not provided follow the data\_storage variable | <pre>object({<br>    backup_storage_bucket = string<br>    backup_storage_object = string<br>  })</pre> | `null` | no |
 | <a name="input_cdp_gw_subnet_names"></a> [cdp\_gw\_subnet\_names](#input\_cdp\_gw\_subnet\_names) | List of subnet names for CDP Gateway. Required if create\_vnet is false. | `list(any)` | `null` | no |
 | <a name="input_cdp_resourcegroup_name"></a> [cdp\_resourcegroup\_name](#input\_cdp\_resourcegroup\_name) | Pre-existing Resource Group for CDP environment. Required if create\_vnet is false. | `string` | `null` | no |
 | <a name="input_cdp_subnet_names"></a> [cdp\_subnet\_names](#input\_cdp\_subnet\_names) | List of subnet names for CDP Resources. Required if create\_vnet is false. | `list(any)` | `null` | no |
+| <a name="input_cdp_subnet_range"></a> [cdp\_subnet\_range](#input\_cdp\_subnet\_range) | Size of each (internal) cluster subnet. Required if create\_vpc is true. | `number` | `19` | no |
 | <a name="input_cdp_vnet_name"></a> [cdp\_vnet\_name](#input\_cdp\_vnet\_name) | Pre-existing VNet Name for CDP environment. Required if create\_vnet is false. | `string` | `null` | no |
+| <a name="input_create_azure_cml_nfs"></a> [create\_azure\_cml\_nfs](#input\_create\_azure\_cml\_nfs) | Whether to create NFS for CML | `bool` | `true` | no |
+| <a name="input_create_vm_mounting_nfs"></a> [create\_vm\_mounting\_nfs](#input\_create\_vm\_mounting\_nfs) | Whether to create a VM which mounts this NFS | `bool` | `true` | no |
 | <a name="input_create_vnet"></a> [create\_vnet](#input\_create\_vnet) | Flag to specify if the VNet should be created | `bool` | `true` | no |
 | <a name="input_data_storage"></a> [data\_storage](#input\_data\_storage) | Data storage locations for CDP environment | <pre>object({<br>    data_storage_bucket = string<br>    data_storage_object = string<br>  })</pre> | `null` | no |
 | <a name="input_datalake_admin_backup_container_role_assignments"></a> [datalake\_admin\_backup\_container\_role\_assignments](#input\_datalake\_admin\_backup\_container\_role\_assignments) | List of Role Assignments for the Datalake Admin Managed Identity assigned to the Backup Storage Container. | <pre>list(object({<br>    role        = string<br>    description = string<br>    })<br>  )</pre> | <pre>[<br>  {<br>    "description": "Assign Storage Blob Data Owner Role to Data Lake Admin Identity at Backup Container Level",<br>    "role": "Storage Blob Data Owner"<br>  }<br>]</pre> | no |
@@ -92,12 +99,14 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_datalake_admin_managed_identity_name"></a> [datalake\_admin\_managed\_identity\_name](#input\_datalake\_admin\_managed\_identity\_name) | Datalake Admin Managed Identity name | `string` | `null` | no |
 | <a name="input_enable_raz"></a> [enable\_raz](#input\_enable\_raz) | Flag to enable Ranger Authorization Service (RAZ) | `bool` | `true` | no |
 | <a name="input_env_tags"></a> [env\_tags](#input\_env\_tags) | Tags applied to provisioned resources | `map(any)` | `null` | no |
+| <a name="input_gateway_subnet_range"></a> [gateway\_subnet\_range](#input\_gateway\_subnet\_range) | Size of each gateway subnet. Required if create\_vpc is true. | `number` | `24` | no |
 | <a name="input_idbroker_managed_identity_name"></a> [idbroker\_managed\_identity\_name](#input\_idbroker\_managed\_identity\_name) | IDBroker Managed Identity name | `string` | `null` | no |
 | <a name="input_idbroker_role_assignments"></a> [idbroker\_role\_assignments](#input\_idbroker\_role\_assignments) | List of Role Assignments for the IDBroker Managed Identity | <pre>list(object({<br>    role        = string<br>    description = string<br>    })<br>  )</pre> | <pre>[<br>  {<br>    "description": "Assign VM Contributor Role to IDBroker Identity at Subscription Level",<br>    "role": "Virtual Machine Contributor"<br>  },<br>  {<br>    "description": "Assign Managed Identity Operator Role to IDBroker Identity at Subscription Level",<br>    "role": "Managed Identity Operator"<br>  }<br>]</pre> | no |
 | <a name="input_ingress_extra_cidrs_and_ports"></a> [ingress\_extra\_cidrs\_and\_ports](#input\_ingress\_extra\_cidrs\_and\_ports) | List of extra CIDR blocks and ports to include in Security Group Ingress rules | <pre>object({<br>    cidrs = list(string)<br>    ports = list(number)<br>  })</pre> | <pre>{<br>  "cidrs": [],<br>  "ports": []<br>}</pre> | no |
 | <a name="input_log_data_access_managed_identity_name"></a> [log\_data\_access\_managed\_identity\_name](#input\_log\_data\_access\_managed\_identity\_name) | Log Data Access Managed Identity name | `string` | `null` | no |
 | <a name="input_log_data_access_role_assignments"></a> [log\_data\_access\_role\_assignments](#input\_log\_data\_access\_role\_assignments) | List of Role Assignments for the Log Data Access Managed Identity. | <pre>list(object({<br>    role        = string<br>    description = string<br>    })<br>  )</pre> | <pre>[<br>  {<br>    "description": "Assign Storage Blob Data Contributor Role to Log Role at Logs and Backup Container level",<br>    "role": "Storage Blob Data Contributor"<br>  }<br>]</pre> | no |
 | <a name="input_log_storage"></a> [log\_storage](#input\_log\_storage) | Optional log locations for CDP environment. If not provided follow the data\_storage variable | <pre>object({<br>    log_storage_bucket = string<br>    log_storage_object = string<br>  })</pre> | `null` | no |
+| <a name="input_nfs_file_share_size"></a> [nfs\_file\_share\_size](#input\_nfs\_file\_share\_size) | NFS File Share size | `number` | `100` | no |
 | <a name="input_random_id_for_bucket"></a> [random\_id\_for\_bucket](#input\_random\_id\_for\_bucket) | Create a random suffix for the Storage Account names | `bool` | `true` | no |
 | <a name="input_ranger_audit_backup_container_role_assignments"></a> [ranger\_audit\_backup\_container\_role\_assignments](#input\_ranger\_audit\_backup\_container\_role\_assignments) | List of Role Assignments for the Ranger Audit Managed Identity assigned to the Backup Storage Container. | <pre>list(object({<br>    role        = string<br>    description = string<br>    })<br>  )</pre> | <pre>[<br>  {<br>    "description": "Assign Storage Blob Data Contributor Role to Ranger Audit Role at Backup Container level",<br>    "role": "Storage Blob Data Contributor"<br>  }<br>]</pre> | no |
 | <a name="input_ranger_audit_data_access_managed_identity_name"></a> [ranger\_audit\_data\_access\_managed\_identity\_name](#input\_ranger\_audit\_data\_access\_managed\_identity\_name) | Ranger Audit Managed Identity name | `string` | `null` | no |
@@ -109,7 +118,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_security_group_default_name"></a> [security\_group\_default\_name](#input\_security\_group\_default\_name) | Default Security Group for CDP environment | `string` | `null` | no |
 | <a name="input_security_group_knox_name"></a> [security\_group\_knox\_name](#input\_security\_group\_knox\_name) | Knox Security Group for CDP environment | `string` | `null` | no |
 | <a name="input_subnet_count"></a> [subnet\_count](#input\_subnet\_count) | Number of Subnets Required | `string` | `"3"` | no |
-| <a name="input_vnet_cidr"></a> [vnet\_cidr](#input\_vnet\_cidr) | VNet CIDR Block | `string` | `"10.10.0.0/16"` | no |
+| <a name="input_vnet_cidr"></a> [vnet\_cidr](#input\_vnet\_cidr) | VNet CIDR Block. Required if create\_vpc is true. | `string` | `"10.10.0.0/16"` | no |
 | <a name="input_vnet_name"></a> [vnet\_name](#input\_vnet\_name) | VNet name | `string` | `null` | no |
 | <a name="input_xaccount_app_name"></a> [xaccount\_app\_name](#input\_xaccount\_app\_name) | Cross account application name within Azure Active Directory | `string` | `null` | no |
 
@@ -141,4 +150,8 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="output_azure_vnet_name"></a> [azure\_vnet\_name](#output\_azure\_vnet\_name) | Azure Virtual Network Name |
 | <a name="output_azure_xaccount_app_pword"></a> [azure\_xaccount\_app\_pword](#output\_azure\_xaccount\_app\_pword) | Password for the Azure AD Cross Account Application |
 | <a name="output_azure_xaccount_app_uuid"></a> [azure\_xaccount\_app\_uuid](#output\_azure\_xaccount\_app\_uuid) | UUID for the Azure AD Cross Account Application |
+| <a name="output_nfs_file_share_url"></a> [nfs\_file\_share\_url](#output\_nfs\_file\_share\_url) | NFS File Share Url |
+| <a name="output_nfs_vm_mount_path"></a> [nfs\_vm\_mount\_path](#output\_nfs\_vm\_mount\_path) | Path where NFS is mounted on the VM |
+| <a name="output_nfs_vm_public_ip"></a> [nfs\_vm\_public\_ip](#output\_nfs\_vm\_public\_ip) | NFS VM Public IP |
+| <a name="output_nfs_vm_username"></a> [nfs\_vm\_username](#output\_nfs\_vm\_username) | NFS VM Admin Username |
 <!-- END_TF_DOCS -->
