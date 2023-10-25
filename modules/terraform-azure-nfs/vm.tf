@@ -67,15 +67,6 @@ resource "azurerm_network_interface_security_group_association" "nfsvm_nic_sg" {
 }
 
 
-data "template_file" "vm-cloud-init" {
-  template = file("${path.module}/mount_nfs_on_vm.sh")
-  vars = {
-    nfs_file_share_name      = var.nfs_file_share_name
-    nfs_storage_account_name = var.nfs_storage_account_name
-  }
-}
-
-
 resource "azurerm_linux_virtual_machine" "nfs_vm" {
   count               = var.create_vm_mounting_nfs ? 1 : 0
   name                = var.nfsvm_name
@@ -104,5 +95,7 @@ resource "azurerm_linux_virtual_machine" "nfs_vm" {
     version   = "latest"
   }
 
-  custom_data = base64encode(data.template_file.vm-cloud-init.rendered)
+  custom_data = base64encode(templatefile("${path.module}/files/mount_nfs_on_vm.sh.tpl",
+    { nfs_file_share_name = var.nfs_file_share_name
+  nfs_storage_account_name = var.nfs_storage_account_name }))
 }

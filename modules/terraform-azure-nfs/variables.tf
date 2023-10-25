@@ -60,41 +60,45 @@ variable "nfs_file_share_size" {
 
 }
 
-variable "nfsvm_public_ip_name" {
-  type        = string
-  description = "Name for NFS VM Public IP"
-}
-
-variable "nfsvm_nic_name" {
-  type        = string
-  description = "Name for NFS VM NIC"
-}
-
-variable "nfsvm_sg_name" {
-  type        = string
-  description = "Name for NFS VM Security Group"
-}
-
 variable "nfs_vnet_link_name" {
   type        = string
   description = "Name for NFS VNET Link"
 }
 
+variable "nfsvm_public_ip_name" {
+  type        = string
+  description = "Name for NFS VM Public IP"
+  default     = null
+}
+
+variable "nfsvm_nic_name" {
+  type        = string
+  description = "Name for NFS VM NIC"
+  default     = null
+}
+
+variable "nfsvm_sg_name" {
+  type        = string
+  description = "Name for NFS VM Security Group"
+  default     = null
+}
 
 variable "nfsvm_name" {
   type        = string
   description = "Name for NFS VM"
+  default     = null
 }
 
 variable "public_key_text" {
-  type = string
-
+  type        = string
   description = "SSH Public key string for the nodes of the CDP environment"
+  default     = null
 }
 
 variable "source_address_prefixes" {
   type        = list(string)
   description = "Source address prefixes for VM ssh access"
+  default     = null
 }
 
 variable "create_vm_mounting_nfs" {
