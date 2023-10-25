@@ -165,21 +165,21 @@ output "azure_raz_identity_id" {
 
 
 output "nfs_file_share_url" {
-  value       = module.azure_cml_nfs[0].nfs_file_share_url
+  value       = var.create_azure_cml_nfs ? module.azure_cml_nfs[0].nfs_file_share_url : null
   description = "NFS File Share Url"
 }
 
 output "nfs_vm_public_ip" {
-  value       = module.azure_cml_nfs[0].nfs_vm_public_ip
+  value       = var.create_azure_cml_nfs ? module.azure_cml_nfs[0].nfs_vm_public_ip : null
   description = "NFS VM Public IP"
 }
 
 output "nfs_vm_username" {
-  value       = module.azure_cml_nfs[0].nfs_vm_username
+  value       = var.create_azure_cml_nfs ? module.azure_cml_nfs[0].nfs_vm_username : null
   description = "NFS VM Admin Username"
 }
 
 output "nfs_vm_mount_path" {
-  value       = module.azure_cml_nfs[0].nfs_vm_mount_path
+  value       = var.create_azure_cml_nfs ? module.azure_cml_nfs[0].nfs_vm_mount_path : null
   description = "Path where NFS is mounted on the VM"
 }

@@ -110,7 +110,9 @@ resource "random_id" "bucket_suffix" {
 
 resource "azurerm_storage_account" "cdp_storage_locations" {
   # Create buckets for the unique list of buckets in data and log storage
-  for_each = toset(concat([local.data_storage.data_storage_bucket], [local.log_storage.log_storage_bucket], [local.backup_storage.backup_storage_bucket]))
+  for_each = toset(concat([local.data_storage.data_storage_bucket], [local.log_storage.log_storage_bucket], [
+    local.backup_storage.backup_storage_bucket
+  ]))
 
   name                = "${each.value}${local.storage_suffix}"
   resource_group_name = local.cdp_resourcegroup_name
@@ -357,8 +359,10 @@ resource "azurerm_user_assigned_identity" "cdp_raz" {
 # Assign the required roles to the managed identity
 resource "azurerm_role_assignment" "cdp_raz_assign" {
 
-  for_each = { for idx, item in local.raz_storage_role_assignments : idx => item
-  if var.enable_raz == true }
+  for_each = {
+    for idx, item in local.raz_storage_role_assignments : idx => item
+    if var.enable_raz == true
+  }
 
   scope                = each.value.scope
   role_definition_name = each.value.role
@@ -371,12 +375,12 @@ module "azure_cml_nfs" {
   count  = var.create_azure_cml_nfs ? 1 : 0
   source = "../terraform-azure-nfs"
 
-  resourcegroup_name                       = local.resourcegroup_name
+  resourcegroup_name                       = local.cdp_resourcegroup_name
   azure_region                             = var.azure_region
   nfs_file_share_name                      = local.nfs_file_share_name
   nfs_file_share_size                      = var.nfs_file_share_size
   nfs_private_endpoint_target_subnet_names = local.cdp_subnet_names
-  vnet_name                                = local.vnet_name
+  vnet_name                                = local.cdp_vnet_name
   nfs_storage_account_name                 = local.nfs_storage_account_name
   source_address_prefixes                  = var.ingress_extra_cidrs_and_ports.cidrs
   nfsvm_nic_name                           = local.nfsvm_nic_name
@@ -387,4 +391,9 @@ module "azure_cml_nfs" {
   public_key_text                          = var.public_key_text
   private_endpoint_prefix                  = local.private_endpoint_prefix
   create_vm_mounting_nfs                   = var.create_vm_mounting_nfs
+
+  depends_on = [
+    azurerm_resource_group.cdp_rmgp,
+    module.azure_cdp_vnet
+  ]
 }

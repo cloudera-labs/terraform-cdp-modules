@@ -446,7 +446,7 @@ variable "public_key_text" {
 variable "create_azure_cml_nfs" {
   type        = bool
   description = "Whether to create NFS for CML"
-  default     = true
+  default     = false
 }
 
 variable "nfs_file_share_name" {
