@@ -169,6 +169,11 @@ output "nfs_file_share_url" {
   description = "NFS File Share Url"
 }
 
+output "nfs_storage_account_name" {
+  value       = var.create_azure_cml_nfs ? module.azure_cml_nfs[0].nfs_storage_account_name : null
+  description = "NFS Storage Account Name"
+}
+
 output "nfs_vm_public_ip" {
   value       = var.create_azure_cml_nfs ? module.azure_cml_nfs[0].nfs_vm_public_ip : null
   description = "NFS VM Public IP"

@@ -80,6 +80,7 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_nfs_file_share_url"></a> [nfs\_file\_share\_url](#output\_nfs\_file\_share\_url) | NFS File Share url |
+| <a name="output_nfs_storage_account_name"></a> [nfs\_storage\_account\_name](#output\_nfs\_storage\_account\_name) | NFS Storage Account Name |
 | <a name="output_nfs_vm_mount_path"></a> [nfs\_vm\_mount\_path](#output\_nfs\_vm\_mount\_path) | Path where NFS is mounted on the VM |
 | <a name="output_nfs_vm_public_ip"></a> [nfs\_vm\_public\_ip](#output\_nfs\_vm\_public\_ip) | NFS VM public IP address |
 | <a name="output_nfs_vm_username"></a> [nfs\_vm\_username](#output\_nfs\_vm\_username) | NFS VM Admin Username |
