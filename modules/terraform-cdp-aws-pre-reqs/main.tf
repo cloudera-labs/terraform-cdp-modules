@@ -16,16 +16,16 @@
 # Create the VPC if required
 module "aws_cdp_vpc" {
 
-  count = var.create_vpc ? 1 : 0
+  source = "../terraform-aws-vpc"
 
-  source = "./modules/vpc"
+  create_vpc = var.create_vpc
 
   deployment_template        = var.deployment_template
   vpc_name                   = local.vpc_name
   vpc_cidr                   = var.vpc_cidr
   private_network_extensions = var.private_network_extensions
-  env_prefix                 = var.env_prefix
-  tags                       = local.env_tags
+
+  tags = local.env_tags
 
   private_cidr_range = var.private_cidr_range
   public_cidr_range  = var.public_cidr_range
@@ -36,12 +36,16 @@ module "aws_cdp_vpc" {
   vpc_public_outbound_acl_rules  = var.vpc_public_outbound_acl_rules
   vpc_private_inbound_acl_rules  = var.vpc_private_inbound_acl_rules
   vpc_private_outbound_acl_rules = var.vpc_private_outbound_acl_rules
+
+  existing_vpc_id             = var.cdp_vpc_id
+  existing_public_subnet_ids  = var.cdp_public_subnet_ids
+  existing_private_subnet_ids = var.cdp_private_subnet_ids
 }
 
 # ------- Security Groups -------
 # Default SG
 resource "aws_security_group" "cdp_default_sg" {
-  vpc_id      = local.vpc_id
+  vpc_id      = module.aws_cdp_vpc.vpc_id
   name        = local.security_group_default_name
   description = local.security_group_default_name
   tags        = merge(local.env_tags, { Name = local.security_group_default_name })
@@ -85,7 +89,7 @@ resource "aws_security_group_rule" "cdp_default_sg_egress" {
 
 # Knox SG
 resource "aws_security_group" "cdp_knox_sg" {
-  vpc_id      = local.vpc_id
+  vpc_id      = module.aws_cdp_vpc.vpc_id
   name        = local.security_group_knox_name
   description = local.security_group_knox_name
   tags        = merge(local.env_tags, { Name = local.security_group_knox_name })
@@ -132,7 +136,7 @@ resource "aws_security_group" "cdp_endpoint_sg" {
 
   count = (var.create_vpc && var.create_vpc_endpoints) ? 1 : 0
 
-  vpc_id      = local.vpc_id
+  vpc_id      = module.aws_cdp_vpc.vpc_id
   name        = local.security_group_endpoint_name
   description = local.security_group_endpoint_name
   tags        = merge(local.env_tags, { Name = local.security_group_endpoint_name })
@@ -188,10 +192,10 @@ resource "aws_vpc_endpoint" "gateway_endpoints" {
     if var.create_vpc && var.create_vpc_endpoints
   }
 
-  vpc_id            = local.vpc_id
+  vpc_id            = module.aws_cdp_vpc.vpc_id
   service_name      = data.aws_vpc_endpoint_service.gateway_endpoints[each.key].service_name
   vpc_endpoint_type = "Gateway"
-  route_table_ids   = concat([local.default_route_table_id], local.public_route_table_ids, local.private_route_table_ids)
+  route_table_ids   = concat([module.aws_cdp_vpc.default_route_table], module.aws_cdp_vpc.public_route_tables, module.aws_cdp_vpc.private_route_tables)
 
   tags = merge(local.env_tags, { Name = "${var.env_prefix}-${each.key}-gateway-endpoint" })
 }
@@ -205,12 +209,12 @@ resource "aws_vpc_endpoint" "interface_endpoints" {
     if var.create_vpc && var.create_vpc_endpoints
   }
 
-  vpc_id              = local.vpc_id
+  vpc_id              = module.aws_cdp_vpc.vpc_id
   service_name        = data.aws_vpc_endpoint_service.interface_endpoints[each.key].service_name
   vpc_endpoint_type   = "Interface"
   private_dns_enabled = true
 
-  subnet_ids         = var.deployment_template == "public" ? local.public_subnet_ids : local.private_subnet_ids
+  subnet_ids         = var.deployment_template == "public" ? module.aws_cdp_vpc.public_subnets : module.aws_cdp_vpc.private_subnets
   security_group_ids = [aws_security_group.cdp_endpoint_sg[0].id]
 
   tags = merge(local.env_tags, { Name = "${var.env_prefix}-${each.key}-interface-endpoint" })

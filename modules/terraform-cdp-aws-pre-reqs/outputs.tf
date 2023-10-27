@@ -27,43 +27,43 @@ output "aws_region" {
 }
 
 output "aws_vpc_id" {
-  value = local.vpc_id
+  value = module.aws_cdp_vpc.vpc_id
 
   description = "AWS VPC ID"
 }
 
 output "aws_default_route_table_id" {
-  value = local.default_route_table_id
+  value = module.aws_cdp_vpc.default_route_table
 
   description = "AWS default route table ID"
 }
 
 output "aws_public_route_table_ids" {
-  value = local.public_route_table_ids
+  value = module.aws_cdp_vpc.public_route_tables
 
   description = "AWS public route table IDs"
 }
 
 output "aws_private_route_table_ids" {
-  value = local.private_route_table_ids
+  value = module.aws_cdp_vpc.private_route_tables
 
   description = "AWS private route table IDs"
 }
 
 output "aws_public_subnet_ids" {
-  value = local.public_subnet_ids
+  value = module.aws_cdp_vpc.public_subnets
 
   description = "AWS public subnet IDs"
 }
 
 output "aws_private_subnet_ids" {
-  value = local.private_subnet_ids
+  value = module.aws_cdp_vpc.private_subnets
 
   description = "AWS private subnet IDs"
 }
 
 output "aws_vpc_subnets" {
-  value = data.aws_subnets.vpc_subnets
+  value = module.aws_cdp_vpc.vpc_subnets
 
   description = "List of subnets associated with the CDP VPC"
 }
