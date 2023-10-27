@@ -6,6 +6,6 @@ This module contains resource files and example variable definition files for cr
 
 The [examples](./examples) directory has example of using this module:
 
-* `ex01-vpc-tgw-attach` demonstrates how this module can be used to use a Transit Gateway to attach a private CDP VPC with a dedicated networking VPC. The [terraform-aws-vpc](../../../terraform-aws-vpc/README.md) module is also used as part of this example.
+* `ex01-vpc-tgw-attach` demonstrates how this module can be used to create a Transit Gateway to attach a private CDP VPC with a dedicated networking VPC. The [terraform-aws-vpc](../../../terraform-aws-vpc/README.md) module is also used as part of this example.
 
 The README and sample `terraform.tfvars.sample` describe how to use the example.
