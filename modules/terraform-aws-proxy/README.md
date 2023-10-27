@@ -1,15 +1,15 @@
 <!-- BEGIN_TF_DOCS -->
 # Terraform Module for AWS Transit Gateway
 
-This module contains resource files and example variable definition files for creation of AWS Transity Gateway (TGW) and attaching a specified list of VPCs via the TGW. This module also updates both the Transit Gateway and VPC route tables. This module can be used to assist in deploying Cloudera Data Platform (CDP) Public Cloud in a fully private networking configuration where a CDP VPC and Networking VPC are connected using the Transit Gateway.
+This module contains resource files and example variable definition files to create and configure and EC2 Auto-Scaling Group to create a highly available Squid Proxy service. A Network Load Balancer is also created to forward traffic to the proxy instances. This module can be used to assist in deploying Cloudera Data Platform (CDP) Public Cloud in a fully private networking configuration where the CDP Environment uses a proxy configuration via the Network Load Balancer.
 
 ## Usage
 
 The [examples](./examples) directory has example of using this module:
 
-* `ex01-vpc-tgw-attach` demonstrates how this module can be used to use a Transit Gateway to attach a private CDP VPC with a dedicated networking VPC. The [terraform-aws-vpc](../../../terraform-aws-vpc/README.md) module is also used as part of this example.
+* `ex01-minimal_inputs` demonstrates how this module can be used to create Squid proxy instances and NLB in a networking VPC. The [terraform-aws-vpc](../../../terraform-aws-vpc/README.md) module is also used as part of this example.
 
-The README and sample `terraform.tfvars.sample` describe how to use the example.
+The sample `terraform.tfvars.sample` describes the required inputs for the example.
 
 ## Requirements
 
