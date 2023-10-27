@@ -23,50 +23,50 @@ variable "create_vpc" {
 variable "vpc_name" {
   type = string
 
-  description = "Name of the VPC."
+  description = "Name of the VPC. Only used when create_vpc is true."
 
 }
 
 variable "vpc_cidr" {
   type        = string
-  description = "VPC CIDR Block"
+  description = "VPC CIDR Block. Only used when create_vpc is true."
 
 }
 
 variable "cdp_vpc" {
   type        = bool
-  description = "Flag to indicate if the VPC is for a CDP environment"
+  description = "Flag to indicate if the VPC is for a CDP environment. Only used when create_vpc is true."
 
   default = true
 }
 
 variable "private_cidr_range" {
   type        = number
-  description = "Size of each private subnet"
+  description = "Size of each private subnet. Only used when create_vpc is true."
 }
 
 variable "public_cidr_range" {
   type        = number
-  description = "Size of each public subnet"
+  description = "Size of each public subnet. Only used when create_vpc is true."
 }
 
 variable "tags" {
   type        = map(any)
-  description = "Tags applied to VPC resources"
+  description = "Tags applied to VPC resources. Only used when create_vpc is true."
 
   default = null
 }
 
 variable "private_subnet_tags" {
   type        = map(any)
-  description = "Extra tags to apply to Private Subnets"
+  description = "Extra tags to apply to Private Subnets. Only used when create_vpc is true."
 
   default = null
 }
 
 variable "public_subnet_tags" {
   type        = map(any)
-  description = "Extra tags to apply to Private Subnets"
+  description = "Extra tags to apply to Private Subnets. Only used when create_vpc is true."
 
   default = null
 }
@@ -87,35 +87,35 @@ variable "deployment_template" {
 variable "private_network_extensions" {
   type = bool
 
-  description = "Enable creation of resources for connectivity to CDP Control Plane (public subnet and NAT Gateway) for Private Deployment. Only relevant for private deployment template."
+  description = "Enable creation of resources for connectivity to CDP Control Plane (public subnet and NAT Gateway) for Private Deployment. Only relevant for private deployment template. Only used when create_vpc is true."
 
   default = null
 }
 
 variable "enable_nat_gateway" {
   type        = bool
-  description = "Enable NAT Gateway for VPC"
+  description = "Enable NAT Gateway for VPC. Only used when create_vpc is true."
 
   default = null
 }
 
 variable "single_nat_gateway" {
   type        = bool
-  description = "Use a single NAT Gateway for the VPC"
+  description = "Use a single NAT Gateway for the VPC. Only used when create_vpc is true."
 
   default = null
 }
 
 variable "enable_dns_support" {
   type        = bool
-  description = "Enable DNS support for the VPC"
+  description = "Enable DNS support for the VPC. Only used when create_vpc is true."
 
   default = true
 }
 
 variable "enable_dns_hostnames" {
   type        = bool
-  description = "Enable DNS Hostname support for the VPC"
+  description = "Enable DNS Hostname support for the VPC. Only used when create_vpc is true."
 
   default = true
 }
