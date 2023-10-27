@@ -4,6 +4,17 @@ This repository contains a number of Terraform modules for creation of the pre-r
 
 ## Modules
 
+| Module name | Description |
+| ----------- | ----------- |
+| [terraform-cdp-aws-prereqs](modules/terraform-cdp-aws-pre-reqs/README.md) | For all AWS pre-requisite Cloud resources |
+| [terraform-cdp-azure-prereqs](modules/terraform-cdp-azure-pre-reqs/README.md) | For all Azure pre-requisite Cloud resources |
+| [terraform-cdp-deploy](modules/terraform-cdp-deploy/README.md) | For deployment of CDP on Azure or AWS. |
+| [terraform-aws-vpc](modules/terraform-aws-vpc/README.md) | Module for creation of the VPC networking resources on AWS suitable. Can be used to create the CDP VPC and Subnets. Note that this module is called from the terraform-cdp-aws-prereqs module. |
+| [terraform-aws-tgw](modules/terraform-aws-tgw/README.md) | Module for creation creation of AWS Transity Gateway (TGW) and attaching a specified list of VPCs via the TGW. This module can be used to assist in deploying Cloudera Data Platform (CDP) Public Cloud in a fully private networking configuration where a CDP VPC and Networking VPC are connected using the Transit Gateway. |
+| [terraform-aws-proxy](modules/terraform-aws-proxy/README.md) | Module for creation of an EC2 Auto-Scaling Group and NLB for a highly available Squid Proxy service. Can be used to create the CDP VPC and Subnets. This module can be used to assist in deploying Cloudera Data Platform (CDP) Public Cloud in a fully private networking configuration. |
+
+Each module contains Terraform resource configuration and example variable definition files.
+
 * For AWS pre-requisite Cloud resources see [terraform-cdp-aws-prereqs](modules/terraform-cdp-aws-pre-reqs/README.md).
 * For Azure pre-requisite Cloud resources see [terraform-cdp-azure-prereqs](modules/terraform-cdp-azure-pre-reqs/README.md).
 * For deployment of CDP on Azure or AWS see [terraform-cdp-deploy](modules/terraform-cdp-deploy/README.md).
