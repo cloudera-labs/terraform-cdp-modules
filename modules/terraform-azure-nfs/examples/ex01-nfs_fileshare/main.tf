@@ -57,3 +57,8 @@ output "nfs_vm_mount_path" {
   value       = module.ex01_nfs_fileshare.nfs_vm_mount_path
   description = "Path where NFS is mounted on the VM"
 }
+
+output "nfs_storage_account_name" {
+  value       = module.ex01_nfs_fileshare.nfs_storage_account_name
+  description = "NFS Storage Account Name"
+}
