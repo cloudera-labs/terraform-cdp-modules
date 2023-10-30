@@ -435,3 +435,41 @@ variable "raz_storage_role_assignments" {
   ]
 
 }
+
+variable "public_key_text" {
+  type = string
+
+  description = "SSH Public key string for the nodes of the CDP environment"
+  default     = null
+}
+
+variable "create_azure_cml_nfs" {
+  type        = bool
+  description = "Whether to create NFS for CML"
+  default     = false
+}
+
+variable "nfs_file_share_name" {
+  type        = string
+  description = "nfs file share name"
+  default     = null
+}
+
+variable "nfs_storage_account_name" {
+  type        = string
+  description = "NFS Storage account name"
+  default     = null
+}
+
+variable "create_vm_mounting_nfs" {
+  type        = bool
+  description = "Whether to create a VM which mounts this NFS"
+  default     = true
+}
+
+variable "nfs_file_share_size" {
+  type        = number
+  description = "NFS File Share size"
+  default     = 100
+}
+
