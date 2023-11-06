@@ -36,7 +36,7 @@ resource "azurerm_subnet" "cdp_subnets" {
   address_prefixes     = [each.value.cidr]
 
   service_endpoints                         = ["Microsoft.Sql", "Microsoft.Storage"]
-  private_endpoint_network_policies_enabled = true
+  private_endpoint_network_policies_enabled = var.cdp_subnets_private_endpoint_network_policies_enabled
 
 }
 
@@ -50,6 +50,6 @@ resource "azurerm_subnet" "gateway_subnets" {
   address_prefixes     = [each.value.cidr]
 
   service_endpoints                         = ["Microsoft.Sql", "Microsoft.Storage"]
-  private_endpoint_network_policies_enabled = true
+  private_endpoint_network_policies_enabled = var.gateway_subnets_private_endpoint_network_policies_enabled
 
 }

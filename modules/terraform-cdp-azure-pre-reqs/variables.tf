@@ -167,6 +167,22 @@ variable "ingress_extra_cidrs_and_ports" {
   }
 }
 
+variable "cdp_subnets_private_endpoint_network_policies_enabled" {
+  type        = bool
+  description = "Enable or Disable network policies for the private endpoint on the CDP subnets"
+
+  default = false
+
+}
+
+variable "gateway_subnets_private_endpoint_network_policies_enabled" {
+  type = bool
+
+  description = "Enable or Disable network policies for the private endpoint on the Gateway subnets"
+
+  default = false
+}
+
 # ------- Storage Resources -------
 variable "random_id_for_bucket" {
   type = bool
