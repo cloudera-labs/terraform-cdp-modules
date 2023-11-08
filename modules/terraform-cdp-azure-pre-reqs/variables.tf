@@ -171,7 +171,7 @@ variable "cdp_subnets_private_endpoint_network_policies_enabled" {
   type        = bool
   description = "Enable or Disable network policies for the private endpoint on the CDP subnets"
 
-  default = false
+  default = true
 
 }
 
@@ -180,7 +180,7 @@ variable "gateway_subnets_private_endpoint_network_policies_enabled" {
 
   description = "Enable or Disable network policies for the private endpoint on the Gateway subnets"
 
-  default = false
+  default = true
 }
 
 # ------- Storage Resources -------
