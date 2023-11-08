@@ -43,6 +43,8 @@ module "azure_cdp_vnet" {
   cdp_subnet_range     = var.cdp_subnet_range
   gateway_subnet_range = var.gateway_subnet_range
 
+  cdp_subnets_private_endpoint_network_policies_enabled     = var.cdp_subnets_private_endpoint_network_policies_enabled
+  gateway_subnets_private_endpoint_network_policies_enabled = var.gateway_subnets_private_endpoint_network_policies_enabled
 }
 
 

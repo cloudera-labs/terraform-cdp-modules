@@ -74,3 +74,15 @@ variable "env_prefix" {
   type        = string
   description = "Shorthand name for the environment. Used in resource descriptions"
 }
+
+variable "cdp_subnets_private_endpoint_network_policies_enabled" {
+  type = bool
+
+  description = "Enable or Disable network policies for the private endpoint on the CDP subnets"
+}
+
+variable "gateway_subnets_private_endpoint_network_policies_enabled" {
+  type = bool
+
+  description = "Enable or Disable network policies for the private endpoint on the Gateway subnets"
+}
