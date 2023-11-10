@@ -109,16 +109,12 @@ github.com
 .eks.${aws_region}.amazonaws.com
 .autoscaling.${aws_region}.amazonaws.com
 .cloudformation.${aws_region}.amazonaws.com
-# TODO: Any more needed here?
 
-# TODO: Uncomment/update below if needed.
+# Additional endpoints for CDE deployment
+cloudera.com
+www.cloudera.com
+truststore.pki.rds.amazonaws.com
 
-# CDE deployment
-#cloudera.com
-#www.cloudera.com
-#truststore.pki.rds.amazonaws.com
-
-# CDW deployment
-#amazonlinux-2-repos-${aws_region}.s3.dualstack.${aws_region}.amazonaws.com
-
-#iamapi.${cdp_region}.altus.cloudera.com
+# Additional endpoints for CDW deployment
+amazonlinux-2-repos-${aws_region}.s3.dualstack.${aws_region}.amazonaws.com
+iamapi.${cdp_region}.altus.cloudera.com
