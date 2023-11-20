@@ -24,14 +24,14 @@ cloudera-dbus-prod.s3.amazonaws.com
 %{if cdp_region == "eu-1" ~}
 # ..EU-based Control Plane
 api.eu-1.cdp.cloudera.com
-# mow-prod-eu-central-1-sigmadbus-dbus.s3.eu-central-1.amazonaws.com # NOTE - this is a subdomain of the CDP AWS bucket with flow definitions for CDF below
+mow-prod-eu-central-1-sigmadbus-dbus.s3.eu-central-1.amazonaws.com # NOTE - this is a subdomain of the CDP AWS bucket with flow definitions for CDF below
 mow-prod-eu-central-1-sigmadbus-dbus.s3.amazonaws.com
 %{ endif ~}
 
 %{if cdp_region == "ap-1" ~}
 # ..AP-based Control Plane
 api.ap-1.cdp.cloudera.com
-mow-prod-ap-southeast-2-sigmadbus-dbus.s3.ap-southeast-2.amazonaws.com # NOTE - this is a subdomain of the CDP AWS bucket with flow definitions for CDF below
+# mow-prod-ap-southeast-2-sigmadbus-dbus.s3.ap-southeast-2.amazonaws.com # NOTE - this is a subdomain of the CDP AWS bucket with flow definitions for CDF below
 mow-prod-ap-southeast-2-sigmadbus-dbus.s3.amazonaws.com
 %{ endif ~}
 
@@ -53,9 +53,11 @@ container.repo.cloudera.com
 %{if cdp_region == "us-west-1" ~}
 # ..US-based Control Plane
 prod-us-west-2-starport-layer-bucket.s3.us-west-2.amazonaws.com
+prod-eu-west-1-starport-layer-bucket.s3.eu-west-1.amazonaws.com # NOTE - found that this domain was required for us control plane and eu aws region
 prod-us-west-2-starport-layer-bucket.s3.amazonaws.com
 s3-r-w.us-west-2.amazonaws.com
 .execute-api.us-west-2.amazonaws.com
+cloudera-dbus-prod.s3.us-west-2.amazonaws.com # NOTE - found that this domain was required for CDE
 %{ endif ~}
 
 %{if cdp_region == "eu-1" ~}
@@ -82,7 +84,8 @@ s3-r-w.ap-southeast-1.amazonaws.com
 
 %{if cdp_region == "eu-1" ~}
 # ..EU-based Control Plane
-.s3.eu-central-1.amazonaws.com
+# .s3.eu-central-1.amazonaws.com # More specific CDF bucket is used instead
+cldr-mow-prod-eu-central-1-dfx-flow-artifacts.s3.eu-central-1.amazonaws.com
 %{ endif ~}
 
 %{if cdp_region == "ap-1" ~}
