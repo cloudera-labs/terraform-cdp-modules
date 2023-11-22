@@ -13,18 +13,6 @@
 # limitations under the License.
 
 # ------- Global settings -------
-variable "infra_type" {
-  type        = string
-  description = "Cloud Provider to deploy CDP."
-
-  default = "aws"
-
-  validation {
-    condition     = contains(["aws"], var.infra_type)
-    error_message = "Valid values for var: infra_type are (aws)."
-  }
-}
-
 variable "aws_region" {
   type        = string
   description = "Region which Cloud resources will be created"
