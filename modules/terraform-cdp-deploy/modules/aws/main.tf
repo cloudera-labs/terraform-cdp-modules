@@ -26,6 +26,7 @@ resource "cdp_environments_aws_environment" "cdp_env" {
   region           = var.region
 
   security_access = {
+    cidr                       = var.security_access_cidr
     default_security_group_id  = var.security_group_default_id
     security_group_id_for_knox = var.security_group_knox_id
   }
