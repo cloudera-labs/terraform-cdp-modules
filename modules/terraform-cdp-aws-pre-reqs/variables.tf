@@ -13,18 +13,6 @@
 # limitations under the License.
 
 # ------- Global settings -------
-variable "infra_type" {
-  type        = string
-  description = "Cloud Provider to deploy CDP."
-
-  default = "aws"
-
-  validation {
-    condition     = contains(["aws"], var.infra_type)
-    error_message = "Valid values for var: infra_type are (aws)."
-  }
-}
-
 variable "aws_region" {
   type        = string
   description = "Region which Cloud resources will be created"
@@ -94,6 +82,15 @@ variable "vpc_cidr" {
 
   default = "10.10.0.0/16"
 }
+
+variable "vpc_name" {
+  type = string
+
+  description = "Name of the VPC. Defaults to <env_prefix>-net if not specified"
+
+  default = null
+}
+
 
 variable "private_cidr_range" {
   type        = number

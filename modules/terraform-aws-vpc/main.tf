@@ -15,23 +15,24 @@
 #tfsec:ignore:aws-ec2-no-excessive-port-access
 #tfsec:ignore:aws-ec2-no-public-ingress-acl
 #tfsec:ignore:aws-ec2-no-public-ip-subnet
-module "cdp_vpc" {
+module "vpc" {
+  count = var.create_vpc ? 1 : 0
+
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.19.0"
 
-  name = "${var.env_prefix}-net"
+  name = var.vpc_name
   cidr = var.vpc_cidr
 
   azs = [for v in local.zones_in_region : v]
+
   private_subnets = (local.subnets_required.private == 0 ?
     [] :
     [
       for i in range(local.subnets_required.private) : cidrsubnet(var.vpc_cidr, var.private_cidr_range - local.vpc_cidr_range, i)
     ]
   )
-  private_subnet_tags = {
-    "kubernetes.io/role/internal-elb" = "1"
-  }
+  private_subnet_tags = local.private_subnet_tags
 
   public_subnets = (local.subnets_required.public == 0 ?
     [] :
@@ -39,15 +40,12 @@ module "cdp_vpc" {
       for i in range(local.subnets_required.public) : cidrsubnet(var.vpc_cidr, var.public_cidr_range - local.vpc_cidr_range, i + local.public_subnet_offset)
     ]
   )
+  public_subnet_tags = local.public_subnet_tags
 
-  public_subnet_tags = {
-    "kubernetes.io/role/elb" = "1"
-  }
-
-  enable_nat_gateway   = (var.deployment_template == "private") ? (var.private_network_extensions ? true : false) : true
-  single_nat_gateway   = (var.deployment_template == "private") ? (var.private_network_extensions ? true : false) : false
-  enable_dns_support   = true
-  enable_dns_hostnames = true
+  enable_nat_gateway   = local.enable_nat_gateway
+  single_nat_gateway   = local.single_nat_gateway
+  enable_dns_support   = var.enable_dns_support
+  enable_dns_hostnames = var.enable_dns_hostnames
 
   map_public_ip_on_launch = var.vpc_public_subnets_map_public_ip_on_launch
 

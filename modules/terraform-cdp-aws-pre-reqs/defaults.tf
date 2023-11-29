@@ -23,20 +23,7 @@ locals {
   caller_account_id = data.aws_caller_identity.current.account_id
 
   # ------- Network Resources -------
-  vpc_id = (var.create_vpc ?
-  module.aws_cdp_vpc[0].vpc_id : var.cdp_vpc_id)
-
-  default_route_table_id  = (var.create_vpc ? module.aws_cdp_vpc[0].default_route_table : null)
-  public_route_table_ids  = (var.create_vpc ? module.aws_cdp_vpc[0].public_route_tables : null)
-  private_route_table_ids = (var.create_vpc ? module.aws_cdp_vpc[0].private_route_tables : null)
-
-  # If we create the vpc and have private deployment template public subnets are always empty
-  public_subnet_ids = (var.create_vpc ?
-  (var.deployment_template == "private" ? [] : module.aws_cdp_vpc[0].public_subnets) : var.cdp_public_subnet_ids)
-
-  private_subnet_ids = (var.create_vpc ?
-    module.aws_cdp_vpc[0].private_subnets : var.cdp_private_subnet_ids
-  )
+  vpc_name = coalesce(var.vpc_name, "${var.env_prefix}-net")
 
   # Security Groups
   security_group_default_name = coalesce(var.security_group_default_name, "${var.env_prefix}-default-sg")
@@ -48,7 +35,7 @@ locals {
   security_group_rules_ingress = [
     {
       # CIDR ingress
-      cidr     = data.aws_vpc.cdp_vpc.cidr_block_associations[*].cidr_block,
+      cidr     = module.aws_cdp_vpc.vpc_cidr_blocks,
       port     = "0",
       protocol = "all"
     }
