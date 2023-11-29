@@ -266,6 +266,13 @@ variable "subnets_for_cdp" {
 
 }
 
+
+variable "security_access_cidr" {
+  type = string
+
+  description = "CIDR range for inbound traffic. With this option security groups will be automatically created."
+}
+
 variable "security_group_default_id" {
   type = string
 
