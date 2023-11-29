@@ -14,30 +14,42 @@
 
 output "vpc_id" {
   description = "The ID of the VPC"
-  value       = module.cdp_vpc.vpc_id
+  value       = local.vpc_id
+}
+
+output "vpc_cidr_blocks" {
+  value = data.aws_vpc.vpc.cidr_block_associations[*].cidr_block
+
+  description = "CIDR Block Associations for the VPC"
 }
 
 output "default_route_table" {
   description = "The ID of the default route table"
-  value       = module.cdp_vpc.default_route_table_id
+  value       = local.default_route_table_id
 }
 
 output "public_route_tables" {
   description = "List of IDs of the public route tables"
-  value       = module.cdp_vpc.public_route_table_ids
+  value       = local.public_route_table_ids
 }
 
 output "private_route_tables" {
   description = "List of IDs of the private route tables"
-  value       = module.cdp_vpc.private_route_table_ids
+  value       = local.private_route_table_ids
+}
+
+output "vpc_subnets" {
+  value = data.aws_subnets.vpc_subnets
+
+  description = "Full list of subnets associated with the VPC"
 }
 
 output "private_subnets" {
   description = "List of IDs of private subnets"
-  value       = module.cdp_vpc.private_subnets
+  value       = local.private_subnet_ids
 }
 
 output "public_subnets" {
   description = "List of IDs of public subnets"
-  value       = module.cdp_vpc.public_subnets
+  value       = local.public_subnet_ids
 }
