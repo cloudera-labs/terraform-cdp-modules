@@ -390,13 +390,47 @@ resource "aws_iam_policy" "cdp_datalake_admin_s3_data_access_policy" {
 }
 
 # ------- CDP Data Access Policies - bucket_access -------
-resource "aws_iam_policy" "cdp_bucket_data_access_policy" {
-  name        = local.bucket_access_policy_name
-  description = "CDP Bucket S3 Access policy for ${var.env_prefix}"
+# Policy for Data bucket
+resource "aws_iam_policy" "cdp_data_bucket_data_access_policy" {
+  name        = local.data_bucket_access_policy_name
+  description = "CDP Data Bucket S3 Access policy for ${var.env_prefix}"
 
-  tags = merge(local.env_tags, { Name = local.bucket_access_policy_name })
+  tags = merge(local.env_tags, { Name = local.data_bucket_access_policy_name })
 
-  policy = local.bucket_access_policy_doc
+  policy = local.data_bucket_access_policy_doc
+}
+
+# Policy for Log bucket...Only required if log bucket different from data bucket
+resource "aws_iam_policy" "cdp_log_bucket_data_access_policy" {
+
+  count = ((
+    local.log_storage.log_storage_bucket != local.data_storage.data_storage_bucket) ?
+    1 : 0
+  )
+
+  name        = local.log_bucket_access_policy_name
+  description = "CDP Log Bucket S3 Access policy for ${var.env_prefix}"
+
+  tags = merge(local.env_tags, { Name = local.log_bucket_access_policy_name })
+
+  policy = local.log_bucket_access_policy_doc
+}
+# Policy for backup bucket...requied only if different from backup and log bucket
+resource "aws_iam_policy" "cdp_backup_bucket_data_access_policy" {
+
+  count = ((
+    local.backup_storage.backup_storage_bucket != local.data_storage.data_storage_bucket
+    ||
+    local.backup_storage.backup_storage_bucket != local.log_storage.log_storage_bucket) ?
+    1 : 0
+  )
+
+  name        = local.backup_bucket_access_policy_name
+  description = "CDP Backup Bucket S3 Access policy for ${var.env_prefix}"
+
+  tags = merge(local.env_tags, { Name = local.backup_bucket_access_policy_name })
+
+  policy = local.backup_bucket_access_policy_doc
 }
 
 # ------- CDP Data Access Policies - datalake_backup_policy -------
@@ -549,18 +583,18 @@ resource "aws_iam_role_policy_attachment" "cdp_log_role_attach1" {
   policy_arn = aws_iam_policy.cdp_log_data_access_policy.arn
 }
 
-# Attach AWS Bucket Access Policy to the Role
+# Attach AWS Datalake Restore Policy to the Role
 resource "aws_iam_role_policy_attachment" "cdp_log_role_attach2" {
 
   role       = aws_iam_role.cdp_log_role.name
-  policy_arn = aws_iam_policy.cdp_bucket_data_access_policy.arn
+  policy_arn = aws_iam_policy.cdp_datalake_restore_policy.arn
 }
 
-# Attach AWS Datalake Restore Policy to the Role
+# Attach AWS Datalake Backup Policy to the Role
 resource "aws_iam_role_policy_attachment" "cdp_log_role_attach3" {
 
   role       = aws_iam_role.cdp_log_role.name
-  policy_arn = aws_iam_policy.cdp_datalake_restore_policy.arn
+  policy_arn = aws_iam_policy.cdp_datalake_backup_policy.arn
 }
 
 # ------- AWS Data Access Roles - CDP Datalake Admin -------
@@ -603,21 +637,48 @@ resource "aws_iam_role_policy_attachment" "cdp_datalake_admin_role_attach1" {
 }
 
 # Attach AWS Bucket Access Policy to the Role
+# ..data bucket policy
 resource "aws_iam_role_policy_attachment" "cdp_datalake_admin_role_attach2" {
 
   role       = aws_iam_role.cdp_datalake_admin_role.name
-  policy_arn = aws_iam_policy.cdp_bucket_data_access_policy.arn
+  policy_arn = aws_iam_policy.cdp_data_bucket_data_access_policy.arn
+}
+
+# ..log bucket policy, if required
+resource "aws_iam_role_policy_attachment" "cdp_datalake_admin_role_attach3" {
+
+  count = ((
+    local.log_storage.log_storage_bucket != local.data_storage.data_storage_bucket) ?
+    1 : 0
+  )
+
+  role       = aws_iam_role.cdp_datalake_admin_role.name
+  policy_arn = aws_iam_policy.cdp_log_bucket_data_access_policy[0].arn
+}
+
+# ..backup bucket policy, if required
+resource "aws_iam_role_policy_attachment" "cdp_datalake_admin_role_attach4" {
+
+  count = ((
+    local.backup_storage.backup_storage_bucket != local.data_storage.data_storage_bucket
+    ||
+    local.backup_storage.backup_storage_bucket != local.log_storage.log_storage_bucket) ?
+    1 : 0
+  )
+
+  role       = aws_iam_role.cdp_datalake_admin_role.name
+  policy_arn = aws_iam_policy.cdp_backup_bucket_data_access_policy[0].arn
 }
 
 # Attach AWS Datalake Backup Policy to the Role
-resource "aws_iam_role_policy_attachment" "cdp_datalake_admin_role_attach3" {
+resource "aws_iam_role_policy_attachment" "cdp_datalake_admin_role_attach5" {
 
   role       = aws_iam_role.cdp_datalake_admin_role.name
   policy_arn = aws_iam_policy.cdp_datalake_backup_policy.arn
 }
 
 # Attach AWS Datalake Restore Policy to the Role
-resource "aws_iam_role_policy_attachment" "cdp_datalake_admin_role_attach4" {
+resource "aws_iam_role_policy_attachment" "cdp_datalake_admin_role_attach6" {
 
   role       = aws_iam_role.cdp_datalake_admin_role.name
   policy_arn = aws_iam_policy.cdp_datalake_restore_policy.arn
@@ -662,22 +723,49 @@ resource "aws_iam_role_policy_attachment" "cdp_ranger_audit_role_attach1" {
   policy_arn = aws_iam_policy.cdp_ranger_audit_s3_data_access_policy.arn
 }
 
-# Attach AWS Bucket Access Policy to the Role
+# Attach AWS Bucket Access Policies to the Role
+# ..data bucket policy
 resource "aws_iam_role_policy_attachment" "cdp_ranger_audit_role_attach2" {
 
   role       = aws_iam_role.cdp_ranger_audit_role.name
-  policy_arn = aws_iam_policy.cdp_bucket_data_access_policy.arn
+  policy_arn = aws_iam_policy.cdp_data_bucket_data_access_policy.arn
+}
+
+# ..log bucket policy, if required
+resource "aws_iam_role_policy_attachment" "cdp_ranger_audit_role_attach3" {
+
+  count = ((
+    local.log_storage.log_storage_bucket != local.data_storage.data_storage_bucket) ?
+    1 : 0
+  )
+
+  role       = aws_iam_role.cdp_ranger_audit_role.name
+  policy_arn = aws_iam_policy.cdp_log_bucket_data_access_policy[0].arn
+}
+
+# ..backup bucket policy, if required
+resource "aws_iam_role_policy_attachment" "cdp_ranger_audit_role_attach4" {
+
+  count = ((
+    local.backup_storage.backup_storage_bucket != local.data_storage.data_storage_bucket
+    ||
+    local.backup_storage.backup_storage_bucket != local.log_storage.log_storage_bucket) ?
+    1 : 0
+  )
+
+  role       = aws_iam_role.cdp_ranger_audit_role.name
+  policy_arn = aws_iam_policy.cdp_backup_bucket_data_access_policy[0].arn
 }
 
 # Attach AWS Datalake Backup Policy to the Role
-resource "aws_iam_role_policy_attachment" "cdp_ranger_audit_role_attach3" {
+resource "aws_iam_role_policy_attachment" "cdp_ranger_audit_role_attach5" {
 
   role       = aws_iam_role.cdp_ranger_audit_role.name
   policy_arn = aws_iam_policy.cdp_datalake_backup_policy.arn
 }
 
 # Attach AWS Datalake Restore Policy to the Role
-resource "aws_iam_role_policy_attachment" "cdp_ranger_audit_role_attach4" {
+resource "aws_iam_role_policy_attachment" "cdp_ranger_audit_role_attach6" {
 
   role       = aws_iam_role.cdp_ranger_audit_role.name
   policy_arn = aws_iam_policy.cdp_datalake_restore_policy.arn
