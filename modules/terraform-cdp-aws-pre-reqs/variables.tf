@@ -13,18 +13,6 @@
 # limitations under the License.
 
 # ------- Global settings -------
-variable "infra_type" {
-  type        = string
-  description = "Cloud Provider to deploy CDP."
-
-  default = "aws"
-
-  validation {
-    condition     = contains(["aws"], var.infra_type)
-    error_message = "Valid values for var: infra_type are (aws)."
-  }
-}
-
 variable "aws_region" {
   type        = string
   description = "Region which Cloud resources will be created"
@@ -453,9 +441,22 @@ variable "datalake_restore_policy_doc" {
 }
 
 # CDP Data Access Policies - bucket_access
-variable "bucket_access_policy_name" {
+variable "data_bucket_access_policy_name" {
   type        = string
-  description = "Bucket Access Data Access Policy Name"
+  description = "Data Bucket Access Data Access Policy Name"
+
+  default = null
+}
+variable "log_bucket_access_policy_name" {
+  type        = string
+  description = "Log Bucket Access Data Access Policy Name"
+
+  default = null
+}
+
+variable "backup_bucket_access_policy_name" {
+  type        = string
+  description = "Backup Bucket Access Data Access Policy Name"
 
   default = null
 }
@@ -476,9 +477,21 @@ variable "datalake_backup_policy_name" {
   default = null
 }
 
-variable "bucket_access_policy_doc" {
+variable "data_bucket_access_policy_doc" {
   type        = string
-  description = "Bucket Access Data Access Policy"
+  description = "Data Bucket Access Data Access Policy"
+
+  default = null
+}
+variable "log_bucket_access_policy_doc" {
+  type        = string
+  description = "Log Bucket Access Data Access Policy"
+
+  default = null
+}
+variable "backup_bucket_access_policy_doc" {
+  type        = string
+  description = "Backup Bucket Access Data Access Policy"
 
   default = null
 }

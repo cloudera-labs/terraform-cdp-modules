@@ -121,17 +121,29 @@ locals {
   datalake_admin_s3_policy_doc = coalesce(var.datalake_admin_s3_policy_doc, local.datalake_admin_s3_policy_doc_processed)
 
   # CDP Data Access Policies - bucket_access
-  bucket_access_policy_name = coalesce(var.bucket_access_policy_name, "${var.env_prefix}-storage-policy")
+  # Note - separate policies for data, log and backup buckets
+  data_bucket_access_policy_name   = coalesce(var.data_bucket_access_policy_name, "${var.env_prefix}-data-bucket-access-policy")
+  log_bucket_access_policy_name    = coalesce(var.log_bucket_access_policy_name, "${var.env_prefix}-log-bucket-access-policy")
+  backup_bucket_access_policy_name = coalesce(var.backup_bucket_access_policy_name, "${var.env_prefix}-backup-bucket-access-policy")
 
-  # bucket_access_policy_doc
   # ...first process placeholders in the downloaded policy doc
-  bucket_access_policy_doc_processed = replace(
+  data_bucket_access_policy_doc_processed = replace(
     replace(
     data.http.bucket_access_policy_doc.response_body, "$${ARN_PARTITION}", "aws"),
   "$${DATALAKE_BUCKET}", "${local.data_storage.data_storage_bucket}${local.storage_suffix}")
+  log_bucket_access_policy_doc_processed = replace(
+    replace(
+    data.http.bucket_access_policy_doc.response_body, "$${ARN_PARTITION}", "aws"),
+  "$${DATALAKE_BUCKET}", "${local.log_storage.log_storage_bucket}${local.storage_suffix}")
+  backup_bucket_access_policy_doc_processed = replace(
+    replace(
+    data.http.bucket_access_policy_doc.response_body, "$${ARN_PARTITION}", "aws"),
+  "$${DATALAKE_BUCKET}", "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}")
 
   # ...then assign either input or downloaded policy doc to var used in resource
-  bucket_access_policy_doc = coalesce(var.bucket_access_policy_doc, local.bucket_access_policy_doc_processed)
+  data_bucket_access_policy_doc   = coalesce(var.data_bucket_access_policy_doc, local.data_bucket_access_policy_doc_processed)
+  log_bucket_access_policy_doc    = coalesce(var.log_bucket_access_policy_doc, local.log_bucket_access_policy_doc_processed)
+  backup_bucket_access_policy_doc = coalesce(var.backup_bucket_access_policy_doc, local.backup_bucket_access_policy_doc_processed)
 
   # CDP Datalake backup Policy
   datalake_backup_policy_name = coalesce(var.datalake_backup_policy_name, "${var.env_prefix}-datalake-backup-policy")
