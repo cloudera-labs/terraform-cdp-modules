@@ -28,6 +28,7 @@ module "cdp_on_aws" {
 
   security_group_default_id = var.aws_security_group_default_id
   security_group_knox_id    = var.aws_security_group_knox_id
+  security_access_cidr      = var.aws_security_access_cidr
 
   datalake_scale         = local.datalake_scale
   datalake_version       = var.datalake_version

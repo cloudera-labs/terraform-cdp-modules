@@ -403,6 +403,14 @@ variable "aws_security_group_knox_id" {
   default = null
 }
 
+variable "aws_security_access_cidr" {
+  type = string
+
+  description = "CIDR range for inbound traffic. With this option security groups will be automatically created. Only used for CDP deployment on AWS. Note it is recommended to specify pre-existing security groups instead of this option."
+
+  default = null
+}
+
 variable "aws_datalake_admin_role_arn" {
   type = string
 
