@@ -152,6 +152,7 @@ module "cdp_on_azure" {
 
   azure_aks_private_dns_zone_id      = var.azure_aks_private_dns_zone_id
   azure_database_private_dns_zone_id = var.azure_database_private_dns_zone_id
+  create_private_endpoints           = var.azure_create_private_endpoints
 
   proxy_config_name = var.proxy_config_name
 

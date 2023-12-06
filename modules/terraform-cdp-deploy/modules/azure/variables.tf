@@ -288,6 +288,12 @@ variable "azure_database_private_dns_zone_id" {
 
 }
 
+variable "create_private_endpoints" {
+  type        = bool
+  description = "Azure Postgres will be configured with Private Endpoint and a Private DNS Zone."
+
+}
+
 variable "cdp_gateway_subnet_names" {
   type        = list(any)
   description = "Azure Subnet Names for Endpoint Access Gateway."
