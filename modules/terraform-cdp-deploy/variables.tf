@@ -503,6 +503,13 @@ variable "azure_database_private_dns_zone_id" {
 
 }
 
+variable "azure_create_private_endpoints" {
+  type        = bool
+  description = "Flag to specify that Azure Postgres will be configured with Private Endpoint and a Private DNS Zone."
+
+  default = null
+}
+
 variable "azure_cdp_subnet_names" {
   type        = list(any)
   description = "List of Azure Subnet Names for CDP Resources. Required for CDP deployment on Azure."

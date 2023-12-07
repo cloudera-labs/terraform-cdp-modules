@@ -51,6 +51,7 @@ resource "cdp_environments_azure_environment" "cdp_env" {
     aks_private_dns_zone_id      = var.azure_aks_private_dns_zone_id
     database_private_dns_zone_id = var.azure_database_private_dns_zone_id
   }
+  create_private_endpoints = var.create_private_endpoints
 
   endpoint_access_gateway_scheme     = var.endpoint_access_scheme
   endpoint_access_gateway_subnet_ids = (length(var.cdp_gateway_subnet_names) > 0) ? var.cdp_gateway_subnet_names : null
