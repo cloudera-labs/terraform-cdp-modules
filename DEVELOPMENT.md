@@ -93,3 +93,62 @@ source = "../../terraform-cdp-modules/modules/terraform-cdp-deploy"
 
 #### Azure
 Same as above, just change the first module’s source to `source = "../../terraform-cdp-modules/modules/terraform-cdp-azure-pre-reqs"`
+
+# Notes on CDP authentication
+
+The CDP provider offers a flexible means of providing credentials for authentication. The following methods are supported:
+
+* Static credentials
+* Environment variables
+* Shared credentials file
+
+See the [CDP Terraform Provider Documentation](https://registry.terraform.io/providers/cloudera/cdp/latest/docs#authentication) for more details on each of these authentication methods.
+
+## Setting CDP Region
+
+The [CDP Control Plane Region](https://docs.cloudera.com/cdp-public-cloud/cloud/cp-regions/topics/cdp-control-plane-regions.html) associated with a set of CDP credentials can be specified via one of the following methods:
+
+1. Set the control plane region name in the CDP provider configuration of the Terraform root module as shown below.
+
+```terraform
+provider "cdp" {
+  # Example of setting control plane region to eu-1
+  cdp_region = "eu-1"
+}
+```
+
+2. Set the `CDP_REGION` environment variable in your terminal, e.g.:
+
+```bash
+export CDP_REGION="eu-1"
+```
+
+3. Set cdp_region in your CDP config file (`~/.cdp/config`). Below shows an example for the default profile and for a custom profile.
+
+```
+[default]
+cdp_region = us-west-1
+
+[profile customprofile]
+cdp_region = eu-1
+```
+
+See CDP Terraform Provider Documentation for further details on [setting the CDP region](https://registry.terraform.io/providers/cloudera/cdp/latest/docs#setting-the-cdp-region)
+
+## Setting CDP Profile
+
+When using a shared credentials file a custom profile (other than `default`) can be specified via one of the following methods:
+
+1. Set the profile name in the CDP provider configuration of the Terraform root module as shown below.
+
+```terraform
+provider "cdp" {
+  cdp_profile = "customprofile"
+}
+```
+
+2. Set the `CDP_PROFILE` environment variable in your terminal, e.g.
+
+```bash
+export CDP_PROFILE="customprofile"
+```
