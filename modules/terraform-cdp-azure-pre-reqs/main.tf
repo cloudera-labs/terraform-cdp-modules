@@ -177,7 +177,7 @@ resource "azuread_application" "cdp_xaccount_app" {
 
 # Create Service Principal associated with the Azure AD App
 resource "azuread_service_principal" "cdp_xaccount_app_sp" {
-  application_id = azuread_application.cdp_xaccount_app.application_id
+  client_id = azuread_application.cdp_xaccount_app.client_id
 
   owners = [data.azuread_client_config.current.object_id]
 }
@@ -191,8 +191,8 @@ resource "azurerm_role_assignment" "cdp_xaccount_role" {
 
 # Create Application password (client secret)
 resource "azuread_application_password" "cdp_xaccount_app_password" {
-  application_object_id = azuread_application.cdp_xaccount_app.object_id
-  end_date_relative     = "17520h" #expire in 2 years # TODO: Review and parameterize
+  application_id    = azuread_application.cdp_xaccount_app.id
+  end_date_relative = "17520h" #expire in 2 years # TODO: Review and parameterize
 }
 
 # ------- Azure Managed Identities & Role Asignment - IDBroker -------
