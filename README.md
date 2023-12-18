@@ -10,6 +10,8 @@ This repository contains a number of Terraform modules for creation of the pre-r
 | [terraform-cdp-azure-prereqs](modules/terraform-cdp-azure-pre-reqs/README.md) | For all Azure pre-requisite Cloud resources |
 | [terraform-cdp-deploy](modules/terraform-cdp-deploy/README.md) | For deployment of CDP on Azure or AWS. |
 | [terraform-aws-vpc](modules/terraform-aws-vpc/README.md) | Module for creation of the VPC networking resources on AWS suitable. Can be used to create the CDP VPC and Subnets. Note that this module is called from the terraform-cdp-aws-prereqs module. |
+| [terraform-aws-tgw](modules/terraform-aws-tgw/README.md) | Module for creation creation of AWS Transity Gateway (TGW) and attaching a specified list of VPCs via the TGW. This module can be used to assist in deploying Cloudera Data Platform (CDP) Public Cloud in a fully private networking configuration where a CDP VPC and Networking VPC are connected using the Transit Gateway. |
+| [terraform-azure-nfs](modules/terraform-azure-nfs/README.md) | Module for creation of Azure NFS File Share required for Cloudera Machine Learning (CML) Public Cloud. Also optionally creates a Virtual Machine which can be used to mount and set the required ownership for CML workspace's projects folder.|
 
 Each module contains Terraform resource configuration and example variable definition files.
 
@@ -67,7 +69,8 @@ Configure Terraform Provider for AWS or Azure
 
 * Configure the Terraform Provider for CDP with access key ID and private key by dowloading or creating a CDP configuation file.
   * See the [CDP documentation for steps to Generate the API access key](https://docs.cloudera.com/cdp-public-cloud/cloud/cli/topics/mc-cli-generating-an-api-access-key.html).
-
+  * See the [CDP Terraform Provider Documentation](https://registry.terraform.io/providers/cloudera/cdp/latest/docs#authentication) and [DEVELOPMENT.md](./DEVELOPMENT.md) for the different ways of providing the CDP credentials for authentication.
+  
 * To create resources in the Cloud Provider, access credentials or service account are needed for authentication.
   * For **AWS** access keys are required to be able to create the Cloud resources via the Terraform aws provider. See the [AWS Terraform Provider Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration).
   * For **Azure**, authentication with the Azure subscription is required. There are a number of ways to do this outlined in the [Azure Terraform Provider Documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#authenticating-to-azure).
