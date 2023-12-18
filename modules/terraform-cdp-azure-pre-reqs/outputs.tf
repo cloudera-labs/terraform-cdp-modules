@@ -118,7 +118,7 @@ output "azure_backup_storage_location" {
 }
 
 output "azure_xaccount_app_uuid" {
-  value = azuread_application.cdp_xaccount_app.application_id
+  value = azuread_application.cdp_xaccount_app.client_id
 
   description = "UUID for the Azure AD Cross Account Application"
 
