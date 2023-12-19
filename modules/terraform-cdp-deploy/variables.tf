@@ -18,8 +18,8 @@ variable "infra_type" {
   description = "Cloud Provider to deploy CDP."
 
   validation {
-    condition     = contains(["aws", "azure"], var.infra_type)
-    error_message = "Valid values for var: infra_type are (azure, aws)."
+    condition     = contains(["aws", "azure", "gcp"], var.infra_type)
+    error_message = "Valid values for var: infra_type are (azure, aws, gcp)."
   }
 }
 
@@ -271,15 +271,6 @@ variable "datalake_polling_timeout" {
   default = 90
 }
 
-# ------- CDP Environment Deployment - AWS specific -------
-variable "encryption_key_arn" {
-  type = string
-
-  description = "ARN of the AWS KMS CMK to use for the server-side encryption of AWS storage resources. Only applicable for CDP deployment on AWS."
-
-  default = null
-}
-
 variable "datalake_custom_instance_groups" {
   type = list(
     object({
@@ -288,7 +279,16 @@ variable "datalake_custom_instance_groups" {
     })
   )
 
-  description = "A set of custom instance groups for the datalake. Only applicable for CDP deployment on AWS."
+  description = "A set of custom instance groups for the datalake. Only applicable for CDP deployment on AWS and GCP."
+
+  default = null
+}
+
+# ------- CDP Environment Deployment - AWS specific -------
+variable "encryption_key_arn" {
+  type = string
+
+  description = "ARN of the AWS KMS CMK to use for the server-side encryption of AWS storage resources. Only applicable for CDP deployment on AWS."
 
   default = null
 }
@@ -362,6 +362,14 @@ variable "log_storage_location" {
 variable "backup_storage_location" {
   type        = string
   description = "Backup storage location. The location has to be in uri format for the cloud provider - i.e. s3a:// for AWS, abfs:// for Azure,  gs://"
+}
+
+variable "use_public_ips" {
+  type = bool
+
+  description = "Use public ip's for the CDP resources created within the Cloud network. Required for CDP deployment on Azure and GCP."
+
+  default = null
 }
 
 # ------- Cloud Service Provider Settings - AWS specific -------
@@ -542,14 +550,6 @@ variable "azure_security_group_knox_uri" {
 
 }
 
-variable "use_public_ips" {
-  type = bool
-
-  description = "Use public ip's for the CDP resources created within the Azure network. Required for CDP deployment on Azure."
-
-  default = null
-}
-
 variable "use_single_resource_group" {
   type = bool
 
@@ -615,6 +615,111 @@ variable "azure_raz_identity_id" {
   type = string
 
   description = "RAZ Managed Identity ID. Required for CDP deployment on Azure."
+
+  default = null
+
+}
+
+# ------- Cloud Service Provider Settings - GCP specific -------
+
+variable "gcp_project_id" {
+  type = string
+
+  description = "GCP project to deploy CDP environment. Required for CDP deployment on GCP."
+
+  default = null
+}
+
+variable "gcp_xaccount_service_account_private_key" {
+  type = string
+
+  description = "Base64 encoded private key of the GCP Cross Account Service Account Key. Required for CDP deployment on GCP."
+
+  default = null
+
+}
+
+variable "gcp_network_name" {
+  type        = string
+  description = "GCP Network VPC name. Required for CDP deployment on GCP."
+
+  default = null
+
+}
+
+variable "gcp_cdp_subnet_names" {
+  type        = list(any)
+  description = "List of GCP Subnet Names for CDP Resources. Required for CDP deployment on GCP."
+
+  default = null
+
+}
+
+variable "gcp_firewall_default_id" {
+  type        = string
+  description = "Default Firewall for CDP environment.  Required for CDP deployment on GCP."
+
+  default = null
+
+}
+
+variable "gcp_firewall_knox_id" {
+  type        = string
+  description = "Knox Firewall for CDP environment. Required for CDP deployment on GCP."
+
+  default = null
+
+}
+
+variable "gcp_idbroker_service_account_email" {
+  type = string
+
+  description = "Email id of the service account for IDBroker. Required for CDP deployment on GCP."
+
+  default = null
+
+}
+
+variable "gcp_log_service_account_email" {
+  type = string
+
+  description = "Email id of the service account for Log Storage. Required for CDP deployment on GCP."
+
+  default = null
+
+}
+
+variable "gcp_ranger_audit_service_account_email" {
+  type = string
+
+  description = "Email id of the service account for Ranger Audit. Required for CDP deployment on GCP."
+
+  default = null
+
+}
+
+variable "gcp_datalake_admin_service_account_email" {
+  type = string
+
+  description = "Email id of the service account for Datalake Admin. Required for CDP deployment on GCP."
+
+  default = null
+
+}
+
+variable "gcp_report_deployment_logs" {
+  type = bool
+
+  description = "Flag to enable reporting of additional diagnostic information back to Cloudera. Only applicable for CDP deployment on GCP."
+
+  default = false
+
+}
+
+variable "gcp_encryption_key" {
+  type = string
+
+  description = "Key Resource ID of the customer managed encryption key to encrypt GCP resources. Only applicable for CDP deployment on GCP."
 
   default = null
 
