@@ -20,19 +20,20 @@ variable "gcp_region" {
   default = null
 }
 
-variable "env_tags" {
-  type        = map(any)
-  description = "Tags applied to provisioned resources"
+# TODO: Explore how to enable tagging of resources
+# variable "env_tags" {
+#   type        = map(any)
+#   description = "Tags applied to provisioned resources"
 
-  default = null
-}
+#   default = null
+# }
 
-variable "agent_source_tag" {
-  type        = map(any)
-  description = "Tag to identify deployment source"
+# variable "agent_source_tag" {
+#   type        = map(any)
+#   description = "Tag to identify deployment source"
 
-  default = { agent_source = "tf-cdp-module" }
-}
+#   default = { agent_source = "tf-cdp-module" }
+# }
 
 variable "env_prefix" {
   type        = string
@@ -49,14 +50,6 @@ variable "deployment_template" {
     condition     = contains(["public", "semi-private", "private"], var.deployment_template)
     error_message = "Valid values for var: deployment_template are (public, semi-private, private)."
   }
-}
-
-variable "enable_raz" {
-  type = bool
-
-  description = "Flag to enable Ranger Authorization Service (RAZ)"
-
-  default = true
 }
 
 # ------- Network Resources -------

@@ -14,11 +14,12 @@
 
 locals {
   # ------- Global settings -------
-  env_tags = merge(var.agent_source_tag, (
-    coalesce(var.env_tags,
-      { env_prefix = var.env_prefix }
-    ))
-  )
+  # TODO: Explore how to enable tagging of resources
+  # env_tags = merge(var.agent_source_tag, (
+  #   coalesce(var.env_tags,
+  #     { env_prefix = var.env_prefix }
+  #   ))
+  # )
 
   # ------- Network Resources -------
   vpc_name = coalesce(var.vpc_name, "${var.env_prefix}-net")

@@ -51,7 +51,7 @@ terraform {
   required_providers {
     cdp = {
       source  = "cloudera/cdp"
-      version = "0.2.0"
+      version = "0.4.1"
     }
   }
 }
