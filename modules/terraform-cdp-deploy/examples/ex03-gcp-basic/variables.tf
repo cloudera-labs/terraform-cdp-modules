@@ -51,38 +51,24 @@ variable "ingress_extra_cidrs_and_ports" {
 }
 
 # ------- Optional inputs for BYO-VPC -------
-variable "create_vnet" {
+variable "create_vpc" {
   type = bool
 
-  description = "Flag to specify if the VNet should be created"
+  description = "Flag to specify if the VPC should be created"
 
   default = true
 }
 
-variable "cdp_resourcegroup_name" {
+variable "cdp_vpc_name" {
   type        = string
-  description = "Pre-existing Resource Group for CDP environment. Required if create_vnet is false."
-
-  default = null
-}
-
-variable "cdp_vnet_name" {
-  type        = string
-  description = "Pre-existing VNet Name for CDP environment. Required if create_vnet is false."
+  description = "Pre-existing VPC Name for CDP environment. Required if create_vpc is false."
 
   default = null
 }
 
 variable "cdp_subnet_names" {
   type        = list(any)
-  description = "List of subnet names for CDP Resources. Required if create_vnet is false."
-
-  default = null
-}
-
-variable "cdp_gw_subnet_names" {
-  type        = list(any)
-  description = "List of subnet names for CDP Gateway. Required if create_vnet is false."
+  description = "List of subnet names for CDP Resources. Required if create_vpc is false."
 
   default = null
 }

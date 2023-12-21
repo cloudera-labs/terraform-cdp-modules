@@ -29,9 +29,7 @@ deployment_template = "<ENTER_VALUE>"  # Specify the deployment pattern below. O
 # ------- Optional inputs for BYO-VPC -------
 # **NOTE: Uncomment below settings if required
 
-# create_vpc=true # Set to false to use pre-existing VNet
+# create_vpc=true # Set to false to use pre-existing VPC
 
-# cdp_resourcegroup_name="<ENTER_EXISTING_RG_NAME>" # Name of pre-existing Resource Group for CDP environment. Required if create_vnet is false
-# cdp_vnet_name="<ENTER_EXISTING_VNET_NAME>" # Name of pre-existing VNet for CDP environment. Required if create_vnet is false
-# cdp_subnet_names=["<ENTER_EXISTING_SUBNET_NAME>","<ENTER_EXISTING_SUBNET_NAME>"] # List of pre-existing subnet names for CDP resources. Required if create_vnet is false
-# cdp_gw_subnet_names=["<ENTER_EXISTING_SUBNET_NAME>"] # List of pre-existing subnet names for CDP Gateway. Required if create_vnet is false
+# cdp_vpc_name="<ENTER_EXISTING_VPC_NAME>" # Name of pre-existing VNet for CDP environment. Required if create_vpc is false
+# cdp_subnet_names=["<ENTER_EXISTING_SUBNET_NAME>","<ENTER_EXISTING_SUBNET_NAME>"] # List of pre-existing subnet names for CDP resources. Required if create_vpc is false

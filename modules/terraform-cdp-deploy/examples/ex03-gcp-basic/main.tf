@@ -28,12 +28,10 @@ module "cdp_gcp_prereqs" {
 
   ingress_extra_cidrs_and_ports = var.ingress_extra_cidrs_and_ports
 
-  # Inputs for BYO-VNet
-  # create_vnet            = var.create_vnet
-  # cdp_resourcegroup_name = var.cdp_resourcegroup_name
-  # cdp_vnet_name          = var.cdp_vnet_name
-  # cdp_subnet_names       = var.cdp_subnet_names
-  # cdp_gw_subnet_names    = var.cdp_gw_subnet_names
+  # Inputs for BYO-VPC
+  create_vpc       = var.create_vpc
+  cdp_vpc_name     = var.cdp_vpc_name
+  cdp_subnet_names = var.cdp_subnet_names
 
 }
 
