@@ -25,11 +25,16 @@ public_key_text = "<ENTER_VALUE>" # Change this with the SSH public key text, e.
 # ------- CDP Environment Deployment -------
 deployment_template = "<ENTER_VALUE>"  # Specify the deployment pattern below. Options are public, semi-private or private
 
-# TODO:
+# ------- Network Settings -------
+# **NOTE: If required change the values below any additional CIDRs to add the the AWS Security Groups**
+ingress_extra_cidrs_and_ports = {
+ cidrs = ["<ENTER_IP_VALUE>/32", "<ENTER_IP_VALUE>/32"],
+ ports = [443, 22]
+}
+
 # ------- Optional inputs for BYO-VPC -------
 # **NOTE: Uncomment below settings if required
 
 # create_vpc=true # Set to false to use pre-existing VPC
-
 # cdp_vpc_name="<ENTER_EXISTING_VPC_NAME>" # Name of pre-existing VNet for CDP environment. Required if create_vpc is false
 # cdp_subnet_names=["<ENTER_EXISTING_SUBNET_NAME>","<ENTER_EXISTING_SUBNET_NAME>"] # List of pre-existing subnet names for CDP resources. Required if create_vpc is false
