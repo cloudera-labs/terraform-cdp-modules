@@ -12,13 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-terraform {
-  required_providers {
-    cdp = {
-      source  = "cloudera/cdp"
-      version = "0.4.1"
-    }
-  }
+locals {
 
-  required_version = ">= 1.3.0"
+  # Network infrastructure for CDP resources
+  cdp_subnets = [
+    for idx in range(var.subnet_count) :
+    {
+      name = "${var.env_prefix}-sbnt-${format("%02d", idx + 1)}"
+      cidr = cidrsubnet(var.vpc_cidr, ceil(log(var.subnet_count, 2)), idx)
+    }
+  ]
+
 }

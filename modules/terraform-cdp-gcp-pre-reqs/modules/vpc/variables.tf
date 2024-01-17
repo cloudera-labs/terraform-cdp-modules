@@ -12,13 +12,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-terraform {
-  required_providers {
-    cdp = {
-      source  = "cloudera/cdp"
-      version = "0.4.1"
-    }
-  }
+variable "vpc_name" {
+  type        = string
+  description = "VPC Network name"
 
-  required_version = ">= 1.3.0"
+}
+
+variable "vpc_cidr" {
+  type        = string
+  description = "VPC Network CIDR Block"
+
+}
+
+variable "subnet_count" {
+  type        = number
+  description = "Number of Subnets Required"
+
+}
+
+variable "env_prefix" {
+  type        = string
+  description = "Shorthand name for the environment. Used in resource descriptions"
+}
+
+variable "cdp_subnet_private_ip_google_access" {
+  type        = bool
+  description = "Flag to enable VMs in CDP subnets to access Google APIs and services by using Private Google Access"
 }

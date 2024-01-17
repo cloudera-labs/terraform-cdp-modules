@@ -12,13 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-terraform {
-  required_providers {
-    cdp = {
-      source  = "cloudera/cdp"
-      version = "0.4.1"
-    }
-  }
 
-  required_version = ">= 1.3.0"
+# ------- VPC Network -------
+resource "google_compute_network" "cdp_network" {
+  name                    = var.vpc_name
+  auto_create_subnetworks = false
+  routing_mode            = "REGIONAL"
+}
+
+# ------- Subnets -------
+resource "google_compute_subnetwork" "cdp_subnets" {
+
+  for_each = { for idx, subnet in local.cdp_subnets : idx => subnet }
+
+  network = google_compute_network.cdp_network.id
+  name    = each.value.name
+
+  ip_cidr_range = each.value.cidr
+
+  private_ip_google_access = var.cdp_subnet_private_ip_google_access
+
 }

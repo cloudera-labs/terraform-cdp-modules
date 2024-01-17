@@ -12,13 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-terraform {
-  required_providers {
-    cdp = {
-      source  = "cloudera/cdp"
-      version = "0.4.1"
-    }
-  }
 
-  required_version = ">= 1.3.0"
-}
+# Retrieve project details
+data "google_project" "project" {}

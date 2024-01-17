@@ -1,14 +1,15 @@
 # Terraform Modules for CDP Prerequisites
 
-This repository contains a number of Terraform modules for creation of the pre-requisite Cloud resources on AWS and Azure and the deployment of Cloudera Data Platform (CDP) Public Cloud.
+This repository contains a number of Terraform modules for creation of the pre-requisite Cloud resources on AWS, Azure and GCP and the deployment of Cloudera Data Platform (CDP) Public Cloud.
 
 ## Modules
 
 | Module name | Description |
 | ----------- | ----------- |
-| [terraform-cdp-aws-prereqs](modules/terraform-cdp-aws-pre-reqs/README.md) | For all AWS pre-requisite Cloud resources |
-| [terraform-cdp-azure-prereqs](modules/terraform-cdp-azure-pre-reqs/README.md) | For all Azure pre-requisite Cloud resources |
-| [terraform-cdp-deploy](modules/terraform-cdp-deploy/README.md) | For deployment of CDP on Azure or AWS. |
+| [terraform-cdp-aws-pre-reqs](modules/terraform-cdp-aws-pre-reqs/README.md) | For all AWS pre-requisite Cloud resources |
+| [terraform-cdp-azure-pre-reqs](modules/terraform-cdp-azure-pre-reqs/README.md) | For all Azure pre-requisite Cloud resources |
+| [terraform-cdp-gcp-pre-reqs](modules/terraform-cdp-gcp-pre-reqs/README.md) | For all GCP pre-requisite Cloud resources |
+| [terraform-cdp-deploy](modules/terraform-cdp-deploy/README.md) | For deployment of CDP on AWS, Azure or GCP. |
 | [terraform-aws-vpc](modules/terraform-aws-vpc/README.md) | Module for creation of the VPC networking resources on AWS suitable. Can be used to create the CDP VPC and Subnets. Note that this module is called from the terraform-cdp-aws-prereqs module. |
 | [terraform-aws-tgw](modules/terraform-aws-tgw/README.md) | Module for creation of AWS Transity Gateway (TGW) and attaching a specified list of VPCs via the TGW. This module can be used to assist in deploying Cloudera Data Platform (CDP) Public Cloud in a fully private networking configuration where a CDP VPC and Networking VPC are connected using the Transit Gateway. |
 | [terraform-aws-proxy](modules/terraform-aws-proxy/README.md) | Module to create and configure and EC2 Auto-Scaling Group for a highly available Squid Proxy service with Network Load Balancer (NLB) to forward traffic to the proxy instances. This module can be used to assist in deploying Cloudera Data Platform (CDP) Public Cloud in a fully private networking configuration where a the CDP Environments uses a proxy config via the NLB. |
@@ -66,7 +67,7 @@ To set up CDP via deployment automation using this guide, the following dependen
 
 * Terraform can be installed by following the instructions at https://developer.hashicorp.com/terraform/downloads
 
-Configure Terraform Provider for AWS or Azure
+Configure Terraform Provider for AWS, Azure or GCP
 
 * Configure the Terraform Provider for CDP with access key ID and private key by dowloading or creating a CDP configuation file.
   * See the [CDP documentation for steps to Generate the API access key](https://docs.cloudera.com/cdp-public-cloud/cloud/cli/topics/mc-cli-generating-an-api-access-key.html).
@@ -75,6 +76,7 @@ Configure Terraform Provider for AWS or Azure
 * To create resources in the Cloud Provider, access credentials or service account are needed for authentication.
   * For **AWS** access keys are required to be able to create the Cloud resources via the Terraform aws provider. See the [AWS Terraform Provider Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration).
   * For **Azure**, authentication with the Azure subscription is required. There are a number of ways to do this outlined in the [Azure Terraform Provider Documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#authenticating-to-azure).
+  * For **GCP**, authentication with the GCP API is required. There are a number of ways to do this outlined in the [Google Terraform Provider Documentation](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#authentication).
 
 ### Notes on Azure authentication
 
@@ -88,6 +90,16 @@ export ARM_TENANT_ID="<sp_tenant_id>"
 export ARM_SUBSCRIPTION_ID="<sp_subscription_id>" 
 ```
 
+### Notes on GCP authentication
+
+As outlined in the [Getting Started Docs for Google Terraform Provider](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/getting_started#adding-credentials) there are two recommended ways to authenticate with the GCP API.
+
+1. The Google Cloud SDK (`gcloud`) can be installed and a User Application Default Credentials ("ADCs") can be created by running the command `gcloud auth application-default login`
+
+2. A Google Cloud Service Account key file can be generated and downloaded. The `GOOGLE_APPLICATION_CREDENTIALS` environment variable can then be set to the location of the file.
+```bash
+export GOOGLE_APPLICATION_CREDENTIALS=<location_of_gcp_sa_json_file>
+```
 
 ## Local Development Environment
 
