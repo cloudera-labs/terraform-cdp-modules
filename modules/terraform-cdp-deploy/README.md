@@ -1,7 +1,7 @@
 <!-- BEGIN_TF_DOCS -->
 # Terraform Module for CDP Deployment
 
-This module contains resource files and example variable definition files for deployment of Cloudera Data Platform (CDP) Public Cloud environment and Datalake creation on AWS or Azure.
+This module contains resource files and example variable definition files for deployment of Cloudera Data Platform (CDP) Public Cloud environment and Datalake creation on AWS, Azure or GCP.
 
 ## Usage
 
@@ -11,6 +11,8 @@ The [examples](./examples) directory has example CDP deployments:
 
 * `ex02-azure-basic` creates a basic CDP deployment on Azure. This example makes use of the [terraform-cdp-azure-pre-reqs module](../terraform-cdp-azure-pre-reqs) to create the required cloud resources.
 
+* `ex02-gcp-basic` creates a basic CDP deployment on GCP. This example makes use of the [terraform-cdp-gcp-pre-reqs module](../terraform-cdp-gcp-pre-reqs) to create the required cloud resources.
+
 In each directory an example `terraform.tfvars.sample` values file is included to show input variable values.
 
 ## Requirements
@@ -18,7 +20,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_cdp"></a> [cdp](#requirement\_cdp) | 0.4.0 |
+| <a name="requirement_cdp"></a> [cdp](#requirement\_cdp) | 0.4.1 |
 
 ## Providers
 
@@ -30,6 +32,7 @@ No providers.
 |------|--------|---------|
 | <a name="module_cdp_on_aws"></a> [cdp\_on\_aws](#module\_cdp\_on\_aws) | ./modules/aws | n/a |
 | <a name="module_cdp_on_azure"></a> [cdp\_on\_azure](#module\_cdp\_on\_azure) | ./modules/azure | n/a |
+| <a name="module_cdp_on_gcp"></a> [cdp\_on\_gcp](#module\_cdp\_on\_gcp) | ./modules/gcp | n/a |
 
 ## Resources
 
@@ -42,6 +45,7 @@ No resources.
 | <a name="input_backup_storage_location"></a> [backup\_storage\_location](#input\_backup\_storage\_location) | Backup storage location. The location has to be in uri format for the cloud provider - i.e. s3a:// for AWS, abfs:// for Azure,  gs:// | `string` | n/a | yes |
 | <a name="input_data_storage_location"></a> [data\_storage\_location](#input\_data\_storage\_location) | Data storage location. The location has to be in uri format for the cloud provider - i.e. s3a:// for AWS, abfs:// for Azure,  gs:// | `string` | n/a | yes |
 | <a name="input_deployment_template"></a> [deployment\_template](#input\_deployment\_template) | Deployment Pattern to use for Cloud resources and CDP | `string` | n/a | yes |
+| <a name="input_env_prefix"></a> [env\_prefix](#input\_env\_prefix) | Shorthand name for the environment. Used in CDP resource descriptions. This will be used to construct the value of where any of the CDP resource variables (e.g. environment\_name, cdp\_iam\_admin\_group\_name) are not defined. | `string` | n/a | yes |
 | <a name="input_infra_type"></a> [infra\_type](#input\_infra\_type) | Cloud Provider to deploy CDP. | `string` | n/a | yes |
 | <a name="input_log_storage_location"></a> [log\_storage\_location](#input\_log\_storage\_location) | Log storage location. The location has to be in uri format for the cloud provider - i.e. s3a:// for AWS, abfs:// for Azure,  gs:// | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | Region which cloud resources will be created | `string` | n/a | yes |
@@ -77,7 +81,7 @@ No resources.
 | <a name="input_cdp_admin_group_name"></a> [cdp\_admin\_group\_name](#input\_cdp\_admin\_group\_name) | Name of the CDP IAM Admin Group associated with the environment. Defaults to '<env\_prefix>-cdp-admin-group' if not specified. | `string` | `null` | no |
 | <a name="input_cdp_user_group_name"></a> [cdp\_user\_group\_name](#input\_cdp\_user\_group\_name) | Name of the CDP IAM User Group associated with the environment. Defaults to '<env\_prefix>-cdp-user-group' if not specified. | `string` | `null` | no |
 | <a name="input_cdp_xacccount_credential_name"></a> [cdp\_xacccount\_credential\_name](#input\_cdp\_xacccount\_credential\_name) | Name of the CDP Cross Account Credential. Defaults to '<env\_prefix>-xaccount-cred' if not specified. | `string` | `null` | no |
-| <a name="input_datalake_custom_instance_groups"></a> [datalake\_custom\_instance\_groups](#input\_datalake\_custom\_instance\_groups) | A set of custom instance groups for the datalake. Only applicable for CDP deployment on AWS. | <pre>list(<br>    object({<br>      name          = string,<br>      instance_type = optional(string)<br>    })<br>  )</pre> | `null` | no |
+| <a name="input_datalake_custom_instance_groups"></a> [datalake\_custom\_instance\_groups](#input\_datalake\_custom\_instance\_groups) | A set of custom instance groups for the datalake. Only applicable for CDP deployment on AWS and GCP. | <pre>list(<br>    object({<br>      name          = string,<br>      instance_type = optional(string)<br>    })<br>  )</pre> | `null` | no |
 | <a name="input_datalake_image"></a> [datalake\_image](#input\_datalake\_image) | The image to use for the datalake. Can only be used when the 'datalake\_version' parameter is set to null. You can use 'catalog' name and/or 'id' for selecting an image. | <pre>object({<br>    id      = optional(string)<br>    catalog = optional(string)<br>  })</pre> | `null` | no |
 | <a name="input_datalake_java_version"></a> [datalake\_java\_version](#input\_datalake\_java\_version) | The Java major version to use on the datalake cluster. | `number` | `null` | no |
 | <a name="input_datalake_name"></a> [datalake\_name](#input\_datalake\_name) | Name of the CDP datalake. Defaults to '<env\_prefix>-<aw\|az\|gc\|>-dl' if not specified. | `string` | `null` | no |
@@ -92,7 +96,6 @@ No resources.
 | <a name="input_encryption_key_resource_group_name"></a> [encryption\_key\_resource\_group\_name](#input\_encryption\_key\_resource\_group\_name) | Name of the existing Azure resource group hosting the Azure Key Vault containing customer managed key which will be used to encrypt the Azure Managed Disk. Only applicable for CDP deployment on Azure. | `string` | `null` | no |
 | <a name="input_encryption_key_url"></a> [encryption\_key\_url](#input\_encryption\_key\_url) | URL of the key which will be used to encrypt the Azure Managed Disks. Only applicable for CDP deployment on Azure. | `string` | `null` | no |
 | <a name="input_endpoint_access_scheme"></a> [endpoint\_access\_scheme](#input\_endpoint\_access\_scheme) | The scheme for the workload endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. PRIVATE which restricts the traffic to be internal to the VPC / Vnet. Relevant in Private Networks. | `string` | `null` | no |
-| <a name="input_env_prefix"></a> [env\_prefix](#input\_env\_prefix) | Shorthand name for the environment. Used in CDP resource descriptions. This will be used to construct the value of where any of the CDP resource variables (e.g. environment\_name, cdp\_iam\_admin\_group\_name) are not defined. | `string` | `null` | no |
 | <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Name of the CDP environment. Defaults to '<env\_prefix>-cdp-env' if not specified. | `string` | `null` | no |
 | <a name="input_environment_polling_timeout"></a> [environment\_polling\_timeout](#input\_environment\_polling\_timeout) | Timeout value in minutes for how long to poll for CDP Environment resource creation/deletion | `number` | `60` | no |
 | <a name="input_freeipa_catalog"></a> [freeipa\_catalog](#input\_freeipa\_catalog) | Image catalog to use for FreeIPA image selection | `string` | `null` | no |
@@ -100,12 +103,24 @@ No resources.
 | <a name="input_freeipa_instance_type"></a> [freeipa\_instance\_type](#input\_freeipa\_instance\_type) | Instance Type to use for creating FreeIPA instances | `string` | `null` | no |
 | <a name="input_freeipa_instances"></a> [freeipa\_instances](#input\_freeipa\_instances) | The number of FreeIPA instances to create in the environment | `number` | `3` | no |
 | <a name="input_freeipa_recipes"></a> [freeipa\_recipes](#input\_freeipa\_recipes) | The recipes for the FreeIPA cluster | `set(string)` | `null` | no |
+| <a name="input_gcp_cdp_subnet_names"></a> [gcp\_cdp\_subnet\_names](#input\_gcp\_cdp\_subnet\_names) | List of GCP Subnet Names for CDP Resources. Required for CDP deployment on GCP. | `list(any)` | `null` | no |
+| <a name="input_gcp_datalake_admin_service_account_email"></a> [gcp\_datalake\_admin\_service\_account\_email](#input\_gcp\_datalake\_admin\_service\_account\_email) | Email id of the service account for Datalake Admin. Required for CDP deployment on GCP. | `string` | `null` | no |
+| <a name="input_gcp_encryption_key"></a> [gcp\_encryption\_key](#input\_gcp\_encryption\_key) | Key Resource ID of the customer managed encryption key to encrypt GCP resources. Only applicable for CDP deployment on GCP. | `string` | `null` | no |
+| <a name="input_gcp_firewall_default_id"></a> [gcp\_firewall\_default\_id](#input\_gcp\_firewall\_default\_id) | Default Firewall for CDP environment.  Required for CDP deployment on GCP. | `string` | `null` | no |
+| <a name="input_gcp_firewall_knox_id"></a> [gcp\_firewall\_knox\_id](#input\_gcp\_firewall\_knox\_id) | Knox Firewall for CDP environment. Required for CDP deployment on GCP. | `string` | `null` | no |
+| <a name="input_gcp_idbroker_service_account_email"></a> [gcp\_idbroker\_service\_account\_email](#input\_gcp\_idbroker\_service\_account\_email) | Email id of the service account for IDBroker. Required for CDP deployment on GCP. | `string` | `null` | no |
+| <a name="input_gcp_log_service_account_email"></a> [gcp\_log\_service\_account\_email](#input\_gcp\_log\_service\_account\_email) | Email id of the service account for Log Storage. Required for CDP deployment on GCP. | `string` | `null` | no |
+| <a name="input_gcp_network_name"></a> [gcp\_network\_name](#input\_gcp\_network\_name) | GCP Network VPC name. Required for CDP deployment on GCP. | `string` | `null` | no |
+| <a name="input_gcp_project_id"></a> [gcp\_project\_id](#input\_gcp\_project\_id) | GCP project to deploy CDP environment. Required for CDP deployment on GCP. | `string` | `null` | no |
+| <a name="input_gcp_ranger_audit_service_account_email"></a> [gcp\_ranger\_audit\_service\_account\_email](#input\_gcp\_ranger\_audit\_service\_account\_email) | Email id of the service account for Ranger Audit. Required for CDP deployment on GCP. | `string` | `null` | no |
+| <a name="input_gcp_report_deployment_logs"></a> [gcp\_report\_deployment\_logs](#input\_gcp\_report\_deployment\_logs) | Flag to enable reporting of additional diagnostic information back to Cloudera. Only applicable for CDP deployment on GCP. | `bool` | `false` | no |
+| <a name="input_gcp_xaccount_service_account_private_key"></a> [gcp\_xaccount\_service\_account\_private\_key](#input\_gcp\_xaccount\_service\_account\_private\_key) | Base64 encoded private key of the GCP Cross Account Service Account Key. Required for CDP deployment on GCP. | `string` | `null` | no |
 | <a name="input_keypair_name"></a> [keypair\_name](#input\_keypair\_name) | SSH Keypair name in Cloud Service Provider. For CDP deployment on AWS, either 'keypair\_name' or 'public\_key\_text' needs to be set. | `string` | `null` | no |
 | <a name="input_multiaz"></a> [multiaz](#input\_multiaz) | Flag to specify that the FreeIPA and DataLake instances will be deployed across multi-availability zones. | `bool` | `true` | no |
 | <a name="input_proxy_config_name"></a> [proxy\_config\_name](#input\_proxy\_config\_name) | Name of the proxy config to use for the environment. | `string` | `null` | no |
 | <a name="input_public_key_text"></a> [public\_key\_text](#input\_public\_key\_text) | SSH Public key string for the nodes of the CDP environment. Required for CDP deployment on Azure. For CDP deployment on AWS, either 'keypair\_name' or 'public\_key\_text' needs to be set. | `string` | `null` | no |
 | <a name="input_s3_guard_table_name"></a> [s3\_guard\_table\_name](#input\_s3\_guard\_table\_name) | Name for the DynamoDB table backing S3Guard. Only applicable for CDP deployment on AWS. | `string` | `null` | no |
-| <a name="input_use_public_ips"></a> [use\_public\_ips](#input\_use\_public\_ips) | Use public ip's for the CDP resources created within the Azure network. Required for CDP deployment on Azure. | `bool` | `null` | no |
+| <a name="input_use_public_ips"></a> [use\_public\_ips](#input\_use\_public\_ips) | Use public ip's for the CDP resources created within the Cloud network. Required for CDP deployment on Azure and GCP. | `bool` | `null` | no |
 | <a name="input_use_single_resource_group"></a> [use\_single\_resource\_group](#input\_use\_single\_resource\_group) | Use a single resource group for all provisioned CDP resources. Required for CDP deployment on Azure. | `bool` | `true` | no |
 | <a name="input_workload_analytics"></a> [workload\_analytics](#input\_workload\_analytics) | Flag to specify if workload analytics should be enabled for the CDP environment | `bool` | `true` | no |
 
