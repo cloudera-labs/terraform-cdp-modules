@@ -43,7 +43,6 @@ variable "env_prefix" {
   type        = string
   description = "Shorthand name for the environment. Used in CDP resource descriptions. This will be used to construct the value of where any of the CDP resource variables (e.g. environment_name, cdp_iam_admin_group_name) are not defined."
 
-  default = null
 }
 
 # ------- CDP Environment Deployment - General -------
