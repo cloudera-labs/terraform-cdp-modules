@@ -1,5 +1,5 @@
 <!-- BEGIN_TF_DOCS -->
-# Terraform Module for CDP Prerequisites on Azure
+# Terraform Module for CDP Prerequisites on GCP
 
 This module contains resource files and example variable definition files for creation of the pre-requisite Google Cloud Platform (GCP) resources required for Cloudera Data Platform (CDP) Public Cloud.
 
