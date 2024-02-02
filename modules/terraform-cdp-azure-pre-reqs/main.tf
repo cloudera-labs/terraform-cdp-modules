@@ -184,9 +184,14 @@ resource "azuread_service_principal" "cdp_xaccount_app_sp" {
 
 # Create role assignment for Service Principal
 resource "azurerm_role_assignment" "cdp_xaccount_role" {
+
+  for_each = { for idx, role in var.xaccount_role_assignments : idx => role }
+
   scope                = data.azurerm_subscription.current.id
-  role_definition_name = "Contributor"
+  role_definition_name = each.value.role
   principal_id         = azuread_service_principal.cdp_xaccount_app_sp.id
+
+  description = each.value.description
 }
 
 # Create Application password (client secret)
