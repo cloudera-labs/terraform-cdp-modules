@@ -253,7 +253,7 @@ variable "datalake_recipes" {
   type = set(
     object({
       instance_group_name = string,
-      recipe_names        = set(object({}))
+      recipe_names        = set(string)
     })
   )
 

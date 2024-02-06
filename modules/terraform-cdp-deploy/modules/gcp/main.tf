@@ -137,7 +137,7 @@ resource "cdp_datalake_gcp_datalake" "cdp_datalake" {
   custom_instance_groups = var.datalake_custom_instance_groups
   image                  = var.datalake_image
   java_version           = var.datalake_java_version
-  recipes                = var.datalake_recipes
+  recipes                = null
 
   polling_options = {
     polling_timeout = var.datalake_polling_timeout
