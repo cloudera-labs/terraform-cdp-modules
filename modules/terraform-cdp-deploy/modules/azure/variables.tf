@@ -13,12 +13,11 @@
 # limitations under the License.
 
 # ------- Global settings -------
-# NOTE: Waiting on provider fix
-# variable "tags" {
-#   type        = map(any)
-#   description = "Tags applied to provisioned resources"
+variable "tags" {
+  type        = map(any)
+  description = "Tags applied to provisioned resources"
 
-# }
+}
 
 # ------- CDP Environment Deployment -------
 variable "environment_name" {
@@ -50,13 +49,6 @@ variable "cdp_user_group_name" {
   description = "Name of the CDP IAM User Group associated with the environment."
 
 }
-
-# TODO: Will be re-introducted once provider supports other regions
-# variable "cdp_control_plane_region" {
-#   type        = string
-#   description = "CDP Control Plane Region"
-
-# }
 
 variable "enable_ccm_tunnel" {
   type = bool

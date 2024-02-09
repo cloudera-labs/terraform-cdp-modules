@@ -72,7 +72,6 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 |------|-------------|------|---------|:--------:|
 | <a name="input_deployment_template"></a> [deployment\_template](#input\_deployment\_template) | Deployment Pattern to use for Cloud resources and CDP | `string` | n/a | yes |
 | <a name="input_env_prefix"></a> [env\_prefix](#input\_env\_prefix) | Shorthand name for the environment. Used in resource descriptions | `string` | n/a | yes |
-| <a name="input_agent_source_tag"></a> [agent\_source\_tag](#input\_agent\_source\_tag) | Tag to identify deployment source | `map(any)` | <pre>{<br>  "agent_source": "tf-cdp-module"<br>}</pre> | no |
 | <a name="input_backup_storage_bucket"></a> [backup\_storage\_bucket](#input\_backup\_storage\_bucket) | Optional Backup location for CDP environment. | `string` | `null` | no |
 | <a name="input_bucket_storage_class"></a> [bucket\_storage\_class](#input\_bucket\_storage\_class) | The GCS storage class to use for the data, log and backup storage | `string` | `"NEARLINE"` | no |
 | <a name="input_bucket_storage_region"></a> [bucket\_storage\_region](#input\_bucket\_storage\_region) | The location of the Google Cloud Storage buckets for data, backups and logs. By default this follows the gcp\_region variable. | `string` | `null` | no |
@@ -88,8 +87,6 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_datalake_admin_custom_role_name"></a> [datalake\_admin\_custom\_role\_name](#input\_datalake\_admin\_custom\_role\_name) | Name of Ranger Audit and Datalake Admin Custom Role | `string` | `null` | no |
 | <a name="input_datalake_admin_role_permissions"></a> [datalake\_admin\_role\_permissions](#input\_datalake\_admin\_role\_permissions) | List of Permission Assignments to the Ranger Audit and Datalake Admin Custom Role | `list(string)` | <pre>[<br>  "storage.buckets.get",<br>  "storage.objects.create",<br>  "storage.objects.delete",<br>  "storage.objects.get",<br>  "storage.objects.list"<br>]</pre> | no |
 | <a name="input_datalake_admin_service_account_name"></a> [datalake\_admin\_service\_account\_name](#input\_datalake\_admin\_service\_account\_name) | Datalake Admin service account name | `string` | `null` | no |
-| <a name="input_enable_raz"></a> [enable\_raz](#input\_enable\_raz) | Flag to enable Ranger Authorization Service (RAZ) | `bool` | `true` | no |
-| <a name="input_env_tags"></a> [env\_tags](#input\_env\_tags) | Tags applied to provisioned resources | `map(any)` | `null` | no |
 | <a name="input_firewall_default_name"></a> [firewall\_default\_name](#input\_firewall\_default\_name) | Name of Default Firewall for CDP environment | `string` | `null` | no |
 | <a name="input_firewall_internal_name"></a> [firewall\_internal\_name](#input\_firewall\_internal\_name) | Name of Firewall for Internal Virtual Network communication | `string` | `null` | no |
 | <a name="input_firewall_knox_name"></a> [firewall\_knox\_name](#input\_firewall\_knox\_name) | Name of Knox Firewall for CDP environment | `string` | `null` | no |

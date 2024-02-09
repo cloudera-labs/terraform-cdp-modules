@@ -79,7 +79,7 @@ resource "cdp_environments_azure_environment" "cdp_env" {
     polling_timeout = var.environment_polling_timeout
   }
 
-  # tags               = var.tags # NOTE: Waiting on provider fix
+  tags = var.tags
 
   depends_on = [
     cdp_environments_azure_credential.cdp_cred
@@ -153,7 +153,7 @@ resource "cdp_datalake_azure_datalake" "cdp_datalake" {
     polling_timeout = var.datalake_polling_timeout
   }
 
-  # tags = var.tags # NOTE: Waiting on provider fix
+  tags = var.tags
 
   depends_on = [
     cdp_environments_azure_credential.cdp_cred,

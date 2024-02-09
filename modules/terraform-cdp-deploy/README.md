@@ -20,7 +20,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_cdp"></a> [cdp](#requirement\_cdp) | 0.4.1 |
+| <a name="requirement_cdp"></a> [cdp](#requirement\_cdp) | 0.4.2 |
 
 ## Providers
 
@@ -49,6 +49,7 @@ No resources.
 | <a name="input_infra_type"></a> [infra\_type](#input\_infra\_type) | Cloud Provider to deploy CDP. | `string` | n/a | yes |
 | <a name="input_log_storage_location"></a> [log\_storage\_location](#input\_log\_storage\_location) | Log storage location. The location has to be in uri format for the cloud provider - i.e. s3a:// for AWS, abfs:// for Azure,  gs:// | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | Region which cloud resources will be created | `string` | n/a | yes |
+| <a name="input_agent_source_tag"></a> [agent\_source\_tag](#input\_agent\_source\_tag) | Tag to identify deployment source | `map(any)` | <pre>{<br>  "agent_source": "tf-cdp-module"<br>}</pre> | no |
 | <a name="input_aws_datalake_admin_role_arn"></a> [aws\_datalake\_admin\_role\_arn](#input\_aws\_datalake\_admin\_role\_arn) | Datalake Admin Role ARN. Required for CDP deployment on AWS. | `string` | `null` | no |
 | <a name="input_aws_idbroker_instance_profile_arn"></a> [aws\_idbroker\_instance\_profile\_arn](#input\_aws\_idbroker\_instance\_profile\_arn) | IDBroker Instance Profile ARN. Required for CDP deployment on AWS. | `string` | `null` | no |
 | <a name="input_aws_log_instance_profile_arn"></a> [aws\_log\_instance\_profile\_arn](#input\_aws\_log\_instance\_profile\_arn) | Log Instance Profile ARN. Required for CDP deployment on AWS. | `string` | `null` | no |
@@ -86,7 +87,7 @@ No resources.
 | <a name="input_datalake_java_version"></a> [datalake\_java\_version](#input\_datalake\_java\_version) | The Java major version to use on the datalake cluster. | `number` | `null` | no |
 | <a name="input_datalake_name"></a> [datalake\_name](#input\_datalake\_name) | Name of the CDP datalake. Defaults to '<env\_prefix>-<aw\|az\|gc\|>-dl' if not specified. | `string` | `null` | no |
 | <a name="input_datalake_polling_timeout"></a> [datalake\_polling\_timeout](#input\_datalake\_polling\_timeout) | Timeout value in minutes for how long to poll for CDP datalake resource creation/deletion | `number` | `90` | no |
-| <a name="input_datalake_recipes"></a> [datalake\_recipes](#input\_datalake\_recipes) | Additional recipes that will be attached on the datalake instances | <pre>set(<br>    object({<br>      instance_group_name = string,<br>      recipe_names        = set(object({}))<br>    })<br>  )</pre> | `null` | no |
+| <a name="input_datalake_recipes"></a> [datalake\_recipes](#input\_datalake\_recipes) | Additional recipes that will be attached on the datalake instances | <pre>set(<br>    object({<br>      instance_group_name = string,<br>      recipe_names        = set(string)<br>    })<br>  )</pre> | `null` | no |
 | <a name="input_datalake_scale"></a> [datalake\_scale](#input\_datalake\_scale) | The scale of the datalake. Valid values are LIGHT\_DUTY, ENTERPRISE. | `string` | `null` | no |
 | <a name="input_datalake_version"></a> [datalake\_version](#input\_datalake\_version) | The Datalake Runtime version. Valid values are latest or a semantic version, e.g. 7.2.17 | `string` | `"latest"` | no |
 | <a name="input_enable_ccm_tunnel"></a> [enable\_ccm\_tunnel](#input\_enable\_ccm\_tunnel) | Flag to enable Cluster Connectivity Manager tunnel. If false then access from Cloud to CDP Control Plane CIDRs is required from via SG ingress | `bool` | `true` | no |
@@ -96,6 +97,7 @@ No resources.
 | <a name="input_encryption_key_resource_group_name"></a> [encryption\_key\_resource\_group\_name](#input\_encryption\_key\_resource\_group\_name) | Name of the existing Azure resource group hosting the Azure Key Vault containing customer managed key which will be used to encrypt the Azure Managed Disk. Only applicable for CDP deployment on Azure. | `string` | `null` | no |
 | <a name="input_encryption_key_url"></a> [encryption\_key\_url](#input\_encryption\_key\_url) | URL of the key which will be used to encrypt the Azure Managed Disks. Only applicable for CDP deployment on Azure. | `string` | `null` | no |
 | <a name="input_endpoint_access_scheme"></a> [endpoint\_access\_scheme](#input\_endpoint\_access\_scheme) | The scheme for the workload endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. PRIVATE which restricts the traffic to be internal to the VPC / Vnet. Relevant in Private Networks. | `string` | `null` | no |
+| <a name="input_env_tags"></a> [env\_tags](#input\_env\_tags) | Tags applied to provisioned resources | `map(any)` | `null` | no |
 | <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Name of the CDP environment. Defaults to '<env\_prefix>-cdp-env' if not specified. | `string` | `null` | no |
 | <a name="input_environment_polling_timeout"></a> [environment\_polling\_timeout](#input\_environment\_polling\_timeout) | Timeout value in minutes for how long to poll for CDP Environment resource creation/deletion | `number` | `60` | no |
 | <a name="input_freeipa_catalog"></a> [freeipa\_catalog](#input\_freeipa\_catalog) | Image catalog to use for FreeIPA image selection | `string` | `null` | no |

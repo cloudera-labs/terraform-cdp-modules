@@ -18,7 +18,7 @@ module "cdp_on_aws" {
 
   source = "./modules/aws"
 
-  # tags = local.env_tags # NOTE: Waiting on provider fix
+  tags = local.env_tags
 
   environment_name              = local.environment_name
   datalake_name                 = local.datalake_name
@@ -41,9 +41,6 @@ module "cdp_on_aws" {
 
   environment_polling_timeout = var.environment_polling_timeout
   datalake_polling_timeout    = var.datalake_polling_timeout
-
-  # TODO: Will be re-introducted once provider supports other regions
-  # cdp_control_plane_region = var.cdp_control_plane_region
 
   region            = var.region
   vpc_id            = var.aws_vpc_id
@@ -88,7 +85,7 @@ module "cdp_on_azure" {
 
   source = "./modules/azure"
 
-  # tags = local.env_tags # NOTE: Waiting on provider fix
+  tags = local.env_tags
 
   environment_name              = local.environment_name
   datalake_name                 = local.datalake_name
@@ -109,9 +106,6 @@ module "cdp_on_azure" {
 
   environment_polling_timeout = var.environment_polling_timeout
   datalake_polling_timeout    = var.datalake_polling_timeout
-
-  # TODO: Will be re-introducted once provider supports other regions
-  # cdp_control_plane_region = var.cdp_control_plane_region
 
   use_single_resource_group = var.use_single_resource_group
   use_public_ips            = local.use_public_ips
@@ -167,7 +161,7 @@ module "cdp_on_gcp" {
 
   source = "./modules/gcp"
 
-  # tags = local.env_tags # NOTE: Waiting on provider fix
+  tags = local.env_tags
 
   environment_name              = local.environment_name
   datalake_name                 = local.datalake_name

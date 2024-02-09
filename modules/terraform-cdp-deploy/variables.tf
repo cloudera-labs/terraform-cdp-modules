@@ -23,21 +23,19 @@ variable "infra_type" {
   }
 }
 
-# NOTE: Waiting on provider fix
-# variable "env_tags" {
-#   type        = map(any)
-#   description = "Tags applied to provisioned resources"
+variable "env_tags" {
+  type        = map(any)
+  description = "Tags applied to provisioned resources"
 
-#   default = null
-# }
+  default = null
+}
 
-# NOTE: Waiting on provider fix
-# variable "agent_source_tag" {
-#   type        = map(any)
-#   description = "Tag to identify deployment source"
+variable "agent_source_tag" {
+  type        = map(any)
+  description = "Tag to identify deployment source"
 
-#   default = { agent_source = "tf-cdp-module" }
-# }
+  default = { agent_source = "tf-cdp-module" }
+}
 
 variable "env_prefix" {
   type        = string
@@ -80,15 +78,6 @@ variable "cdp_user_group_name" {
 
   default = null
 }
-
-# TODO: Will be re-introducted once provider supports other regions
-# variable "cdp_control_plane_region" {
-#   type        = string
-#   description = "CDP Control Plane Region"
-
-#   # Region is us-west-1 unless explicitly specified
-#   default = "us-west-1"
-# }
 
 variable "deployment_template" {
   type = string
