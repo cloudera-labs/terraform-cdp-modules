@@ -47,8 +47,6 @@ resource "cdp_environments_gcp_environment" "cdp_env" {
 
   endpoint_access_gateway_scheme = var.endpoint_access_scheme
 
-  # TODO: Other resource variables
-  # availability_zones
   encryption_key         = var.encryption_key
   proxy_config_name      = var.proxy_config_name
   report_deployment_logs = var.report_deployment_logs
@@ -67,7 +65,7 @@ resource "cdp_environments_gcp_environment" "cdp_env" {
     polling_timeout = var.environment_polling_timeout
   }
 
-  # tags               = var.tags # NOTE: Waiting on provider fix
+  tags = var.tags
 
   depends_on = [
     cdp_environments_gcp_credential.cdp_cred
@@ -131,19 +129,17 @@ resource "cdp_datalake_gcp_datalake" "cdp_datalake" {
 
   runtime = var.datalake_version == "latest" ? null : var.datalake_version
   scale   = var.datalake_scale
-  # enable_ranger_raz = var.enable_raz # TODO: Test this
-  # multi_az          = var.multiaz # TODO: Test this
 
   custom_instance_groups = var.datalake_custom_instance_groups
   image                  = var.datalake_image
   java_version           = var.datalake_java_version
-  recipes                = var.datalake_recipes
+  recipes                = null
 
   polling_options = {
     polling_timeout = var.datalake_polling_timeout
   }
 
-  # tags = var.tags # NOTE: Waiting on provider fix
+  tags = var.tags
 
   depends_on = [
     cdp_environments_gcp_credential.cdp_cred,

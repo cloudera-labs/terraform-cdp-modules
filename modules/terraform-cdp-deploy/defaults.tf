@@ -14,12 +14,11 @@
 
 locals {
   # ------- Global settings -------
-  # NOTE: Waiting on provider fix
-  # env_tags = merge(var.agent_source_tag, (
-  #   coalesce(var.env_tags,
-  #     { env_prefix = var.env_prefix }
-  #   ))
-  # )
+  env_tags = merge(var.agent_source_tag, (
+    coalesce(var.env_tags,
+      { env_prefix = var.env_prefix }
+    ))
+  )
 
   # ------- CDP Environment Deployment -------
   environment_name = coalesce(var.environment_name,

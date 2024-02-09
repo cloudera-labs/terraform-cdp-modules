@@ -13,12 +13,11 @@
 # limitations under the License.
 
 # ------- Global settings -------
-# NOTE: Waiting on provider fix
-# variable "tags" {
-#   type        = map(any)
-#   description = "Tags applied to provisioned resources"
+variable "tags" {
+  type        = map(any)
+  description = "Tags applied to provisioned resources"
 
-# }
+}
 
 # ------- CDP Environment Deployment -------
 variable "environment_name" {
@@ -165,7 +164,7 @@ variable "datalake_recipes" {
   type = set(
     object({
       instance_group_name = string,
-      recipe_names        = set(object({}))
+      recipe_names        = set(string)
     })
   )
 
