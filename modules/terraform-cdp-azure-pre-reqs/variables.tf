@@ -102,6 +102,13 @@ variable "gateway_subnet_range" {
   default = 24
 }
 
+variable "delegated_subnet_range" {
+  type        = number
+  description = "Size of each Postgres Flexible Server delegated subnet. Required if create_vpc is true."
+
+  default = 26
+}
+
 variable "cdp_resourcegroup_name" {
   type        = string
   description = "Pre-existing Resource Group for CDP environment. Required if create_vnet is false."
@@ -130,11 +137,25 @@ variable "cdp_gw_subnet_names" {
   default = null
 }
 
+variable "cdp_delegated_subnet_names" {
+  type        = list(any)
+  description = "List of subnet names delegated for Flexible Servers. Required if create_vnet is false."
+
+  default = null
+}
+
 variable "subnet_count" {
   type        = string
-  description = "Number of Subnets Required"
+  description = "Number of CDP Subnets Required"
 
   default = "3"
+}
+
+variable "create_private_flexible_server_resources" {
+  type        = bool
+  description = "Flag to specify if resources to support a Private Postgres flexible server should be created."
+
+  default = null
 }
 
 # Security Groups

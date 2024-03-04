@@ -53,3 +53,25 @@ resource "azurerm_subnet" "gateway_subnets" {
   private_endpoint_network_policies_enabled = var.gateway_subnets_private_endpoint_network_policies_enabled
 
 }
+
+resource "azurerm_subnet" "delegation_subnet" {
+
+  for_each = { for idx, subnet in local.delegated_subnets : idx => subnet }
+
+  virtual_network_name = azurerm_virtual_network.cdp_vnet.name
+  resource_group_name  = var.resourcegroup_name
+  name                 = each.value.name
+  address_prefixes     = [each.value.cidr]
+
+  service_endpoints = ["Microsoft.Sql", "Microsoft.Storage"]
+
+  delegation {
+    name = "flexserver-delegation"
+    service_delegation {
+      name = "Microsoft.DBforPostgreSQL/flexibleServers"
+      actions = [
+        "Microsoft.Network/virtualNetworks/subnets/join/action",
+      ]
+    }
+  }
+}

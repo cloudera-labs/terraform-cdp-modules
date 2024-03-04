@@ -24,3 +24,10 @@ data "azurerm_resource_group" "cdp_rmgp" {
 
   depends_on = [azurerm_resource_group.cdp_rmgp]
 }
+
+data "azurerm_virtual_network" "cdp_vnet" {
+  name                = local.cdp_vnet_name
+  resource_group_name = local.cdp_resourcegroup_name
+
+  depends_on = [module.azure_cdp_vnet]
+}
