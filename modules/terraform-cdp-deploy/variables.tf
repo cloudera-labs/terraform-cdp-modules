@@ -186,6 +186,19 @@ variable "freeipa_recipes" {
   default = null
 }
 
+variable "freeipa_os" {
+  type = string
+
+  description = "The Operating System to be used for the FreeIPA instances"
+
+  validation {
+    condition     = (var.freeipa_os == null ? true : contains(["redhat8", "centos7"], var.freeipa_os))
+    error_message = "Valid values for var: freeipa_os are (redhat8, centos7)."
+  }
+
+  default = null
+}
+
 variable "proxy_config_name" {
   type = string
 
@@ -258,6 +271,7 @@ variable "datalake_image" {
   type = object({
     id      = optional(string)
     catalog = optional(string)
+    os      = optional(string)
   })
 
   description = "The image to use for the datalake. Can only be used when the 'datalake_version' parameter is set to null. You can use 'catalog' name and/or 'id' for selecting an image."
