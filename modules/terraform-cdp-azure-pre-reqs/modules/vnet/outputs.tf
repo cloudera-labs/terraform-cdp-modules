@@ -41,3 +41,13 @@ output "vnet_gateway_subnet_names" {
   description = "Names of the subnets for CDP Gateway"
   value       = values(azurerm_subnet.gateway_subnets)[*].name
 }
+
+output "vnet_delegated_subnet_ids" {
+  description = "List of IDs of subnets delegated for Private Flexbile Servers"
+  value       = values(azurerm_subnet.delegation_subnet)[*].id
+}
+
+output "vnet_delegated_subnet_names" {
+  description = "Names of subnets delegated for Private Flexbile Servers"
+  value       = values(azurerm_subnet.delegation_subnet)[*].name
+}

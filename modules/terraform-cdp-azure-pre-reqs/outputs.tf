@@ -48,6 +48,19 @@ output "azure_cdp_gateway_subnet_names" {
   description = "Azure Virtual Subnet Names for CDP Endpoint Access Gateway"
 }
 
+output "azure_cdp_flexible_server_delegated_subnet_names" {
+  value = local.cdp_delegated_subnet_names
+
+  description = "Azure Virtual Subnet Names delegated for Private Flexible servers."
+
+}
+
+output "azure_database_private_dns_zone_id" {
+  value = (local.create_private_flexible_server_resources) ? azurerm_private_dns_zone.flexible_server_dns_zone[0].id : null
+
+  description = "The ID of an Azure private DNS zone used for the database."
+}
+
 output "azure_security_group_default_uri" {
   value = azurerm_network_security_group.cdp_default_sg.id
 

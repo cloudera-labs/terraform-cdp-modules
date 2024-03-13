@@ -522,6 +522,14 @@ variable "azure_cdp_gateway_subnet_names" {
 
 }
 
+variable "azure_cdp_flexible_server_delegated_subnet_names" {
+  type        = list(any)
+  description = "List of Azure Subnet Names delegated for Private Flexible servers. Required for CDP deployment on Azure."
+
+  default = null
+
+}
+
 variable "azure_security_group_default_uri" {
   type        = string
   description = "Azure Default Security Group URI. Required for CDP deployment on Azure."
