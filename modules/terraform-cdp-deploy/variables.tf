@@ -106,6 +106,14 @@ variable "enable_raz" {
   default = true
 }
 
+variable "environment_async_creation" {
+  type = bool
+
+  description = "Flag to specify if Terraform should wait for CDP environment resource creation/deletion"
+
+  default = false
+}
+
 variable "environment_polling_timeout" {
   type = number
 
@@ -249,6 +257,14 @@ variable "datalake_recipes" {
   description = "Additional recipes that will be attached on the datalake instances"
 
   default = null
+}
+
+variable "datalake_async_creation" {
+  type = bool
+
+  description = "Flag to specify if Terraform should wait for CDP datalake resource creation/deletion"
+
+  default = false
 }
 
 variable "datalake_polling_timeout" {

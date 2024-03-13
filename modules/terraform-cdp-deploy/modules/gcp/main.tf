@@ -62,6 +62,7 @@ resource "cdp_environments_gcp_environment" "cdp_env" {
 
 
   polling_options = {
+    async           = var.environment_async_creation
     polling_timeout = var.environment_polling_timeout
   }
 
@@ -136,6 +137,7 @@ resource "cdp_datalake_gcp_datalake" "cdp_datalake" {
   recipes                = null
 
   polling_options = {
+    async           = var.datalake_async_creation
     polling_timeout = var.datalake_polling_timeout
   }
 
