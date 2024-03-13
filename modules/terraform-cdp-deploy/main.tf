@@ -39,7 +39,9 @@ module "cdp_on_aws" {
   workload_analytics     = var.workload_analytics
   endpoint_access_scheme = local.endpoint_access_scheme
 
+  environment_async_creation  = var.environment_async_creation
   environment_polling_timeout = var.environment_polling_timeout
+  datalake_async_creation     = var.datalake_async_creation
   datalake_polling_timeout    = var.datalake_polling_timeout
 
   region            = var.region
@@ -104,7 +106,9 @@ module "cdp_on_azure" {
   workload_analytics     = var.workload_analytics
   endpoint_access_scheme = local.endpoint_access_scheme
 
+  environment_async_creation  = var.environment_async_creation
   environment_polling_timeout = var.environment_polling_timeout
+  datalake_async_creation     = var.datalake_async_creation
   datalake_polling_timeout    = var.datalake_polling_timeout
 
   use_single_resource_group = var.use_single_resource_group
@@ -184,7 +188,9 @@ module "cdp_on_gcp" {
   workload_analytics     = var.workload_analytics
   endpoint_access_scheme = local.endpoint_access_scheme
 
+  environment_async_creation  = var.environment_async_creation
   environment_polling_timeout = var.environment_polling_timeout
+  datalake_async_creation     = var.datalake_async_creation
   datalake_polling_timeout    = var.datalake_polling_timeout
 
   use_public_ips = local.use_public_ips
