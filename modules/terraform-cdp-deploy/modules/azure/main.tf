@@ -76,6 +76,7 @@ resource "cdp_environments_azure_environment" "cdp_env" {
   encryption_key_url                 = var.encryption_key_url
 
   polling_options = {
+    async           = var.environment_async_creation
     polling_timeout = var.environment_polling_timeout
   }
 
@@ -150,6 +151,7 @@ resource "cdp_datalake_azure_datalake" "cdp_datalake" {
   recipes      = var.datalake_recipes
 
   polling_options = {
+    async           = var.datalake_async_creation
     polling_timeout = var.datalake_polling_timeout
   }
 
