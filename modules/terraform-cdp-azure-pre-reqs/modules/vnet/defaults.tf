@@ -16,11 +16,10 @@ locals {
 
   # Calculate subnets CIDR and names
   subnets_required = {
-    total           = (var.deployment_template == "semi-private") ? var.subnet_count + 1 : var.subnet_count
-    cdp_subnets     = var.subnet_count
-    gateway_subnets = (var.deployment_template == "semi-private") ? 1 : 0
-    # name            = "${var.env_prefix}-sbnt-${format("%02d", idx + 1)}"
-    # cidr            = cidrsubnet(var.vnet_cidr, ceil(log(var.subnet_count, 2)), idx)
+    total             = (var.deployment_template == "semi-private") ? var.subnet_count + 1 : var.subnet_count
+    cdp_subnets       = var.subnet_count
+    gateway_subnets   = (var.deployment_template == "semi-private") ? 1 : 0
+    delegated_subnets = (var.deployment_template != "public") ? 1 : 0
   }
 
   # Extract the VNet CIDR range from the user-provided CIDR
@@ -29,6 +28,8 @@ locals {
   # Calculate the first suitable CIDR range for public subnets after private subnets have been allocated (normalize the offset, expressed as a multiplier of gateway subnet ranges)
   gateway_subnet_offset = ceil(local.subnets_required.cdp_subnets * pow(2, 32 - var.cdp_subnet_range) / pow(2, 32 - var.gateway_subnet_range))
 
+  # Similar calculation for the first suitable CIDR range for delegated subnets after private subnets and public have been allocated (normalize the offset, expressed as a multiplier of gateway subnet ranges)
+  delegated_subnet_offset = ceil(((local.subnets_required.cdp_subnets * pow(2, 32 - var.cdp_subnet_range)) + (local.subnets_required.gateway_subnets * pow(2, 32 - var.gateway_subnet_range))) / pow(2, 32 - var.delegated_subnet_range))
 
   # Network infrastructure for CDP resources
   cdp_subnets = [
@@ -45,6 +46,14 @@ locals {
     {
       name = "${var.env_prefix}-gw-sbnt-${format("%02d", idx + 1)}"
       cidr = cidrsubnet(var.vnet_cidr, var.gateway_subnet_range - local.vnet_cidr_range, idx + local.gateway_subnet_offset)
+    }
+  ]
+
+  delegated_subnets = [
+    for idx in range(local.subnets_required.delegated_subnets) :
+    {
+      name = "${var.env_prefix}-delegated-sbnt-${format("%02d", idx + 1)}"
+      cidr = cidrsubnet(var.vnet_cidr, var.delegated_subnet_range - local.vnet_cidr_range, idx + local.delegated_subnet_offset)
     }
   ]
 

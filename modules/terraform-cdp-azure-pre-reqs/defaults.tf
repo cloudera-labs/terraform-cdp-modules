@@ -42,6 +42,12 @@ locals {
   cdp_gateway_subnet_names = (var.create_vnet ?
   module.azure_cdp_vnet[0].vnet_gateway_subnet_names : var.cdp_gw_subnet_names)
 
+  cdp_delegated_subnet_names = (var.create_vnet ?
+  module.azure_cdp_vnet[0].vnet_delegated_subnet_names : var.cdp_delegated_subnet_names)
+
+  create_private_flexible_server_resources = coalesce(var.create_private_flexible_server_resources, (var.deployment_template != "public") ? true : false)
+
+
   # ------- Storage Resources -------
   storage_suffix = var.random_id_for_bucket ? one(random_id.bucket_suffix).hex : ""
 

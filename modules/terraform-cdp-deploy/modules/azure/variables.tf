@@ -297,6 +297,17 @@ variable "cdp_gateway_subnet_names" {
 
 }
 
+variable "cdp_flexible_server_delegated_subnet_names" {
+  type        = list(any)
+  description = "Azure Subnet Names delegated for Private Flexible servers."
+
+  validation {
+    condition     = var.cdp_flexible_server_delegated_subnet_names != null
+    error_message = "Valid values for var: cdp_flexible_server_delegated_subnet_names must be a list of existing Azure Virtual Subnets."
+  }
+
+}
+
 variable "security_group_default_uri" {
   type        = string
   description = "Azure Default Security Group URI."

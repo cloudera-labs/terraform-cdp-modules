@@ -50,6 +50,7 @@ resource "cdp_environments_azure_environment" "cdp_env" {
     subnet_ids                   = var.cdp_subnet_names
     aks_private_dns_zone_id      = var.azure_aks_private_dns_zone_id
     database_private_dns_zone_id = var.azure_database_private_dns_zone_id
+    flexible_server_subnet_ids   = var.cdp_flexible_server_delegated_subnet_names
   }
   create_private_endpoints = var.create_private_endpoints
 

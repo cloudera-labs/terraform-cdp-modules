@@ -52,6 +52,12 @@ variable "gateway_subnet_range" {
 
 }
 
+variable "delegated_subnet_range" {
+  type        = number
+  description = "Size of each Postgres Flexible Server delegated subnet"
+
+}
+
 variable "vnet_region" {
   type        = string
   description = "Region which VNet will be created"

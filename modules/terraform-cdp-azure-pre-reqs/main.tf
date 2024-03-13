@@ -40,8 +40,9 @@ module "azure_cdp_vnet" {
   env_prefix = var.env_prefix
   tags       = local.env_tags
 
-  cdp_subnet_range     = var.cdp_subnet_range
-  gateway_subnet_range = var.gateway_subnet_range
+  cdp_subnet_range       = var.cdp_subnet_range
+  gateway_subnet_range   = var.gateway_subnet_range
+  delegated_subnet_range = var.delegated_subnet_range
 
   cdp_subnets_private_endpoint_network_policies_enabled     = var.cdp_subnets_private_endpoint_network_policies_enabled
   gateway_subnets_private_endpoint_network_policies_enabled = var.gateway_subnets_private_endpoint_network_policies_enabled
@@ -164,6 +165,29 @@ resource "azurerm_storage_container" "cdp_backup_storage" {
   depends_on = [
     azurerm_storage_account.cdp_storage_locations
   ]
+}
+
+# ------- Resources for Private Flexible Servers -------
+resource "azurerm_private_dns_zone" "flexible_server_dns_zone" {
+
+  count = local.create_private_flexible_server_resources ? 1 : 0
+
+  name                = "${var.env_prefix}.postgres.database.azure.com"
+  resource_group_name = local.cdp_resourcegroup_name
+
+  tags = merge(local.env_tags)
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "flexible_server_vnet_link" {
+
+  count = local.create_private_flexible_server_resources ? 1 : 0
+
+  name                  = "${var.env_prefix}.flex-server-vent-link"
+  resource_group_name   = local.cdp_resourcegroup_name
+  private_dns_zone_name = azurerm_private_dns_zone.flexible_server_dns_zone[0].name
+  virtual_network_id    = data.azurerm_virtual_network.cdp_vnet.id
+
+  tags = merge(local.env_tags)
 }
 
 # ------- Azure Cross Account App -------
