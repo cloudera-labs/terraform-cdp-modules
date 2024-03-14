@@ -142,6 +142,13 @@ variable "encryption_key_url" {
 
 }
 
+variable "encryption_at_host" {
+  type = bool
+
+  description = "Provision resources with host encryption enabled"
+
+}
+
 variable "proxy_config_name" {
   type = string
 

@@ -20,7 +20,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_cdp"></a> [cdp](#requirement\_cdp) | 0.5.4 |
+| <a name="requirement_cdp"></a> [cdp](#requirement\_cdp) | 0.5.5 |
 
 ## Providers
 
@@ -94,6 +94,7 @@ No resources.
 | <a name="input_enable_ccm_tunnel"></a> [enable\_ccm\_tunnel](#input\_enable\_ccm\_tunnel) | Flag to enable Cluster Connectivity Manager tunnel. If false then access from Cloud to CDP Control Plane CIDRs is required from via SG ingress | `bool` | `true` | no |
 | <a name="input_enable_outbound_load_balancer"></a> [enable\_outbound\_load\_balancer](#input\_enable\_outbound\_load\_balancer) | Create outbound load balancers for Azure environments. Only applicable for CDP deployment on Azure. | `bool` | `null` | no |
 | <a name="input_enable_raz"></a> [enable\_raz](#input\_enable\_raz) | Flag to enable Ranger Authorization Service (RAZ) | `bool` | `true` | no |
+| <a name="input_encryption_at_host"></a> [encryption\_at\_host](#input\_encryption\_at\_host) | Provision resources with host encryption enabled. Only applicable for CDP deployment on Azure. | `bool` | `null` | no |
 | <a name="input_encryption_key_arn"></a> [encryption\_key\_arn](#input\_encryption\_key\_arn) | ARN of the AWS KMS CMK to use for the server-side encryption of AWS storage resources. Only applicable for CDP deployment on AWS. | `string` | `null` | no |
 | <a name="input_encryption_key_resource_group_name"></a> [encryption\_key\_resource\_group\_name](#input\_encryption\_key\_resource\_group\_name) | Name of the existing Azure resource group hosting the Azure Key Vault containing customer managed key which will be used to encrypt the Azure Managed Disk. Only applicable for CDP deployment on Azure. | `string` | `null` | no |
 | <a name="input_encryption_key_url"></a> [encryption\_key\_url](#input\_encryption\_key\_url) | URL of the key which will be used to encrypt the Azure Managed Disks. Only applicable for CDP deployment on Azure. | `string` | `null` | no |

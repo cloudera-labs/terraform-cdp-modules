@@ -330,6 +330,13 @@ variable "encryption_key_url" {
   default = null
 }
 
+variable "encryption_at_host" {
+  type = bool
+
+  description = "Provision resources with host encryption enabled. Only applicable for CDP deployment on Azure."
+
+  default = null
+}
 # ------- Cloud Service Provider Settings - General -------
 variable "region" {
   type        = string
