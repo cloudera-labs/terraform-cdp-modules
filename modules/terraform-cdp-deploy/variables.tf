@@ -106,6 +106,14 @@ variable "enable_raz" {
   default = true
 }
 
+variable "environment_async_creation" {
+  type = bool
+
+  description = "Flag to specify if Terraform should wait for CDP environment resource creation/deletion"
+
+  default = false
+}
+
 variable "environment_polling_timeout" {
   type = number
 
@@ -251,6 +259,14 @@ variable "datalake_recipes" {
   default = null
 }
 
+variable "datalake_async_creation" {
+  type = bool
+
+  description = "Flag to specify if Terraform should wait for CDP datalake resource creation/deletion"
+
+  default = false
+}
+
 variable "datalake_polling_timeout" {
   type = number
 
@@ -314,6 +330,13 @@ variable "encryption_key_url" {
   default = null
 }
 
+variable "encryption_at_host" {
+  type = bool
+
+  description = "Provision resources with host encryption enabled. Only applicable for CDP deployment on Azure."
+
+  default = null
+}
 # ------- Cloud Service Provider Settings - General -------
 variable "region" {
   type        = string

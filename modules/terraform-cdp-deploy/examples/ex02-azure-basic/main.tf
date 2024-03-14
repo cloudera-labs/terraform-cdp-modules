@@ -51,6 +51,9 @@ module "cdp_deploy" {
   public_key_text     = var.public_key_text
   deployment_template = var.deployment_template
 
+  environment_async_creation = var.environment_async_creation
+  datalake_async_creation    = var.datalake_async_creation
+
   # From pre-reqs module output
   azure_subscription_id = module.cdp_azure_prereqs.azure_subscription_id
   azure_tenant_id       = module.cdp_azure_prereqs.azure_tenant_id

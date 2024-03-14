@@ -71,10 +71,17 @@ variable "multiaz" {
 
 }
 
+variable "environment_async_creation" {
+  type = bool
+
+  description = "Flag to specify if Terraform should wait for CDP environment resource creation/deletion"
+
+}
+
 variable "environment_polling_timeout" {
   type = number
 
-  description = " Timeout value in minutes for how long to poll for CDP Environment resource creation/deletion"
+  description = "Timeout value in minutes for how long to poll for CDP Environment resource creation/deletion"
 
 }
 
@@ -198,6 +205,13 @@ variable "datalake_recipes" {
   )
 
   description = "Additional recipes that will be attached on the datalake instances"
+
+}
+
+variable "datalake_async_creation" {
+  type = bool
+
+  description = "Flag to specify if Terraform should wait for CDP datalake resource creation/deletion"
 
 }
 
