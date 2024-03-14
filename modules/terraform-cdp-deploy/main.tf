@@ -148,6 +148,7 @@ module "cdp_on_azure" {
 
   encryption_key_resource_group_name = var.encryption_key_resource_group_name
   encryption_key_url                 = var.encryption_key_url
+  encryption_at_host                 = var.encryption_at_host
 
   azure_aks_private_dns_zone_id      = var.azure_aks_private_dns_zone_id
   azure_database_private_dns_zone_id = var.azure_database_private_dns_zone_id
