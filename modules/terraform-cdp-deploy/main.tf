@@ -67,6 +67,7 @@ module "cdp_on_aws" {
   freeipa_image_id      = var.freeipa_image_id
   freeipa_instance_type = var.freeipa_instance_type
   freeipa_recipes       = var.freeipa_recipes
+  freeipa_os            = var.freeipa_os
 
   encryption_key_arn = var.encryption_key_arn
 
@@ -139,6 +140,7 @@ module "cdp_on_azure" {
   freeipa_image_id      = var.freeipa_image_id
   freeipa_instance_type = var.freeipa_instance_type
   freeipa_recipes       = var.freeipa_recipes
+  freeipa_os            = var.freeipa_os
 
   enable_outbound_load_balancer = var.enable_outbound_load_balancer
 
