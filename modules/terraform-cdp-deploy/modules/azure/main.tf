@@ -62,6 +62,7 @@ resource "cdp_environments_azure_environment" "cdp_env" {
 
   freeipa = {
     instance_count_by_group = var.freeipa_instances
+    multi_az                = var.multiaz
     catalog                 = var.freeipa_catalog
     image_id                = var.freeipa_image_id
     instance_type           = var.freeipa_instance_type
@@ -147,6 +148,7 @@ resource "cdp_datalake_azure_datalake" "cdp_datalake" {
   runtime           = var.datalake_version == "latest" ? null : var.datalake_version
   scale             = var.datalake_scale
   enable_ranger_raz = var.enable_raz
+  multi_az          = var.datalake_scale == "LIGHT_DUTY" ? null : var.multiaz
 
   image        = var.datalake_image
   java_version = var.datalake_java_version

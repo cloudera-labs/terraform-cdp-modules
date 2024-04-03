@@ -102,6 +102,7 @@ module "cdp_on_azure" {
   datalake_version       = var.datalake_version
   enable_ccm_tunnel      = var.enable_ccm_tunnel
   enable_raz             = var.enable_raz
+  multiaz                = var.multiaz
   freeipa_instances      = var.freeipa_instances
   workload_analytics     = var.workload_analytics
   endpoint_access_scheme = local.endpoint_access_scheme

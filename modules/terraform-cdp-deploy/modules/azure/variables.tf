@@ -64,6 +64,13 @@ variable "enable_raz" {
 
 }
 
+variable "multiaz" {
+  type = bool
+
+  description = "Flag to specify that the FreeIPA and DataLake instances will be deployed across multi-availability zones"
+
+}
+
 variable "environment_async_creation" {
   type = bool
 
