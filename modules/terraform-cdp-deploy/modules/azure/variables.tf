@@ -64,6 +64,20 @@ variable "enable_raz" {
 
 }
 
+variable "multiaz" {
+  type = bool
+
+  description = "Flag to specify that the FreeIPA and DataLake instances will be deployed across multi-availability zones"
+
+}
+
+variable "environment_async_creation" {
+  type = bool
+
+  description = "Flag to specify if Terraform should wait for CDP environment resource creation/deletion"
+
+}
+
 variable "environment_polling_timeout" {
   type = number
 
@@ -135,6 +149,13 @@ variable "encryption_key_url" {
 
 }
 
+variable "encryption_at_host" {
+  type = bool
+
+  description = "Provision resources with host encryption enabled"
+
+}
+
 variable "proxy_config_name" {
   type = string
 
@@ -194,6 +215,13 @@ variable "datalake_recipes" {
   )
 
   description = "Additional recipes that will be attached on the datalake instances"
+
+}
+
+variable "datalake_async_creation" {
+  type = bool
+
+  description = "Flag to specify if Terraform should wait for CDP datalake resource creation/deletion"
 
 }
 

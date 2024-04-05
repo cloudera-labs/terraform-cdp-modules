@@ -20,7 +20,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_cdp"></a> [cdp](#requirement\_cdp) | 0.4.2 |
+| <a name="requirement_cdp"></a> [cdp](#requirement\_cdp) | 0.5.8 |
 
 ## Providers
 
@@ -62,6 +62,7 @@ No resources.
 | <a name="input_aws_vpc_id"></a> [aws\_vpc\_id](#input\_aws\_vpc\_id) | AWS Virtual Private Network ID. Required for CDP deployment on AWS. | `string` | `null` | no |
 | <a name="input_aws_xaccount_role_arn"></a> [aws\_xaccount\_role\_arn](#input\_aws\_xaccount\_role\_arn) | Cross Account Role ARN. Required for CDP deployment on AWS. | `string` | `null` | no |
 | <a name="input_azure_aks_private_dns_zone_id"></a> [azure\_aks\_private\_dns\_zone\_id](#input\_azure\_aks\_private\_dns\_zone\_id) | The ID of an existing private DNS zone used for the AKS. | `string` | `null` | no |
+| <a name="input_azure_cdp_flexible_server_delegated_subnet_names"></a> [azure\_cdp\_flexible\_server\_delegated\_subnet\_names](#input\_azure\_cdp\_flexible\_server\_delegated\_subnet\_names) | List of Azure Subnet Names delegated for Private Flexible servers. Required for CDP deployment on Azure. | `list(any)` | `null` | no |
 | <a name="input_azure_cdp_gateway_subnet_names"></a> [azure\_cdp\_gateway\_subnet\_names](#input\_azure\_cdp\_gateway\_subnet\_names) | List of Azure Subnet Names CDP Endpoint Access Gateway. Required for CDP deployment on Azure. | `list(any)` | `null` | no |
 | <a name="input_azure_cdp_subnet_names"></a> [azure\_cdp\_subnet\_names](#input\_azure\_cdp\_subnet\_names) | List of Azure Subnet Names for CDP Resources. Required for CDP deployment on Azure. | `list(any)` | `null` | no |
 | <a name="input_azure_create_private_endpoints"></a> [azure\_create\_private\_endpoints](#input\_azure\_create\_private\_endpoints) | Flag to specify that Azure Postgres will be configured with Private Endpoint and a Private DNS Zone. | `bool` | `null` | no |
@@ -82,6 +83,7 @@ No resources.
 | <a name="input_cdp_admin_group_name"></a> [cdp\_admin\_group\_name](#input\_cdp\_admin\_group\_name) | Name of the CDP IAM Admin Group associated with the environment. Defaults to '<env\_prefix>-cdp-admin-group' if not specified. | `string` | `null` | no |
 | <a name="input_cdp_user_group_name"></a> [cdp\_user\_group\_name](#input\_cdp\_user\_group\_name) | Name of the CDP IAM User Group associated with the environment. Defaults to '<env\_prefix>-cdp-user-group' if not specified. | `string` | `null` | no |
 | <a name="input_cdp_xacccount_credential_name"></a> [cdp\_xacccount\_credential\_name](#input\_cdp\_xacccount\_credential\_name) | Name of the CDP Cross Account Credential. Defaults to '<env\_prefix>-xaccount-cred' if not specified. | `string` | `null` | no |
+| <a name="input_datalake_async_creation"></a> [datalake\_async\_creation](#input\_datalake\_async\_creation) | Flag to specify if Terraform should wait for CDP datalake resource creation/deletion | `bool` | `false` | no |
 | <a name="input_datalake_custom_instance_groups"></a> [datalake\_custom\_instance\_groups](#input\_datalake\_custom\_instance\_groups) | A set of custom instance groups for the datalake. Only applicable for CDP deployment on AWS and GCP. | <pre>list(<br>    object({<br>      name          = string,<br>      instance_type = optional(string)<br>    })<br>  )</pre> | `null` | no |
 | <a name="input_datalake_image"></a> [datalake\_image](#input\_datalake\_image) | The image to use for the datalake. Can only be used when the 'datalake\_version' parameter is set to null. You can use 'catalog' name and/or 'id' for selecting an image. | <pre>object({<br>    id      = optional(string)<br>    catalog = optional(string)<br>  })</pre> | `null` | no |
 | <a name="input_datalake_java_version"></a> [datalake\_java\_version](#input\_datalake\_java\_version) | The Java major version to use on the datalake cluster. | `number` | `null` | no |
@@ -93,11 +95,13 @@ No resources.
 | <a name="input_enable_ccm_tunnel"></a> [enable\_ccm\_tunnel](#input\_enable\_ccm\_tunnel) | Flag to enable Cluster Connectivity Manager tunnel. If false then access from Cloud to CDP Control Plane CIDRs is required from via SG ingress | `bool` | `true` | no |
 | <a name="input_enable_outbound_load_balancer"></a> [enable\_outbound\_load\_balancer](#input\_enable\_outbound\_load\_balancer) | Create outbound load balancers for Azure environments. Only applicable for CDP deployment on Azure. | `bool` | `null` | no |
 | <a name="input_enable_raz"></a> [enable\_raz](#input\_enable\_raz) | Flag to enable Ranger Authorization Service (RAZ) | `bool` | `true` | no |
+| <a name="input_encryption_at_host"></a> [encryption\_at\_host](#input\_encryption\_at\_host) | Provision resources with host encryption enabled. Only applicable for CDP deployment on Azure. | `bool` | `null` | no |
 | <a name="input_encryption_key_arn"></a> [encryption\_key\_arn](#input\_encryption\_key\_arn) | ARN of the AWS KMS CMK to use for the server-side encryption of AWS storage resources. Only applicable for CDP deployment on AWS. | `string` | `null` | no |
 | <a name="input_encryption_key_resource_group_name"></a> [encryption\_key\_resource\_group\_name](#input\_encryption\_key\_resource\_group\_name) | Name of the existing Azure resource group hosting the Azure Key Vault containing customer managed key which will be used to encrypt the Azure Managed Disk. Only applicable for CDP deployment on Azure. | `string` | `null` | no |
 | <a name="input_encryption_key_url"></a> [encryption\_key\_url](#input\_encryption\_key\_url) | URL of the key which will be used to encrypt the Azure Managed Disks. Only applicable for CDP deployment on Azure. | `string` | `null` | no |
 | <a name="input_endpoint_access_scheme"></a> [endpoint\_access\_scheme](#input\_endpoint\_access\_scheme) | The scheme for the workload endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. PRIVATE which restricts the traffic to be internal to the VPC / Vnet. Relevant in Private Networks. | `string` | `null` | no |
 | <a name="input_env_tags"></a> [env\_tags](#input\_env\_tags) | Tags applied to provisioned resources | `map(any)` | `null` | no |
+| <a name="input_environment_async_creation"></a> [environment\_async\_creation](#input\_environment\_async\_creation) | Flag to specify if Terraform should wait for CDP environment resource creation/deletion | `bool` | `false` | no |
 | <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Name of the CDP environment. Defaults to '<env\_prefix>-cdp-env' if not specified. | `string` | `null` | no |
 | <a name="input_environment_polling_timeout"></a> [environment\_polling\_timeout](#input\_environment\_polling\_timeout) | Timeout value in minutes for how long to poll for CDP Environment resource creation/deletion | `number` | `60` | no |
 | <a name="input_freeipa_catalog"></a> [freeipa\_catalog](#input\_freeipa\_catalog) | Image catalog to use for FreeIPA image selection | `string` | `null` | no |
