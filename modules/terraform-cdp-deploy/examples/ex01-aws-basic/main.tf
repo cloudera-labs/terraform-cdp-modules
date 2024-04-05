@@ -50,6 +50,9 @@ module "cdp_deploy" {
   keypair_name        = var.aws_key_pair
   deployment_template = var.deployment_template
 
+  environment_async_creation = var.environment_async_creation
+  datalake_async_creation    = var.datalake_async_creation
+
   # From pre-reqs module output
   aws_vpc_id             = module.cdp_aws_prereqs.aws_vpc_id
   aws_public_subnet_ids  = module.cdp_aws_prereqs.aws_public_subnet_ids
@@ -79,7 +82,7 @@ terraform {
   required_providers {
     cdp = {
       source  = "cloudera/cdp"
-      version = "0.4.2"
+      version = "0.5.8"
     }
   }
 }
