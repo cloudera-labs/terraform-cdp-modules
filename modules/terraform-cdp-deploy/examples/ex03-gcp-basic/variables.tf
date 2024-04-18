@@ -34,6 +34,13 @@ variable "public_key_text" {
   description = "SSH Public key string for the nodes of the CDP environment"
 }
 
+variable "env_tags" {
+  type        = map(any)
+  description = "Tags applied to pvovisioned resources"
+
+  default = null
+}
+
 # ------- CDP Environment Deployment -------
 variable "deployment_template" {
   type = string

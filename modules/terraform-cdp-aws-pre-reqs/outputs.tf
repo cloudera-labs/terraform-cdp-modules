@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2024 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -151,10 +151,34 @@ output "aws_xaccount_role_arn" {
   description = "Cross Account role ARN"
 }
 
+output "aws_xaccount_role_name" {
+  value = aws_iam_role.cdp_xaccount_role.name
+
+  description = "Cross Account role name"
+}
+
 output "aws_log_role_name" {
   value = aws_iam_role.cdp_log_role.name
 
   description = "Log role Name"
+}
+
+output "aws_idbroker_role_name" {
+  value = aws_iam_role.cdp_idbroker_role.name
+
+  description = "IDBroker role Name"
+}
+
+output "aws_datalake_admin_role_name" {
+  value = aws_iam_role.cdp_datalake_admin_role.name
+
+  description = "Datalake Admin role Name"
+}
+
+output "aws_ranger_audit_role_name" {
+  value = aws_iam_role.cdp_ranger_audit_role.name
+
+  description = "Ranger Audit role Name"
 }
 
 output "aws_log_instance_profile_arn" {

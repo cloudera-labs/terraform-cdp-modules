@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2024 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -769,4 +769,37 @@ resource "aws_iam_role_policy_attachment" "cdp_ranger_audit_role_attach6" {
 
   role       = aws_iam_role.cdp_ranger_audit_role.name
   policy_arn = aws_iam_policy.cdp_datalake_restore_policy.arn
+}
+
+# ------- Add missing iam:Tag* permissions to Cross-Account Policy -------
+# First create the extra policy document
+data "aws_iam_policy_document" "cdp_extra_xaccount_policy_doc" {
+  version = "2012-10-17"
+
+  statement {
+    sid = "AllowIAMTagRole"
+
+    actions = ["iam:TagRole"]
+    effect  = "Allow"
+
+    resources = [
+      "*",
+    ]
+  }
+}
+
+# Then create the policy using the document
+resource "aws_iam_policy" "cdp_extra_xaccount_policy" {
+  name        = "${var.env_prefix}-cross-account-extra"
+  description = "Additional Cross Account Policy for ${var.env_prefix}"
+
+  tags = { Name = "${var.env_prefix}-cross-account-extra" }
+
+  policy = data.aws_iam_policy_document.cdp_extra_xaccount_policy_doc.json
+}
+
+# Attach this policy to the cross account role
+resource "aws_iam_role_policy_attachment" "cdp_extra_xaccount_attach" {
+  role       = aws_iam_role.cdp_xaccount_role.name
+  policy_arn = aws_iam_policy.cdp_extra_xaccount_policy.arn
 }
