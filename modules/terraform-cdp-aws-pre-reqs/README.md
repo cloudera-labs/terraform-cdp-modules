@@ -53,6 +53,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [aws_iam_policy.cdp_datalake_admin_s3_data_access_policy](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.cdp_datalake_backup_policy](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.cdp_datalake_restore_policy](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/iam_policy) | resource |
+| [aws_iam_policy.cdp_extra_xaccount_policy](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.cdp_idbroker_policy](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.cdp_log_bucket_data_access_policy](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.cdp_log_data_access_policy](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/iam_policy) | resource |
@@ -69,6 +70,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [aws_iam_role_policy_attachment.cdp_datalake_admin_role_attach4](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.cdp_datalake_admin_role_attach5](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.cdp_datalake_admin_role_attach6](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.cdp_extra_xaccount_attach](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.cdp_idbroker_role_attach1](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.cdp_idbroker_role_attach2](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.cdp_log_role_attach1](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/resources/iam_role_policy_attachment) | resource |
@@ -106,6 +108,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [time_sleep.iam_propagation](https://registry.terraform.io/providers/hashicorp/time/0.9.1/docs/resources/sleep) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/caller_identity) | data source |
 | [aws_iam_policy_document.cdp_datalake_admin_role_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.cdp_extra_xaccount_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.cdp_idbroker_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.cdp_idbroker_role_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.cdp_log_role_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/iam_policy_document) | data source |
@@ -197,8 +200,10 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="output_aws_data_storage_location"></a> [aws\_data\_storage\_location](#output\_aws\_data\_storage\_location) | AWS data storage location |
 | <a name="output_aws_data_storage_object"></a> [aws\_data\_storage\_object](#output\_aws\_data\_storage\_object) | AWS data storage object |
 | <a name="output_aws_datalake_admin_role_arn"></a> [aws\_datalake\_admin\_role\_arn](#output\_aws\_datalake\_admin\_role\_arn) | Datalake Admin role ARN |
+| <a name="output_aws_datalake_admin_role_name"></a> [aws\_datalake\_admin\_role\_name](#output\_aws\_datalake\_admin\_role\_name) | Datalake Admin role Name |
 | <a name="output_aws_default_route_table_id"></a> [aws\_default\_route\_table\_id](#output\_aws\_default\_route\_table\_id) | AWS default route table ID |
 | <a name="output_aws_idbroker_instance_profile_arn"></a> [aws\_idbroker\_instance\_profile\_arn](#output\_aws\_idbroker\_instance\_profile\_arn) | IDBroker instance profile ARN |
+| <a name="output_aws_idbroker_role_name"></a> [aws\_idbroker\_role\_name](#output\_aws\_idbroker\_role\_name) | IDBroker role Name |
 | <a name="output_aws_log_instance_profile_arn"></a> [aws\_log\_instance\_profile\_arn](#output\_aws\_log\_instance\_profile\_arn) | Log instance profile ARN |
 | <a name="output_aws_log_role_name"></a> [aws\_log\_role\_name](#output\_aws\_log\_role\_name) | Log role Name |
 | <a name="output_aws_log_storage_bucket"></a> [aws\_log\_storage\_bucket](#output\_aws\_log\_storage\_bucket) | AWS log storage bucket |
@@ -209,11 +214,13 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="output_aws_public_route_table_ids"></a> [aws\_public\_route\_table\_ids](#output\_aws\_public\_route\_table\_ids) | AWS public route table IDs |
 | <a name="output_aws_public_subnet_ids"></a> [aws\_public\_subnet\_ids](#output\_aws\_public\_subnet\_ids) | AWS public subnet IDs |
 | <a name="output_aws_ranger_audit_role_arn"></a> [aws\_ranger\_audit\_role\_arn](#output\_aws\_ranger\_audit\_role\_arn) | Ranger Audit role ARN |
+| <a name="output_aws_ranger_audit_role_name"></a> [aws\_ranger\_audit\_role\_name](#output\_aws\_ranger\_audit\_role\_name) | Ranger Audit role Name |
 | <a name="output_aws_region"></a> [aws\_region](#output\_aws\_region) | Cloud provider region of the Environment |
 | <a name="output_aws_security_group_default_id"></a> [aws\_security\_group\_default\_id](#output\_aws\_security\_group\_default\_id) | AWS security group id for default CDP SG |
 | <a name="output_aws_security_group_knox_id"></a> [aws\_security\_group\_knox\_id](#output\_aws\_security\_group\_knox\_id) | AWS security group id for Knox CDP SG |
 | <a name="output_aws_vpc_id"></a> [aws\_vpc\_id](#output\_aws\_vpc\_id) | AWS VPC ID |
 | <a name="output_aws_vpc_subnets"></a> [aws\_vpc\_subnets](#output\_aws\_vpc\_subnets) | List of subnets associated with the CDP VPC |
 | <a name="output_aws_xaccount_role_arn"></a> [aws\_xaccount\_role\_arn](#output\_aws\_xaccount\_role\_arn) | Cross Account role ARN |
+| <a name="output_aws_xaccount_role_name"></a> [aws\_xaccount\_role\_name](#output\_aws\_xaccount\_role\_name) | Cross Account role name |
 | <a name="output_tags"></a> [tags](#output\_tags) | Tags associated with the environment and its resources |
 <!-- END_TF_DOCS -->
