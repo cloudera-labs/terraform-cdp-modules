@@ -158,11 +158,11 @@ variable "workload_analytics" {
 variable "datalake_scale" {
   type = string
 
-  description = "The scale of the datalake. Valid values are LIGHT_DUTY, MEDIUM_DUTY_HA."
+  description = "The scale of the datalake. Valid values are LIGHT_DUTY, ENTERPRISE."
 
   validation {
-    condition     = (var.datalake_scale == null ? true : contains(["LIGHT_DUTY", "MEDIUM_DUTY_HA"], var.datalake_scale))
-    error_message = "Valid values for var: datalake_scale are (LIGHT_DUTY, MEDIUM_DUTY_HA)."
+    condition     = (var.datalake_scale == null ? true : contains(["LIGHT_DUTY", "ENTERPRISE", "MEDIUM_DUTY_HA"], var.datalake_scale))
+    error_message = "Valid values for var: datalake_scale are (LIGHT_DUTY, ENTERPRISE)."
   }
 
   default = null
@@ -179,7 +179,7 @@ variable "datalake_version" {
     error_message = "Valid values for var: datalake_version must match semantic versioning conventions."
   }
 
-  default = "7.2.17"
+  default = "7.2.18"
 }
 
 variable "endpoint_access_scheme" {

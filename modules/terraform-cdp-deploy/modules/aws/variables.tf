@@ -107,11 +107,11 @@ variable "workload_analytics" {
 variable "datalake_scale" {
   type = string
 
-  description = "The scale of the datalake. Valid values are LIGHT_DUTY, MEDIUM_DUTY_HA."
+  description = "The scale of the datalake. Valid values are LIGHT_DUTY, ENTERPRISE, MEDIUM_DUTY_HA."
 
   validation {
-    condition     = contains(["LIGHT_DUTY", "MEDIUM_DUTY_HA"], var.datalake_scale)
-    error_message = "Valid values for var: datalake_scale are (LIGHT_DUTY, MEDIUM_DUTY_HA)."
+    condition     = contains(["LIGHT_DUTY", "ENTERPRISE", "MEDIUM_DUTY_HA"], var.datalake_scale)
+    error_message = "Valid values for var: datalake_scale are (LIGHT_DUTY, ENTERPRISE)."
   }
 
 }
