@@ -157,6 +157,23 @@ output "aws_log_role_name" {
   description = "Log role Name"
 }
 
+output "aws_idbroker_role_name" {
+  value = aws_iam_role.cdp_idbroker_role.name
+
+  description = "IDBroker role Name"
+}
+
+output "aws_datalake_admin_role_name" {
+  value = aws_iam_role.cdp_datalake_admin_role.name
+
+  description = "Datalake Admin role Name"
+}
+
+output "aws_ranger_audit_role_name" {
+  value = aws_iam_role.cdp_ranger_audit_role.name
+
+  description = "Ranger Audit role Name"
+}
 output "aws_log_instance_profile_arn" {
   value = aws_iam_instance_profile.cdp_log_role_instance_profile.arn
 
