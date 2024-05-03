@@ -47,9 +47,8 @@ resource "cdp_environments_gcp_environment" "cdp_env" {
 
   endpoint_access_gateway_scheme = var.endpoint_access_scheme
 
-  encryption_key         = var.encryption_key
-  proxy_config_name      = var.proxy_config_name
-  report_deployment_logs = var.report_deployment_logs
+  encryption_key    = var.encryption_key
+  proxy_config_name = var.proxy_config_name
 
   freeipa = {
     instance_count_by_group = var.freeipa_instances
@@ -57,8 +56,9 @@ resource "cdp_environments_gcp_environment" "cdp_env" {
     recipes                 = var.freeipa_recipes
   }
 
-  workload_analytics = var.workload_analytics
-  enable_tunnel      = var.enable_ccm_tunnel
+  workload_analytics     = var.workload_analytics
+  report_deployment_logs = var.report_deployment_logs
+  enable_tunnel          = var.enable_ccm_tunnel
 
 
   polling_options = {

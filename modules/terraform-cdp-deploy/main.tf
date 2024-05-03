@@ -37,6 +37,7 @@ module "cdp_on_aws" {
   multiaz                = var.multiaz
   freeipa_instances      = var.freeipa_instances
   workload_analytics     = var.workload_analytics
+  report_deployment_logs = var.report_deployment_logs
   endpoint_access_scheme = local.endpoint_access_scheme
 
   environment_async_creation  = var.environment_async_creation
@@ -97,6 +98,7 @@ module "cdp_on_azure" {
 
   security_group_default_uri = var.azure_security_group_default_uri
   security_group_knox_uri    = var.azure_security_group_knox_uri
+  security_access_cidr       = var.azure_security_access_cidr
 
   datalake_scale         = local.datalake_scale
   datalake_version       = var.datalake_version
@@ -105,6 +107,7 @@ module "cdp_on_azure" {
   multiaz                = var.multiaz
   freeipa_instances      = var.freeipa_instances
   workload_analytics     = var.workload_analytics
+  report_deployment_logs = var.report_deployment_logs
   endpoint_access_scheme = local.endpoint_access_scheme
 
   environment_async_creation  = var.environment_async_creation
@@ -188,6 +191,7 @@ module "cdp_on_gcp" {
   freeipa_recipes       = var.freeipa_recipes
 
   workload_analytics     = var.workload_analytics
+  report_deployment_logs = var.report_deployment_logs
   endpoint_access_scheme = local.endpoint_access_scheme
 
   environment_async_creation  = var.environment_async_creation
@@ -217,8 +221,6 @@ module "cdp_on_gcp" {
   ranger_audit_service_account_email   = var.gcp_ranger_audit_service_account_email
   datalake_admin_service_account_email = var.gcp_datalake_admin_service_account_email
   log_service_account_email            = var.gcp_log_service_account_email
-
-  report_deployment_logs = var.gcp_report_deployment_logs
 
   datalake_custom_instance_groups = var.datalake_custom_instance_groups
   datalake_image                  = var.datalake_image

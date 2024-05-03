@@ -57,6 +57,13 @@ variable "enable_ccm_tunnel" {
 
 }
 
+variable "report_deployment_logs" {
+  type = bool
+
+  description = "Flag to enable reporting of additional diagnostic information back to Cloudera"
+
+}
+
 variable "enable_raz" {
   type = bool
 
@@ -334,6 +341,12 @@ variable "cdp_flexible_server_delegated_subnet_names" {
     error_message = "Valid values for var: cdp_flexible_server_delegated_subnet_names must be a list of existing Azure Virtual Subnets."
   }
 
+}
+
+variable "security_access_cidr" {
+  type = string
+
+  description = "CIDR range for inbound traffic. With this option security groups will be automatically created."
 }
 
 variable "security_group_default_uri" {
