@@ -22,6 +22,7 @@ module "cdp_on_aws" {
 
   environment_name              = local.environment_name
   datalake_name                 = local.datalake_name
+  create_cdp_credential         = var.create_cdp_credential
   cdp_xacccount_credential_name = local.cdp_xacccount_credential_name
   cdp_admin_group_name          = local.cdp_admin_group_name
   cdp_user_group_name           = local.cdp_user_group_name
@@ -91,6 +92,7 @@ module "cdp_on_azure" {
 
   environment_name              = local.environment_name
   datalake_name                 = local.datalake_name
+  create_cdp_credential         = var.create_cdp_credential
   cdp_xacccount_credential_name = local.cdp_xacccount_credential_name
   cdp_admin_group_name          = local.cdp_admin_group_name
   cdp_user_group_name           = local.cdp_user_group_name
@@ -172,6 +174,7 @@ module "cdp_on_gcp" {
 
   environment_name              = local.environment_name
   datalake_name                 = local.datalake_name
+  create_cdp_credential         = var.create_cdp_credential
   cdp_xacccount_credential_name = local.cdp_xacccount_credential_name
   cdp_admin_group_name          = local.cdp_admin_group_name
   cdp_user_group_name           = local.cdp_user_group_name

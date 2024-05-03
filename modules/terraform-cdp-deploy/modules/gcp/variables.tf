@@ -32,9 +32,16 @@ variable "datalake_name" {
 
 }
 
+variable "create_cdp_credential" {
+  type = bool
+
+  description = "Flag to specify if the CDP Cross Account Credential should be created. If set to false then cdp_xacccount_credential_name should be a valid pre-existing credential."
+
+}
+
 variable "cdp_xacccount_credential_name" {
   type        = string
-  description = "Name of the CDP Cross Account Credential."
+  description = "Name of the CDP Cross Account Credential. If create_cdp_credential is set to false then this should should be a valid pre-existing credential."
 
 }
 
