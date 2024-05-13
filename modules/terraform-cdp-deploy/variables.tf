@@ -529,6 +529,13 @@ variable "azure_create_private_endpoints" {
   default = null
 }
 
+variable "azure_accept_image_terms" {
+  type        = bool
+  description = "Flag to automatically accept Azure Marketplace image terms during CDP cluster deployment."
+
+  default = true
+}
+
 variable "azure_cdp_subnet_names" {
   type        = list(any)
   description = "List of Azure Subnet Names for CDP Resources. Required for CDP deployment on Azure."
