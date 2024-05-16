@@ -357,6 +357,16 @@ variable "enable_kms_bucket_encryption" {
 
 }
 
+variable "enable_bucket_versioning" {
+
+  type = bool
+
+  description = "Flag to enable versioning of S3 buckets."
+
+  default = true
+
+}
+
 # ------- Policies -------
 # Cross Account Policy (name and document)
 variable "xaccount_policy_name" {
@@ -368,9 +378,16 @@ variable "xaccount_policy_name" {
 
 variable "xaccount_account_policy_doc" {
   type        = string
-  description = "Location of cross acount policy document"
+  description = "Contents of cross acount policy document"
 
   default = null
+}
+
+variable "create_extra_xaccount_policy" {
+  type        = bool
+  description = "Create extra Cross-Account Policy for missing iam:Tag* permissions required for Data Services."
+
+  default = true
 }
 
 # CDP IDBroker Assume Role policy
@@ -391,7 +408,7 @@ variable "log_data_access_policy_name" {
 
 variable "log_data_access_policy_doc" {
   type        = string
-  description = "Location or Contents of Log Data Access Policy"
+  description = "Contents of Log Data Access Policy"
 
   default = null
 }
@@ -406,7 +423,7 @@ variable "ranger_audit_s3_policy_name" {
 
 variable "ranger_audit_s3_policy_doc" {
   type        = string
-  description = "Location or Contents of Ranger S3 Audit Data Access Policy"
+  description = "Contents of Ranger S3 Audit Data Access Policy"
 
   default = null
 }
@@ -421,21 +438,21 @@ variable "datalake_admin_s3_policy_name" {
 
 variable "datalake_admin_s3_policy_doc" {
   type        = string
-  description = "Location or Contents of Datalake Admin S3 Data Access Policy"
+  description = "Contents of Datalake Admin S3 Data Access Policy"
 
   default = null
 }
 
 variable "datalake_backup_policy_doc" {
   type        = string
-  description = "Location of Datalake Backup Data Access Policy"
+  description = "Contents of Datalake Backup Data Access Policy"
 
   default = null
 }
 
 variable "datalake_restore_policy_doc" {
   type        = string
-  description = "Location of Datalake Restore Data Access Policy"
+  description = "Contents of Datalake Restore Data Access Policy"
 
   default = null
 }
@@ -485,13 +502,13 @@ variable "data_bucket_access_policy_doc" {
 }
 variable "log_bucket_access_policy_doc" {
   type        = string
-  description = "Log Bucket Access Data Access Policy"
+  description = "Contents of Log Bucket Access Data Access Policy"
 
   default = null
 }
 variable "backup_bucket_access_policy_doc" {
   type        = string
-  description = "Backup Bucket Access Data Access Policy"
+  description = "Contents of Backup Bucket Access Data Access Policy"
 
   default = null
 }
