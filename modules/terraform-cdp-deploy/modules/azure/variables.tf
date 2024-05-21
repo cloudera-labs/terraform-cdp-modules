@@ -257,11 +257,6 @@ variable "tenant_id" {
 
   description = "Tenant ID where the Azure pre-reqs are created"
 
-  validation {
-    condition     = var.tenant_id != null
-    error_message = "Valid values for var: tenant_id must be a existing Azure Tenant."
-  }
-
 }
 
 variable "region" {
@@ -336,11 +331,6 @@ variable "cdp_flexible_server_delegated_subnet_names" {
   type        = list(any)
   description = "Azure Subnet Names delegated for Private Flexible servers."
 
-  validation {
-    condition     = var.cdp_flexible_server_delegated_subnet_names != null
-    error_message = "Valid values for var: cdp_flexible_server_delegated_subnet_names must be a list of existing Azure Virtual Subnets."
-  }
-
 }
 
 variable "security_access_cidr" {
@@ -353,21 +343,11 @@ variable "security_group_default_uri" {
   type        = string
   description = "Azure Default Security Group URI."
 
-  validation {
-    condition     = var.security_group_default_uri != null
-    error_message = "Valid values for var: security_group_default_uri must be a valid Azure SG Uri for the Default SG."
-  }
-
 }
 
 variable "security_group_knox_uri" {
   type        = string
   description = "Azure Knox Security Group URI."
-
-  validation {
-    condition     = var.security_group_knox_uri != null
-    error_message = "Valid values for var: security_group_knox_uri must be a valid Azure SG Uri for the Knox SG."
-  }
 
 }
 
@@ -422,11 +402,6 @@ variable "xaccount_app_uuid" {
 
   description = "UUID for the Azure AD Cross Account Application."
 
-  validation {
-    condition     = var.xaccount_app_uuid != null
-    error_message = "Valid values for var: xaccount_app_uuid must be a valid uuid for the Azure AD Cross Account Application."
-  }
-
 }
 
 variable "xaccount_app_pword" {
@@ -435,11 +410,6 @@ variable "xaccount_app_pword" {
   description = "Password for the Azure AD Cross Account Application."
 
   sensitive = true
-  validation {
-    condition     = var.xaccount_app_pword != null
-    error_message = "Valid values for var: xaccount_app_pword must be a valid password for the Azure AD Cross Account Application."
-  }
-
 }
 
 variable "idbroker_identity_id" {
