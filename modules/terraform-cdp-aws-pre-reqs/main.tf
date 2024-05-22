@@ -281,6 +281,18 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "cdp_storage_locat
   }
 }
 
+resource "aws_s3_bucket_versioning" "cdp_storage_location_versioning" {
+
+  for_each = var.enable_bucket_versioning ? aws_s3_bucket.cdp_storage_locations : {}
+
+  bucket = each.value.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+
+}
+
 # ------- AWS Buckets directory structures -------
 # # Data Storage Objects
 # NOTE: Removing creation of the data storage object because CDP overrides this
@@ -320,18 +332,6 @@ resource "aws_s3_object" "cdp_backup_storage_object" {
   depends_on = [
     aws_s3_bucket.cdp_storage_locations
   ]
-}
-
-# ------- AWS Cross Account Policy -------
-# The policy here is a dict variable so we'll use the variable
-# directly in the aws_iam_policy resource.
-resource "aws_iam_policy" "cdp_xaccount_policy" {
-  name        = local.xaccount_policy_name
-  description = "CDP Cross Account policy for ${var.env_prefix}"
-
-  tags = merge(local.env_tags, { Name = local.xaccount_policy_name })
-
-  policy = local.xaccount_account_policy_doc
 }
 
 # ------- CDP IDBroker Assume Role policy -------
@@ -486,10 +486,12 @@ resource "aws_iam_role" "cdp_xaccount_role" {
   tags = merge(local.env_tags, { Name = local.xaccount_role_name })
 }
 
-# Attach AWS Cross Account Policy to Cross Account Role
-resource "aws_iam_role_policy_attachment" "cdp_xaccount_role_attach" {
-  role       = aws_iam_role.cdp_xaccount_role.name
-  policy_arn = aws_iam_policy.cdp_xaccount_policy.arn
+# Create AWS Cross Account Inline Policy
+resource "aws_iam_role_policy" "cdp_xaccount_policy" {
+  name = local.xaccount_policy_name
+  role = aws_iam_role.cdp_xaccount_role.id
+
+  policy = local.xaccount_account_policy_doc
 }
 
 # Wait for propagation of IAM xaccount role.
@@ -774,6 +776,8 @@ resource "aws_iam_role_policy_attachment" "cdp_ranger_audit_role_attach6" {
 # ------- Add missing iam:Tag* permissions to Cross-Account Policy -------
 # First create the extra policy document
 data "aws_iam_policy_document" "cdp_extra_xaccount_policy_doc" {
+  count = var.create_extra_xaccount_policy ? 1 : 0
+
   version = "2012-10-17"
 
   statement {
@@ -788,18 +792,12 @@ data "aws_iam_policy_document" "cdp_extra_xaccount_policy_doc" {
   }
 }
 
-# Then create the policy using the document
-resource "aws_iam_policy" "cdp_extra_xaccount_policy" {
-  name        = "${var.env_prefix}-cross-account-extra"
-  description = "Additional Cross Account Policy for ${var.env_prefix}"
+# Then create the inline policy using the document
+resource "aws_iam_role_policy" "cdp_extra_xaccount_policy" {
+  count = var.create_extra_xaccount_policy ? 1 : 0
 
-  tags = { Name = "${var.env_prefix}-cross-account-extra" }
+  name = "${var.env_prefix}-cross-account-extra"
+  role = aws_iam_role.cdp_xaccount_role.id
 
-  policy = data.aws_iam_policy_document.cdp_extra_xaccount_policy_doc.json
-}
-
-# Attach this policy to the cross account role
-resource "aws_iam_role_policy_attachment" "cdp_extra_xaccount_attach" {
-  role       = aws_iam_role.cdp_xaccount_role.name
-  policy_arn = aws_iam_policy.cdp_extra_xaccount_policy.arn
+  policy = data.aws_iam_policy_document.cdp_extra_xaccount_policy_doc[0].json
 }
