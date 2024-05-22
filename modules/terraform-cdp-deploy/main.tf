@@ -117,6 +117,7 @@ module "cdp_on_azure" {
   datalake_async_creation     = var.datalake_async_creation
   datalake_polling_timeout    = var.datalake_polling_timeout
 
+  azure_accept_image_terms  = var.azure_accept_image_terms
   use_single_resource_group = var.use_single_resource_group
   use_public_ips            = local.use_public_ips
 
