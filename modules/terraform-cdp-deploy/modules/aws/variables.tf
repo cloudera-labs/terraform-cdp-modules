@@ -57,6 +57,13 @@ variable "enable_ccm_tunnel" {
 
 }
 
+variable "report_deployment_logs" {
+  type = bool
+
+  description = "Flag to enable reporting of additional diagnostic information back to Cloudera"
+
+}
+
 variable "enable_raz" {
   type = bool
 

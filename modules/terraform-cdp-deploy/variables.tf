@@ -186,6 +186,15 @@ variable "workload_analytics" {
   default = true
 }
 
+variable "report_deployment_logs" {
+  type = bool
+
+  description = "Flag to enable reporting of additional diagnostic information back to Cloudera."
+
+  default = true
+
+}
+
 variable "datalake_scale" {
   type = string
 
@@ -569,6 +578,14 @@ variable "azure_security_group_knox_uri" {
 
 }
 
+variable "azure_security_access_cidr" {
+  type = string
+
+  description = "CIDR range for inbound traffic. With this option security groups will be automatically created. Only used for CDP deployment on Azure. Note it is recommended to specify pre-existing security groups instead of this option."
+
+  default = null
+}
+
 variable "use_single_resource_group" {
   type = bool
 
@@ -723,15 +740,6 @@ variable "gcp_datalake_admin_service_account_email" {
   description = "Email id of the service account for Datalake Admin. Required for CDP deployment on GCP."
 
   default = null
-
-}
-
-variable "gcp_report_deployment_logs" {
-  type = bool
-
-  description = "Flag to enable reporting of additional diagnostic information back to Cloudera. Only applicable for CDP deployment on GCP."
-
-  default = false
 
 }
 

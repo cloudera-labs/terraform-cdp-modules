@@ -31,6 +31,7 @@ resource "cdp_environments_azure_environment" "cdp_env" {
   region           = var.region
 
   security_access = {
+    cidr                       = var.security_access_cidr
     default_security_group_id  = var.security_group_default_uri
     security_group_id_for_knox = var.security_group_knox_uri
   }
@@ -69,9 +70,10 @@ resource "cdp_environments_azure_environment" "cdp_env" {
     recipes                 = var.freeipa_recipes
   }
 
-  proxy_config_name  = var.proxy_config_name
-  workload_analytics = var.workload_analytics
-  enable_tunnel      = var.enable_ccm_tunnel
+  proxy_config_name      = var.proxy_config_name
+  workload_analytics     = var.workload_analytics
+  report_deployment_logs = var.report_deployment_logs
+  enable_tunnel          = var.enable_ccm_tunnel
 
   enable_outbound_load_balancer      = var.enable_outbound_load_balancer
   encryption_key_resource_group_name = var.encryption_key_resource_group_name
