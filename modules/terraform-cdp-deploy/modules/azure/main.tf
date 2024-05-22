@@ -27,6 +27,13 @@ resource "cdp_environments_azure_credential" "cdp_cred" {
   description = "Azure Cross Account Credential for Azure env ${var.environment_name}"
 }
 
+# ------- Accept Azure Image Terms -------
+resource "cdp_environments_azure_image_terms" "cdp_azure_images" {
+  count = var.azure_accept_image_terms ? 1 : 0
+
+  accepted = true
+}
+
 # ------- CDP Environment -------
 resource "cdp_environments_azure_environment" "cdp_env" {
   environment_name = var.environment_name
@@ -91,7 +98,8 @@ resource "cdp_environments_azure_environment" "cdp_env" {
   tags = var.tags
 
   depends_on = [
-    cdp_environments_azure_credential.cdp_cred
+    cdp_environments_azure_credential.cdp_cred,
+    cdp_environments_azure_image_terms.cdp_azure_images
   ]
 
 }

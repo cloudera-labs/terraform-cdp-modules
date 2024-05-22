@@ -57,6 +57,12 @@ variable "cdp_user_group_name" {
 
 }
 
+variable "azure_accept_image_terms" {
+  type        = bool
+  description = "Flag to automatically accept Azure Marketplace image terms during CDP cluster deployment."
+
+}
+
 variable "enable_ccm_tunnel" {
   type = bool
 
