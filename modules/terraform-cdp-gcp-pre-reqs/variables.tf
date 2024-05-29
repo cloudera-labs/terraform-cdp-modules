@@ -399,7 +399,12 @@ variable "datalake_admin_role_permissions" {
     "storage.objects.create",
     "storage.objects.delete",
     "storage.objects.get",
-    "storage.objects.list"
+    "storage.objects.list",
+    "storage.hmacKeys.create",
+    "storage.hmacKeys.delete",
+    "storage.hmacKeys.get",
+    "storage.hmacKeys.list",
+    "storage.hmacKeys.update"
   ]
 
 }

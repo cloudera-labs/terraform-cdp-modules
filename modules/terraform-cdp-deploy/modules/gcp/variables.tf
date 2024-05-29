@@ -71,6 +71,13 @@ variable "report_deployment_logs" {
 
 }
 
+variable "enable_raz" {
+  type = bool
+
+  description = "Flag to enable Ranger Authorization Service (RAZ)"
+
+}
+
 variable "environment_async_creation" {
   type = bool
 

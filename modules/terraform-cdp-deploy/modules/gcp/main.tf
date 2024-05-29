@@ -103,8 +103,9 @@ resource "cdp_environments_id_broker_mappings" "cdp_idbroker" {
   environment_name = cdp_environments_gcp_environment.cdp_env.environment_name
   environment_crn  = cdp_environments_gcp_environment.cdp_env.crn
 
-  ranger_audit_role = var.ranger_audit_service_account_email
-  data_access_role  = var.datalake_admin_service_account_email
+  ranger_audit_role                   = var.ranger_audit_service_account_email
+  data_access_role                    = var.datalake_admin_service_account_email
+  ranger_cloud_access_authorizer_role = var.enable_raz ? var.datalake_admin_service_account_email : null
 
   mappings = [{
     accessor_crn = cdp_iam_group.cdp_admin_group.crn
@@ -131,8 +132,9 @@ resource "cdp_datalake_gcp_datalake" "cdp_datalake" {
     storage_location      = var.data_storage_location
   }
 
-  runtime = var.datalake_version == "latest" ? null : var.datalake_version
-  scale   = var.datalake_scale
+  runtime           = var.datalake_version == "latest" ? null : var.datalake_version
+  enable_ranger_raz = var.enable_raz
+  scale             = var.datalake_scale
 
   custom_instance_groups = var.datalake_custom_instance_groups
   image                  = var.datalake_image
