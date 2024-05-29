@@ -321,11 +321,6 @@ variable "xaccount_service_account_private_key" {
 
   description = "Base64 encoded private key of the GCP Cross Account Service Account Key."
 
-  validation {
-    condition     = var.xaccount_service_account_private_key != null
-    error_message = "Valid values for var: xaccount_service_account_private_key must be a valid Base64 encoded Private Key for the GCP Cross Account Service Account Key."
-  }
-
 }
 
 variable "idbroker_service_account_email" {
