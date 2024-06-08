@@ -19,7 +19,7 @@ module "vpc" {
   count = var.create_vpc ? 1 : 0
 
   source  = "terraform-aws-modules/vpc/aws"
-  version = "3.19.0"
+  version = "5.8.1"
 
   name = var.vpc_name
   cidr = var.vpc_cidr

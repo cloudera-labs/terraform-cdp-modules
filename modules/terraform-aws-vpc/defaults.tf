@@ -69,7 +69,9 @@ locals {
     (var.cdp_vpc ?
       (var.deployment_template == "private" ?
         (var.private_network_extensions ? true : false)
-      : true)
+        : var.deployment_template == "semi-private" ?
+        true
+      : false)
     : false),
   false)
 

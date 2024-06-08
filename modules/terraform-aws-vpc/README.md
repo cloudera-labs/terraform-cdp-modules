@@ -18,27 +18,27 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 4.67.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.30 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.67.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.30 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws | 3.19.0 |
+| <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws | 5.8.1 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [aws_availability_zones.zones_in_region](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/availability_zones) | data source |
-| [aws_subnets.vpc_subnets](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/subnets) | data source |
-| [aws_vpc.vpc](https://registry.terraform.io/providers/hashicorp/aws/4.67.0/docs/data-sources/vpc) | data source |
+| [aws_availability_zones.zones_in_region](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/availability_zones) | data source |
+| [aws_subnets.vpc_subnets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnets) | data source |
+| [aws_vpc.vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc) | data source |
 
 ## Inputs
 
