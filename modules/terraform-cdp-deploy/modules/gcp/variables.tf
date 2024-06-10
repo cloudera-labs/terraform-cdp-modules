@@ -85,6 +85,13 @@ variable "environment_async_creation" {
 
 }
 
+variable "environment_call_failure_threshold" {
+  type = number
+
+  description = "Threshold value that specifies how many times should a single CDP Environment API call failure happen before giving up the polling"
+
+}
+
 variable "environment_polling_timeout" {
   type = number
 
@@ -138,7 +145,6 @@ variable "datalake_scale" {
   }
 
 }
-
 
 variable "datalake_version" {
   type = string
@@ -197,6 +203,13 @@ variable "datalake_async_creation" {
   type = bool
 
   description = "Flag to specify if Terraform should wait for CDP datalake resource creation/deletion"
+
+}
+
+variable "datalake_call_failure_threshold" {
+  type = number
+
+  description = "Threshold value that specifies how many times should a single CDP Datalake API call failure happen before giving up the polling"
 
 }
 
@@ -286,6 +299,13 @@ variable "endpoint_access_scheme" {
     condition     = contains(["PUBLIC", "PRIVATE"], var.endpoint_access_scheme)
     error_message = "Valid values for var: endpoint_access_scheme are (PUBLIC, PRIVATE)."
   }
+}
+
+variable "availability_zones" {
+  type = list(string)
+
+  description = "The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added."
+
 }
 
 variable "encryption_key" {

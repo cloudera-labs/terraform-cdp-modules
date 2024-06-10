@@ -47,7 +47,7 @@ resource "cdp_environments_gcp_environment" "cdp_env" {
     shared_project_id = var.project_id
     subnet_names      = var.cdp_subnet_names
   }
-
+  availability_zones             = var.availability_zones
   endpoint_access_gateway_scheme = var.endpoint_access_scheme
 
   encryption_key    = var.encryption_key
@@ -63,10 +63,10 @@ resource "cdp_environments_gcp_environment" "cdp_env" {
   report_deployment_logs = var.report_deployment_logs
   enable_tunnel          = var.enable_ccm_tunnel
 
-
   polling_options = {
-    async           = var.environment_async_creation
-    polling_timeout = var.environment_polling_timeout
+    async                  = var.environment_async_creation
+    call_failure_threshold = var.environment_call_failure_threshold
+    polling_timeout        = var.environment_polling_timeout
   }
 
   tags = var.tags
@@ -142,8 +142,9 @@ resource "cdp_datalake_gcp_datalake" "cdp_datalake" {
   recipes                = var.datalake_recipes
 
   polling_options = {
-    async           = var.datalake_async_creation
-    polling_timeout = var.datalake_polling_timeout
+    async                  = var.datalake_async_creation
+    call_failure_threshold = var.datalake_call_failure_threshold
+    polling_timeout        = var.datalake_polling_timeout
   }
 
   tags = var.tags

@@ -66,8 +66,9 @@ module "cdp_deploy" {
   azure_cdp_subnet_names         = module.cdp_azure_prereqs.azure_cdp_subnet_names
   azure_cdp_gateway_subnet_names = module.cdp_azure_prereqs.azure_cdp_gateway_subnet_names
 
-  azure_cdp_flexible_server_delegated_subnet_names = module.cdp_azure_prereqs.azure_cdp_flexible_server_delegated_subnet_names
-  azure_database_private_dns_zone_id               = module.cdp_azure_prereqs.azure_database_private_dns_zone_id
+  azure_environment_flexible_server_delegated_subnet_names = module.cdp_azure_prereqs.azure_cdp_flexible_server_delegated_subnet_names
+  azure_datalake_flexible_server_delegated_subnet_name     = try(module.cdp_azure_prereqs.azure_cdp_flexible_server_delegated_subnet_names[0], null)
+  azure_database_private_dns_zone_id                       = module.cdp_azure_prereqs.azure_database_private_dns_zone_id
 
   azure_security_group_default_uri = module.cdp_azure_prereqs.azure_security_group_default_uri
   azure_security_group_knox_uri    = module.cdp_azure_prereqs.azure_security_group_knox_uri

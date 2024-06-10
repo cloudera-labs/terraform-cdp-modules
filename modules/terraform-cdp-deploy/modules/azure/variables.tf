@@ -98,6 +98,13 @@ variable "environment_async_creation" {
 
 }
 
+variable "environment_call_failure_threshold" {
+  type = number
+
+  description = "Threshold value that specifies how many times should a single CDP Environment API call failure happen before giving up the polling"
+
+}
+
 variable "environment_polling_timeout" {
   type = number
 
@@ -176,6 +183,12 @@ variable "encryption_at_host" {
 
 }
 
+variable "encryption_user_managed_identity" {
+  type = string
+
+  description = "Managed Identity ID for encryption"
+}
+
 variable "proxy_config_name" {
   type = string
 
@@ -245,12 +258,34 @@ variable "datalake_async_creation" {
 
 }
 
+variable "datalake_call_failure_threshold" {
+  type = number
+
+  description = "Threshold value that specifies how many times should a single CDP Datalake API call failure happen before giving up the polling"
+
+}
+
 variable "datalake_polling_timeout" {
   type = number
 
   description = "Timeout value in minutes for how long to poll for CDP datalake resource creation/deletion"
 
 }
+
+variable "datalake_flexible_server_delegated_subnet_name" {
+  type = string
+
+  description = "The subnet ID for the subnet within which you want to configure your Azure Flexible Server for the CDP datalake"
+
+}
+
+variable "load_balancer_sku" {
+  type = string
+
+  description = "The Azure load balancer SKU type. Possible values are BASIC, STANDARD or None. The current default is BASIC. To disable the load balancer, use type NONE."
+
+}
+
 # ------- Cloud Service Provider Settings -------
 variable "subscription_id" {
   type = string
@@ -340,9 +375,9 @@ variable "cdp_gateway_subnet_names" {
 
 }
 
-variable "cdp_flexible_server_delegated_subnet_names" {
+variable "environment_flexible_server_delegated_subnet_names" {
   type        = list(any)
-  description = "Azure Subnet Names delegated for Private Flexible servers."
+  description = "Azure Subnet Names delegated for Private Flexible servers for the CDP Environment."
 
 }
 
