@@ -71,6 +71,13 @@ variable "report_deployment_logs" {
 
 }
 
+variable "enable_raz" {
+  type = bool
+
+  description = "Flag to enable Ranger Authorization Service (RAZ)"
+
+}
+
 variable "environment_async_creation" {
   type = bool
 
@@ -320,11 +327,6 @@ variable "xaccount_service_account_private_key" {
   type = string
 
   description = "Base64 encoded private key of the GCP Cross Account Service Account Key."
-
-  validation {
-    condition     = var.xaccount_service_account_private_key != null
-    error_message = "Valid values for var: xaccount_service_account_private_key must be a valid Base64 encoded Private Key for the GCP Cross Account Service Account Key."
-  }
 
 }
 
