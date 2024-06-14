@@ -376,7 +376,7 @@ variable "encryption_user_managed_identity" {
 
   description = "Managed Identity ID for encryption"
 
-  default = null
+  default = ""
 }
 
 # ------- Cloud Service Provider Settings - General -------

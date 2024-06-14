@@ -90,7 +90,6 @@ resource "cdp_environments_azure_environment" "cdp_env" {
   encryption_key_url                 = var.encryption_key_url
   encryption_at_host                 = var.encryption_at_host
   encryption_user_managed_identity   = var.encryption_user_managed_identity
-
   polling_options = {
     async                  = var.environment_async_creation
     call_failure_threshold = var.environment_call_failure_threshold
