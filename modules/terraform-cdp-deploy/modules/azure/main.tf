@@ -61,7 +61,7 @@ resource "cdp_environments_azure_environment" "cdp_env" {
     subnet_ids                   = var.cdp_subnet_names
     aks_private_dns_zone_id      = var.azure_aks_private_dns_zone_id
     database_private_dns_zone_id = var.azure_database_private_dns_zone_id
-    flexible_server_subnet_ids   = var.cdp_flexible_server_delegated_subnet_names
+    flexible_server_subnet_ids   = var.environment_flexible_server_delegated_subnet_names
   }
   create_private_endpoints = var.create_private_endpoints
 
@@ -89,10 +89,11 @@ resource "cdp_environments_azure_environment" "cdp_env" {
   encryption_key_resource_group_name = var.encryption_key_resource_group_name
   encryption_key_url                 = var.encryption_key_url
   encryption_at_host                 = var.encryption_at_host
-
+  encryption_user_managed_identity   = var.encryption_user_managed_identity
   polling_options = {
-    async           = var.environment_async_creation
-    polling_timeout = var.environment_polling_timeout
+    async                  = var.environment_async_creation
+    call_failure_threshold = var.environment_call_failure_threshold
+    polling_timeout        = var.environment_polling_timeout
   }
 
   tags = var.tags
@@ -163,13 +164,17 @@ resource "cdp_datalake_azure_datalake" "cdp_datalake" {
   enable_ranger_raz = var.enable_raz
   multi_az          = var.datalake_scale == "LIGHT_DUTY" ? null : var.multiaz
 
+  flexible_server_delegated_subnet_id = var.datalake_flexible_server_delegated_subnet_name
+  load_balancer_sku                   = var.load_balancer_sku
+
   image        = var.datalake_image
   java_version = var.datalake_java_version
   recipes      = var.datalake_recipes
 
   polling_options = {
-    async           = var.datalake_async_creation
-    polling_timeout = var.datalake_polling_timeout
+    async                  = var.datalake_async_creation
+    call_failure_threshold = var.datalake_call_failure_threshold
+    polling_timeout        = var.datalake_polling_timeout
   }
 
   tags = var.tags

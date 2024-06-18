@@ -92,6 +92,13 @@ variable "environment_async_creation" {
 
 }
 
+variable "environment_call_failure_threshold" {
+  type = number
+
+  description = "Threshold value that specifies how many times should a single CDP Environment API call failure happen before giving up the polling"
+
+}
+
 variable "environment_polling_timeout" {
   type = number
 
@@ -174,7 +181,9 @@ variable "datalake_version" {
   description = "The Datalake Runtime version. Valid values are latest or a semantic version, e.g. 7.2.17"
 
   validation {
-    condition     = (var.datalake_version == "latest" ? true : length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0)
+    condition = (var.datalake_version == null ? true :
+      (var.datalake_version == "latest" ? true :
+    length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0))
     error_message = "Valid values for var: datalake_version are 'latest' or a semantic versioning conventions."
   }
 
@@ -226,6 +235,13 @@ variable "datalake_async_creation" {
   type = bool
 
   description = "Flag to specify if Terraform should wait for CDP datalake resource creation/deletion"
+
+}
+
+variable "datalake_call_failure_threshold" {
+  type = number
+
+  description = "Threshold value that specifies how many times should a single CDP Datalake API call failure happen before giving up the polling"
 
 }
 

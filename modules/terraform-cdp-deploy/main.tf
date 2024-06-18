@@ -41,10 +41,12 @@ module "cdp_on_aws" {
   report_deployment_logs = var.report_deployment_logs
   endpoint_access_scheme = local.endpoint_access_scheme
 
-  environment_async_creation  = var.environment_async_creation
-  environment_polling_timeout = var.environment_polling_timeout
-  datalake_async_creation     = var.datalake_async_creation
-  datalake_polling_timeout    = var.datalake_polling_timeout
+  environment_async_creation         = var.environment_async_creation
+  environment_call_failure_threshold = var.environment_call_failure_threshold
+  environment_polling_timeout        = var.environment_polling_timeout
+  datalake_async_creation            = var.datalake_async_creation
+  datalake_call_failure_threshold    = var.datalake_call_failure_threshold
+  datalake_polling_timeout           = var.datalake_polling_timeout
 
   region            = var.region
   vpc_id            = var.aws_vpc_id
@@ -112,10 +114,12 @@ module "cdp_on_azure" {
   report_deployment_logs = var.report_deployment_logs
   endpoint_access_scheme = local.endpoint_access_scheme
 
-  environment_async_creation  = var.environment_async_creation
-  environment_polling_timeout = var.environment_polling_timeout
-  datalake_async_creation     = var.datalake_async_creation
-  datalake_polling_timeout    = var.datalake_polling_timeout
+  environment_async_creation         = var.environment_async_creation
+  environment_call_failure_threshold = var.environment_call_failure_threshold
+  environment_polling_timeout        = var.environment_polling_timeout
+  datalake_async_creation            = var.datalake_async_creation
+  datalake_call_failure_threshold    = var.datalake_call_failure_threshold
+  datalake_polling_timeout           = var.datalake_polling_timeout
 
   azure_accept_image_terms  = var.azure_accept_image_terms
   use_single_resource_group = var.use_single_resource_group
@@ -124,13 +128,13 @@ module "cdp_on_azure" {
   subscription_id = var.azure_subscription_id
   tenant_id       = var.azure_tenant_id
 
-  region                                     = var.region
-  resource_group_name                        = var.azure_resource_group_name
-  vnet_name                                  = var.azure_vnet_name
-  cdp_subnet_names                           = var.azure_cdp_subnet_names
-  cdp_gateway_subnet_names                   = var.azure_cdp_gateway_subnet_names
-  cdp_flexible_server_delegated_subnet_names = var.azure_cdp_flexible_server_delegated_subnet_names
-  public_key_text                            = var.public_key_text
+  region                                             = var.region
+  resource_group_name                                = var.azure_resource_group_name
+  vnet_name                                          = var.azure_vnet_name
+  cdp_subnet_names                                   = var.azure_cdp_subnet_names
+  cdp_gateway_subnet_names                           = var.azure_cdp_gateway_subnet_names
+  environment_flexible_server_delegated_subnet_names = var.azure_environment_flexible_server_delegated_subnet_names
+  public_key_text                                    = var.public_key_text
 
   data_storage_location   = var.data_storage_location
   log_storage_location    = var.log_storage_location
@@ -152,10 +156,12 @@ module "cdp_on_azure" {
   freeipa_recipes       = var.freeipa_recipes
 
   enable_outbound_load_balancer = var.enable_outbound_load_balancer
+  load_balancer_sku             = var.azure_load_balancer_sku
 
   encryption_key_resource_group_name = var.encryption_key_resource_group_name
   encryption_key_url                 = var.encryption_key_url
   encryption_at_host                 = var.encryption_at_host
+  encryption_user_managed_identity   = var.encryption_user_managed_identity
 
   azure_aks_private_dns_zone_id      = var.azure_aks_private_dns_zone_id
   azure_database_private_dns_zone_id = var.azure_database_private_dns_zone_id
@@ -163,9 +169,10 @@ module "cdp_on_azure" {
 
   proxy_config_name = var.proxy_config_name
 
-  datalake_image        = var.datalake_image
-  datalake_java_version = var.datalake_java_version
-  datalake_recipes      = var.datalake_recipes
+  datalake_image                                 = var.datalake_image
+  datalake_java_version                          = var.datalake_java_version
+  datalake_recipes                               = var.datalake_recipes
+  datalake_flexible_server_delegated_subnet_name = var.azure_datalake_flexible_server_delegated_subnet_name
 }
 
 # ------- Call sub-module for GCP Deployment -------
@@ -198,11 +205,14 @@ module "cdp_on_gcp" {
   workload_analytics     = var.workload_analytics
   report_deployment_logs = var.report_deployment_logs
   endpoint_access_scheme = local.endpoint_access_scheme
+  availability_zones     = var.gcp_availability_zones
 
-  environment_async_creation  = var.environment_async_creation
-  environment_polling_timeout = var.environment_polling_timeout
-  datalake_async_creation     = var.datalake_async_creation
-  datalake_polling_timeout    = var.datalake_polling_timeout
+  environment_async_creation         = var.environment_async_creation
+  environment_call_failure_threshold = var.environment_call_failure_threshold
+  environment_polling_timeout        = var.environment_polling_timeout
+  datalake_async_creation            = var.datalake_async_creation
+  datalake_call_failure_threshold    = var.datalake_call_failure_threshold
+  datalake_polling_timeout           = var.datalake_polling_timeout
 
   use_public_ips = local.use_public_ips
 

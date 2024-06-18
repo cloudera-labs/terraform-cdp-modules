@@ -122,6 +122,14 @@ variable "environment_async_creation" {
   default = false
 }
 
+variable "environment_call_failure_threshold" {
+  type = number
+
+  description = "Threshold value that specifies how many times should a single CDP Environment API call failure happen before giving up the polling"
+
+  default = 3
+}
+
 variable "environment_polling_timeout" {
   type = number
 
@@ -223,7 +231,9 @@ variable "datalake_version" {
   description = "The Datalake Runtime version. Valid values are latest or a semantic version, e.g. 7.2.17"
 
   validation {
-    condition     = (var.datalake_version == "latest" ? true : length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0)
+    condition = (var.datalake_version == null ? true :
+      (var.datalake_version == "latest" ? true :
+    length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0))
     error_message = "Valid values for var: datalake_version are 'latest' or a semantic versioning conventions."
   }
 
@@ -282,6 +292,14 @@ variable "datalake_async_creation" {
   description = "Flag to specify if Terraform should wait for CDP datalake resource creation/deletion"
 
   default = false
+}
+
+variable "datalake_call_failure_threshold" {
+  type = number
+
+  description = "Threshold value that specifies how many times should a single CDP Datalake API call failure happen before giving up the polling"
+
+  default = 3
 }
 
 variable "datalake_polling_timeout" {
@@ -354,6 +372,15 @@ variable "encryption_at_host" {
 
   default = null
 }
+
+variable "encryption_user_managed_identity" {
+  type = string
+
+  description = "Managed Identity ID for encryption"
+
+  default = ""
+}
+
 # ------- Cloud Service Provider Settings - General -------
 variable "region" {
   type        = string
@@ -569,7 +596,7 @@ variable "azure_cdp_gateway_subnet_names" {
 
 }
 
-variable "azure_cdp_flexible_server_delegated_subnet_names" {
+variable "azure_environment_flexible_server_delegated_subnet_names" {
   type        = list(any)
   description = "List of Azure Subnet Names delegated for Private Flexible servers. Required for CDP deployment on Azure."
 
@@ -671,6 +698,22 @@ variable "azure_raz_identity_id" {
 
 }
 
+variable "azure_datalake_flexible_server_delegated_subnet_name" {
+  type = string
+
+  description = "The subnet ID for the subnet within which you want to configure your Azure Flexible Server for the CDP datalake"
+
+  default = null
+}
+
+variable "azure_load_balancer_sku" {
+  type = string
+
+  description = "The Azure load balancer SKU type. Possible values are BASIC, STANDARD or None. The current default is BASIC. To disable the load balancer, use type NONE."
+
+  default = null
+}
+
 # ------- Cloud Service Provider Settings - GCP specific -------
 
 variable "gcp_project_id" {
@@ -704,6 +747,14 @@ variable "gcp_cdp_subnet_names" {
 
   default = null
 
+}
+
+variable "gcp_availability_zones" {
+  type = list(string)
+
+  description = "The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added."
+
+  default = null
 }
 
 variable "gcp_firewall_default_id" {
