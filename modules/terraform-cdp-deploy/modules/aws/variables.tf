@@ -181,7 +181,9 @@ variable "datalake_version" {
   description = "The Datalake Runtime version. Valid values are latest or a semantic version, e.g. 7.2.17"
 
   validation {
-    condition     = (var.datalake_version == "latest" ? true : length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0)
+    condition = (var.datalake_version == null ? true :
+      (var.datalake_version == "latest" ? true :
+    length(regexall("\\d+\\.\\d+.\\d+", var.datalake_version)) > 0))
     error_message = "Valid values for var: datalake_version are 'latest' or a semantic versioning conventions."
   }
 
