@@ -252,9 +252,27 @@ variable "backup_storage" {
 variable "xaccount_app_name" {
   type = string
 
-  description = "	Cross account application name within Azure Active Directory"
+  description = "Cross account application name within Azure Active Directory"
 
   default = null
+}
+
+variable "xaccount_role_assignments" {
+  type = list(object({
+    role        = string
+    description = optional(string)
+    })
+  )
+
+  description = "List of Role Assignments for the Cross account Service Principal"
+
+  default = [
+    {
+      "description" : "Assign Contributor Role to Cross Account SP",
+      "role" : "Contributor"
+    }
+  ]
+
 }
 
 # Managed Identities
@@ -303,15 +321,15 @@ variable "raz_managed_identity_name" {
 
 }
 
-# Role Assignments to Manage Identifies
+# Role Assignments to Manage Identities
 variable "idbroker_role_assignments" {
   type = list(object({
     role        = string
-    description = string
+    description = optional(string)
     })
   )
 
-  description = "	List of Role Assignments for the IDBroker Managed Identity"
+  description = "List of Role Assignments for the IDBroker Managed Identity"
 
   default = [
     {
@@ -329,7 +347,7 @@ variable "idbroker_role_assignments" {
 variable "datalake_admin_data_container_role_assignments" {
   type = list(object({
     role        = string
-    description = string
+    description = optional(string)
     })
   )
 
@@ -347,7 +365,7 @@ variable "datalake_admin_data_container_role_assignments" {
 variable "datalake_admin_log_container_role_assignments" {
   type = list(object({
     role        = string
-    description = string
+    description = optional(string)
     })
   )
 
@@ -365,7 +383,7 @@ variable "datalake_admin_log_container_role_assignments" {
 variable "datalake_admin_backup_container_role_assignments" {
   type = list(object({
     role        = string
-    description = string
+    description = optional(string)
     })
   )
 
@@ -383,7 +401,7 @@ variable "datalake_admin_backup_container_role_assignments" {
 variable "log_data_access_role_assignments" {
   type = list(object({
     role        = string
-    description = string
+    description = optional(string)
     })
   )
 
@@ -401,7 +419,7 @@ variable "log_data_access_role_assignments" {
 variable "ranger_audit_data_container_role_assignments" {
   type = list(object({
     role        = string
-    description = string
+    description = optional(string)
     })
   )
 
@@ -419,7 +437,7 @@ variable "ranger_audit_data_container_role_assignments" {
 variable "ranger_audit_log_container_role_assignments" {
   type = list(object({
     role        = string
-    description = string
+    description = optional(string)
     })
   )
 
@@ -437,7 +455,7 @@ variable "ranger_audit_log_container_role_assignments" {
 variable "ranger_audit_backup_container_role_assignments" {
   type = list(object({
     role        = string
-    description = string
+    description = optional(string)
     })
   )
 
@@ -454,7 +472,7 @@ variable "ranger_audit_backup_container_role_assignments" {
 variable "raz_storage_role_assignments" {
   type = list(object({
     role        = string
-    description = string
+    description = optional(string)
     })
   )
 
