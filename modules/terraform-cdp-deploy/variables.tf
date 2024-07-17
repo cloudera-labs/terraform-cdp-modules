@@ -518,6 +518,14 @@ variable "aws_idbroker_instance_profile_arn" {
   default = null
 }
 
+variable "aws_raz_role_arn" {
+  type = string
+
+  description = "ARN for Ranger Authorization Service (RAZ) role. Only applicable for CDP deployment on AWS."
+
+  default = null
+}
+
 # ------- Cloud Service Provider Settings - Azure specific -------
 variable "azure_subscription_id" {
   type = string
@@ -816,4 +824,12 @@ variable "gcp_encryption_key" {
 
   default = null
 
+}
+
+variable "gcp_raz_service_account_email" {
+  type = string
+
+  description = "Email id of the service account for Ranger Authorization Service (RAZ). Only applicable for CDP deployment on GCP."
+
+  default = null
 }

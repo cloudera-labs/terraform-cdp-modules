@@ -399,3 +399,10 @@ variable "datalake_admin_service_account_email" {
   }
 
 }
+
+variable "raz_service_account_email" {
+  type = string
+
+  description = "Email id of the service account for Ranger Authorization Service (RAZ)."
+
+}
