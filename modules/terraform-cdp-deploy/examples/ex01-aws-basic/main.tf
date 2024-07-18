@@ -70,6 +70,7 @@ module "cdp_deploy" {
   aws_xaccount_role_arn       = module.cdp_aws_prereqs.aws_xaccount_role_arn
   aws_datalake_admin_role_arn = module.cdp_aws_prereqs.aws_datalake_admin_role_arn
   aws_ranger_audit_role_arn   = module.cdp_aws_prereqs.aws_ranger_audit_role_arn
+  aws_raz_role_arn            = module.cdp_aws_prereqs.aws_datalake_admin_role_arn
 
   aws_log_instance_profile_arn      = module.cdp_aws_prereqs.aws_log_instance_profile_arn
   aws_idbroker_instance_profile_arn = module.cdp_aws_prereqs.aws_idbroker_instance_profile_arn

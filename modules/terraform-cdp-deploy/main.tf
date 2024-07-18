@@ -64,6 +64,7 @@ module "cdp_on_aws" {
   xaccount_role_arn       = var.aws_xaccount_role_arn
   datalake_admin_role_arn = var.aws_datalake_admin_role_arn
   ranger_audit_role_arn   = var.aws_ranger_audit_role_arn
+  raz_role_arn            = var.aws_raz_role_arn
 
   idbroker_instance_profile_arn = var.aws_idbroker_instance_profile_arn
   log_instance_profile_arn      = var.aws_log_instance_profile_arn
@@ -236,6 +237,7 @@ module "cdp_on_gcp" {
   ranger_audit_service_account_email   = var.gcp_ranger_audit_service_account_email
   datalake_admin_service_account_email = var.gcp_datalake_admin_service_account_email
   log_service_account_email            = var.gcp_log_service_account_email
+  raz_service_account_email            = var.gcp_raz_service_account_email
 
   datalake_custom_instance_groups = var.datalake_custom_instance_groups
   datalake_image                  = var.datalake_image
