@@ -65,6 +65,7 @@ module "cdp_deploy" {
   gcp_datalake_admin_service_account_email = module.cdp_gcp_prereqs.gcp_datalake_admin_service_account_email
   gcp_ranger_audit_service_account_email   = module.cdp_gcp_prereqs.gcp_ranger_audit_service_account_email
   gcp_log_service_account_email            = module.cdp_gcp_prereqs.gcp_log_service_account_email
+  gcp_raz_service_account_email            = module.cdp_gcp_prereqs.gcp_datalake_admin_service_account_email
 
   # Tags to apply resources (omitted by default)
   env_tags = var.env_tags

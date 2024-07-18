@@ -109,7 +109,7 @@ resource "cdp_environments_id_broker_mappings" "cdp_idbroker" {
 
   ranger_audit_role                   = var.ranger_audit_role_arn
   data_access_role                    = var.datalake_admin_role_arn
-  ranger_cloud_access_authorizer_role = var.enable_raz ? var.datalake_admin_role_arn : null
+  ranger_cloud_access_authorizer_role = var.enable_raz ? var.raz_role_arn : null
 
   mappings = [{
     accessor_crn = cdp_iam_group.cdp_admin_group.crn

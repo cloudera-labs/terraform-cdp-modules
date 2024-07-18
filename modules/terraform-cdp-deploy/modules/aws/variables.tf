@@ -414,3 +414,10 @@ variable "idbroker_instance_profile_arn" {
   }
 
 }
+
+variable "raz_role_arn" {
+  type = string
+
+  description = "ARN for Ranger Authorization Service (RAZ) role."
+
+}
