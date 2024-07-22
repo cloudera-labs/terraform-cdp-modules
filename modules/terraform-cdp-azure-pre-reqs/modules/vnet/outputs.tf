@@ -27,6 +27,11 @@ output "vnet_cdp_subnet_ids" {
   value       = values(azurerm_subnet.cdp_subnets)[*].id
 }
 
+output "vnet_cdp_vnet_address_space" {
+  description = "The list of address spaces used by the virtual network"
+  value       = azurerm_virtual_network.cdp_vnet.address_space
+}
+
 output "vnet_cdp_subnet_names" {
   description = "Names of the subnets for CDP Resources"
   value       = values(azurerm_subnet.cdp_subnets)[*].name

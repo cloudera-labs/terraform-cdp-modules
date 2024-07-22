@@ -36,6 +36,16 @@ output "azure_vnet_name" {
   description = "Azure Virtual Network Name"
 }
 
+output "azure_vnet_id" {
+  description = "Azure Virtual Network ID"
+  value       = local.cdp_vnet_id
+}
+
+output "azure_vnet_adress_space" {
+  description = "Azure Virtual Network Address Space"
+  value       = local.cdp_vnet_address_space
+}
+
 output "azure_cdp_subnet_names" {
   value = local.cdp_subnet_names
 
