@@ -36,6 +36,12 @@ locals {
   cdp_vnet_name = (var.create_vnet ?
   module.azure_cdp_vnet[0].vnet_name : var.cdp_vnet_name)
 
+  cdp_vnet_id = (var.create_vnet ?
+  module.azure_cdp_vnet[0].vnet_id : null)
+
+  cdp_vnet_address_space = (var.create_vnet ?
+  module.azure_cdp_vnet[0].vnet_cdp_vnet_address_space : null)
+
   cdp_subnet_names = (var.create_vnet ?
   module.azure_cdp_vnet[0].vnet_cdp_subnet_names : var.cdp_subnet_names)
 

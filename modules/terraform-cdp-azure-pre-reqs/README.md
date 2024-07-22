@@ -46,6 +46,8 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [azurerm_network_security_group.cdp_knox_sg](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/network_security_group) | resource |
 | [azurerm_network_security_rule.cdp_default_sg_ingress_extra_access](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/network_security_rule) | resource |
 | [azurerm_network_security_rule.cdp_knox_sg_ingress_extra_access](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/network_security_rule) | resource |
+| [azurerm_private_dns_zone.flexible_server_dns_zone](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/private_dns_zone) | resource |
+| [azurerm_private_dns_zone_virtual_network_link.flexible_server_vnet_link](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_resource_group.cdp_rmgp](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/resource_group) | resource |
 | [azurerm_role_assignment.cdp_datalake_admin_backup_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.cdp_datalake_admin_data_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/role_assignment) | resource |
@@ -71,6 +73,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [azuread_client_config.current](https://registry.terraform.io/providers/hashicorp/azuread/2.46.0/docs/data-sources/client_config) | data source |
 | [azurerm_resource_group.cdp_rmgp](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/data-sources/resource_group) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/data-sources/subscription) | data source |
+| [azurerm_virtual_network.cdp_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/data-sources/virtual_network) | data source |
 
 ## Inputs
 
@@ -81,6 +84,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_agent_source_tag"></a> [agent\_source\_tag](#input\_agent\_source\_tag) | Tag to identify deployment source | `map(any)` | <pre>{<br>  "agent_source": "tf-cdp-module"<br>}</pre> | no |
 | <a name="input_azure_region"></a> [azure\_region](#input\_azure\_region) | Region which Cloud resources will be created | `string` | `null` | no |
 | <a name="input_backup_storage"></a> [backup\_storage](#input\_backup\_storage) | Optional Backup location for CDP environment. If not provided follow the data\_storage variable | <pre>object({<br>    backup_storage_bucket = string<br>    backup_storage_object = string<br>  })</pre> | `null` | no |
+| <a name="input_cdp_delegated_subnet_names"></a> [cdp\_delegated\_subnet\_names](#input\_cdp\_delegated\_subnet\_names) | List of subnet names delegated for Flexible Servers. Required if create\_vnet is false. | `list(any)` | `null` | no |
 | <a name="input_cdp_gw_subnet_names"></a> [cdp\_gw\_subnet\_names](#input\_cdp\_gw\_subnet\_names) | List of subnet names for CDP Gateway. Required if create\_vnet is false. | `list(any)` | `null` | no |
 | <a name="input_cdp_resourcegroup_name"></a> [cdp\_resourcegroup\_name](#input\_cdp\_resourcegroup\_name) | Pre-existing Resource Group for CDP environment. Required if create\_vnet is false. | `string` | `null` | no |
 | <a name="input_cdp_subnet_names"></a> [cdp\_subnet\_names](#input\_cdp\_subnet\_names) | List of subnet names for CDP Resources. Required if create\_vnet is false. | `list(any)` | `null` | no |
@@ -88,6 +92,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_cdp_subnets_private_endpoint_network_policies_enabled"></a> [cdp\_subnets\_private\_endpoint\_network\_policies\_enabled](#input\_cdp\_subnets\_private\_endpoint\_network\_policies\_enabled) | Enable or Disable network policies for the private endpoint on the CDP subnets | `bool` | `true` | no |
 | <a name="input_cdp_vnet_name"></a> [cdp\_vnet\_name](#input\_cdp\_vnet\_name) | Pre-existing VNet Name for CDP environment. Required if create\_vnet is false. | `string` | `null` | no |
 | <a name="input_create_azure_cml_nfs"></a> [create\_azure\_cml\_nfs](#input\_create\_azure\_cml\_nfs) | Whether to create NFS for CML | `bool` | `false` | no |
+| <a name="input_create_private_flexible_server_resources"></a> [create\_private\_flexible\_server\_resources](#input\_create\_private\_flexible\_server\_resources) | Flag to specify if resources to support a Private Postgres flexible server should be created. | `bool` | `null` | no |
 | <a name="input_create_vm_mounting_nfs"></a> [create\_vm\_mounting\_nfs](#input\_create\_vm\_mounting\_nfs) | Whether to create a VM which mounts this NFS | `bool` | `true` | no |
 | <a name="input_create_vnet"></a> [create\_vnet](#input\_create\_vnet) | Flag to specify if the VNet should be created | `bool` | `true` | no |
 | <a name="input_data_storage"></a> [data\_storage](#input\_data\_storage) | Data storage locations for CDP environment | <pre>object({<br>    data_storage_bucket = string<br>    data_storage_object = string<br>  })</pre> | `null` | no |
@@ -95,6 +100,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_datalake_admin_data_container_role_assignments"></a> [datalake\_admin\_data\_container\_role\_assignments](#input\_datalake\_admin\_data\_container\_role\_assignments) | List of Role Assignments for the Datalake Admin Managed Identity assigned to the Data Storage Container. | <pre>list(object({<br>    role        = string<br>    description = string<br>    })<br>  )</pre> | <pre>[<br>  {<br>    "description": "Assign Storage Blob Data Owner Role to Data Lake Admin Identity at Data Container Level",<br>    "role": "Storage Blob Data Owner"<br>  }<br>]</pre> | no |
 | <a name="input_datalake_admin_log_container_role_assignments"></a> [datalake\_admin\_log\_container\_role\_assignments](#input\_datalake\_admin\_log\_container\_role\_assignments) | List of Role Assignments for the Datalake Admin Managed Identity assigned to the Logs Storage Container. | <pre>list(object({<br>    role        = string<br>    description = string<br>    })<br>  )</pre> | <pre>[<br>  {<br>    "description": "Assign Storage Blob Data Owner Role to Data Lake Admin Identity at Logs Container Level",<br>    "role": "Storage Blob Data Owner"<br>  }<br>]</pre> | no |
 | <a name="input_datalake_admin_managed_identity_name"></a> [datalake\_admin\_managed\_identity\_name](#input\_datalake\_admin\_managed\_identity\_name) | Datalake Admin Managed Identity name | `string` | `null` | no |
+| <a name="input_delegated_subnet_range"></a> [delegated\_subnet\_range](#input\_delegated\_subnet\_range) | Size of each Postgres Flexible Server delegated subnet. Required if create\_vpc is true. | `number` | `26` | no |
 | <a name="input_enable_raz"></a> [enable\_raz](#input\_enable\_raz) | Flag to enable Ranger Authorization Service (RAZ) | `bool` | `true` | no |
 | <a name="input_env_tags"></a> [env\_tags](#input\_env\_tags) | Tags applied to provisioned resources | `map(any)` | `null` | no |
 | <a name="input_gateway_subnet_range"></a> [gateway\_subnet\_range](#input\_gateway\_subnet\_range) | Size of each gateway subnet. Required if create\_vpc is true. | `number` | `24` | no |
@@ -119,7 +125,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_resourcegroup_name"></a> [resourcegroup\_name](#input\_resourcegroup\_name) | Resource Group name | `string` | `null` | no |
 | <a name="input_security_group_default_name"></a> [security\_group\_default\_name](#input\_security\_group\_default\_name) | Default Security Group for CDP environment | `string` | `null` | no |
 | <a name="input_security_group_knox_name"></a> [security\_group\_knox\_name](#input\_security\_group\_knox\_name) | Knox Security Group for CDP environment | `string` | `null` | no |
-| <a name="input_subnet_count"></a> [subnet\_count](#input\_subnet\_count) | Number of Subnets Required | `string` | `"3"` | no |
+| <a name="input_subnet_count"></a> [subnet\_count](#input\_subnet\_count) | Number of CDP Subnets Required | `string` | `"3"` | no |
 | <a name="input_vnet_cidr"></a> [vnet\_cidr](#input\_vnet\_cidr) | VNet CIDR Block. Required if create\_vpc is true. | `string` | `"10.10.0.0/16"` | no |
 | <a name="input_vnet_name"></a> [vnet\_name](#input\_vnet\_name) | VNet name | `string` | `null` | no |
 | <a name="input_xaccount_app_name"></a> [xaccount\_app\_name](#input\_xaccount\_app\_name) | Cross account application name within Azure Active Directory | `string` | `null` | no |
@@ -131,11 +137,13 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="output_azure_backup_storage_account"></a> [azure\_backup\_storage\_account](#output\_azure\_backup\_storage\_account) | Azure backup storage account name |
 | <a name="output_azure_backup_storage_container"></a> [azure\_backup\_storage\_container](#output\_azure\_backup\_storage\_container) | Azure backup storage container name |
 | <a name="output_azure_backup_storage_location"></a> [azure\_backup\_storage\_location](#output\_azure\_backup\_storage\_location) | Azure backup storage location |
+| <a name="output_azure_cdp_flexible_server_delegated_subnet_names"></a> [azure\_cdp\_flexible\_server\_delegated\_subnet\_names](#output\_azure\_cdp\_flexible\_server\_delegated\_subnet\_names) | Azure Virtual Subnet Names delegated for Private Flexible servers. |
 | <a name="output_azure_cdp_gateway_subnet_names"></a> [azure\_cdp\_gateway\_subnet\_names](#output\_azure\_cdp\_gateway\_subnet\_names) | Azure Virtual Subnet Names for CDP Endpoint Access Gateway |
 | <a name="output_azure_cdp_subnet_names"></a> [azure\_cdp\_subnet\_names](#output\_azure\_cdp\_subnet\_names) | Azure Virtual Subnet Names for CDP Resources |
 | <a name="output_azure_data_storage_account"></a> [azure\_data\_storage\_account](#output\_azure\_data\_storage\_account) | Azure data storage account name |
 | <a name="output_azure_data_storage_container"></a> [azure\_data\_storage\_container](#output\_azure\_data\_storage\_container) | Azure data storage container name |
 | <a name="output_azure_data_storage_location"></a> [azure\_data\_storage\_location](#output\_azure\_data\_storage\_location) | Azure data storage location |
+| <a name="output_azure_database_private_dns_zone_id"></a> [azure\_database\_private\_dns\_zone\_id](#output\_azure\_database\_private\_dns\_zone\_id) | The ID of an Azure private DNS zone used for the database. |
 | <a name="output_azure_datalakeadmin_identity_id"></a> [azure\_datalakeadmin\_identity\_id](#output\_azure\_datalakeadmin\_identity\_id) | Datalake Admin Managed Identity ID |
 | <a name="output_azure_idbroker_identity_id"></a> [azure\_idbroker\_identity\_id](#output\_azure\_idbroker\_identity\_id) | IDBroker Managed Identity ID |
 | <a name="output_azure_log_identity_id"></a> [azure\_log\_identity\_id](#output\_azure\_log\_identity\_id) | Log Data Access Managed Identity ID |
@@ -149,6 +157,8 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="output_azure_security_group_knox_uri"></a> [azure\_security\_group\_knox\_uri](#output\_azure\_security\_group\_knox\_uri) | Azure Knox Security Group URI |
 | <a name="output_azure_subscription_id"></a> [azure\_subscription\_id](#output\_azure\_subscription\_id) | Subscription ID where the Azure pre-reqs are created |
 | <a name="output_azure_tenant_id"></a> [azure\_tenant\_id](#output\_azure\_tenant\_id) | Tenant ID where the Azure pre-reqs are created |
+| <a name="output_azure_vnet_adress_space"></a> [azure\_vnet\_adress\_space](#output\_azure\_vnet\_adress\_space) | Azure Virtual Network Address Space |
+| <a name="output_azure_vnet_id"></a> [azure\_vnet\_id](#output\_azure\_vnet\_id) | Azure Virtual Network ID |
 | <a name="output_azure_vnet_name"></a> [azure\_vnet\_name](#output\_azure\_vnet\_name) | Azure Virtual Network Name |
 | <a name="output_azure_xaccount_app_pword"></a> [azure\_xaccount\_app\_pword](#output\_azure\_xaccount\_app\_pword) | Password for the Azure AD Cross Account Application |
 | <a name="output_azure_xaccount_app_uuid"></a> [azure\_xaccount\_app\_uuid](#output\_azure\_xaccount\_app\_uuid) | UUID for the Azure AD Cross Account Application |
