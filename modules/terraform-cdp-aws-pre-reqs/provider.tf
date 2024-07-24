@@ -20,15 +20,15 @@ terraform {
     }
     http = {
       source  = "hashicorp/http"
-      version = "3.2.1"
+      version = "~> 3.2.1"
     }
     random = {
       source  = "hashicorp/random"
-      version = "3.4.3"
+      version = "~> 3.4.3"
     }
     time = {
       source  = "hashicorp/time"
-      version = "0.9.1"
+      version = "~> 0.9.1"
     }
   }
 
