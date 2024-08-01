@@ -69,9 +69,9 @@ module "cdp_azure_cdw_aks" {
 
   azure_resource_group_name = module.cdp_azure_prereqs.azure_resource_group_name
   azure_region              = var.azure_region
-  
+
   azure_aks_credential_managed_identity_name = "${var.env_prefix}-aks-credential-identity"
-  azure_data_storage_account = module.cdp_azure_prereqs.azure_data_storage_account
+  azure_data_storage_account                 = module.cdp_azure_prereqs.azure_data_storage_account
 
   tags = var.env_tags
 

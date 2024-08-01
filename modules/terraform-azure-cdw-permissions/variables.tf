@@ -35,16 +35,16 @@ variable "azure_resource_group_name" {
 }
 
 variable "azure_aks_credential_managed_identity_name" {
-    type = string
+  type = string
 
-    description = "Name of the Managed Identity for the AKS Credential"
+  description = "Name of the Managed Identity for the AKS Credential"
 
 }
 
 variable "azure_data_storage_account" {
-    type = string
+  type = string
 
-    description = "Name of the Azure Storage Account used for CDP Data"
+  description = "Name of the Azure Storage Account used for CDP Data"
 
 }
 
