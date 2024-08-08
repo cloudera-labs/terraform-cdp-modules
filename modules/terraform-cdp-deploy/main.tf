@@ -80,10 +80,9 @@ module "cdp_on_aws" {
   proxy_config_name   = var.proxy_config_name
   s3_guard_table_name = var.s3_guard_table_name
 
-  datalake_custom_instance_groups = var.datalake_custom_instance_groups
-  datalake_image                  = var.datalake_image
-  datalake_java_version           = var.datalake_java_version
-  datalake_recipes                = var.datalake_recipes
+  datalake_image        = var.datalake_image
+  datalake_java_version = var.datalake_java_version
+  datalake_recipes      = var.datalake_recipes
 }
 
 # ------- Call sub-module for Azure Deployment -------
@@ -239,9 +238,8 @@ module "cdp_on_gcp" {
   log_service_account_email            = var.gcp_log_service_account_email
   raz_service_account_email            = var.gcp_raz_service_account_email
 
-  datalake_custom_instance_groups = var.datalake_custom_instance_groups
-  datalake_image                  = var.datalake_image
-  datalake_java_version           = var.datalake_java_version
-  datalake_recipes                = var.datalake_recipes
+  datalake_image        = var.datalake_image
+  datalake_java_version = var.datalake_java_version
+  datalake_recipes      = var.datalake_recipes
 
 }
