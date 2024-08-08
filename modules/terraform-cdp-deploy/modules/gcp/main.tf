@@ -136,10 +136,9 @@ resource "cdp_datalake_gcp_datalake" "cdp_datalake" {
   enable_ranger_raz = var.enable_raz
   scale             = var.datalake_scale
 
-  custom_instance_groups = var.datalake_custom_instance_groups
-  image                  = var.datalake_image
-  java_version           = var.datalake_java_version
-  recipes                = var.datalake_recipes
+  image        = var.datalake_image
+  java_version = var.datalake_java_version
+  recipes      = var.datalake_recipes
 
   polling_options = {
     async                  = var.datalake_async_creation

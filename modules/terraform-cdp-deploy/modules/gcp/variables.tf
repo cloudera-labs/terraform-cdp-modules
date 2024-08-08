@@ -161,18 +161,6 @@ variable "datalake_version" {
   default = "latest"
 }
 
-variable "datalake_custom_instance_groups" {
-  type = list(
-    object({
-      name          = string,
-      instance_type = optional(string)
-    })
-  )
-
-  description = "A set of custom instance groups for the datalake."
-
-}
-
 variable "datalake_java_version" {
   type = number
 
