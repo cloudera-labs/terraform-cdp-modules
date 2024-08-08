@@ -78,6 +78,7 @@ resource "cdp_environments_azure_environment" "cdp_env" {
     image_id                = var.freeipa_image_id
     instance_type           = var.freeipa_instance_type
     recipes                 = var.freeipa_recipes
+    os                      = var.freeipa_os
   }
 
   proxy_config_name      = var.proxy_config_name
