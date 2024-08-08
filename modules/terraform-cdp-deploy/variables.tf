@@ -310,19 +310,6 @@ variable "datalake_polling_timeout" {
   default = 90
 }
 
-variable "datalake_custom_instance_groups" {
-  type = list(
-    object({
-      name          = string,
-      instance_type = optional(string)
-    })
-  )
-
-  description = "A set of custom instance groups for the datalake. Only applicable for CDP deployment on AWS and GCP."
-
-  default = null
-}
-
 # ------- CDP Environment Deployment - AWS specific -------
 variable "encryption_key_arn" {
   type = string
