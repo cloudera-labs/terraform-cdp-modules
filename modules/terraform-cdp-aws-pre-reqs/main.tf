@@ -443,7 +443,7 @@ module "aws_cdp_permissions" {
   backup_storage_bucket = "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}"
 
   storage_location_base = "${local.data_storage.data_storage_bucket}${local.storage_suffix}/${replace(local.data_storage.data_storage_object, "/", "")}"
-  log_location_base     = "${local.log_storage.log_storage_bucket}${local.storage_suffix}"
+  log_location_base     = "${local.log_storage.log_storage_bucket}${local.storage_suffix}/${replace(local.log_storage.log_storage_object, "/", "")}"
   backup_location_base  = "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}/${replace(local.backup_storage.backup_storage_object, "/", "")}"
 
   datalake_backup_policy_name  = local.datalake_backup_policy_name
