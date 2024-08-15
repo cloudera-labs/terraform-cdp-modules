@@ -25,17 +25,17 @@ locals {
   data_bucket_access_policy_doc_processed = replace(
     replace(
     var.data_bucket_access_policy_doc, "$${ARN_PARTITION}", var.arn_partition),
-  "$${DATALAKE_BUCKET}", "${var.data_storage_bucket}")
+  "$${DATALAKE_BUCKET}", var.data_storage_bucket)
 
   log_bucket_access_policy_doc_processed = replace(
     replace(
     var.log_bucket_access_policy_doc, "$${ARN_PARTITION}", var.arn_partition),
-  "$${DATALAKE_BUCKET}", "${var.log_storage_bucket}")
+  "$${DATALAKE_BUCKET}", var.log_storage_bucket)
 
   backup_bucket_access_policy_doc_processed = replace(
     replace(
     var.backup_bucket_access_policy_doc, "$${ARN_PARTITION}", var.arn_partition),
-  "$${DATALAKE_BUCKET}", "${var.backup_storage_bucket}")
+  "$${DATALAKE_BUCKET}", var.backup_storage_bucket)
 
   # ...then assign either input or processed policy doc to var used in resource
   data_bucket_access_policy_doc   = var.process_policy_placeholders ? local.data_bucket_access_policy_doc_processed : var.data_bucket_access_policy_doc
