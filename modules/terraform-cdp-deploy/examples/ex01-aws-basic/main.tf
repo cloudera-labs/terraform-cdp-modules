@@ -58,8 +58,8 @@ module "cdp_aws_prereqs" {
   # Policy documents from CDP TF Provider cred pre-reqs
   idbroker_policy_doc = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Idbroker_Assumer"])
 
-  data_bucket_access_policy_doc = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Bucket_Access"])
-  log_bucket_access_policy_doc  = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Bucket_Access"])
+  data_bucket_access_policy_doc   = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Bucket_Access"])
+  log_bucket_access_policy_doc    = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Bucket_Access"])
   backup_bucket_access_policy_doc = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Bucket_Access"])
 
   datalake_admin_s3_policy_doc = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Datalake_Admin"])
@@ -68,7 +68,6 @@ module "cdp_aws_prereqs" {
 
   log_data_access_policy_doc = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Log_Policy"])
   ranger_audit_s3_policy_doc = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Ranger_Audit"])
-  ranger_raz_policy_doc      = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Ranger_Raz"])
 
   # Inputs for BYO-VPC
   create_vpc             = var.create_vpc
@@ -127,11 +126,10 @@ module "cdp_aws_prereqs" {
 # Use the CDP Terraform Provider to find the xaccount account and external ids
 data "cdp_environments_aws_credential_prerequisites" "cdp_prereqs" {}
 
-
 # Policies
-output "Ranger_Raz" {
-  value = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Ranger_Raz"])
-}
+# output "Ranger_Raz" {
+#   value = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Ranger_Raz"])
+# }
 
 # output "Idbroker_Assumer" {
 #   value = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Idbroker_Assumer"])

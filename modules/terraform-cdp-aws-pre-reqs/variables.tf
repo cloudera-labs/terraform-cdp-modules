@@ -59,14 +59,6 @@ variable "deployment_template" {
   }
 }
 
-variable "enable_raz" {
-  type = bool
-
-  description = "Flag to enable Ranger Authorization Service (RAZ)"
-
-  default = true
-}
-
 # ------- Network Resources -------
 variable "create_vpc" {
   type = bool
@@ -563,4 +555,3 @@ variable "ranger_audit_role_name" {
 
   default = null
 }
-

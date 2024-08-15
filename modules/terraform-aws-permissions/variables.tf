@@ -21,27 +21,18 @@ variable "tags" {
 }
 
 variable "process_policy_placeholders" {
-  type = bool
+  type        = bool
   description = "Flag to enable replacement of the standard placeholders in the AWS CDP Policy documents"
-  
+
   default = true
 }
 
 variable "arn_partition" {
-  type = string
+  type        = string
   description = "The string used to subsitute ARN_PARTITION placeholder in policy documents."
 
   default = "aws"
-  
-}
 
-# ------- CDP Environment Deployment -------
-variable "enable_raz" {
-  type = bool
-
-  description = "Flag to enable Ranger Authorization Service (RAZ)"
-
-  default = true
 }
 
 # ------- Policies -------
@@ -54,7 +45,7 @@ variable "idbroker_policy_name" {
 
 variable "idbroker_policy_doc" {
   type        = string
-  description = "Contents of IDBroker Assumer Policy Document."  
+  description = "Contents of IDBroker Assumer Policy Document."
 }
 
 # CDP Data Access Policies - Log
@@ -157,17 +148,6 @@ variable "backup_bucket_access_policy_doc" {
 
 }
 
-# Ranger Raz
-variable "ranger_raz_policy_name" {
-  type        = string
-  description = "Ranger Raz Policy Name"
-}
-
-variable "ranger_raz_policy_doc" {
-  type        = string
-  description = "Contents of Ranger Raz Policy"
-}
-
 # ------- Roles -------
 # IDBroker service role
 variable "idbroker_role_name" {
@@ -197,31 +177,23 @@ variable "ranger_audit_role_name" {
 
 }
 
-# CDP Ranger Raz role
-variable "ranger_raz_role_name" {
-  type        = string
-  description = "Ranger Raz role Name. Required is Raz is to be enabled."
-
-  default = null
-}
-
 # ------- Buckets and Storage Locations -------
 variable "data_storage_bucket" {
   type = string
 
-  description = "Name of the Data storage bucket"  
+  description = "Name of the Data storage bucket"
 }
 
 variable "log_storage_bucket" {
   type = string
 
-  description = "Name of the Log storage bucket"  
+  description = "Name of the Log storage bucket"
 }
 
 variable "backup_storage_bucket" {
   type = string
 
-  description = "Name of the Backup storage bucket"  
+  description = "Name of the Backup storage bucket"
 }
 
 variable "storage_location_base" {

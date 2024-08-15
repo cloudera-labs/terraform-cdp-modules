@@ -19,27 +19,27 @@ locals {
 
   # ------- Policies -------
   # Process placeholders in policy documents
-  
+
   # Bucket Access Policy
   # ...process placeholders in the policy doc
   data_bucket_access_policy_doc_processed = replace(
     replace(
     var.data_bucket_access_policy_doc, "$${ARN_PARTITION}", var.arn_partition),
   "$${DATALAKE_BUCKET}", "${var.data_storage_bucket}")
-  
+
   log_bucket_access_policy_doc_processed = replace(
     replace(
     var.log_bucket_access_policy_doc, "$${ARN_PARTITION}", var.arn_partition),
   "$${DATALAKE_BUCKET}", "${var.log_storage_bucket}")
-  
+
   backup_bucket_access_policy_doc_processed = replace(
     replace(
     var.backup_bucket_access_policy_doc, "$${ARN_PARTITION}", var.arn_partition),
   "$${DATALAKE_BUCKET}", "${var.backup_storage_bucket}")
-  
+
   # ...then assign either input or processed policy doc to var used in resource
-  data_bucket_access_policy_doc = var.process_policy_placeholders ? local.data_bucket_access_policy_doc_processed : var.data_bucket_access_policy_doc
-  log_bucket_access_policy_doc = var.process_policy_placeholders ? local.log_bucket_access_policy_doc_processed : var.log_bucket_access_policy_doc
+  data_bucket_access_policy_doc   = var.process_policy_placeholders ? local.data_bucket_access_policy_doc_processed : var.data_bucket_access_policy_doc
+  log_bucket_access_policy_doc    = var.process_policy_placeholders ? local.log_bucket_access_policy_doc_processed : var.log_bucket_access_policy_doc
   backup_bucket_access_policy_doc = var.process_policy_placeholders ? local.backup_bucket_access_policy_doc_processed : var.backup_bucket_access_policy_doc
 
   # Datalake Admin
@@ -64,9 +64,9 @@ locals {
   # ...process placeholders in the policy doc
   datalake_restore_policy_doc_processed = replace(
     replace(
-    replace(
-    var.datalake_restore_policy_doc, "$${ARN_PARTITION}", var.arn_partition),
-  "$${BACKUP_LOCATION_BASE}", var.backup_location_base),
+      replace(
+      var.datalake_restore_policy_doc, "$${ARN_PARTITION}", var.arn_partition),
+    "$${BACKUP_LOCATION_BASE}", var.backup_location_base),
   "$${BACKUP_BUCKET}", var.backup_storage_bucket)
   # ...then assign either input or processed policy doc to var used in resource
   datalake_restore_policy_doc = var.process_policy_placeholders ? local.datalake_restore_policy_doc_processed : var.datalake_restore_policy_doc
@@ -92,5 +92,6 @@ locals {
   "$${DATALAKE_BUCKET}", var.data_storage_bucket)
   # ...then assign either input or processed policy doc to var used in resource
   ranger_audit_s3_policy_doc = var.process_policy_placeholders ? local.ranger_audit_s3_policy_doc_processed : var.ranger_audit_s3_policy_doc
+
 
 }

@@ -418,25 +418,25 @@ module "aws_cdp_permissions" {
   source = "../terraform-aws-permissions"
 
   tags = local.env_tags
-  
+
   idbroker_policy_name = local.idbroker_policy_name
   idbroker_policy_doc  = var.idbroker_policy_doc
 
   log_data_access_policy_name = local.log_data_access_policy_name
-  log_data_access_policy_doc = var.log_data_access_policy_doc
+  log_data_access_policy_doc  = var.log_data_access_policy_doc
 
   ranger_audit_s3_policy_name = local.ranger_audit_s3_policy_name
-  ranger_audit_s3_policy_doc = var.ranger_audit_s3_policy_doc
+  ranger_audit_s3_policy_doc  = var.ranger_audit_s3_policy_doc
 
   datalake_admin_s3_policy_name = local.datalake_admin_s3_policy_name
   datalake_admin_s3_policy_doc  = var.datalake_admin_s3_policy_doc
 
-  data_bucket_access_policy_name = local.data_bucket_access_policy_name
-  data_bucket_access_policy_doc = var.data_bucket_access_policy_doc
-  log_bucket_access_policy_name = local.log_bucket_access_policy_name
-  log_bucket_access_policy_doc = var.log_bucket_access_policy_doc
+  data_bucket_access_policy_name   = local.data_bucket_access_policy_name
+  data_bucket_access_policy_doc    = var.data_bucket_access_policy_doc
+  log_bucket_access_policy_name    = local.log_bucket_access_policy_name
+  log_bucket_access_policy_doc     = var.log_bucket_access_policy_doc
   backup_bucket_access_policy_name = local.backup_bucket_access_policy_name
-  backup_bucket_access_policy_doc = var.backup_bucket_access_policy_doc
+  backup_bucket_access_policy_doc  = var.backup_bucket_access_policy_doc
 
   data_storage_bucket   = "${local.data_storage.data_storage_bucket}${local.storage_suffix}"
   log_storage_bucket    = "${local.log_storage.log_storage_bucket}${local.storage_suffix}"
@@ -444,16 +444,17 @@ module "aws_cdp_permissions" {
 
   storage_location_base = "${local.data_storage.data_storage_bucket}${local.storage_suffix}/${replace(local.data_storage.data_storage_object, "/", "")}"
   log_location_base     = "${local.log_storage.log_storage_bucket}${local.storage_suffix}"
-  backup_location_base  = "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}/${replace(local.backup_storage.backup_storage_object, "/", "")}"  
+  backup_location_base  = "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}/${replace(local.backup_storage.backup_storage_object, "/", "")}"
 
-  datalake_backup_policy_name = local.datalake_backup_policy_name
-  datalake_backup_policy_doc  = var.datalake_backup_policy_doc
+  datalake_backup_policy_name  = local.datalake_backup_policy_name
+  datalake_backup_policy_doc   = var.datalake_backup_policy_doc
   datalake_restore_policy_name = local.datalake_restore_policy_name
   datalake_restore_policy_doc  = var.datalake_restore_policy_doc
 
-  idbroker_role_name = local.idbroker_role_name
-  log_role_name      = local.log_role_name
+  idbroker_role_name       = local.idbroker_role_name
+  log_role_name            = local.log_role_name
   datalake_admin_role_name = local.datalake_admin_role_name
+  ranger_audit_role_name   = local.ranger_audit_role_name
 
-  depends_on = [ aws_s3_bucket.cdp_storage_locations ]
+  depends_on = [aws_s3_bucket.cdp_storage_locations]
 }

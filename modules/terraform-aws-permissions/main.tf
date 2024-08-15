@@ -1,6 +1,6 @@
 # ------- CDP IDBroker Assume Role policy -------
 resource "aws_iam_policy" "cdp_idbroker_policy" {
-  name        = var.idbroker_policy_name
+  name = var.idbroker_policy_name
   # description = "CDP IDBroker Assume Role policy for ${var.env_prefix}"
 
   tags = merge(var.tags, { Name = var.idbroker_policy_name })
@@ -10,7 +10,7 @@ resource "aws_iam_policy" "cdp_idbroker_policy" {
 
 # ------- CDP Data Access Policies - Log -------
 resource "aws_iam_policy" "cdp_log_data_access_policy" {
-  name        = var.log_data_access_policy_name
+  name = var.log_data_access_policy_name
   # description = "CDP Log Location Access policy for ${var.env_prefix}"
 
   tags = merge(var.tags, { Name = var.log_data_access_policy_name })
@@ -20,7 +20,7 @@ resource "aws_iam_policy" "cdp_log_data_access_policy" {
 }
 # ------- CDP Data Access Policies - ranger_audit_s3 -------
 resource "aws_iam_policy" "cdp_ranger_audit_s3_data_access_policy" {
-  name        = var.ranger_audit_s3_policy_name
+  name = var.ranger_audit_s3_policy_name
   # description = "CDP Ranger Audit S3 Access policy for ${var.env_prefix}"
 
   tags = merge(var.tags, { Name = var.ranger_audit_s3_policy_name })
@@ -30,7 +30,7 @@ resource "aws_iam_policy" "cdp_ranger_audit_s3_data_access_policy" {
 
 # ------- CDP Data Access Policies - datalake_admin_s3 -------
 resource "aws_iam_policy" "cdp_datalake_admin_s3_data_access_policy" {
-  name        = var.datalake_admin_s3_policy_name
+  name = var.datalake_admin_s3_policy_name
   # description = "CDP Datalake Admin S3 Access policy for ${var.env_prefix}"
 
   tags = merge(var.tags, { Name = var.datalake_admin_s3_policy_name })
@@ -42,7 +42,7 @@ resource "aws_iam_policy" "cdp_datalake_admin_s3_data_access_policy" {
 # ------- CDP Data Access Policies - bucket_access -------
 # Policy for Data bucket
 resource "aws_iam_policy" "cdp_data_bucket_data_access_policy" {
-  name        = var.data_bucket_access_policy_name
+  name = var.data_bucket_access_policy_name
   # description = "CDP Data Bucket S3 Access policy for ${var.env_prefix}"
 
   tags = merge(var.tags, { Name = var.data_bucket_access_policy_name })
@@ -58,7 +58,7 @@ resource "aws_iam_policy" "cdp_log_bucket_data_access_policy" {
   #   1 : 0
   # )
 
-  name        = var.log_bucket_access_policy_name
+  name = var.log_bucket_access_policy_name
   # description = "CDP Log Bucket S3 Access policy for ${var.env_prefix}"
 
   tags = merge(var.tags, { Name = var.log_bucket_access_policy_name })
@@ -75,7 +75,7 @@ resource "aws_iam_policy" "cdp_backup_bucket_data_access_policy" {
   #   1 : 0
   # )
 
-  name        = var.backup_bucket_access_policy_name
+  name = var.backup_bucket_access_policy_name
   # description = "CDP Backup Bucket S3 Access policy for ${var.env_prefix}"
 
   tags = merge(var.tags, { Name = var.backup_bucket_access_policy_name })
@@ -85,7 +85,7 @@ resource "aws_iam_policy" "cdp_backup_bucket_data_access_policy" {
 
 # ------- CDP Data Access Policies - datalake_backup_policy -------
 resource "aws_iam_policy" "cdp_datalake_backup_policy" {
-  name        = var.datalake_backup_policy_name
+  name = var.datalake_backup_policy_name
   # description = "CDP Datalake Backup policy for ${var.env_prefix}"
 
   tags = merge(var.tags, { Name = var.datalake_backup_policy_name })
@@ -95,7 +95,7 @@ resource "aws_iam_policy" "cdp_datalake_backup_policy" {
 
 # ------- CDP Data Access Policies - datalake_restore_policy -------
 resource "aws_iam_policy" "cdp_datalake_restore_policy" {
-  name        = var.datalake_restore_policy_name
+  name = var.datalake_restore_policy_name
   # description = "CDP Datalake Restore policy for ${var.env_prefix}"
 
   tags = merge(var.tags, { Name = var.datalake_restore_policy_name })
@@ -121,7 +121,7 @@ data "aws_iam_policy_document" "cdp_idbroker_role_policy_doc" {
 
 # Create the IAM role that uses the above assume_role_policy document
 resource "aws_iam_role" "cdp_idbroker_role" {
-  name        = var.idbroker_role_name
+  name = var.idbroker_role_name
   # description = "CDP IDBroker role for ${var.env_prefix}"
 
   assume_role_policy = data.aws_iam_policy_document.cdp_idbroker_role_policy_doc.json
@@ -166,7 +166,7 @@ data "aws_iam_policy_document" "cdp_log_role_policy_doc" {
 
 # Create the IAM role that uses the above assume_role_policy document
 resource "aws_iam_role" "cdp_log_role" {
-  name        = var.log_role_name
+  name = var.log_role_name
   # description = "CDP Log role for ${var.env_prefix}"
 
   assume_role_policy = data.aws_iam_policy_document.cdp_log_role_policy_doc.json
@@ -219,7 +219,7 @@ data "aws_iam_policy_document" "cdp_datalake_admin_role_policy_doc" {
 
 # Create the IAM role that uses the above assume_role_policy document
 resource "aws_iam_role" "cdp_datalake_admin_role" {
-  name        = var.datalake_admin_role_name
+  name = var.datalake_admin_role_name
   # description = "CDP Datalake Admin role for ${var.env_prefix}"
 
   assume_role_policy = data.aws_iam_policy_document.cdp_datalake_admin_role_policy_doc.json
@@ -256,7 +256,7 @@ resource "aws_iam_role_policy_attachment" "cdp_datalake_admin_role_attach3" {
   #   1 : 0
   # )
 
-  role       = aws_iam_role.cdp_datalake_admin_role.name
+  role = aws_iam_role.cdp_datalake_admin_role.name
   # policy_arn = aws_iam_policy.cdp_log_bucket_data_access_policy[0].arn
   policy_arn = aws_iam_policy.cdp_log_bucket_data_access_policy.arn
 }
@@ -271,7 +271,7 @@ resource "aws_iam_role_policy_attachment" "cdp_datalake_admin_role_attach4" {
   #   1 : 0
   # )
 
-  role       = aws_iam_role.cdp_datalake_admin_role.name
+  role = aws_iam_role.cdp_datalake_admin_role.name
   # policy_arn = aws_iam_policy.cdp_backup_bucket_data_access_policy[0].arn
   policy_arn = aws_iam_policy.cdp_backup_bucket_data_access_policy.arn
 }
@@ -309,7 +309,7 @@ data "aws_iam_policy_document" "cdp_ranger_audit_role_policy_doc" {
 
 # Create the IAM role that uses the above assume_role_policy document
 resource "aws_iam_role" "cdp_ranger_audit_role" {
-  name        = var.ranger_audit_role_name
+  name = var.ranger_audit_role_name
   # description = "CDP Ranger Audit role for ${var.env_prefix}"
 
   assume_role_policy = data.aws_iam_policy_document.cdp_ranger_audit_role_policy_doc.json
@@ -346,7 +346,7 @@ resource "aws_iam_role_policy_attachment" "cdp_ranger_audit_role_attach3" {
   #   1 : 0
   # )
 
-  role       = aws_iam_role.cdp_ranger_audit_role.name
+  role = aws_iam_role.cdp_ranger_audit_role.name
   # policy_arn = aws_iam_policy.cdp_log_bucket_data_access_policy[0].arn
   policy_arn = aws_iam_policy.cdp_log_bucket_data_access_policy.arn
 }
@@ -361,7 +361,7 @@ resource "aws_iam_role_policy_attachment" "cdp_ranger_audit_role_attach4" {
   #   1 : 0
   # )
 
-  role       = aws_iam_role.cdp_ranger_audit_role.name
+  role = aws_iam_role.cdp_ranger_audit_role.name
   # policy_arn = aws_iam_policy.cdp_backup_bucket_data_access_policy[0].arn
   policy_arn = aws_iam_policy.cdp_backup_bucket_data_access_policy.arn
 }
