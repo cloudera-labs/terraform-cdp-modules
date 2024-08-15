@@ -61,8 +61,8 @@ module "ex01_minimal_inputs" {
   data_bucket_access_policy_name   = "${var.env_prefix}-data-bucket-access-policy"
   log_bucket_access_policy_name    = "${var.env_prefix}-log-bucket-access-policy"
   backup_bucket_access_policy_name = "${var.env_prefix}-backup-bucket-access-policy"
-  datalake_backup_policy_name  = "${var.env_prefix}-datalake-backup-policy"
-  datalake_restore_policy_name = "${var.env_prefix}-datalake-restore-policy"
+  datalake_backup_policy_name      = "${var.env_prefix}-datalake-backup-policy"
+  datalake_restore_policy_name     = "${var.env_prefix}-datalake-restore-policy"
 
   idbroker_role_name       = "${var.env_prefix}-idbroker-role"
   log_role_name            = "${var.env_prefix}-logs-role"
