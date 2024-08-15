@@ -20,8 +20,6 @@ locals {
     ))
   )
 
-  caller_account_id = data.aws_caller_identity.current.account_id
-
   # ------- Network Resources -------
   vpc_name = coalesce(var.vpc_name, "${var.env_prefix}-net")
 
@@ -80,45 +78,11 @@ locals {
   # CDP Data Access Policies - Log
   log_data_access_policy_name = coalesce(var.log_data_access_policy_name, "${var.env_prefix}-logs-policy")
 
-  # log_data_access_policy_doc
-  # ...first process placeholders in the downloaded policy doc
-  log_data_access_policy_doc_processed = replace(
-    replace(
-      replace(
-      data.http.log_data_access_policy_doc.response_body, "$${ARN_PARTITION}", "aws"),
-    "$${LOGS_BUCKET}", "${local.log_storage.log_storage_bucket}${local.storage_suffix}"),
-  "$${LOGS_LOCATION_BASE}", "${local.log_storage.log_storage_bucket}${local.storage_suffix}")
-
-  # ...then assign either input or downloaded policy doc to var used in resource
-  log_data_access_policy_doc = coalesce(var.log_data_access_policy_doc, local.log_data_access_policy_doc_processed)
-
   # CDP Data Access Policies - ranger_audit_s3
   ranger_audit_s3_policy_name = coalesce(var.ranger_audit_s3_policy_name, "${var.env_prefix}-audit-policy")
 
-  # ranger_audit_s3_policy_doc
-  # ...first process placeholders in the downloaded policy doc
-  ranger_audit_s3_policy_doc_processed = replace(
-    replace(
-      replace(
-      data.http.ranger_audit_s3_policy_doc.response_body, "$${ARN_PARTITION}", "aws"),
-    "$${STORAGE_LOCATION_BASE}", "${local.data_storage.data_storage_bucket}${local.storage_suffix}/${replace(local.data_storage.data_storage_object, "/", "")}"),
-  "$${DATALAKE_BUCKET}", "${local.data_storage.data_storage_bucket}${local.storage_suffix}")
-
-  # ...then assign either input or downloaded policy doc to var used in resource
-  ranger_audit_s3_policy_doc = coalesce(var.ranger_audit_s3_policy_doc, local.ranger_audit_s3_policy_doc_processed)
-
   # CDP Data Access Policies - datalake_admin_s3 
   datalake_admin_s3_policy_name = coalesce(var.datalake_admin_s3_policy_name, "${var.env_prefix}-dladmin-policy")
-
-  # datalake_admin_s3_policy_doc
-  # ...first process placeholders in the downloaded policy doc
-  datalake_admin_s3_policy_doc_processed = replace(
-    replace(
-    data.http.datalake_admin_s3_policy_doc.response_body, "$${ARN_PARTITION}", "aws"),
-  "$${STORAGE_LOCATION_BASE}", "${local.data_storage.data_storage_bucket}${local.storage_suffix}/${replace(local.data_storage.data_storage_object, "/", "")}")
-
-  # ...then assign either input or downloaded policy doc to var used in resource
-  datalake_admin_s3_policy_doc = coalesce(var.datalake_admin_s3_policy_doc, local.datalake_admin_s3_policy_doc_processed)
 
   # CDP Data Access Policies - bucket_access
   # Note - separate policies for data, log and backup buckets
@@ -126,50 +90,11 @@ locals {
   log_bucket_access_policy_name    = coalesce(var.log_bucket_access_policy_name, "${var.env_prefix}-log-bucket-access-policy")
   backup_bucket_access_policy_name = coalesce(var.backup_bucket_access_policy_name, "${var.env_prefix}-backup-bucket-access-policy")
 
-  # ...first process placeholders in the downloaded policy doc
-  data_bucket_access_policy_doc_processed = replace(
-    replace(
-    data.http.bucket_access_policy_doc.response_body, "$${ARN_PARTITION}", "aws"),
-  "$${DATALAKE_BUCKET}", "${local.data_storage.data_storage_bucket}${local.storage_suffix}")
-  log_bucket_access_policy_doc_processed = replace(
-    replace(
-    data.http.bucket_access_policy_doc.response_body, "$${ARN_PARTITION}", "aws"),
-  "$${DATALAKE_BUCKET}", "${local.log_storage.log_storage_bucket}${local.storage_suffix}")
-  backup_bucket_access_policy_doc_processed = replace(
-    replace(
-    data.http.bucket_access_policy_doc.response_body, "$${ARN_PARTITION}", "aws"),
-  "$${DATALAKE_BUCKET}", "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}")
-
-  # ...then assign either input or downloaded policy doc to var used in resource
-  data_bucket_access_policy_doc   = coalesce(var.data_bucket_access_policy_doc, local.data_bucket_access_policy_doc_processed)
-  log_bucket_access_policy_doc    = coalesce(var.log_bucket_access_policy_doc, local.log_bucket_access_policy_doc_processed)
-  backup_bucket_access_policy_doc = coalesce(var.backup_bucket_access_policy_doc, local.backup_bucket_access_policy_doc_processed)
-
   # CDP Datalake backup Policy
   datalake_backup_policy_name = coalesce(var.datalake_backup_policy_name, "${var.env_prefix}-datalake-backup-policy")
 
-  # datalake_backup_policy_doc
-  # ...first process placeholders in the downloaded policy doc
-  datalake_backup_policy_doc_processed = replace(
-    replace(
-    data.http.datalake_backup_policy_doc.response_body, "$${ARN_PARTITION}", "aws"),
-  "$${BACKUP_LOCATION_BASE}", "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}/${replace(local.backup_storage.backup_storage_object, "/", "")}")
-
-  # ...then assign either input or downloaded policy doc to var used in resource
-  datalake_backup_policy_doc = coalesce(var.datalake_backup_policy_doc, local.datalake_backup_policy_doc_processed)
-
   # CDP Datalake restore Policy
   datalake_restore_policy_name = coalesce(var.datalake_restore_policy_name, "${var.env_prefix}-datalake-restore-policy")
-
-  # datalake_restore_policy_doc
-  # ...first process placeholders in the downloaded policy doc
-  datalake_restore_policy_doc_processed = replace(
-    replace(
-    data.http.datalake_restore_policy_doc.response_body, "$${ARN_PARTITION}", "aws"),
-  "$${BACKUP_LOCATION_BASE}", "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}/${replace(local.backup_storage.backup_storage_object, "/", "")}")
-
-  # ...then assign either input or downloaded policy doc to var used in resource
-  datalake_restore_policy_doc = coalesce(var.datalake_restore_policy_doc, local.datalake_restore_policy_doc_processed)
 
   # ------- Roles -------
   xaccount_role_name = coalesce(var.xaccount_role_name, "${var.env_prefix}-xaccount-role")

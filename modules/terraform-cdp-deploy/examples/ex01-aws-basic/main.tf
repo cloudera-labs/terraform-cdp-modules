@@ -55,6 +55,21 @@ module "cdp_aws_prereqs" {
   xaccount_account_id  = data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.account_id
   xaccount_external_id = data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.external_id
 
+  # Policy documents from CDP TF Provider cred pre-reqs
+  idbroker_policy_doc = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Idbroker_Assumer"])
+
+  data_bucket_access_policy_doc = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Bucket_Access"])
+  log_bucket_access_policy_doc  = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Bucket_Access"])
+  backup_bucket_access_policy_doc = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Bucket_Access"])
+
+  datalake_admin_s3_policy_doc = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Datalake_Admin"])
+  datalake_backup_policy_doc   = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Datalake_Backup"])
+  datalake_restore_policy_doc  = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Datalake_Restore"])
+
+  log_data_access_policy_doc = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Log_Policy"])
+  ranger_audit_s3_policy_doc = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Ranger_Audit"])
+  ranger_raz_policy_doc      = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Ranger_Raz"])
+
   # Inputs for BYO-VPC
   create_vpc             = var.create_vpc
   cdp_vpc_id             = var.cdp_vpc_id
@@ -69,45 +84,62 @@ module "cdp_aws_prereqs" {
 
 }
 
-module "cdp_deploy" {
-  source = "../.."
+# module "cdp_deploy" {
+#   source = "../.."
 
-  env_prefix          = var.env_prefix
-  infra_type          = "aws"
-  region              = var.aws_region
-  keypair_name        = var.aws_key_pair
-  deployment_template = var.deployment_template
+#   env_prefix          = var.env_prefix
+#   infra_type          = "aws"
+#   region              = var.aws_region
+#   keypair_name        = var.aws_key_pair
+#   deployment_template = var.deployment_template
 
-  environment_async_creation = var.environment_async_creation
-  datalake_async_creation    = var.datalake_async_creation
+#   environment_async_creation = var.environment_async_creation
+#   datalake_async_creation    = var.datalake_async_creation
 
-  # From pre-reqs module output
-  aws_vpc_id             = module.cdp_aws_prereqs.aws_vpc_id
-  aws_public_subnet_ids  = module.cdp_aws_prereqs.aws_public_subnet_ids
-  aws_private_subnet_ids = module.cdp_aws_prereqs.aws_private_subnet_ids
+#   # From pre-reqs module output
+#   aws_vpc_id             = module.cdp_aws_prereqs.aws_vpc_id
+#   aws_public_subnet_ids  = module.cdp_aws_prereqs.aws_public_subnet_ids
+#   aws_private_subnet_ids = module.cdp_aws_prereqs.aws_private_subnet_ids
 
-  aws_security_group_default_id = module.cdp_aws_prereqs.aws_security_group_default_id
-  aws_security_group_knox_id    = module.cdp_aws_prereqs.aws_security_group_knox_id
+#   aws_security_group_default_id = module.cdp_aws_prereqs.aws_security_group_default_id
+#   aws_security_group_knox_id    = module.cdp_aws_prereqs.aws_security_group_knox_id
 
-  data_storage_location   = module.cdp_aws_prereqs.aws_data_storage_location
-  log_storage_location    = module.cdp_aws_prereqs.aws_log_storage_location
-  backup_storage_location = module.cdp_aws_prereqs.aws_backup_storage_location
+#   data_storage_location   = module.cdp_aws_prereqs.aws_data_storage_location
+#   log_storage_location    = module.cdp_aws_prereqs.aws_log_storage_location
+#   backup_storage_location = module.cdp_aws_prereqs.aws_backup_storage_location
 
   aws_xaccount_role_arn       = module.cdp_aws_prereqs.aws_xaccount_role_arn
   aws_datalake_admin_role_arn = module.cdp_aws_prereqs.aws_datalake_admin_role_arn
   aws_ranger_audit_role_arn   = module.cdp_aws_prereqs.aws_ranger_audit_role_arn
   aws_raz_role_arn            = module.cdp_aws_prereqs.aws_datalake_admin_role_arn
 
-  aws_log_instance_profile_arn      = module.cdp_aws_prereqs.aws_log_instance_profile_arn
-  aws_idbroker_instance_profile_arn = module.cdp_aws_prereqs.aws_idbroker_instance_profile_arn
+#   aws_log_instance_profile_arn      = module.cdp_aws_prereqs.aws_log_instance_profile_arn
+#   aws_idbroker_instance_profile_arn = module.cdp_aws_prereqs.aws_idbroker_instance_profile_arn
 
-  # Tags to apply resources (omitted by default)
-  env_tags = var.env_tags
+#   # Tags to apply resources (omitted by default)
+#   env_tags = var.env_tags
 
-  depends_on = [
-    module.cdp_aws_prereqs
-  ]
-}
+#   depends_on = [
+#     module.cdp_aws_prereqs
+#   ]
+# }
 
 # Use the CDP Terraform Provider to find the xaccount account and external ids
 data "cdp_environments_aws_credential_prerequisites" "cdp_prereqs" {}
+
+
+# Policies
+output "Ranger_Raz" {
+  value = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Ranger_Raz"])
+}
+
+# output "Idbroker_Assumer" {
+#   value = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Idbroker_Assumer"])
+# }
+# output "Environment" {
+#   value = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies["Environment"])
+# }
+
+# output "policies" {
+#   value = base64decode(data.cdp_environments_aws_credential_prerequisites.cdp_prereqs.policies)
+# }

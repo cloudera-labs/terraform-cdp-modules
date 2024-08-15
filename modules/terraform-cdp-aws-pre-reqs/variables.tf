@@ -59,13 +59,13 @@ variable "deployment_template" {
   }
 }
 
-# variable "enable_raz" {
-#   type = bool
+variable "enable_raz" {
+  type = bool
 
-#   description = "Flag to enable Ranger Authorization Service (RAZ)"
+  description = "Flag to enable Ranger Authorization Service (RAZ)"
 
-#   default = true
-# }
+  default = true
+}
 
 # ------- Network Resources -------
 variable "create_vpc" {
@@ -391,6 +391,11 @@ variable "create_extra_xaccount_policy" {
 }
 
 # CDP IDBroker Assume Role policy
+variable "idbroker_policy_doc" {
+  type        = string
+  description = "Contents of IDBroker Assumer Policy Document."
+}
+
 variable "idbroker_policy_name" {
   type        = string
   description = "IDBroker Policy name"
@@ -410,7 +415,6 @@ variable "log_data_access_policy_doc" {
   type        = string
   description = "Contents of Log Data Access Policy"
 
-  default = null
 }
 
 # CDP Data Access Policies - ranger_audit_s3
@@ -425,7 +429,6 @@ variable "ranger_audit_s3_policy_doc" {
   type        = string
   description = "Contents of Ranger S3 Audit Data Access Policy"
 
-  default = null
 }
 
 # CDP Data Access Policies - datalake_admin_s3 
@@ -440,21 +443,18 @@ variable "datalake_admin_s3_policy_doc" {
   type        = string
   description = "Contents of Datalake Admin S3 Data Access Policy"
 
-  default = null
 }
 
 variable "datalake_backup_policy_doc" {
   type        = string
   description = "Contents of Datalake Backup Data Access Policy"
 
-  default = null
 }
 
 variable "datalake_restore_policy_doc" {
   type        = string
   description = "Contents of Datalake Restore Data Access Policy"
 
-  default = null
 }
 
 # CDP Data Access Policies - bucket_access
@@ -498,19 +498,17 @@ variable "data_bucket_access_policy_doc" {
   type        = string
   description = "Data Bucket Access Data Access Policy"
 
-  default = null
 }
+
 variable "log_bucket_access_policy_doc" {
   type        = string
   description = "Contents of Log Bucket Access Data Access Policy"
 
-  default = null
 }
 variable "backup_bucket_access_policy_doc" {
   type        = string
   description = "Contents of Backup Bucket Access Data Access Policy"
 
-  default = null
 }
 
 # ------- Roles -------
@@ -565,3 +563,4 @@ variable "ranger_audit_role_name" {
 
   default = null
 }
+
