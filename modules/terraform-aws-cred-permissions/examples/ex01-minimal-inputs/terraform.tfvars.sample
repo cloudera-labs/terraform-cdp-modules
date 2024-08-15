@@ -12,14 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-output "aws_xaccount_role_arn" {
-  value = local.create_xaccount_resources ? aws_iam_role.cdp_xaccount_role[0].arn : data.aws_iam_role.existing_xaccount_role[0].arn
+# ------- Global settings -------
+env_prefix = "<ENTER_VALUE>" # Required name prefix for cloud and CDP resources, e.g. cldr1
 
-  description = "Cross Account role ARN"
-}
+# ------- Cloud Settings -------
+aws_region = "<ENTER_VALUE>" # Change this to specify Cloud Provider region, e.g. eu-west-1
 
-output "aws_xaccount_role_name" {
-  value = local.create_xaccount_resources ? aws_iam_role.cdp_xaccount_role[0].name : data.aws_iam_role.existing_xaccount_role[0].name
-
-  description = "Cross Account role name"
+# ------- Resource Tagging -------
+# **NOTE: An example of how to specify tags is below; uncomment & edit if required
+tags = {
+  owner   = "<ENTER_VALUE>"
+  project = "<ENTER_VALUE>"
+  enddate = "<ENTER_VALUE>"
 }

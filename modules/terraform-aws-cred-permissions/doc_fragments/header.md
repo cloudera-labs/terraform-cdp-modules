@@ -1,15 +1,15 @@
-# Terraform Module for CDP Prerequisites on AWS
+# Terraform Module for CDP Credential Prerequisites on AWS
 
-This module contains resource files and example variable definition files for creation of the pre-requisite AWS cloud resources required for Cloudera Data Platform (CDP) Public Cloud.
+This module contains resource files and example variable definition files for creation of the Cloudera Data Platform (CDP) Public Cloud Cross Account Credential pre-requisite on AWS.
+
+Support for using a pre-existing Cross Account Role is provided via the `existing_xaccount_role_name` input variable. When this is set no policy or role resources are created. Instead a lookup of the details of the existing role takes place and the role ARN is returned.
 
 ## Usage
 
-The [examples](./examples) directory has example AWS Cloud Service Provider deployments for different scenarios:
+The [examples](./examples) directory has the following examples for Cross Account Credentials on AWS:
 
-* `ex01-minimal-inputs` uses the minimum set of inputs for the module.
+* `ex01-minimal-inputs` uses the minimum set of inputs for the module where the Cross Account policy and roles are to be created.
 
-* `ex02-existing-vpc` creates a VPC and subnets outside of the module and passes this as an additional input. CDP deployment then uses these network assets.
-
-* `ex03-create-keypair` creates the AWS EC2 Keypair in the module caller and passes this as an additional input.
+* `ex02-existing-role` passes a pre-existing Cross Account role to the module. In this case no resources are created.
 
 In each directory an example `terraform.tfvars.sample` values file is included to show input variable values.

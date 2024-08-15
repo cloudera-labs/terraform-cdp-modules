@@ -12,14 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-output "aws_xaccount_role_arn" {
-  value = local.create_xaccount_resources ? aws_iam_role.cdp_xaccount_role[0].arn : data.aws_iam_role.existing_xaccount_role[0].arn
-
-  description = "Cross Account role ARN"
+# ------- Global settings -------
+variable "aws_region" {
+  type        = string
+  description = "Region which Cloud resources will be created"
 }
 
-output "aws_xaccount_role_name" {
-  value = local.create_xaccount_resources ? aws_iam_role.cdp_xaccount_role[0].name : data.aws_iam_role.existing_xaccount_role[0].name
+variable "env_prefix" {
+  type        = string
+  description = "Shorthand name for the environment. Used in resource descriptions"
+}
 
-  description = "Cross Account role name"
+variable "tags" {
+  type        = map(any)
+  description = "Tags applied to provised resources"
+
+  default = null
 }

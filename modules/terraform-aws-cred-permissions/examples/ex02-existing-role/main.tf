@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2024 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,16 +13,38 @@
 # limitations under the License.
 
 terraform {
+  required_version = ">= 1.5.7"
   required_providers {
+    cdp = {
+      source  = "cloudera/cdp"
+      version = "~> 0.6.1"
+    }
     aws = {
       source  = "hashicorp/aws"
       version = "~>5.30"
     }
-    time = {
-      source  = "hashicorp/time"
-      version = "0.9.1"
-    }    
   }
+}
 
-  required_version = ">= 1.3.0"
+provider "aws" {
+  region = var.aws_region
+}
+
+module "ex01_existing_role" {
+  source = "../.."
+
+  existing_xaccount_role_name = var.existing_xaccount_role_name
+
+}
+
+# ------- Outputs -------
+output "xaccount_role_arn" {
+  value = module.ex01_existing_role.aws_xaccount_role_arn
+
+  description = "The ARN of the created Cross Account Role"
+}
+output "xaccount_role_name" {
+  value = module.ex01_existing_role.aws_xaccount_role_name
+
+  description = "The name of the created Cross Account Role"
 }
