@@ -27,9 +27,3 @@ data "aws_vpc_endpoint_service" "interface_endpoints" {
   service      = each.key
   service_type = "Interface"
 }
-
-# HTTP get request to download policy documents
-# ..Cross Account Policy
-data "http" "xaccount_account_policy_doc" {
-  url = "https://raw.githubusercontent.com/hortonworks/cloudbreak/CB-2.73.0/cloud-aws-common/src/main/resources/definitions/aws-cb-policy.json"
-}

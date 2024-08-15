@@ -146,13 +146,13 @@ output "aws_ranger_audit_role_arn" {
 }
 
 output "aws_xaccount_role_arn" {
-  value = aws_iam_role.cdp_xaccount_role.arn
+  value = module.aws_cdp_cred_permissions.aws_xaccount_role_arn
 
   description = "Cross Account role ARN"
 }
 
 output "aws_xaccount_role_name" {
-  value = aws_iam_role.cdp_xaccount_role.name
+  value = module.aws_cdp_cred_permissions.aws_xaccount_role_name
 
   description = "Cross Account role name"
 }

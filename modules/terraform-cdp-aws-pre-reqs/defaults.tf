@@ -70,8 +70,6 @@ locals {
   # Cross Account Policy (name and document)
   xaccount_policy_name = coalesce(var.xaccount_policy_name, "${var.env_prefix}-xaccount-policy")
 
-  xaccount_account_policy_doc = coalesce(var.xaccount_account_policy_doc, data.http.xaccount_account_policy_doc.response_body)
-
   # CDP IDBroker Assume Role policy
   idbroker_policy_name = coalesce(var.idbroker_policy_name, "${var.env_prefix}-idbroker-policy")
 
