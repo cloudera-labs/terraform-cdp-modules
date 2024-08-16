@@ -68,33 +68,3 @@ resource "time_sleep" "iam_propagation" {
   depends_on      = [aws_iam_role.cdp_xaccount_role]
   create_duration = "45s"
 }
-
-
-# # ------- Add missing iam:Tag* permissions to Cross-Account Policy -------
-# # First create the extra policy document
-# data "aws_iam_policy_document" "cdp_extra_xaccount_policy_doc" {
-#   count = var.create_extra_xaccount_policy ? 1 : 0
-
-#   version = "2012-10-17"
-
-#   statement {
-#     sid = "AllowIAMTagRole"
-
-#     actions = ["iam:TagRole"]
-#     effect  = "Allow"
-
-#     resources = [
-#       "*",
-#     ]
-#   }
-# }
-
-# # Then create the inline policy using the document
-# resource "aws_iam_role_policy" "cdp_extra_xaccount_policy" {
-#   count = var.create_extra_xaccount_policy ? 1 : 0
-
-#   name = "${var.env_prefix}-cross-account-extra"
-#   role = aws_iam_role.cdp_xaccount_role.id
-
-#   policy = data.aws_iam_policy_document.cdp_extra_xaccount_policy_doc[0].json
-# }
