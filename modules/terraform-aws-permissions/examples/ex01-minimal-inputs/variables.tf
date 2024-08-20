@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2024 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,18 +23,28 @@ variable "env_prefix" {
   description = "Shorthand name for the environment. Used in resource descriptions"
 }
 
-# ------- CDP Environment Deployment -------
-variable "deployment_template" {
-  type = string
+variable "tags" {
+  type        = map(any)
+  description = "Tags applied to provised resources"
 
-  description = "Deployment Pattern to use for Cloud resources and CDP"
+  default = null
 }
 
-# ------- Network Resources -------
-variable "ingress_extra_cidrs_and_ports" {
-  type = object({
-    cidrs = list(string)
-    ports = list(number)
-  })
-  description = "List of extra CIDR blocks and ports to include in Security Group Ingress rules"
+# ------- AWS Storage settings for CDP -------
+variable "data_storage_bucket" {
+  type = string
+
+  description = "Name of the Data storage bucket"
+}
+
+variable "log_storage_bucket" {
+  type = string
+
+  description = "Name of the Log storage bucket"
+}
+
+variable "backup_storage_bucket" {
+  type = string
+
+  description = "Name of the Backup storage bucket"
 }

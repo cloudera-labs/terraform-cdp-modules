@@ -40,14 +40,6 @@ variable "env_prefix" {
 }
 
 # ------- CDP Environment Deployment -------
-# variable "cdp_control_plane_region" {
-#   type        = string
-#   description = "CDP Control Plane Region"
-
-#   # Region is us-west-1 unless explicitly specified
-#   default = "us-west-1"
-# }
-
 variable "deployment_template" {
   type = string
 
@@ -58,14 +50,6 @@ variable "deployment_template" {
     error_message = "Valid values for var: deployment_template are (public, semi-private, private)."
   }
 }
-
-# variable "enable_raz" {
-#   type = bool
-
-#   description = "Flag to enable Ranger Authorization Service (RAZ)"
-
-#   default = true
-# }
 
 # ------- Network Resources -------
 variable "create_vpc" {
@@ -380,17 +364,14 @@ variable "xaccount_account_policy_doc" {
   type        = string
   description = "Contents of cross acount policy document"
 
-  default = null
-}
-
-variable "create_extra_xaccount_policy" {
-  type        = bool
-  description = "Create extra Cross-Account Policy for missing iam:Tag* permissions required for Data Services."
-
-  default = true
 }
 
 # CDP IDBroker Assume Role policy
+variable "idbroker_policy_doc" {
+  type        = string
+  description = "Contents of IDBroker Assumer Policy Document."
+}
+
 variable "idbroker_policy_name" {
   type        = string
   description = "IDBroker Policy name"
@@ -410,7 +391,6 @@ variable "log_data_access_policy_doc" {
   type        = string
   description = "Contents of Log Data Access Policy"
 
-  default = null
 }
 
 # CDP Data Access Policies - ranger_audit_s3
@@ -425,7 +405,6 @@ variable "ranger_audit_s3_policy_doc" {
   type        = string
   description = "Contents of Ranger S3 Audit Data Access Policy"
 
-  default = null
 }
 
 # CDP Data Access Policies - datalake_admin_s3 
@@ -440,21 +419,18 @@ variable "datalake_admin_s3_policy_doc" {
   type        = string
   description = "Contents of Datalake Admin S3 Data Access Policy"
 
-  default = null
 }
 
 variable "datalake_backup_policy_doc" {
   type        = string
   description = "Contents of Datalake Backup Data Access Policy"
 
-  default = null
 }
 
 variable "datalake_restore_policy_doc" {
   type        = string
   description = "Contents of Datalake Restore Data Access Policy"
 
-  default = null
 }
 
 # CDP Data Access Policies - bucket_access
@@ -498,19 +474,17 @@ variable "data_bucket_access_policy_doc" {
   type        = string
   description = "Data Bucket Access Data Access Policy"
 
-  default = null
 }
+
 variable "log_bucket_access_policy_doc" {
   type        = string
   description = "Contents of Log Bucket Access Data Access Policy"
 
-  default = null
 }
 variable "backup_bucket_access_policy_doc" {
   type        = string
   description = "Contents of Backup Bucket Access Data Access Policy"
 
-  default = null
 }
 
 # ------- Roles -------
@@ -562,6 +536,14 @@ variable "datalake_admin_role_name" {
 variable "ranger_audit_role_name" {
   type        = string
   description = "Ranger Audit role Name"
+
+  default = null
+}
+
+# ------- Support for pre-existing roles -------
+variable "existing_xaccount_role_name" {
+  type        = string
+  description = "Name of existing CDP Cross Account Role. If set then no Cross Account policy or role resources are created."
 
   default = null
 }

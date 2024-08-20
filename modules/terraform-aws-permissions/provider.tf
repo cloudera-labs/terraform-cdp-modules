@@ -16,15 +16,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 5.30"
-    }
-    http = {
-      source  = "hashicorp/http"
-      version = "~> 3.2.1"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = "~> 3.4.3"
+      version = "~>5.30"
     }
   }
 

@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2024 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,23 +18,7 @@ variable "aws_region" {
   description = "Region which Cloud resources will be created"
 }
 
-variable "env_prefix" {
+variable "existing_xaccount_role_name" {
   type        = string
-  description = "Shorthand name for the environment. Used in resource descriptions"
-}
-
-# ------- CDP Environment Deployment -------
-variable "deployment_template" {
-  type = string
-
-  description = "Deployment Pattern to use for Cloud resources and CDP"
-}
-
-# ------- Network Resources -------
-variable "ingress_extra_cidrs_and_ports" {
-  type = object({
-    cidrs = list(string)
-    ports = list(number)
-  })
-  description = "List of extra CIDR blocks and ports to include in Security Group Ingress rules"
+  description = "Name of pre-existing Cross Account Role"
 }
