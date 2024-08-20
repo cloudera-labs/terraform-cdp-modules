@@ -131,8 +131,8 @@ resource "aws_eip" "cdp_nat_gateway_eip" {
 
   for_each = { for idx, subnet in local.public_subnets : idx => subnet }
 
-  vpc  = true
-  tags = { Name = format("%s-%s-%02d", "${var.env_prefix}-ngw", "eip", index(local.public_subnets, each.value) + 1) }
+  domain = "vpc"
+  tags   = { Name = format("%s-%s-%02d", "${var.env_prefix}-ngw", "eip", index(local.public_subnets, each.value) + 1) }
 }
 
 #  Network Gateways (NAT)

@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2024 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,21 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = ">= 5.30"
-    }
-    http = {
-      source  = "hashicorp/http"
-      version = "~> 3.2.1"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = "~> 3.4.3"
-    }
-  }
+output "aws_xaccount_role_arn" {
+  value = local.create_xaccount_resources ? aws_iam_role.cdp_xaccount_role[0].arn : data.aws_iam_role.existing_xaccount_role[0].arn
 
-  required_version = ">= 1.3.0"
+  description = "Cross Account role ARN"
+}
+
+output "aws_xaccount_role_name" {
+  value = local.create_xaccount_resources ? aws_iam_role.cdp_xaccount_role[0].name : data.aws_iam_role.existing_xaccount_role[0].name
+
+  description = "Cross Account role name"
 }

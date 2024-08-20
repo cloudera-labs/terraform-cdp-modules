@@ -134,61 +134,61 @@ output "aws_security_group_knox_id" {
 }
 
 output "aws_datalake_admin_role_arn" {
-  value = aws_iam_role.cdp_datalake_admin_role.arn
+  value = module.aws_cdp_permissions.aws_datalake_admin_role_arn
 
   description = "Datalake Admin role ARN"
 }
 
 output "aws_ranger_audit_role_arn" {
-  value = aws_iam_role.cdp_ranger_audit_role.arn
+  value = module.aws_cdp_permissions.aws_ranger_audit_role_arn
 
   description = "Ranger Audit role ARN"
 }
 
 output "aws_xaccount_role_arn" {
-  value = aws_iam_role.cdp_xaccount_role.arn
+  value = module.aws_cdp_cred_permissions.aws_xaccount_role_arn
 
   description = "Cross Account role ARN"
 }
 
 output "aws_xaccount_role_name" {
-  value = aws_iam_role.cdp_xaccount_role.name
+  value = module.aws_cdp_cred_permissions.aws_xaccount_role_name
 
   description = "Cross Account role name"
 }
 
 output "aws_log_role_name" {
-  value = aws_iam_role.cdp_log_role.name
+  value = module.aws_cdp_permissions.aws_log_role_name
 
   description = "Log role Name"
 }
 
 output "aws_idbroker_role_name" {
-  value = aws_iam_role.cdp_idbroker_role.name
+  value = module.aws_cdp_permissions.aws_idbroker_role_name
 
   description = "IDBroker role Name"
 }
 
 output "aws_datalake_admin_role_name" {
-  value = aws_iam_role.cdp_datalake_admin_role.name
+  value = module.aws_cdp_permissions.aws_datalake_admin_role_name
 
   description = "Datalake Admin role Name"
 }
 
 output "aws_ranger_audit_role_name" {
-  value = aws_iam_role.cdp_ranger_audit_role.name
+  value = module.aws_cdp_permissions.aws_ranger_audit_role_name
 
   description = "Ranger Audit role Name"
 }
 
 output "aws_log_instance_profile_arn" {
-  value = aws_iam_instance_profile.cdp_log_role_instance_profile.arn
+  value = module.aws_cdp_permissions.aws_log_instance_profile_arn
 
   description = "Log instance profile ARN"
 }
 
 output "aws_idbroker_instance_profile_arn" {
-  value = aws_iam_instance_profile.cdp_idbroker_role_instance_profile.arn
+  value = module.aws_cdp_permissions.aws_idbroker_instance_profile_arn
 
   description = "IDBroker instance profile ARN"
 }
