@@ -17,14 +17,14 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | > 1.3.0 |
 | <a name="requirement_google"></a> [google](#requirement\_google) | 4.84.0 |
-| <a name="requirement_random"></a> [random](#requirement\_random) | 3.4.3 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.4.3 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_google"></a> [google](#provider\_google) | 4.84.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.4.3 |
+| <a name="provider_random"></a> [random](#provider\_random) | ~> 3.4.3 |
 
 ## Modules
 
@@ -63,7 +63,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [google_storage_bucket_iam_member.cdp_data_sa_member](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/storage_bucket_iam_member) | resource |
 | [google_storage_bucket_iam_member.cdp_log_sa_member](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/storage_bucket_iam_member) | resource |
 | [google_storage_bucket_iam_member.cdp_ranger_audit_sa_member](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/storage_bucket_iam_member) | resource |
-| [random_id.bucket_suffix](https://registry.terraform.io/providers/hashicorp/random/3.4.3/docs/resources/id) | resource |
+| [random_id.bucket_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
 | [google_project.project](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/data-sources/project) | data source |
 
 ## Inputs
@@ -106,7 +106,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_subnet_count"></a> [subnet\_count](#input\_subnet\_count) | Number of Subnets Required | `number` | `1` | no |
 | <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | VPC CIDR Block | `string` | `"10.1.0.0/19"` | no |
 | <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | VPC name | `string` | `null` | no |
-| <a name="input_xaccount_sa_policies"></a> [xaccount\_sa\_policies](#input\_xaccount\_sa\_policies) | List of IAM policies to apply to the Cross Account Service Account | `list(string)` | <pre>[<br>  "roles/compute.instanceAdmin.v1",<br>  "roles/compute.networkAdmin",<br>  "roles/compute.securityAdmin",<br>  "roles/compute.imageUser",<br>  "roles/compute.storageAdmin",<br>  "roles/runtimeconfig.admin",<br>  "roles/cloudkms.admin",<br>  "roles/owner"<br>]</pre> | no |
+| <a name="input_xaccount_sa_policies"></a> [xaccount\_sa\_policies](#input\_xaccount\_sa\_policies) | List of IAM policies to apply to the Cross Account Service Account | `list(string)` | <pre>[<br>  "roles/iam.serviceAccountUser",<br>  "roles/compute.instanceAdmin.v1",<br>  "roles/storage.admin",<br>  "roles/compute.networkViewer",<br>  "roles/compute.loadBalancerAdmin",<br>  "roles/cloudsql.admin",<br>  "roles/compute.networkUser",<br>  "roles/compute.publicIpAdmin",<br>  "roles/cloudkms.admin"<br>]</pre> | no |
 | <a name="input_xaccount_service_account_name"></a> [xaccount\_service\_account\_name](#input\_xaccount\_service\_account\_name) | Cross Account service account name | `string` | `null` | no |
 
 ## Outputs
