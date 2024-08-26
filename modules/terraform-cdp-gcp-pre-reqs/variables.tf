@@ -300,14 +300,15 @@ variable "xaccount_sa_policies" {
   description = "List of IAM policies to apply to the Cross Account Service Account"
 
   default = [
+    "roles/iam.serviceAccountUser",
     "roles/compute.instanceAdmin.v1",
-    "roles/compute.networkAdmin",
-    "roles/compute.securityAdmin",
-    "roles/compute.imageUser",
-    "roles/compute.storageAdmin",
-    "roles/runtimeconfig.admin",
-    "roles/cloudkms.admin",
-    "roles/owner"
+    "roles/storage.admin",
+    "roles/compute.networkViewer",
+    "roles/compute.loadBalancerAdmin",
+    "roles/cloudsql.admin",
+    "roles/compute.networkUser",
+    "roles/compute.publicIpAdmin",
+    "roles/cloudkms.admin"
   ]
 
 }
