@@ -16,13 +16,13 @@ An example `terraform.tfvars.sample` values file is included to show input varia
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.7 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 3.84.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 4.0.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.84.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 4.0.0 |
 
 ## Modules
 
@@ -32,12 +32,11 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azurerm_role_assignment.cdp_cdw_aks_cred_storage_assign](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_cdw_aks_cred_subscription_assign](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/role_assignment) | resource |
-| [azurerm_user_assigned_identity.cdp_cdw_aks_cred](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/user_assigned_identity) | resource |
-| [azurerm_resource_group.cdp_ds_rmgp](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/data-sources/resource_group) | data source |
-| [azurerm_storage_account.data_storage_account](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/data-sources/storage_account) | data source |
-| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/data-sources/subscription) | data source |
+| [azurerm_role_assignment.cdp_cdw_aks_cred_storage_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.cdp_cdw_aks_cred_subscription_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_user_assigned_identity.cdp_cdw_aks_cred](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
+| [azurerm_storage_account.data_storage_account](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/storage_account) | data source |
+| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
 
 ## Inputs
 

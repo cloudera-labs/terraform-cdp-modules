@@ -81,14 +81,24 @@ variable "env_prefix" {
   description = "Shorthand name for the environment. Used in resource descriptions"
 }
 
-variable "cdp_subnets_private_endpoint_network_policies_enabled" {
-  type = bool
+variable "cdp_subnets_private_endpoint_network_policies" {
+  type = string
 
   description = "Enable or Disable network policies for the private endpoint on the CDP subnets"
+
+  validation {
+    condition     = (var.cdp_subnets_private_endpoint_network_policies == null ? true : contains(["Disabled", "Enabled", "NetworkSecurityGroupEnabled", "RouteTableEnabled"], var.cdp_subnets_private_endpoint_network_policies))
+    error_message = "Valid values for var: cdp_subnets_private_endpoint_network_policies are (Disabled, Enabled, NetworkSecurityGroupEnabled, RouteTableEnabled)."
+  }
 }
 
-variable "gateway_subnets_private_endpoint_network_policies_enabled" {
-  type = bool
+variable "gateway_subnets_private_endpoint_network_policies" {
+  type = string
 
   description = "Enable or Disable network policies for the private endpoint on the Gateway subnets"
+
+  validation {
+    condition     = (var.gateway_subnets_private_endpoint_network_policies == null ? true : contains(["Disabled", "Enabled", "NetworkSecurityGroupEnabled", "RouteTableEnabled"], var.gateway_subnets_private_endpoint_network_policies))
+    error_message = "Valid values for var: gateway_subnets_private_endpoint_network_policies are (Disabled, Enabled, NetworkSecurityGroupEnabled, RouteTableEnabled)."
+  }
 }

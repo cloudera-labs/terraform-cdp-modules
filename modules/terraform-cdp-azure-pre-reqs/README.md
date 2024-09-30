@@ -17,16 +17,16 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 2.46.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 3.84.0 |
-| <a name="requirement_random"></a> [random](#requirement\_random) | 3.4.3 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 4.0.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.4.3 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 2.46.0 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.84.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.4.3 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 4.0.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | ~> 3.4.3 |
 
 ## Modules
 
@@ -42,38 +42,38 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [azuread_application.cdp_xaccount_app](https://registry.terraform.io/providers/hashicorp/azuread/2.46.0/docs/resources/application) | resource |
 | [azuread_application_password.cdp_xaccount_app_password](https://registry.terraform.io/providers/hashicorp/azuread/2.46.0/docs/resources/application_password) | resource |
 | [azuread_service_principal.cdp_xaccount_app_sp](https://registry.terraform.io/providers/hashicorp/azuread/2.46.0/docs/resources/service_principal) | resource |
-| [azurerm_network_security_group.cdp_default_sg](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/network_security_group) | resource |
-| [azurerm_network_security_group.cdp_knox_sg](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/network_security_group) | resource |
-| [azurerm_network_security_rule.cdp_default_sg_ingress_extra_access](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/network_security_rule) | resource |
-| [azurerm_network_security_rule.cdp_knox_sg_ingress_extra_access](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/network_security_rule) | resource |
-| [azurerm_private_dns_zone.flexible_server_dns_zone](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/private_dns_zone) | resource |
-| [azurerm_private_dns_zone_virtual_network_link.flexible_server_vnet_link](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
-| [azurerm_resource_group.cdp_rmgp](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/resource_group) | resource |
-| [azurerm_role_assignment.cdp_datalake_admin_backup_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_datalake_admin_data_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_datalake_admin_log_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_idbroker_assign](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_log_data_access_backup_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_log_data_access_log_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_ranger_audit_backup_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_ranger_audit_data_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_ranger_audit_log_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_raz_assign](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_xaccount_role](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/role_assignment) | resource |
-| [azurerm_storage_account.cdp_storage_locations](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/storage_account) | resource |
-| [azurerm_storage_container.cdp_backup_storage](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/storage_container) | resource |
-| [azurerm_storage_container.cdp_data_storage](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/storage_container) | resource |
-| [azurerm_storage_container.cdp_log_storage](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/storage_container) | resource |
-| [azurerm_user_assigned_identity.cdp_datalake_admin](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/user_assigned_identity) | resource |
-| [azurerm_user_assigned_identity.cdp_idbroker](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/user_assigned_identity) | resource |
-| [azurerm_user_assigned_identity.cdp_log_data_access](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/user_assigned_identity) | resource |
-| [azurerm_user_assigned_identity.cdp_ranger_audit_data_access](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/user_assigned_identity) | resource |
-| [azurerm_user_assigned_identity.cdp_raz](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/resources/user_assigned_identity) | resource |
-| [random_id.bucket_suffix](https://registry.terraform.io/providers/hashicorp/random/3.4.3/docs/resources/id) | resource |
+| [azurerm_network_security_group.cdp_default_sg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
+| [azurerm_network_security_group.cdp_knox_sg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
+| [azurerm_network_security_rule.cdp_default_sg_ingress_extra_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
+| [azurerm_network_security_rule.cdp_knox_sg_ingress_extra_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
+| [azurerm_private_dns_zone.flexible_server_dns_zone](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone) | resource |
+| [azurerm_private_dns_zone_virtual_network_link.flexible_server_vnet_link](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
+| [azurerm_resource_group.cdp_rmgp](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
+| [azurerm_role_assignment.cdp_datalake_admin_backup_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.cdp_datalake_admin_data_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.cdp_datalake_admin_log_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.cdp_idbroker_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.cdp_log_data_access_backup_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.cdp_log_data_access_log_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.cdp_ranger_audit_backup_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.cdp_ranger_audit_data_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.cdp_ranger_audit_log_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.cdp_raz_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.cdp_xaccount_role](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_storage_account.cdp_storage_locations](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
+| [azurerm_storage_container.cdp_backup_storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
+| [azurerm_storage_container.cdp_data_storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
+| [azurerm_storage_container.cdp_log_storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
+| [azurerm_user_assigned_identity.cdp_datalake_admin](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
+| [azurerm_user_assigned_identity.cdp_idbroker](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
+| [azurerm_user_assigned_identity.cdp_log_data_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
+| [azurerm_user_assigned_identity.cdp_ranger_audit_data_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
+| [azurerm_user_assigned_identity.cdp_raz](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
+| [random_id.bucket_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
 | [azuread_client_config.current](https://registry.terraform.io/providers/hashicorp/azuread/2.46.0/docs/data-sources/client_config) | data source |
-| [azurerm_resource_group.cdp_rmgp](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/data-sources/resource_group) | data source |
-| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/data-sources/subscription) | data source |
-| [azurerm_virtual_network.cdp_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.84.0/docs/data-sources/virtual_network) | data source |
+| [azurerm_resource_group.cdp_rmgp](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
+| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
+| [azurerm_virtual_network.cdp_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
 
 ## Inputs
 
@@ -89,7 +89,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_cdp_resourcegroup_name"></a> [cdp\_resourcegroup\_name](#input\_cdp\_resourcegroup\_name) | Pre-existing Resource Group for CDP environment. Required if create\_vnet is false. | `string` | `null` | no |
 | <a name="input_cdp_subnet_names"></a> [cdp\_subnet\_names](#input\_cdp\_subnet\_names) | List of subnet names for CDP Resources. Required if create\_vnet is false. | `list(any)` | `null` | no |
 | <a name="input_cdp_subnet_range"></a> [cdp\_subnet\_range](#input\_cdp\_subnet\_range) | Size of each (internal) cluster subnet. Required if create\_vpc is true. | `number` | `19` | no |
-| <a name="input_cdp_subnets_private_endpoint_network_policies_enabled"></a> [cdp\_subnets\_private\_endpoint\_network\_policies\_enabled](#input\_cdp\_subnets\_private\_endpoint\_network\_policies\_enabled) | Enable or Disable network policies for the private endpoint on the CDP subnets | `bool` | `true` | no |
+| <a name="input_cdp_subnets_private_endpoint_network_policies"></a> [cdp\_subnets\_private\_endpoint\_network\_policies](#input\_cdp\_subnets\_private\_endpoint\_network\_policies) | Enable or Disable network policies for the private endpoint on the CDP subnets | `string` | `"Enabled"` | no |
 | <a name="input_cdp_vnet_name"></a> [cdp\_vnet\_name](#input\_cdp\_vnet\_name) | Pre-existing VNet Name for CDP environment. Required if create\_vnet is false. | `string` | `null` | no |
 | <a name="input_create_azure_cml_nfs"></a> [create\_azure\_cml\_nfs](#input\_create\_azure\_cml\_nfs) | Whether to create NFS for CML | `bool` | `false` | no |
 | <a name="input_create_private_flexible_server_resources"></a> [create\_private\_flexible\_server\_resources](#input\_create\_private\_flexible\_server\_resources) | Flag to specify if resources to support a Private Postgres flexible server should be created. | `bool` | `null` | no |
@@ -104,7 +104,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_enable_raz"></a> [enable\_raz](#input\_enable\_raz) | Flag to enable Ranger Authorization Service (RAZ) | `bool` | `true` | no |
 | <a name="input_env_tags"></a> [env\_tags](#input\_env\_tags) | Tags applied to provisioned resources | `map(any)` | `null` | no |
 | <a name="input_gateway_subnet_range"></a> [gateway\_subnet\_range](#input\_gateway\_subnet\_range) | Size of each gateway subnet. Required if create\_vpc is true. | `number` | `24` | no |
-| <a name="input_gateway_subnets_private_endpoint_network_policies_enabled"></a> [gateway\_subnets\_private\_endpoint\_network\_policies\_enabled](#input\_gateway\_subnets\_private\_endpoint\_network\_policies\_enabled) | Enable or Disable network policies for the private endpoint on the Gateway subnets | `bool` | `true` | no |
+| <a name="input_gateway_subnets_private_endpoint_network_policies"></a> [gateway\_subnets\_private\_endpoint\_network\_policies](#input\_gateway\_subnets\_private\_endpoint\_network\_policies) | Enable or Disable network policies for the private endpoint on the Gateway subnets | `string` | `"Enabled"` | no |
 | <a name="input_idbroker_managed_identity_name"></a> [idbroker\_managed\_identity\_name](#input\_idbroker\_managed\_identity\_name) | IDBroker Managed Identity name | `string` | `null` | no |
 | <a name="input_idbroker_role_assignments"></a> [idbroker\_role\_assignments](#input\_idbroker\_role\_assignments) | List of Role Assignments for the IDBroker Managed Identity | <pre>list(object({<br>    role        = string<br>    description = string<br>    })<br>  )</pre> | <pre>[<br>  {<br>    "description": "Assign VM Contributor Role to IDBroker Identity at Subscription Level",<br>    "role": "Virtual Machine Contributor"<br>  },<br>  {<br>    "description": "Assign Managed Identity Operator Role to IDBroker Identity at Subscription Level",<br>    "role": "Managed Identity Operator"<br>  }<br>]</pre> | no |
 | <a name="input_ingress_extra_cidrs_and_ports"></a> [ingress\_extra\_cidrs\_and\_ports](#input\_ingress\_extra\_cidrs\_and\_ports) | List of extra CIDR blocks and ports to include in Security Group Ingress rules | <pre>object({<br>    cidrs = list(string)<br>    ports = list(number)<br>  })</pre> | <pre>{<br>  "cidrs": [],<br>  "ports": []<br>}</pre> | no |
