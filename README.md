@@ -104,6 +104,8 @@ As outlined in the [Getting Started Docs for Google Terraform Provider](https://
 export GOOGLE_APPLICATION_CREDENTIALS=<location_of_gcp_sa_json_file>
 ```
 
+The Google project Id can be specified via the Google provider configuration variable or the `GOOGLE_PROJECT` environment variable. This is described in the [Google Provider Default Values Configuration](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#provider-default-values-configuration) documentation.
+
 ## Local Development Environment
 
 See the [DEVELOPMENT.md](./DEVELOPMENT.md) file for instructions on how to set up an environment for local development of modules.
