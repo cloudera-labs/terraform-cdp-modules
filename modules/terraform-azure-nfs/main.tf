@@ -13,13 +13,13 @@
 # limitations under the License.
 
 resource "azurerm_storage_account" "nfs_storage_account" {
-  name                      = var.nfs_storage_account_name
-  resource_group_name       = var.resourcegroup_name
-  location                  = var.azure_region
-  account_tier              = "Premium"
-  account_replication_type  = "LRS"
-  account_kind              = "FileStorage"
-  enable_https_traffic_only = false
+  name                       = var.nfs_storage_account_name
+  resource_group_name        = var.resourcegroup_name
+  location                   = var.azure_region
+  account_tier               = "Premium"
+  account_replication_type   = "LRS"
+  account_kind               = "FileStorage"
+  https_traffic_only_enabled = false
 }
 
 
