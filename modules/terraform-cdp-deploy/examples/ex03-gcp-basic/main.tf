@@ -43,7 +43,6 @@ provider "google" {
   region  = var.gcp_region
 }
 
-
 module "cdp_gcp_prereqs" {
   source = "../../../terraform-cdp-gcp-pre-reqs"
 
@@ -66,7 +65,7 @@ module "cdp_deploy" {
 
   env_prefix          = var.env_prefix
   infra_type          = "gcp"
-  gcp_project_id      = var.gcp_project
+  gcp_project_id      = data.google_project.project.project_id
   region              = var.gcp_region
   public_key_text     = var.public_key_text
   deployment_template = var.deployment_template
@@ -100,3 +99,6 @@ module "cdp_deploy" {
     module.cdp_gcp_prereqs
   ]
 }
+
+# Use the Google Cloud Provider to retrieve GCP project details
+data "google_project" "project" {}
