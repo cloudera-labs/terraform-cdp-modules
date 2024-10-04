@@ -116,6 +116,7 @@ No resources.
 | <a name="input_freeipa_image_id"></a> [freeipa\_image\_id](#input\_freeipa\_image\_id) | Image ID to use for creating FreeIPA instances | `string` | `null` | no |
 | <a name="input_freeipa_instance_type"></a> [freeipa\_instance\_type](#input\_freeipa\_instance\_type) | Instance Type to use for creating FreeIPA instances | `string` | `null` | no |
 | <a name="input_freeipa_instances"></a> [freeipa\_instances](#input\_freeipa\_instances) | The number of FreeIPA instances to create in the environment | `number` | `3` | no |
+| <a name="input_freeipa_os"></a> [freeipa\_os](#input\_freeipa\_os) | The Operating System to be used for the FreeIPA instances | `string` | `null` | no |
 | <a name="input_freeipa_recipes"></a> [freeipa\_recipes](#input\_freeipa\_recipes) | The recipes for the FreeIPA cluster | `set(string)` | `null` | no |
 | <a name="input_gcp_availability_zones"></a> [gcp\_availability\_zones](#input\_gcp\_availability\_zones) | The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added. | `list(string)` | `null` | no |
 | <a name="input_gcp_cdp_subnet_names"></a> [gcp\_cdp\_subnet\_names](#input\_gcp\_cdp\_subnet\_names) | List of GCP Subnet Names for CDP Resources. Required for CDP deployment on GCP. | `list(any)` | `null` | no |
