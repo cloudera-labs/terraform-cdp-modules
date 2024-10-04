@@ -170,9 +170,9 @@ variable "datalake_java_version" {
 
 variable "datalake_image" {
   type = object({
-    id      = optional(string)
+    id           = optional(string)
     catalog_name = optional(string)
-    os      = optional(string)
+    os           = optional(string)
   })
 
   description = "The image to use for the datalake. Can only be used when the 'datalake_version' parameter is set to null. You can use 'catalog' name and/or 'id' for selecting an image."
