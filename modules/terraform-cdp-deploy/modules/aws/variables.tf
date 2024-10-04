@@ -205,7 +205,7 @@ variable "datalake_version" {
 variable "datalake_image" {
   type = object({
     id      = optional(string)
-    catalog = optional(string)
+    catalog_name = optional(string)
     os      = optional(string)
   })
 
