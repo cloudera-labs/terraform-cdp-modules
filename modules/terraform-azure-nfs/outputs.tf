@@ -19,7 +19,7 @@ output "nfs_file_share_url" {
 }
 
 output "nfs_file_share_nfs_domain_url" {
-  value       = "nfs://${var.nfs_storage_account_name}.file.core.windows.net/${var.nfs_storage_account_name}/${var.nfs_file_share_name}"
+  value       = "nfs://${var.nfs_storage_account_name}.file.core.windows.net:/${var.nfs_storage_account_name}/${var.nfs_file_share_name}"
 
   description = "NFS File Share domain with nfs protocol prefix"
 }
