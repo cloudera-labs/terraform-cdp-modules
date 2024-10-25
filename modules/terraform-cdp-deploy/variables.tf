@@ -220,7 +220,7 @@ variable "report_deployment_logs" {
 
   description = "Flag to enable reporting of additional diagnostic information back to Cloudera."
 
-  default = true
+  default = null
 
 }
 
