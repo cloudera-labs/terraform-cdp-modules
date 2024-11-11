@@ -43,7 +43,7 @@ variable "env_prefix" {
     error_message = "The length of env_prefix must be 48 characters or less."
   }
   validation {
-    condition     = can(regex("^[a-z0-9.-]{1,64}$", var.env_prefix))
+    condition     = can(regex("^[a-z0-9\\-\\.]{1,64}$", var.env_prefix))
     error_message = "env_prefix can consist only of lowercase letters, numbers, dots (.), and hyphens (-)."
   }
 
@@ -344,7 +344,7 @@ variable "data_storage" {
     error_message = "The length of data_storage_bucket must be between 3 and 63 characters."
   }
   validation {
-    condition     = (var.data_storage == null ? true : (can(regex("^[a-z0-9.-]{1,64}$", var.data_storage.data_storage_bucket))))
+    condition     = (var.data_storage == null ? true : (can(regex("^[a-z0-9\\-\\.]{1,64}$", var.data_storage.data_storage_bucket))))
     error_message = "data_storage_bucket can consist only of lowercase letters, numbers, dots (.), and hyphens (-)."
   }
 
@@ -366,7 +366,7 @@ variable "log_storage" {
   }
 
   validation {
-    condition     = (var.log_storage == null ? true : (can(regex("^[a-z0-9.-]{1,64}$", var.log_storage.log_storage_bucket))))
+    condition     = (var.log_storage == null ? true : (can(regex("^[a-z0-9\\-\\.]{1,64}$", var.log_storage.log_storage_bucket))))
     error_message = "log_storage_bucket can consist only of lowercase letters, numbers, dots (.), and hyphens (-)."
   }
 }
@@ -387,7 +387,7 @@ variable "backup_storage" {
   }
 
   validation {
-    condition     = (var.backup_storage == null ? true : (can(regex("^[a-z0-9.-]{1,64}$", var.backup_storage.backup_storage_bucket))))
+    condition     = (var.backup_storage == null ? true : (can(regex("^[a-z0-9\\-\\.]{1,64}$", var.backup_storage.backup_storage_bucket))))
     error_message = "backup_storage_bucket can consist only of lowercase letters, numbers, dots (.), and hyphens (-)."
   }
 

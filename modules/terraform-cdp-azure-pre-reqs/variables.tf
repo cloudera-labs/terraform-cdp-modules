@@ -77,7 +77,7 @@ variable "resourcegroup_name" {
   }
 
   validation {
-    condition     = (var.resourcegroup_name == null ? true : can(regex("^[a-zA-Z0-9.-_]{1,90}$", var.resourcegroup_name)))
+    condition     = (var.resourcegroup_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,90}$", var.resourcegroup_name)))
     error_message = "resourcegroup_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
   }
 
@@ -103,7 +103,7 @@ variable "vnet_name" {
   }
 
   validation {
-    condition     = (var.vnet_name == null ? true : can(regex("^[a-zA-Z0-9.-_]{1,80}$", var.vnet_name)))
+    condition     = (var.vnet_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,80}$", var.vnet_name)))
     error_message = "vnet_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
   }
 }
@@ -199,7 +199,7 @@ variable "security_group_default_name" {
   }
 
   validation {
-    condition     = (var.security_group_default_name == null ? true : can(regex("^[a-zA-Z0-9.-_]{1,80}$", var.security_group_default_name)))
+    condition     = (var.security_group_default_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,80}$", var.security_group_default_name)))
     error_message = "security_group_default_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
   }
 }
@@ -217,7 +217,7 @@ variable "security_group_knox_name" {
   }
 
   validation {
-    condition     = (var.security_group_knox_name == null ? true : can(regex("^[a-zA-Z0-9.-_]{1,80}$", var.security_group_knox_name)))
+    condition     = (var.security_group_knox_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,80}$", var.security_group_knox_name)))
     error_message = "security_group_knox_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
   }
 }

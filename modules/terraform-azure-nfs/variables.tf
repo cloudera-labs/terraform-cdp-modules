@@ -94,7 +94,7 @@ variable "nfsvm_public_ip_name" {
   }
 
   validation {
-    condition     = (var.nfsvm_public_ip_name == null ? true : can(regex("^[a-zA-Z0-9.-_]{1,80}$", var.nfsvm_public_ip_name)))
+    condition     = (var.nfsvm_public_ip_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,80}$", var.nfsvm_public_ip_name)))
     error_message = "nfsvm_public_ip_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
   }
 }
@@ -110,7 +110,7 @@ variable "nfsvm_nic_name" {
   }
 
   validation {
-    condition     = (var.nfsvm_nic_name == null ? true : can(regex("^[a-zA-Z0-9.-_]{1,80}$", var.nfsvm_nic_name)))
+    condition     = (var.nfsvm_nic_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,80}$", var.nfsvm_nic_name)))
     error_message = "nfsvm_public_ip_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
   }
 }
@@ -126,7 +126,7 @@ variable "nfsvm_sg_name" {
   }
 
   validation {
-    condition     = (var.nfsvm_sg_name == null ? true : can(regex("^[a-zA-Z0-9.-_]{1,80}$", var.nfsvm_sg_name)))
+    condition     = (var.nfsvm_sg_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,80}$", var.nfsvm_sg_name)))
     error_message = "nfsvm_sg_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
   }
 }
@@ -142,7 +142,7 @@ variable "nfsvm_name" {
   }
 
   validation {
-    condition     = (var.nfsvm_name == null ? true : can(regex("^[a-zA-Z0-9.-_]{1,64}$", var.nfsvm_name)))
+    condition     = (var.nfsvm_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,64}$", var.nfsvm_name)))
     error_message = "nfsvm_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
   }
 }

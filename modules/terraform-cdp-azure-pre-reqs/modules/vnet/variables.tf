@@ -38,7 +38,7 @@ variable "vnet_name" {
   }
 
   validation {
-    condition     = can(regex("^[a-zA-Z0-9.-_]{1,80}$", var.vnet_name))
+    condition     = can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,80}$", var.vnet_name))
     error_message = "vnet_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
   }
 }

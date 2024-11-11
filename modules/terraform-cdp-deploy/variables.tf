@@ -137,7 +137,7 @@ variable "cdp_admin_group_name" {
   }
 
   validation {
-    condition     = (var.cdp_admin_group_name == null ? true : can(regex("^[a-zA-Z0-9.-_]{1,90}$", var.cdp_admin_group_name)))
+    condition     = (var.cdp_admin_group_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,90}$", var.cdp_admin_group_name)))
     error_message = "cdp_admin_group_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
   }
 }
@@ -154,7 +154,7 @@ variable "cdp_user_group_name" {
   }
 
   validation {
-    condition     = (var.cdp_user_group_name == null ? true : can(regex("^[a-zA-Z0-9.-_]{1,90}$", var.cdp_user_group_name)))
+    condition     = (var.cdp_user_group_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,90}$", var.cdp_user_group_name)))
     error_message = "cdp_user_group_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
   }
 }
