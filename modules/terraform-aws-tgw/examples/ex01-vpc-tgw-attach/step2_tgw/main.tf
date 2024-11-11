@@ -22,8 +22,7 @@ data "terraform_remote_state" "step1" {
 }
 
 provider "aws" {
-  profile = var.aws_profile
-  region  = var.aws_region
+  region = var.aws_region
 }
 
 # Use terraform_remote_state to retrieve CDP VPC details from step01
