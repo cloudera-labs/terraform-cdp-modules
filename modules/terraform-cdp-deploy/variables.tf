@@ -68,6 +68,20 @@ variable "environment_name" {
   }
 }
 
+variable "environment_description" {
+  type        = string
+  description = "Description of CDP environment"
+
+  default = null
+}
+
+variable "environment_cascading_delete" {
+  type        = bool
+  description = "Flag to enable cascading delete of environment and associated resources"
+
+  default = null
+}
+
 variable "datalake_name" {
   type        = string
   description = "Name of the CDP datalake. Defaults to '<env_prefix>-<aw|az|gc|>-dl' if not specified."

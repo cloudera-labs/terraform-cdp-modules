@@ -26,6 +26,17 @@ variable "environment_name" {
 
 }
 
+variable "environment_description" {
+  type        = string
+  description = "Description of CDP environment"
+}
+
+variable "environment_cascading_delete" {
+  type        = bool
+  description = "Flag to enable cascading delete of environment and associated resources"
+
+}
+
 variable "datalake_name" {
   type        = string
   description = "Name of the CDP DataLake."
@@ -173,7 +184,6 @@ variable "workload_analytics" {
   description = "Flag to specify if workload analytics should be enabled for the CDP environment"
 
 }
-
 
 variable "datalake_scale" {
   type = string
