@@ -32,6 +32,15 @@ variable "vnet_name" {
   type        = string
   description = "VNet name"
 
+  validation {
+    condition     = (var.vnet_name == null ? true : length(var.vnet_name) >= 1 && length(var.vnet_name) <= 80)
+    error_message = "The length of vnet_name must be 80 characters or less."
+  }
+
+  validation {
+    condition     = (var.vnet_name == null ? true : can(regex("^[a-zA-Z0-9.-_]{1,80}$", var.vnet_name)))
+    error_message = "vnet_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
+  }
 }
 
 variable "vnet_cidr" {
