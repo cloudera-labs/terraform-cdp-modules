@@ -37,6 +37,16 @@ variable "agent_source_tag" {
 variable "env_prefix" {
   type        = string
   description = "Shorthand name for the environment. Used in resource descriptions"
+
+  validation {
+    condition     = length(var.env_prefix) <= 48
+    error_message = "The length of env_prefix must be 48 characters or less."
+  }
+  validation {
+    condition     = can(regex("^[a-z0-9.-]{1,64}$", var.env_prefix))
+    error_message = "env_prefix can consist only of lowercase letters, numbers, dots (.), and hyphens (-)."
+  }
+
 }
 
 # ------- CDP Environment Deployment -------
@@ -73,6 +83,12 @@ variable "vpc_name" {
   description = "Name of the VPC. Defaults to <env_prefix>-net if not specified"
 
   default = null
+
+  validation {
+    condition     = (var.vpc_name == null ? true : length(var.vpc_name) <= 256)
+    error_message = "The length of vpc_name must be 256 characters or less."
+  }
+
 }
 
 
@@ -197,6 +213,11 @@ variable "security_group_default_name" {
   description = "Default Security Group for CDP environment"
 
   default = null
+
+  validation {
+    condition     = (var.security_group_default_name == null ? true : length(var.security_group_default_name) <= 256)
+    error_message = "The length of security_group_default_name must be 256 characters or less."
+  }
 }
 
 variable "security_group_knox_name" {
@@ -205,6 +226,11 @@ variable "security_group_knox_name" {
   description = "Knox Security Group for CDP environment"
 
   default = null
+
+  validation {
+    condition     = (var.security_group_knox_name == null ? true : length(var.security_group_knox_name) <= 256)
+    error_message = "The length of security_group_knox_name must be 256 characters or less."
+  }
 }
 
 variable "security_group_endpoint_name" {
@@ -213,6 +239,11 @@ variable "security_group_endpoint_name" {
   description = "Security Group for VPC Endpoints"
 
   default = null
+
+  validation {
+    condition     = (var.security_group_endpoint_name == null ? true : length(var.security_group_endpoint_name) <= 256)
+    error_message = "The length of security_group_endpoint_name must be 256 characters or less."
+  }
 }
 
 variable "ingress_extra_cidrs_and_ports" {
@@ -307,6 +338,16 @@ variable "data_storage" {
   description = "Data storage locations for CDP environment"
 
   default = null
+
+  validation {
+    condition     = (var.data_storage == null ? true : (length(var.data_storage.data_storage_bucket) >= 3 && length(var.data_storage.data_storage_bucket) <= 63))
+    error_message = "The length of data_storage_bucket must be between 3 and 63 characters."
+  }
+  validation {
+    condition     = (var.data_storage == null ? true : (can(regex("^[a-z0-9.-]{1,64}$", var.data_storage.data_storage_bucket))))
+    error_message = "data_storage_bucket can consist only of lowercase letters, numbers, dots (.), and hyphens (-)."
+  }
+
 }
 
 variable "log_storage" {
@@ -318,6 +359,16 @@ variable "log_storage" {
   description = "Optional log locations for CDP environment. If not provided follow the data_storage variable"
 
   default = null
+
+  validation {
+    condition     = (var.log_storage == null ? true : (length(var.log_storage.log_storage_bucket) >= 3 && length(var.log_storage.log_storage_bucket) <= 63))
+    error_message = "The length of log_storage_bucket must be between 3 and 63 characters."
+  }
+
+  validation {
+    condition     = (var.log_storage == null ? true : (can(regex("^[a-z0-9.-]{1,64}$", var.log_storage.log_storage_bucket))))
+    error_message = "log_storage_bucket can consist only of lowercase letters, numbers, dots (.), and hyphens (-)."
+  }
 }
 
 variable "backup_storage" {
@@ -329,6 +380,17 @@ variable "backup_storage" {
   description = "Optional Backup location for CDP environment. If not provided follow the data_storage variable"
 
   default = null
+
+  validation {
+    condition     = (var.backup_storage == null ? true : (length(var.backup_storage.backup_storage_bucket) >= 3 && length(var.backup_storage.backup_storage_bucket) <= 63))
+    error_message = "The length of backup_storage_bucket must be between 3 and 63 characters."
+  }
+
+  validation {
+    condition     = (var.backup_storage == null ? true : (can(regex("^[a-z0-9.-]{1,64}$", var.backup_storage.backup_storage_bucket))))
+    error_message = "backup_storage_bucket can consist only of lowercase letters, numbers, dots (.), and hyphens (-)."
+  }
+
 }
 
 variable "enable_kms_bucket_encryption" {
@@ -358,6 +420,11 @@ variable "xaccount_policy_name" {
   description = "Cross Account Policy name"
 
   default = null
+
+  validation {
+    condition     = (var.xaccount_policy_name == null ? true : length(var.xaccount_policy_name) <= 128)
+    error_message = "The length of xaccount_policy_name must be 128 characters or less."
+  }
 }
 
 variable "xaccount_account_policy_doc" {
@@ -377,6 +444,11 @@ variable "idbroker_policy_name" {
   description = "IDBroker Policy name"
 
   default = null
+
+  validation {
+    condition     = (var.idbroker_policy_name == null ? true : length(var.idbroker_policy_name) <= 128)
+    error_message = "The length of idbroker_policy_name must be 128 characters or less."
+  }
 }
 
 # CDP Data Access Policies - Log
@@ -385,6 +457,11 @@ variable "log_data_access_policy_name" {
   description = "Log Data Access Policy Name"
 
   default = null
+
+  validation {
+    condition     = (var.log_data_access_policy_name == null ? true : length(var.log_data_access_policy_name) <= 128)
+    error_message = "The length of log_data_access_policy_name must be 128 characters or less."
+  }
 }
 
 variable "log_data_access_policy_doc" {
@@ -399,6 +476,11 @@ variable "ranger_audit_s3_policy_name" {
   description = "Ranger S3 Audit Data Access Policy Name"
 
   default = null
+
+  validation {
+    condition     = (var.ranger_audit_s3_policy_name == null ? true : length(var.ranger_audit_s3_policy_name) <= 128)
+    error_message = "The length of ranger_audit_s3_policy_name must be 128 characters or less."
+  }
 }
 
 variable "ranger_audit_s3_policy_doc" {
@@ -413,6 +495,11 @@ variable "datalake_admin_s3_policy_name" {
   description = "Datalake Admin S3 Data Access Policy Name"
 
   default = null
+
+  validation {
+    condition     = (var.datalake_admin_s3_policy_name == null ? true : length(var.datalake_admin_s3_policy_name) <= 128)
+    error_message = "The length of datalake_admin_s3_policy_name must be 128 characters or less."
+  }
 }
 
 variable "datalake_admin_s3_policy_doc" {
@@ -439,12 +526,23 @@ variable "data_bucket_access_policy_name" {
   description = "Data Bucket Access Data Access Policy Name"
 
   default = null
+
+  validation {
+    condition     = (var.data_bucket_access_policy_name == null ? true : length(var.data_bucket_access_policy_name) <= 128)
+    error_message = "The length of data_bucket_access_policy_name must be 128 characters or less."
+  }
 }
+
 variable "log_bucket_access_policy_name" {
   type        = string
   description = "Log Bucket Access Data Access Policy Name"
 
   default = null
+
+  validation {
+    condition     = (var.log_bucket_access_policy_name == null ? true : length(var.log_bucket_access_policy_name) <= 128)
+    error_message = "The length of log_bucket_access_policy_name must be 128 characters or less."
+  }
 }
 
 variable "backup_bucket_access_policy_name" {
@@ -452,6 +550,11 @@ variable "backup_bucket_access_policy_name" {
   description = "Backup Bucket Access Data Access Policy Name"
 
   default = null
+
+  validation {
+    condition     = (var.backup_bucket_access_policy_name == null ? true : length(var.backup_bucket_access_policy_name) <= 128)
+    error_message = "The length of backup_bucket_access_policy_name must be 128 characters or less."
+  }
 }
 
 # CDP Datalake restore Policies - datalake
@@ -460,6 +563,11 @@ variable "datalake_restore_policy_name" {
   description = "Datalake restore Data Access Policy Name"
 
   default = null
+
+  validation {
+    condition     = (var.datalake_restore_policy_name == null ? true : length(var.datalake_restore_policy_name) <= 128)
+    error_message = "The length of datalake_restore_policy_name must be 128 characters or less."
+  }
 }
 
 # CDP Datalake backup Policies - datalake
@@ -468,6 +576,11 @@ variable "datalake_backup_policy_name" {
   description = "Datalake backup Data Access Policy Name"
 
   default = null
+
+  validation {
+    condition     = (var.datalake_backup_policy_name == null ? true : length(var.datalake_backup_policy_name) <= 128)
+    error_message = "The length of datalake_backup_policy_name must be 128 characters or less."
+  }
 }
 
 variable "data_bucket_access_policy_doc" {
@@ -494,6 +607,11 @@ variable "xaccount_role_name" {
   description = "Cross account Assume role Name"
 
   default = null
+
+  validation {
+    condition     = (var.xaccount_role_name == null ? true : length(var.xaccount_role_name) <= 64)
+    error_message = "The length of xaccount_role_name must be 64 characters or less."
+  }
 }
 
 variable "xaccount_account_id" {
@@ -514,6 +632,11 @@ variable "idbroker_role_name" {
   description = "IDBroker service role Name"
 
   default = null
+
+  validation {
+    condition     = (var.idbroker_role_name == null ? true : length(var.idbroker_role_name) <= 64)
+    error_message = "The length of idbroker_role_name must be 64 characters or less."
+  }
 }
 
 # Log service role
@@ -522,6 +645,11 @@ variable "log_role_name" {
   description = "Log service role Name"
 
   default = null
+
+  validation {
+    condition     = (var.log_role_name == null ? true : length(var.log_role_name) <= 64)
+    error_message = "The length of log_role_name must be 64 characters or less."
+  }
 }
 
 # CDP Datalake Admin role
@@ -530,6 +658,11 @@ variable "datalake_admin_role_name" {
   description = "Datalake Admin role Name"
 
   default = null
+
+  validation {
+    condition     = (var.datalake_admin_role_name == null ? true : length(var.datalake_admin_role_name) <= 64)
+    error_message = "The length of datalake_admin_role_name must be 64 characters or less."
+  }
 }
 
 # CDP Ranger Audit role
@@ -538,6 +671,11 @@ variable "ranger_audit_role_name" {
   description = "Ranger Audit role Name"
 
   default = null
+
+  validation {
+    condition     = (var.ranger_audit_role_name == null ? true : length(var.ranger_audit_role_name) <= 64)
+    error_message = "The length of ranger_audit_role_name must be 64 characters or less."
+  }
 }
 
 # ------- Support for pre-existing roles -------
