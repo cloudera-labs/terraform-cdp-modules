@@ -41,6 +41,14 @@ variable "env_prefix" {
   type        = string
   description = "Shorthand name for the environment. Used in CDP resource descriptions. This will be used to construct the value of where any of the CDP resource variables (e.g. environment_name, cdp_iam_admin_group_name) are not defined."
 
+  validation {
+    condition     = length(var.env_prefix) <= 18
+    error_message = "The length of env_prefix must be 18 characters or less."
+  }
+  validation {
+    condition     = (var.env_prefix == null ? true : can(regex("^[a-z0-9-]{1,18}$", var.env_prefix)))
+    error_message = "env_prefix can consist only of lowercase letters, numbers, and hyphens (-)."
+  }
 }
 
 # ------- CDP Environment Deployment - General -------
@@ -49,6 +57,15 @@ variable "environment_name" {
   description = "Name of the CDP environment. Defaults to '<env_prefix>-cdp-env' if not specified."
 
   default = null
+
+  validation {
+    condition     = (var.environment_name == null ? true : length(var.environment_name) >= 5 && length(var.environment_name) <= 28)
+    error_message = "The length of environment_name must be between 5 and 28 characters."
+  }
+  validation {
+    condition     = (var.environment_name == null ? true : can(regex("^[a-z0-9-]{1,90}$", var.environment_name)))
+    error_message = "environment_name can consist only of lowercase letters, numbers, and hyphens (-)."
+  }
 }
 
 variable "datalake_name" {
@@ -56,6 +73,16 @@ variable "datalake_name" {
   description = "Name of the CDP datalake. Defaults to '<env_prefix>-<aw|az|gc|>-dl' if not specified."
 
   default = null
+
+  validation {
+    condition     = (var.datalake_name == null ? true : length(var.datalake_name) >= 5 && length(var.datalake_name) <= 40)
+    error_message = "The length of datalake_name must be between 5 and 40 characters."
+  }
+
+  validation {
+    condition     = (var.datalake_name == null ? true : can(regex("^[a-z0-9-]{5,40}$", var.datalake_name)))
+    error_message = "datalake_name can consist only of lowercase letters, numbers, and hyphens (-)."
+  }
 }
 
 variable "create_cdp_credential" {
@@ -71,6 +98,17 @@ variable "cdp_xacccount_credential_name" {
   description = "Name of the CDP Cross Account Credential. Defaults to '<env_prefix>-xaccount-cred' if not specified. If create_cdp_credential is set to false then this should should be a valid pre-existing credential."
 
   default = null
+
+  validation {
+    condition     = (var.cdp_xacccount_credential_name == null ? true : length(var.cdp_xacccount_credential_name) >= 5 && length(var.cdp_xacccount_credential_name) <= 100)
+    error_message = "The length of cdp_xacccount_credential_name must be between 5 and 100 characters."
+  }
+
+  validation {
+    condition     = (var.cdp_xacccount_credential_name == null ? true : can(regex("^[a-z0-9-]{5,100}$", var.cdp_xacccount_credential_name)))
+    error_message = "cdp_xacccount_credential_name can consist only of lowercase letters, numbers, and hyphens (-)."
+  }
+
 }
 
 variable "cdp_admin_group_name" {
@@ -78,6 +116,16 @@ variable "cdp_admin_group_name" {
   description = "Name of the CDP IAM Admin Group associated with the environment. Defaults to '<env_prefix>-cdp-admin-group' if not specified."
 
   default = null
+
+  validation {
+    condition     = (var.cdp_admin_group_name == null ? true : length(var.cdp_admin_group_name) >= 1 && length(var.cdp_admin_group_name) <= 64)
+    error_message = "The length of cdp_admin_group_name must be 64 characters or less."
+  }
+
+  validation {
+    condition     = (var.cdp_admin_group_name == null ? true : can(regex("^[a-zA-Z0-9.-_]{1,90}$", var.cdp_admin_group_name)))
+    error_message = "cdp_admin_group_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
+  }
 }
 
 variable "cdp_user_group_name" {
@@ -85,6 +133,16 @@ variable "cdp_user_group_name" {
   description = "Name of the CDP IAM User Group associated with the environment. Defaults to '<env_prefix>-cdp-user-group' if not specified."
 
   default = null
+
+  validation {
+    condition     = (var.cdp_user_group_name == null ? true : length(var.cdp_user_group_name) >= 1 && length(var.cdp_user_group_name) <= 64)
+    error_message = "The length of cdp_user_group_name must be 64 characters or less."
+  }
+
+  validation {
+    condition     = (var.cdp_user_group_name == null ? true : can(regex("^[a-zA-Z0-9.-_]{1,90}$", var.cdp_user_group_name)))
+    error_message = "cdp_user_group_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
+  }
 }
 
 variable "deployment_template" {
