@@ -25,6 +25,10 @@ variable "vpc_name" {
 
   description = "Name of the VPC. Only used when create_vpc is true."
 
+  validation {
+    condition     = length(var.vpc_name) <= 64
+    error_message = "The length of vpc_name must be 64 characters or less."
+  }
 }
 
 variable "vpc_cidr" {

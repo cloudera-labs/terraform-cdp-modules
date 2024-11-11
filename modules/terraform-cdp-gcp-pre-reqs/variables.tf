@@ -38,6 +38,11 @@ variable "gcp_region" {
 variable "env_prefix" {
   type        = string
   description = "Shorthand name for the environment. Used in resource descriptions"
+
+  validation {
+    condition     = length(var.env_prefix) <= 16
+    error_message = "The length of env_prefix must be 16 characters or less."
+  }
 }
 
 # ------- CDP Environment Deployment -------
@@ -66,6 +71,17 @@ variable "vpc_name" {
   description = "VPC name"
 
   default = null
+
+  validation {
+    condition     = (var.vpc_name == null ? true : length(var.vpc_name) >= 1 && length(var.vpc_name) <= 63)
+    error_message = "The length of vpc_name must be 63 characters or less."
+  }
+
+  validation {
+    condition     = (var.vpc_name == null ? true : can(regex("^[a-z0-9\\-]{1,63}$", var.vpc_name)))
+    error_message = "vpc_name can consist only of lowercase letters, numbers and hyphens (-)."
+  }
+
 }
 
 variable "vpc_cidr" {
@@ -103,6 +119,16 @@ variable "managed_services_global_address_name" {
   description = "Name of the Managed Service address used for the Peering Connection to CloudSQL"
 
   default = null
+
+  validation {
+    condition     = (var.managed_services_global_address_name == null ? true : length(var.managed_services_global_address_name) >= 1 && length(var.managed_services_global_address_name) <= 63)
+    error_message = "The length of managed_services_global_address_name must be 63 characters or less."
+  }
+
+  validation {
+    condition     = (var.managed_services_global_address_name == null ? true : can(regex("^[a-z0-9\\-]{1,63}$", var.managed_services_global_address_name)))
+    error_message = "managed_services_global_address_name can consist only of lowercase letters, numbers and hyphens (-)."
+  }
 }
 
 variable "managed_services_global_address_cidr" {
@@ -120,6 +146,16 @@ variable "firewall_internal_name" {
   description = "Name of Firewall for Internal Virtual Network communication"
 
   default = null
+
+  validation {
+    condition     = (var.firewall_internal_name == null ? true : length(var.firewall_internal_name) >= 1 && length(var.firewall_internal_name) <= 63)
+    error_message = "The length of firewall_internal_name must be 63 characters or less."
+  }
+
+  validation {
+    condition     = (var.firewall_internal_name == null ? true : can(regex("^[a-z0-9\\-]{1,63}$", var.firewall_internal_name)))
+    error_message = "firewall_internal_name can consist only of lowercase letters, numbers and hyphens (-)."
+  }
 }
 
 variable "firewall_default_name" {
@@ -128,6 +164,16 @@ variable "firewall_default_name" {
   description = "Name of Default Firewall for CDP environment"
 
   default = null
+
+  validation {
+    condition     = (var.firewall_default_name == null ? true : length(var.firewall_default_name) >= 1 && length(var.firewall_default_name) <= 63)
+    error_message = "The length of firewall_default_name must be 63 characters or less."
+  }
+
+  validation {
+    condition     = (var.firewall_default_name == null ? true : can(regex("^[a-z0-9\\-]{1,63}$", var.firewall_default_name)))
+    error_message = "firewall_default_name can consist only of lowercase letters, numbers and hyphens (-)."
+  }
 }
 
 variable "firewall_knox_name" {
@@ -136,6 +182,16 @@ variable "firewall_knox_name" {
   description = "Name of Knox Firewall for CDP environment"
 
   default = null
+
+  validation {
+    condition     = (var.firewall_knox_name == null ? true : length(var.firewall_knox_name) >= 1 && length(var.firewall_knox_name) <= 63)
+    error_message = "The length of firewall_knox_name must be 63 characters or less."
+  }
+
+  validation {
+    condition     = (var.firewall_knox_name == null ? true : can(regex("^[a-z0-9\\-]{1,63}$", var.firewall_knox_name)))
+    error_message = "firewall_knox_name can consist only of lowercase letters, numbers and hyphens (-)."
+  }
 }
 
 variable "ingress_extra_cidrs_and_ports" {
@@ -156,6 +212,16 @@ variable "compute_router_name" {
   description = "Name of the Google Compute Router resource created for private deployment."
 
   default = null
+
+  validation {
+    condition     = (var.compute_router_name == null ? true : length(var.compute_router_name) >= 1 && length(var.compute_router_name) <= 63)
+    error_message = "The length of compute_router_name must be 63 characters or less."
+  }
+
+  validation {
+    condition     = (var.compute_router_name == null ? true : can(regex("^[a-z0-9\\-]{1,63}$", var.compute_router_name)))
+    error_message = "compute_router_name can consist only of lowercase letters, numbers and hyphens (-)."
+  }
 
 }
 
@@ -182,6 +248,15 @@ variable "compute_router_nat_name" {
 
   default = null
 
+  validation {
+    condition     = (var.compute_router_nat_name == null ? true : length(var.compute_router_nat_name) >= 1 && length(var.compute_router_nat_name) <= 63)
+    error_message = "The length of compute_router_nat_name must be 63 characters or less."
+  }
+
+  validation {
+    condition     = (var.compute_router_nat_name == null ? true : can(regex("^[a-z0-9\\-]{1,63}$", var.compute_router_nat_name)))
+    error_message = "compute_router_nat_name can consist only of lowercase letters, numbers and hyphens (-)."
+  }
 }
 
 variable "compute_router_nat_ip_allocate_option" {
@@ -256,6 +331,17 @@ variable "data_storage_bucket" {
   description = "Data storage locations for CDP environment"
 
   default = null
+
+  validation {
+    condition     = (var.data_storage_bucket == null ? true : (length(var.data_storage_bucket) >= 3 && length(var.data_storage_bucket) <= 63))
+    error_message = "The length of data_storage_bucket must be between 3 and 63 characters."
+  }
+
+  validation {
+    condition     = (var.data_storage_bucket == null ? true : (can(regex("^[a-z0-9\\-\\_\\.]{3,63}$", var.data_storage_bucket))))
+    error_message = "data_storage_bucket can consist only of lowercase letters and numbers, dots (.), hyphens (-) and underscores (_)."
+  }
+
 }
 
 variable "log_storage_bucket" {
@@ -264,6 +350,16 @@ variable "log_storage_bucket" {
   description = "Optional log locations for CDP environment."
 
   default = null
+
+  validation {
+    condition     = (var.log_storage_bucket == null ? true : (length(var.log_storage_bucket) >= 3 && length(var.log_storage_bucket) <= 63))
+    error_message = "The length of log_storage_bucket must be between 3 and 63 characters."
+  }
+
+  validation {
+    condition     = (var.log_storage_bucket == null ? true : (can(regex("^[a-z0-9\\-\\_\\.]{3,63}$", var.log_storage_bucket))))
+    error_message = "log_storage_bucket can consist only of lowercase letters and numbers, dots (.), hyphens (-) and underscores (_)."
+  }
 }
 
 variable "backup_storage_bucket" {
@@ -271,6 +367,16 @@ variable "backup_storage_bucket" {
   description = "Optional Backup location for CDP environment."
 
   default = null
+
+  validation {
+    condition     = (var.backup_storage_bucket == null ? true : (length(var.backup_storage_bucket) >= 3 && length(var.backup_storage_bucket) <= 63))
+    error_message = "The length of backup_storage_bucket must be between 3 and 63 characters."
+  }
+
+  validation {
+    condition     = (var.backup_storage_bucket == null ? true : (can(regex("^[a-z0-9\\-\\_\\.]{3,63}$", var.backup_storage_bucket))))
+    error_message = "backup_storage_bucket can consist only of lowercase letters and numbers, dots (.), hyphens (-) and underscores (_)."
+  }
 }
 
 variable "bucket_storage_class" {
@@ -291,6 +397,16 @@ variable "xaccount_service_account_name" {
   description = "Cross Account service account name"
 
   default = null
+
+  validation {
+    condition     = (var.xaccount_service_account_name == null ? true : length(var.xaccount_service_account_name) >= 6 && length(var.xaccount_service_account_name) <= 30)
+    error_message = "The length of xaccount_service_account_name must be between 6 and 30 characters."
+  }
+
+  validation {
+    condition     = (var.xaccount_service_account_name == null ? true : can(regex("^[a-z0-9\\-]{6,30}$", var.xaccount_service_account_name)))
+    error_message = "xaccount_service_account_name can consist only of lowercase letters, numbers and hyphens (-)."
+  }
 }
 
 # Role Assignments to cross account
@@ -351,6 +467,16 @@ variable "log_service_account_name" {
   description = "Log service account name"
 
   default = null
+
+  validation {
+    condition     = (var.log_service_account_name == null ? true : length(var.log_service_account_name) >= 6 && length(var.log_service_account_name) <= 30)
+    error_message = "The length of log_service_account_name must be between 6 and 30 characters."
+  }
+
+  validation {
+    condition     = (var.log_service_account_name == null ? true : can(regex("^[a-z0-9\\-]{6,30}$", var.log_service_account_name)))
+    error_message = "log_service_account_name can consist only of lowercase letters, numbers and hyphens (-)."
+  }
 }
 
 variable "datalake_admin_service_account_name" {
@@ -359,6 +485,16 @@ variable "datalake_admin_service_account_name" {
   description = "Datalake Admin service account name"
 
   default = null
+
+  validation {
+    condition     = (var.datalake_admin_service_account_name == null ? true : length(var.datalake_admin_service_account_name) >= 6 && length(var.datalake_admin_service_account_name) <= 30)
+    error_message = "The length of datalake_admin_service_account_name must be between 6 and 30 characters."
+  }
+
+  validation {
+    condition     = (var.datalake_admin_service_account_name == null ? true : can(regex("^[a-z0-9\\-]{6,30}$", var.datalake_admin_service_account_name)))
+    error_message = "datalake_admin_service_account_name can consist only of lowercase letters, numbers and hyphens (-)."
+  }
 }
 
 variable "ranger_audit_service_account_name" {
@@ -367,6 +503,16 @@ variable "ranger_audit_service_account_name" {
   description = "Ranger Audit service account name"
 
   default = null
+
+  validation {
+    condition     = (var.ranger_audit_service_account_name == null ? true : length(var.ranger_audit_service_account_name) >= 6 && length(var.ranger_audit_service_account_name) <= 30)
+    error_message = "The length of ranger_audit_service_account_name must be between 6 and 30 characters."
+  }
+
+  validation {
+    condition     = (var.ranger_audit_service_account_name == null ? true : can(regex("^[a-z0-9\\-]{6,30}$", var.ranger_audit_service_account_name)))
+    error_message = "ranger_audit_service_account_name can consist only of lowercase letters, numbers and hyphens (-)."
+  }
 }
 
 variable "idbroker_service_account_name" {
@@ -375,6 +521,16 @@ variable "idbroker_service_account_name" {
   description = "IDBroker service account name"
 
   default = null
+
+  validation {
+    condition     = (var.idbroker_service_account_name == null ? true : length(var.idbroker_service_account_name) >= 6 && length(var.idbroker_service_account_name) <= 30)
+    error_message = "The length of idbroker_service_account_name must be between 6 and 30 characters."
+  }
+
+  validation {
+    condition     = (var.idbroker_service_account_name == null ? true : can(regex("^[a-z0-9\\-]{6,30}$", var.idbroker_service_account_name)))
+    error_message = "idbroker_service_account_name can consist only of lowercase letters, numbers and hyphens (-)."
+  }
 }
 
 # Permission Assignments to Custom Roles

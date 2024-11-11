@@ -16,8 +16,12 @@
 variable "tgw_name" {
   type        = string
   description = "Name of the Transit Gateway. Also used to prefix associated TGW resource names."
-}
 
+  validation {
+    condition     = length(var.tgw_name) <= 128
+    error_message = "The length of tgw_name must be 128 characters or less."
+  }
+}
 
 variable "env_tags" {
   type        = map(any)

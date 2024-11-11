@@ -37,6 +37,12 @@ variable "agent_source_tag" {
 variable "env_prefix" {
   type        = string
   description = "Shorthand name for the environment. Used in resource descriptions"
+
+  validation {
+    condition     = length(var.env_prefix) <= 12
+    error_message = "The length of env_prefix must be 12 characters or less."
+  }
+
 }
 
 variable "deployment_template" {
@@ -64,6 +70,17 @@ variable "resourcegroup_name" {
   description = "Resource Group name"
 
   default = null
+
+  validation {
+    condition     = (var.resourcegroup_name == null ? true : length(var.resourcegroup_name) >= 1 && length(var.resourcegroup_name) <= 90)
+    error_message = "The length of resourcegroup_name must be 90 characters or less."
+  }
+
+  validation {
+    condition     = (var.resourcegroup_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,90}$", var.resourcegroup_name)))
+    error_message = "resourcegroup_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
+  }
+
 }
 
 variable "create_vnet" {
@@ -79,6 +96,16 @@ variable "vnet_name" {
   description = "VNet name"
 
   default = null
+
+  validation {
+    condition     = (var.vnet_name == null ? true : length(var.vnet_name) >= 1 && length(var.vnet_name) <= 80)
+    error_message = "The length of vnet_name must be 80 characters or less."
+  }
+
+  validation {
+    condition     = (var.vnet_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,80}$", var.vnet_name)))
+    error_message = "vnet_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
+  }
 }
 
 variable "vnet_cidr" {
@@ -165,6 +192,16 @@ variable "security_group_default_name" {
   description = "Default Security Group for CDP environment"
 
   default = null
+
+  validation {
+    condition     = (var.security_group_default_name == null ? true : length(var.security_group_default_name) >= 1 && length(var.security_group_default_name) <= 80)
+    error_message = "The length of security_group_default_name must be 80 characters or less."
+  }
+
+  validation {
+    condition     = (var.security_group_default_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,80}$", var.security_group_default_name)))
+    error_message = "security_group_default_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
+  }
 }
 
 variable "security_group_knox_name" {
@@ -173,6 +210,16 @@ variable "security_group_knox_name" {
   description = "Knox Security Group for CDP environment"
 
   default = null
+
+  validation {
+    condition     = (var.security_group_knox_name == null ? true : length(var.security_group_knox_name) >= 1 && length(var.security_group_knox_name) <= 80)
+    error_message = "The length of security_group_knox_name must be 80 characters or less."
+  }
+
+  validation {
+    condition     = (var.security_group_knox_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,80}$", var.security_group_knox_name)))
+    error_message = "security_group_knox_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
+  }
 }
 
 variable "ingress_extra_cidrs_and_ports" {
@@ -233,6 +280,15 @@ variable "data_storage" {
   description = "Data storage locations for CDP environment"
 
   default = null
+
+  validation {
+    condition     = (var.data_storage == null ? true : (length(var.data_storage.data_storage_bucket) >= 3 && length(var.data_storage.data_storage_bucket) <= 24))
+    error_message = "The length of data_storage_bucket must be between 3 and 24 characters."
+  }
+  validation {
+    condition     = (var.data_storage == null ? true : (can(regex("^[a-z0-9]{1,24}$", var.data_storage.data_storage_bucket))))
+    error_message = "data_storage_bucket can consist only of lowercase letters and numbers."
+  }
 }
 
 variable "log_storage" {
@@ -244,6 +300,15 @@ variable "log_storage" {
   description = "Optional log locations for CDP environment. If not provided follow the data_storage variable"
 
   default = null
+
+  validation {
+    condition     = (var.log_storage == null ? true : (length(var.log_storage.log_storage_bucket) >= 3 && length(var.log_storage.log_storage_bucket) <= 24))
+    error_message = "The length of log_storage_bucket must be between 3 and 24 characters."
+  }
+  validation {
+    condition     = (var.log_storage == null ? true : (can(regex("^[a-z0-9]{1,24}$", var.log_storage.log_storage_bucket))))
+    error_message = "log_storage_bucket can consist only of lowercase letters and numbers."
+  }
 }
 
 variable "backup_storage" {
@@ -255,6 +320,15 @@ variable "backup_storage" {
   description = "Optional Backup location for CDP environment. If not provided follow the data_storage variable"
 
   default = null
+
+  validation {
+    condition     = (var.backup_storage == null ? true : (length(var.backup_storage.backup_storage_bucket) >= 3 && length(var.log_storage.log_storage_bucket) <= 24))
+    error_message = "The length of backup_storage_bucket must be between 3 and 24 characters."
+  }
+  validation {
+    condition     = (var.backup_storage == null ? true : (can(regex("^[a-z0-9]{1,24}$", var.backup_storage.backup_storage_bucket))))
+    error_message = "backup_storage_bucket can consist only of lowercase letters and numbers."
+  }
 }
 
 # ------- Authz Resources -------
@@ -265,6 +339,7 @@ variable "xaccount_app_name" {
   description = "	Cross account application name within Azure Active Directory"
 
   default = null
+
 }
 
 # Managed Identities
@@ -275,6 +350,14 @@ variable "datalake_admin_managed_identity_name" {
 
   default = null
 
+  validation {
+    condition     = (var.datalake_admin_managed_identity_name == null ? true : length(var.datalake_admin_managed_identity_name) <= 24)
+    error_message = "The length of datalake_admin_managed_identity_name must be 24 characters or less."
+  }
+  validation {
+    condition     = (var.datalake_admin_managed_identity_name == null ? true : can(regex("^[a-zA-Z0-9-_]{1,24}$", var.datalake_admin_managed_identity_name)))
+    error_message = "datalake_admin_managed_identity_name can consist only of letters, numbers, hyphens (-) and underscores (_)."
+  }
 }
 
 variable "idbroker_managed_identity_name" {
@@ -284,6 +367,14 @@ variable "idbroker_managed_identity_name" {
 
   default = null
 
+  validation {
+    condition     = (var.idbroker_managed_identity_name == null ? true : length(var.idbroker_managed_identity_name) <= 24)
+    error_message = "The length of idbroker_managed_identity_name must be 24 characters or less."
+  }
+  validation {
+    condition     = (var.idbroker_managed_identity_name == null ? true : can(regex("^[a-zA-Z0-9-_]{1,24}$", var.idbroker_managed_identity_name)))
+    error_message = "idbroker_managed_identity_name can consist only of letters, numbers, hyphens (-) and underscores (_)."
+  }
 }
 
 variable "log_data_access_managed_identity_name" {
@@ -293,6 +384,14 @@ variable "log_data_access_managed_identity_name" {
 
   default = null
 
+  validation {
+    condition     = (var.log_data_access_managed_identity_name == null ? true : length(var.log_data_access_managed_identity_name) <= 24)
+    error_message = "The length of log_data_access_managed_identity_name must be 24 characters or less."
+  }
+  validation {
+    condition     = (var.log_data_access_managed_identity_name == null ? true : can(regex("^[a-zA-Z0-9-_]{1,24}$", var.log_data_access_managed_identity_name)))
+    error_message = "log_data_access_managed_identity_name can consist only of letters, numbers, hyphens (-) and underscores (_)."
+  }
 }
 
 variable "ranger_audit_data_access_managed_identity_name" {
@@ -302,6 +401,14 @@ variable "ranger_audit_data_access_managed_identity_name" {
 
   default = null
 
+  validation {
+    condition     = (var.ranger_audit_data_access_managed_identity_name == null ? true : length(var.ranger_audit_data_access_managed_identity_name) <= 24)
+    error_message = "The length of ranger_audit_data_access_managed_identity_name must be 24 characters or less."
+  }
+  validation {
+    condition     = (var.ranger_audit_data_access_managed_identity_name == null ? true : can(regex("^[a-zA-Z0-9-_]{1,24}$", var.ranger_audit_data_access_managed_identity_name)))
+    error_message = "ranger_audit_data_access_managed_identity_name can consist only of letters, numbers, hyphens (-) and underscores (_)."
+  }
 }
 
 variable "raz_managed_identity_name" {
@@ -311,6 +418,14 @@ variable "raz_managed_identity_name" {
 
   default = null
 
+  validation {
+    condition     = (var.raz_managed_identity_name == null ? true : length(var.raz_managed_identity_name) <= 24)
+    error_message = "The length of raz_managed_identity_name must be 24 characters or less."
+  }
+  validation {
+    condition     = (var.raz_managed_identity_name == null ? true : can(regex("^[a-zA-Z0-9-_]{1,24}$", var.raz_managed_identity_name)))
+    error_message = "raz_managed_identity_name can consist only of letters, numbers, hyphens (-) and underscores (_)."
+  }
 }
 
 # Role Assignments to Manage Identifies
@@ -500,12 +615,31 @@ variable "nfs_file_share_name" {
   type        = string
   description = "nfs file share name"
   default     = null
+
+  validation {
+    condition     = (var.nfs_file_share_name == null ? true : length(var.nfs_file_share_name) >= 3 && length(var.nfs_file_share_name) <= 63)
+    error_message = "The length of nfs_file_share_name must be between 3 and 63 characters."
+  }
+
+  validation {
+    condition     = (var.nfs_file_share_name == null ? true : can(regex("^[a-z0-9-]{1,63}$", var.nfs_file_share_name)))
+    error_message = "nfs_file_share_name can consist only of lowercase letters, numbers, hyphens (-)."
+  }
 }
 
 variable "nfs_storage_account_name" {
   type        = string
   description = "NFS Storage account name"
   default     = null
+
+  validation {
+    condition     = (var.nfs_storage_account_name == null ? true : (length(var.nfs_storage_account_name) >= 3 && length(var.nfs_storage_account_name) <= 24))
+    error_message = "The length of nfs_storage_account_name must be between 3 and 24 characters."
+  }
+  validation {
+    condition     = (var.nfs_storage_account_name == null ? true : (can(regex("^[a-z0-9]{1,24}$", var.nfs_storage_account_name))))
+    error_message = "nfs_storage_account_name can consist only of lowercase letters and numbers."
+  }
 }
 
 variable "create_vm_mounting_nfs" {

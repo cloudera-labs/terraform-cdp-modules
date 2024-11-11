@@ -42,6 +42,12 @@ variable "xaccount_policy_name" {
   description = "Cross Account Policy name. Required if xaccount resources are to be created."
 
   default = null
+
+  validation {
+    condition     = (var.xaccount_policy_name == null ? true : length(var.xaccount_policy_name) <= 128)
+    error_message = "The length of xaccount_policy_name must be 128 characters or less."
+  }
+
 }
 
 variable "xaccount_account_policy_doc" {
@@ -57,6 +63,12 @@ variable "xaccount_role_name" {
   description = "Cross account Assume role Name. Required if xaccount resources are to be created."
 
   default = null
+
+  validation {
+    condition     = (var.xaccount_role_name == null ? true : length(var.xaccount_role_name) <= 64)
+    error_message = "The length of xaccount_role_name must be 64 characters or less."
+  }
+
 }
 
 # ------- Support for existing Cross Account Role -------
