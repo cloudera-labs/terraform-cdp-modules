@@ -37,7 +37,7 @@ plugin "google" {
 }
 
 config {
-  module = true
+  call_module_type = "local"
   force  = false
 }
 
