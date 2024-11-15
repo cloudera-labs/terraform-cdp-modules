@@ -135,7 +135,7 @@ resource "azurerm_storage_account" "cdp_storage_locations" {
 resource "azurerm_storage_container" "cdp_data_storage" {
 
   name                  = local.data_storage.data_storage_object
-  storage_account_name  = "${local.data_storage.data_storage_bucket}${local.storage_suffix}"
+  storage_account_id    = azurerm_storage_account.cdp_storage_locations[local.data_storage.data_storage_bucket].id
   container_access_type = "private"
 
   depends_on = [
@@ -147,7 +147,7 @@ resource "azurerm_storage_container" "cdp_data_storage" {
 resource "azurerm_storage_container" "cdp_log_storage" {
 
   name                  = local.log_storage.log_storage_object
-  storage_account_name  = "${local.log_storage.log_storage_bucket}${local.storage_suffix}"
+  storage_account_id    = azurerm_storage_account.cdp_storage_locations[local.log_storage.log_storage_bucket].id
   container_access_type = "private"
 
   depends_on = [
@@ -159,7 +159,7 @@ resource "azurerm_storage_container" "cdp_log_storage" {
 resource "azurerm_storage_container" "cdp_backup_storage" {
 
   name                  = local.backup_storage.backup_storage_object
-  storage_account_name  = "${local.backup_storage.backup_storage_bucket}${local.storage_suffix}"
+  storage_account_id    = azurerm_storage_account.cdp_storage_locations[local.backup_storage.backup_storage_bucket].id
   container_access_type = "private"
 
   depends_on = [
@@ -258,7 +258,7 @@ resource "azurerm_role_assignment" "cdp_datalake_admin_data_container_assign" {
 
   for_each = { for idx, role in var.datalake_admin_data_container_role_assignments : idx => role }
 
-  scope                = azurerm_storage_container.cdp_data_storage.resource_manager_id
+  scope                = azurerm_storage_container.cdp_data_storage.id
   role_definition_name = each.value.role
   principal_id         = azurerm_user_assigned_identity.cdp_datalake_admin.principal_id
 
@@ -270,7 +270,7 @@ resource "azurerm_role_assignment" "cdp_datalake_admin_log_container_assign" {
 
   for_each = { for idx, role in var.datalake_admin_log_container_role_assignments : idx => role }
 
-  scope                = azurerm_storage_container.cdp_log_storage.resource_manager_id
+  scope                = azurerm_storage_container.cdp_log_storage.id
   role_definition_name = each.value.role
   principal_id         = azurerm_user_assigned_identity.cdp_datalake_admin.principal_id
 
@@ -282,7 +282,7 @@ resource "azurerm_role_assignment" "cdp_datalake_admin_backup_container_assign" 
 
   for_each = { for idx, role in var.datalake_admin_backup_container_role_assignments : idx => role }
 
-  scope                = azurerm_storage_container.cdp_backup_storage.resource_manager_id
+  scope                = azurerm_storage_container.cdp_backup_storage.id
   role_definition_name = each.value.role
   principal_id         = azurerm_user_assigned_identity.cdp_datalake_admin.principal_id
 
@@ -305,7 +305,7 @@ resource "azurerm_role_assignment" "cdp_log_data_access_log_container_assign" {
 
   for_each = { for idx, role in var.log_data_access_role_assignments : idx => role }
 
-  scope                = azurerm_storage_container.cdp_log_storage.resource_manager_id
+  scope                = azurerm_storage_container.cdp_log_storage.id
   role_definition_name = each.value.role
   principal_id         = azurerm_user_assigned_identity.cdp_log_data_access.principal_id
 
@@ -316,7 +316,7 @@ resource "azurerm_role_assignment" "cdp_log_data_access_backup_container_assign"
 
   for_each = { for idx, role in var.log_data_access_role_assignments : idx => role }
 
-  scope                = azurerm_storage_container.cdp_backup_storage.resource_manager_id
+  scope                = azurerm_storage_container.cdp_backup_storage.id
   role_definition_name = each.value.role
   principal_id         = azurerm_user_assigned_identity.cdp_log_data_access.principal_id
 
@@ -339,7 +339,7 @@ resource "azurerm_role_assignment" "cdp_ranger_audit_data_container_assign" {
 
   for_each = { for idx, role in var.ranger_audit_data_container_role_assignments : idx => role }
 
-  scope                = azurerm_storage_container.cdp_data_storage.resource_manager_id
+  scope                = azurerm_storage_container.cdp_data_storage.id
   role_definition_name = each.value.role
   principal_id         = azurerm_user_assigned_identity.cdp_ranger_audit_data_access.principal_id
 
@@ -350,7 +350,7 @@ resource "azurerm_role_assignment" "cdp_ranger_audit_log_container_assign" {
 
   for_each = { for idx, role in var.ranger_audit_log_container_role_assignments : idx => role }
 
-  scope                = azurerm_storage_container.cdp_log_storage.resource_manager_id
+  scope                = azurerm_storage_container.cdp_log_storage.id
   role_definition_name = each.value.role
   principal_id         = azurerm_user_assigned_identity.cdp_ranger_audit_data_access.principal_id
 
@@ -361,7 +361,7 @@ resource "azurerm_role_assignment" "cdp_ranger_audit_backup_container_assign" {
 
   for_each = { for idx, role in var.ranger_audit_backup_container_role_assignments : idx => role }
 
-  scope                = azurerm_storage_container.cdp_backup_storage.resource_manager_id
+  scope                = azurerm_storage_container.cdp_backup_storage.id
   role_definition_name = each.value.role
   principal_id         = azurerm_user_assigned_identity.cdp_ranger_audit_data_access.principal_id
 

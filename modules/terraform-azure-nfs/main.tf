@@ -24,10 +24,10 @@ resource "azurerm_storage_account" "nfs_storage_account" {
 
 
 resource "azurerm_storage_share" "nfs_storage_share" {
-  name                 = var.nfs_file_share_name
-  storage_account_name = azurerm_storage_account.nfs_storage_account.name
-  enabled_protocol     = "NFS"
-  quota                = var.nfs_file_share_size
+  name               = var.nfs_file_share_name
+  storage_account_id = azurerm_storage_account.nfs_storage_account.id
+  enabled_protocol   = "NFS"
+  quota              = var.nfs_file_share_size
 }
 
 
