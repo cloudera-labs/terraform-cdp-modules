@@ -215,15 +215,6 @@ variable "workload_analytics" {
   default = true
 }
 
-variable "report_deployment_logs" {
-  type = bool
-
-  description = "Flag to enable reporting of additional diagnostic information back to Cloudera."
-
-  default = null
-
-}
-
 variable "datalake_scale" {
   type = string
 

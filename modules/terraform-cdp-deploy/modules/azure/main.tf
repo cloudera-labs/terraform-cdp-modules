@@ -81,10 +81,9 @@ resource "cdp_environments_azure_environment" "cdp_env" {
     os                      = var.freeipa_os
   }
 
-  proxy_config_name      = var.proxy_config_name
-  workload_analytics     = var.workload_analytics
-  report_deployment_logs = var.report_deployment_logs
-  enable_tunnel          = var.enable_ccm_tunnel
+  proxy_config_name  = var.proxy_config_name
+  workload_analytics = var.workload_analytics
+  enable_tunnel      = var.enable_ccm_tunnel
 
   enable_outbound_load_balancer      = var.enable_outbound_load_balancer
   encryption_key_resource_group_name = var.encryption_key_resource_group_name

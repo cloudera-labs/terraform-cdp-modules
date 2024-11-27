@@ -38,7 +38,6 @@ module "cdp_on_aws" {
   multiaz                = var.multiaz
   freeipa_instances      = var.freeipa_instances
   workload_analytics     = var.workload_analytics
-  report_deployment_logs = var.report_deployment_logs
   endpoint_access_scheme = local.endpoint_access_scheme
 
   environment_async_creation         = var.environment_async_creation
@@ -112,7 +111,6 @@ module "cdp_on_azure" {
   multiaz                = var.multiaz
   freeipa_instances      = var.freeipa_instances
   workload_analytics     = var.workload_analytics
-  report_deployment_logs = var.report_deployment_logs
   endpoint_access_scheme = local.endpoint_access_scheme
 
   environment_async_creation         = var.environment_async_creation
@@ -205,7 +203,6 @@ module "cdp_on_gcp" {
   freeipa_recipes       = var.freeipa_recipes
 
   workload_analytics     = var.workload_analytics
-  report_deployment_logs = var.report_deployment_logs
   endpoint_access_scheme = local.endpoint_access_scheme
   availability_zones     = var.gcp_availability_zones
 

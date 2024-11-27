@@ -59,9 +59,8 @@ resource "cdp_environments_gcp_environment" "cdp_env" {
     recipes                 = var.freeipa_recipes
   }
 
-  workload_analytics     = var.workload_analytics
-  report_deployment_logs = var.report_deployment_logs
-  enable_tunnel          = var.enable_ccm_tunnel
+  workload_analytics = var.workload_analytics
+  enable_tunnel      = var.enable_ccm_tunnel
 
   polling_options = {
     async                  = var.environment_async_creation
