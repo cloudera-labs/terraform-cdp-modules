@@ -121,6 +121,8 @@ resource "azurerm_storage_account" "cdp_storage_locations" {
   resource_group_name = local.cdp_resourcegroup_name
   location            = data.azurerm_resource_group.cdp_rmgp.location
 
+  public_network_access_enabled = var.storage_public_network_access_enabled
+
   # TODO: Review and parameterize these options
   account_kind             = "StorageV2"
   account_tier             = "Standard"
@@ -128,6 +130,39 @@ resource "azurerm_storage_account" "cdp_storage_locations" {
   is_hns_enabled           = true
 
   tags = merge(local.env_tags, { Name = "${each.value}${local.storage_suffix}" })
+}
+
+resource "azurerm_storage_account_network_rules" "cdp_storage_access_rules" {
+
+  for_each = { for k, v in azurerm_storage_account.cdp_storage_locations : k => v
+  if var.create_azure_storage_network_rules }
+
+  storage_account_id         = each.value.id
+  default_action             = "Deny"
+  ip_rules                   = [for cdr in var.ingress_extra_cidrs_and_ports.cidrs : can(regex("^[\\d.]{4}:/31|/32$", cdr)) ? replace(cdr, "/^([\\d.]{4}):/31|/32$/", "$1") : cdr]
+  bypass                     = ["AzureServices"]
+  virtual_network_subnet_ids = values(data.azurerm_subnet.cdp_subnets)[*].id
+}
+
+# ------- Azure Private endpoints for Storage Accounts -------
+module "stor_private_endpoints" {
+  count = var.create_azure_storage_private_endpoints ? 1 : 0
+
+  source = "../terraform-azure-endpoints"
+
+  resourcegroup_name = local.cdp_resourcegroup_name
+  azure_region       = var.azure_region
+  vnet_name          = local.cdp_vnet_name
+
+  private_endpoint_prefix              = var.env_prefix
+  private_endpoint_storage_account_ids = values(azurerm_storage_account.cdp_storage_locations)[*].id
+  private_endpoint_target_subnet_ids   = values(data.azurerm_subnet.cdp_subnets)[*].id
+
+  tags = var.env_tags
+
+  depends_on = [module.azure_cdp_vnet,
+    azurerm_storage_account_network_rules.cdp_storage_access_rules
+  ]
 }
 
 # ------- Azure Storage Containers -------
