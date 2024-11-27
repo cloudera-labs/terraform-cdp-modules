@@ -60,11 +60,10 @@ resource "cdp_environments_aws_environment" "cdp_env" {
     os                      = var.freeipa_os
   }
 
-  proxy_config_name      = var.proxy_config_name
-  s3_guard_table_name    = var.s3_guard_table_name
-  workload_analytics     = var.workload_analytics
-  report_deployment_logs = var.report_deployment_logs
-  enable_tunnel          = var.enable_ccm_tunnel
+  proxy_config_name   = var.proxy_config_name
+  s3_guard_table_name = var.s3_guard_table_name
+  workload_analytics  = var.workload_analytics
+  enable_tunnel       = var.enable_ccm_tunnel
 
   encryption_key_arn = var.encryption_key_arn
 
