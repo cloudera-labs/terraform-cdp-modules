@@ -31,3 +31,14 @@ data "azurerm_virtual_network" "cdp_vnet" {
 
   depends_on = [module.azure_cdp_vnet]
 }
+
+data "azurerm_subnet" "cdp_subnets" {
+
+  for_each = toset(local.cdp_subnet_names)
+
+  name                 = each.value
+  virtual_network_name = local.vnet_name
+  resource_group_name  = local.resourcegroup_name
+
+  depends_on = [module.azure_cdp_vnet]
+}
