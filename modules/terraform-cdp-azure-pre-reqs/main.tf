@@ -148,7 +148,7 @@ resource "azurerm_storage_account_network_rules" "cdp_storage_access_rules" {
 module "stor_private_endpoints" {
   count = var.create_azure_storage_private_endpoints ? 1 : 0
 
-  source = "../terraform-azure-endpoints"
+  source = "../terraform-azure-storage-endpoints"
 
   resourcegroup_name = local.cdp_resourcegroup_name
   azure_region       = var.azure_region
