@@ -15,9 +15,8 @@
 terraform {
   required_providers {
     google = {
-      # NOTE: Issue https://github.com/hashicorp/terraform-provider-google/issues/16275 is preventing Google provider upgrade
       source  = "hashicorp/google"
-      version = "4.84.0"
+      version = ">= 6.12"
     }
     random = {
       source  = "hashicorp/random"

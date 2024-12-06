@@ -16,14 +16,14 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | > 1.3.0 |
-| <a name="requirement_google"></a> [google](#requirement\_google) | 4.84.0 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | >= 6.12 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.4.3 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | 4.84.0 |
+| <a name="provider_google"></a> [google](#provider\_google) | >= 6.12 |
 | <a name="provider_random"></a> [random](#provider\_random) | ~> 3.4.3 |
 
 ## Modules
@@ -36,35 +36,35 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 
 | Name | Type |
 |------|------|
-| [google_compute_firewall.cdp_allow_internal_fw](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/compute_firewall) | resource |
-| [google_compute_firewall.cdp_default_fw](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/compute_firewall) | resource |
-| [google_compute_firewall.cdp_knox_fw](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/compute_firewall) | resource |
-| [google_compute_global_address.google_managed_services](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/compute_global_address) | resource |
-| [google_compute_router.cdp_compute_router](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/compute_router) | resource |
-| [google_compute_router_nat.cdp_nat](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/compute_router_nat) | resource |
-| [google_project_iam_custom_role.cdp_datalake_admin](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/project_iam_custom_role) | resource |
-| [google_project_iam_custom_role.cdp_idbroker](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/project_iam_custom_role) | resource |
-| [google_project_iam_custom_role.cdp_log_data_access](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/project_iam_custom_role) | resource |
-| [google_project_iam_member.cdp_datalake_admin_sa_binding](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/project_iam_member) | resource |
-| [google_project_iam_member.cdp_idbroker_sa_binding](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/project_iam_member) | resource |
-| [google_project_iam_member.cdp_log_sa_binding](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/project_iam_member) | resource |
-| [google_project_iam_member.cdp_ranger_audit_sa_binding](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/project_iam_member) | resource |
-| [google_project_iam_member.cdp_xaccount_sa_binding](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/project_iam_member) | resource |
-| [google_service_account.cdp_datalake_admin_sa](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/service_account) | resource |
-| [google_service_account.cdp_idbroker_sa](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/service_account) | resource |
-| [google_service_account.cdp_log_sa](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/service_account) | resource |
-| [google_service_account.cdp_ranger_audit_sa](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/service_account) | resource |
-| [google_service_account.cdp_xaccount_sa](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/service_account) | resource |
-| [google_service_account_iam_member.cdp_idbroker_dladmin_binding](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/service_account_iam_member) | resource |
-| [google_service_account_iam_member.cdp_idbroker_ranger_audit_binding](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/service_account_iam_member) | resource |
-| [google_service_account_key.cdp_xaccount_sa_key](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/service_account_key) | resource |
-| [google_service_networking_connection.google_managed_services](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/service_networking_connection) | resource |
-| [google_storage_bucket.cdp_storage_locations](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/storage_bucket) | resource |
-| [google_storage_bucket_iam_member.cdp_data_sa_member](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/storage_bucket_iam_member) | resource |
-| [google_storage_bucket_iam_member.cdp_log_sa_member](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/storage_bucket_iam_member) | resource |
-| [google_storage_bucket_iam_member.cdp_ranger_audit_sa_member](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/resources/storage_bucket_iam_member) | resource |
+| [google_compute_firewall.cdp_allow_internal_fw](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
+| [google_compute_firewall.cdp_default_fw](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
+| [google_compute_firewall.cdp_knox_fw](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
+| [google_compute_global_address.google_managed_services](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_global_address) | resource |
+| [google_compute_router.cdp_compute_router](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_router) | resource |
+| [google_compute_router_nat.cdp_nat](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_router_nat) | resource |
+| [google_project_iam_custom_role.cdp_datalake_admin](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_custom_role) | resource |
+| [google_project_iam_custom_role.cdp_idbroker](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_custom_role) | resource |
+| [google_project_iam_custom_role.cdp_log_data_access](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_custom_role) | resource |
+| [google_project_iam_member.cdp_datalake_admin_sa_binding](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
+| [google_project_iam_member.cdp_idbroker_sa_binding](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
+| [google_project_iam_member.cdp_log_sa_binding](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
+| [google_project_iam_member.cdp_ranger_audit_sa_binding](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
+| [google_project_iam_member.cdp_xaccount_sa_binding](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
+| [google_service_account.cdp_datalake_admin_sa](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account) | resource |
+| [google_service_account.cdp_idbroker_sa](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account) | resource |
+| [google_service_account.cdp_log_sa](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account) | resource |
+| [google_service_account.cdp_ranger_audit_sa](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account) | resource |
+| [google_service_account.cdp_xaccount_sa](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account) | resource |
+| [google_service_account_iam_member.cdp_idbroker_dladmin_binding](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_iam_member) | resource |
+| [google_service_account_iam_member.cdp_idbroker_ranger_audit_binding](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_iam_member) | resource |
+| [google_service_account_key.cdp_xaccount_sa_key](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_key) | resource |
+| [google_service_networking_connection.google_managed_services](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_networking_connection) | resource |
+| [google_storage_bucket.cdp_storage_locations](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket) | resource |
+| [google_storage_bucket_iam_member.cdp_data_sa_member](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket_iam_member) | resource |
+| [google_storage_bucket_iam_member.cdp_log_sa_member](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket_iam_member) | resource |
+| [google_storage_bucket_iam_member.cdp_ranger_audit_sa_member](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket_iam_member) | resource |
 | [random_id.bucket_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
-| [google_project.project](https://registry.terraform.io/providers/hashicorp/google/4.84.0/docs/data-sources/project) | data source |
+| [google_project.project](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/project) | data source |
 
 ## Inputs
 
