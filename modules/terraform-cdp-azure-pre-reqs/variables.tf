@@ -331,6 +331,30 @@ variable "backup_storage" {
   }
 }
 
+variable "storage_public_network_access_enabled" {
+  type = bool
+
+  description = "Enable public_network_access_enabled for storage accounts."
+
+  default = true
+}
+
+variable "create_azure_storage_network_rules" {
+  type = bool
+
+  description = "Enable creation of network rules for the Azure Storage Accounts."
+
+  default = false
+}
+
+variable "create_azure_storage_private_endpoints" {
+  type = bool
+
+  description = "Flag to specify if Private Endpoints are created for each storage account."
+
+  default = true
+}
+
 # ------- Authz Resources -------
 # Cross Account Application
 variable "xaccount_app_name" {

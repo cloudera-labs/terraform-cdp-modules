@@ -34,6 +34,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 |------|--------|---------|
 | <a name="module_azure_cdp_vnet"></a> [azure\_cdp\_vnet](#module\_azure\_cdp\_vnet) | ./modules/vnet | n/a |
 | <a name="module_azure_cml_nfs"></a> [azure\_cml\_nfs](#module\_azure\_cml\_nfs) | ../terraform-azure-nfs | n/a |
+| <a name="module_stor_private_endpoints"></a> [stor\_private\_endpoints](#module\_stor\_private\_endpoints) | ../terraform-azure-endpoints | n/a |
 
 ## Resources
 
@@ -61,6 +62,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [azurerm_role_assignment.cdp_raz_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.cdp_xaccount_role](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_storage_account.cdp_storage_locations](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
+| [azurerm_storage_account_network_rules.cdp_storage_access_rules](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account_network_rules) | resource |
 | [azurerm_storage_container.cdp_backup_storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.cdp_data_storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.cdp_log_storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
@@ -72,6 +74,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [random_id.bucket_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
 | [azuread_client_config.current](https://registry.terraform.io/providers/hashicorp/azuread/2.46.0/docs/data-sources/client_config) | data source |
 | [azurerm_resource_group.cdp_rmgp](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
+| [azurerm_subnet.cdp_subnets](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
 | [azurerm_virtual_network.cdp_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
 
@@ -92,6 +95,8 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_cdp_subnets_private_endpoint_network_policies"></a> [cdp\_subnets\_private\_endpoint\_network\_policies](#input\_cdp\_subnets\_private\_endpoint\_network\_policies) | Enable or Disable network policies for the private endpoint on the CDP subnets | `string` | `"Enabled"` | no |
 | <a name="input_cdp_vnet_name"></a> [cdp\_vnet\_name](#input\_cdp\_vnet\_name) | Pre-existing VNet Name for CDP environment. Required if create\_vnet is false. | `string` | `null` | no |
 | <a name="input_create_azure_cml_nfs"></a> [create\_azure\_cml\_nfs](#input\_create\_azure\_cml\_nfs) | Whether to create NFS for CML | `bool` | `false` | no |
+| <a name="input_create_azure_storage_network_rules"></a> [create\_azure\_storage\_network\_rules](#input\_create\_azure\_storage\_network\_rules) | Enable creation of network rules for the Azure Storage Accounts. | `bool` | `false` | no |
+| <a name="input_create_azure_storage_private_endpoints"></a> [create\_azure\_storage\_private\_endpoints](#input\_create\_azure\_storage\_private\_endpoints) | Flag to specify if Private Endpoints are created for each storage account. | `bool` | `true` | no |
 | <a name="input_create_private_flexible_server_resources"></a> [create\_private\_flexible\_server\_resources](#input\_create\_private\_flexible\_server\_resources) | Flag to specify if resources to support a Private Postgres flexible server should be created. | `bool` | `null` | no |
 | <a name="input_create_vm_mounting_nfs"></a> [create\_vm\_mounting\_nfs](#input\_create\_vm\_mounting\_nfs) | Whether to create a VM which mounts this NFS | `bool` | `true` | no |
 | <a name="input_create_vnet"></a> [create\_vnet](#input\_create\_vnet) | Flag to specify if the VNet should be created | `bool` | `true` | no |
@@ -125,6 +130,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_resourcegroup_name"></a> [resourcegroup\_name](#input\_resourcegroup\_name) | Resource Group name | `string` | `null` | no |
 | <a name="input_security_group_default_name"></a> [security\_group\_default\_name](#input\_security\_group\_default\_name) | Default Security Group for CDP environment | `string` | `null` | no |
 | <a name="input_security_group_knox_name"></a> [security\_group\_knox\_name](#input\_security\_group\_knox\_name) | Knox Security Group for CDP environment | `string` | `null` | no |
+| <a name="input_storage_public_network_access_enabled"></a> [storage\_public\_network\_access\_enabled](#input\_storage\_public\_network\_access\_enabled) | Enable public\_network\_access\_enabled for storage accounts. | `bool` | `true` | no |
 | <a name="input_subnet_count"></a> [subnet\_count](#input\_subnet\_count) | Number of CDP Subnets Required | `string` | `"3"` | no |
 | <a name="input_vnet_cidr"></a> [vnet\_cidr](#input\_vnet\_cidr) | VNet CIDR Block. Required if create\_vpc is true. | `string` | `"10.10.0.0/16"` | no |
 | <a name="input_vnet_name"></a> [vnet\_name](#input\_vnet\_name) | VNet name | `string` | `null` | no |
