@@ -45,6 +45,7 @@ resource "google_compute_global_address" "google_managed_services" {
 resource "google_service_networking_connection" "google_managed_services" {
   network                 = local.cdp_vpc_name
   service                 = "servicenetworking.googleapis.com"
+  deletion_policy         = "ABANDON"
   reserved_peering_ranges = [google_compute_global_address.google_managed_services.name]
 }
 
