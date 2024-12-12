@@ -55,6 +55,11 @@ variable "proxy_security_group_name" {
   description = "Name of Proxy Security Group for CDP environment. Used only if create_proxy_sg is true."
 
   default = null
+
+  validation {
+    condition     = length(var.proxy_security_group_name) <= 256
+    error_message = "The length of proxy_security_group_name must be 256 characters or less."
+  }
 }
 
 variable "proxy_security_group_id" {
@@ -104,6 +109,11 @@ variable "proxy_launch_template_name" {
   type = string
 
   description = "Name of Launch Template for the Proxy VMs."
+
+  validation {
+    condition     = length(var.proxy_launch_template_name) <= 255
+    error_message = "The length of proxy_launch_template_name must be 255 characters or less."
+  }
 
 }
 
@@ -158,6 +168,11 @@ variable "proxy_autoscaling_group_name" {
 
   description = "Name of Autoscaling Group for the Proxy VMs."
 
+  validation {
+    condition     = length(var.proxy_autoscaling_group_name) <= 255
+    error_message = "The length of proxy_autoscaling_group_name must be 255 characters or less."
+  }
+
 }
 
 variable "autoscaling_group_scaling" {
@@ -189,6 +204,15 @@ variable "network_load_balancer_name" {
 
   description = "Name of Network Load Balancer for the Proxy."
 
+  validation {
+    condition     = length(var.network_load_balancer_name) <= 32
+    error_message = "The length of network_load_balancer_name must be 32 characters or less."
+  }
+
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9-]{1,32}$", var.network_load_balancer_name))
+    error_message = "Network Load Balancer names can consist only of letters, numbers, and hyphens (-)."
+  }
 }
 
 variable "lb_subnet_ids" {
@@ -203,6 +227,15 @@ variable "target_group_proxy_name" {
 
   description = "Name of Target Group for the Proxy."
 
+  validation {
+    condition     = length(var.target_group_proxy_name) <= 32
+    error_message = "The length of target_group_proxy_name must be 32 characters or less."
+  }
+
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9-]{1,32}$", var.target_group_proxy_name))
+    error_message = "Target Group names can consist only of letters, numbers, and hyphens (-)."
+  }
 }
 
 # ------- Route table updates -------

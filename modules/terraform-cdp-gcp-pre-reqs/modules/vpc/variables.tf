@@ -16,6 +16,15 @@ variable "vpc_name" {
   type        = string
   description = "VPC Network name"
 
+  validation {
+    condition     = (var.vpc_name == null ? true : length(var.vpc_name) >= 1 && length(var.vpc_name) <= 63)
+    error_message = "The length of vpc_name must be 63 characters or less."
+  }
+
+  validation {
+    condition     = (var.vpc_name == null ? true : can(regex("^[a-z0-9\\-]{1,63}$", var.vpc_name)))
+    error_message = "vpc_name can consist only of lowercase letters, numbers and hyphens (-)."
+  }
 }
 
 variable "vpc_cidr" {

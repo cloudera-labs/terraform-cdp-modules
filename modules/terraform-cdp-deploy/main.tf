@@ -21,6 +21,7 @@ module "cdp_on_aws" {
   tags = local.env_tags
 
   environment_name              = local.environment_name
+  environment_description       = var.environment_description
   datalake_name                 = local.datalake_name
   create_cdp_credential         = var.create_cdp_credential
   cdp_xacccount_credential_name = local.cdp_xacccount_credential_name
@@ -83,6 +84,8 @@ module "cdp_on_aws" {
   datalake_image        = var.datalake_image
   datalake_java_version = var.datalake_java_version
   datalake_recipes      = var.datalake_recipes
+
+  environment_cascading_delete = var.environment_cascading_delete
 }
 
 # ------- Call sub-module for Azure Deployment -------
@@ -94,6 +97,7 @@ module "cdp_on_azure" {
   tags = local.env_tags
 
   environment_name              = local.environment_name
+  environment_description       = var.environment_description
   datalake_name                 = local.datalake_name
   create_cdp_credential         = var.create_cdp_credential
   cdp_xacccount_credential_name = local.cdp_xacccount_credential_name
@@ -173,6 +177,8 @@ module "cdp_on_azure" {
   datalake_java_version                          = var.datalake_java_version
   datalake_recipes                               = var.datalake_recipes
   datalake_flexible_server_delegated_subnet_name = var.azure_datalake_flexible_server_delegated_subnet_name
+
+  environment_cascading_delete = var.environment_cascading_delete
 }
 
 # ------- Call sub-module for GCP Deployment -------
@@ -184,6 +190,7 @@ module "cdp_on_gcp" {
   tags = local.env_tags
 
   environment_name              = local.environment_name
+  environment_description       = var.environment_description
   datalake_name                 = local.datalake_name
   create_cdp_credential         = var.create_cdp_credential
   cdp_xacccount_credential_name = local.cdp_xacccount_credential_name
@@ -241,4 +248,5 @@ module "cdp_on_gcp" {
   datalake_java_version = var.datalake_java_version
   datalake_recipes      = var.datalake_recipes
 
+  environment_cascading_delete = var.environment_cascading_delete
 }

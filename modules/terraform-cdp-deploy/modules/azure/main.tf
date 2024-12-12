@@ -37,6 +37,7 @@ resource "cdp_environments_azure_image_terms" "cdp_azure_images" {
 # ------- CDP Environment -------
 resource "cdp_environments_azure_environment" "cdp_env" {
   environment_name = var.environment_name
+  description      = var.environment_description
   credential_name  = local.cdp_xacccount_credential_name
   region           = var.region
 
@@ -96,7 +97,8 @@ resource "cdp_environments_azure_environment" "cdp_env" {
     polling_timeout        = var.environment_polling_timeout
   }
 
-  tags = var.tags
+  cascading_delete = var.environment_cascading_delete
+  tags             = var.tags
 
   depends_on = [
     cdp_environments_azure_credential.cdp_cred,
