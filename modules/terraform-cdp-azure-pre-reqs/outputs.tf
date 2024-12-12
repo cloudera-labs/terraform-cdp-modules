@@ -84,7 +84,7 @@ output "azure_security_group_knox_uri" {
 }
 
 output "azure_data_storage_account" {
-  value = azurerm_storage_container.cdp_data_storage.storage_account_name
+  value = azurerm_storage_account.cdp_storage_locations[local.data_storage.data_storage_bucket].name
 
   description = "Azure data storage account name"
 }
@@ -96,14 +96,14 @@ output "azure_data_storage_container" {
 }
 
 output "azure_data_storage_location" {
-  value = "abfs://${azurerm_storage_container.cdp_data_storage.name}@${azurerm_storage_container.cdp_data_storage.storage_account_name}.dfs.core.windows.net"
+  value = "abfs://${azurerm_storage_container.cdp_data_storage.name}@${azurerm_storage_account.cdp_storage_locations[local.data_storage.data_storage_bucket].name}.dfs.core.windows.net"
 
   description = "Azure data storage location"
 
 }
 
 output "azure_log_storage_account" {
-  value = azurerm_storage_container.cdp_log_storage.storage_account_name
+  value = azurerm_storage_account.cdp_storage_locations[local.log_storage.log_storage_bucket].name
 
   description = "Azure log storage account name"
 }
@@ -115,14 +115,14 @@ output "azure_log_storage_container" {
 }
 
 output "azure_log_storage_location" {
-  value = "abfs://${azurerm_storage_container.cdp_log_storage.name}@${azurerm_storage_container.cdp_log_storage.storage_account_name}.dfs.core.windows.net"
+  value = "abfs://${azurerm_storage_container.cdp_log_storage.name}@${azurerm_storage_account.cdp_storage_locations[local.log_storage.log_storage_bucket].name}.dfs.core.windows.net"
 
   description = "Azure log storage location"
 
 }
 
 output "azure_backup_storage_account" {
-  value = azurerm_storage_container.cdp_backup_storage.storage_account_name
+  value = azurerm_storage_account.cdp_storage_locations[local.backup_storage.backup_storage_bucket].name
 
   description = "Azure backup storage account name"
 }
@@ -134,7 +134,8 @@ output "azure_backup_storage_container" {
 }
 
 output "azure_backup_storage_location" {
-  value = "abfs://${azurerm_storage_container.cdp_backup_storage.name}@${azurerm_storage_container.cdp_backup_storage.storage_account_name}.dfs.core.windows.net"
+  value = "abfs://${azurerm_storage_container.cdp_backup_storage.name}@${azurerm_storage_account.cdp_storage_locations[local.backup_storage.backup_storage_bucket].name}.dfs.core.windows.net"
+
 
   description = "Azure backup storage location"
 
