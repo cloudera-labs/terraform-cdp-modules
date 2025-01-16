@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2025 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,14 +13,20 @@
 # limitations under the License.
 
 # ------- Global settings -------
+variable "name_prefix" {
+  type        = string
+  description = "Shorthand name to use when naming resources."
+}
+
+# ------- Cloud Settings -------
 variable "aws_region" {
   type        = string
   description = "Region which Cloud resources will be created"
 }
 
-variable "name_prefix" {
-  type        = string
-  description = "Shorthand name to use when naming resources."
+variable "aws_key_pair" {
+  type = string
+  description = "Name of the Public SSH key for the CDP environment"
 }
 
 # ------- Bastion settings -------
@@ -29,10 +35,4 @@ variable "ingress_extra_cidrs" {
   description = "List of extra ingress rules to create."
 
   default = []
-}
-
-variable "aws_key_pair" {
-  type = string
-  description = "Name of the Public SSH key for the CDP environment"
-
 }

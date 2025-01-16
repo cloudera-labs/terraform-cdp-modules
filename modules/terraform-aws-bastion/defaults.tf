@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2025 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,8 +20,5 @@ locals {
 
   # Bastion VM
   bastion_aws_ami = coalesce(var.bastion_aws_ami, data.aws_ami.bastion_default_ami.id)
-
-  bastion_cloud_init_file = coalesce(var.bastion_cloud_init_file, "${path.module}/files/cloud-init.yaml")
-
 
 }
