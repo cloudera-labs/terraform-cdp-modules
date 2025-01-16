@@ -28,14 +28,14 @@ variable "vpc_id" {
 
 # ------- Bastion SG -------
 variable "create_bastion_sg" {
-  type = bool
+  type        = bool
   description = "Flag to specify if the Security Group for the bastion should be created."
 
   default = true
 }
 
 variable "bastion_security_group_name" {
-  type = string
+  type        = string
   description = "Name of bastion Security Group for CDP environment. Used only if create_bastion_sg is true."
 
   default = null
@@ -47,7 +47,7 @@ variable "bastion_security_group_name" {
 }
 
 variable "bastion_security_group_id" {
-  type = string
+  type        = string
   description = "ID for existing Security Group to be used for the bastion VM. Required when create_bastion_sg is false."
 
   default = null
@@ -88,18 +88,11 @@ variable "bastion_host_name" {
   default = null
 }
 
-variable "bastion_port" {
-  type        = number
-  description = "Port number which the bastion listens."
-
-  default = 3129
-}
-
 variable "create_eip" {
   type        = bool
   description = "Flag to specify if an Elastic IP for the bastion should be created and assigned."
-  
-  default     = false
+
+  default = false
 }
 
 variable "eip_name" {
@@ -112,12 +105,12 @@ variable "eip_name" {
 variable "enable_bastion_public_ip" {
   type        = bool
   description = "Whether to create and assign an public IP to the bastion host."
-  
-  default     = null
+
+  default = null
 }
 
 variable "bastion_subnet_id" {
-  type = string
+  type        = string
   description = "The ID of the subnet where the bastion VM will run."
 
 }
@@ -137,7 +130,7 @@ variable "bastion_aws_instance_type" {
 }
 
 variable "bastion_aws_keypair_name" {
-  type = string
+  type        = string
   description = "SSH Keypair name for the bastion VM."
 
 }
@@ -153,7 +146,7 @@ variable "replace_on_user_data_change" {
   type        = bool
   description = "Trigger a destroy and recreate of the EC2 instance when user_data changes. Defaults to false if not set."
 
-  default     = null
+  default = null
 }
 
 variable "bastion_az" {
@@ -212,9 +205,9 @@ variable "bastion_placement_grp" {
 
 variable "bastion_cpu_options" {
   description = "The CPU options for the bastion instance (e.g., number of cores and threads per core)"
-  type        = object({
-    core_count  = number
+  type = object({
+    core_count       = number
     threads_per_core = number
   })
-  default     = null
+  default = null
 }

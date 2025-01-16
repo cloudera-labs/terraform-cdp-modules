@@ -25,7 +25,7 @@ variable "aws_region" {
 }
 
 variable "aws_key_pair" {
-  type = string
+  type        = string
   description = "Name of the Public SSH key for the CDP environment"
 }
 

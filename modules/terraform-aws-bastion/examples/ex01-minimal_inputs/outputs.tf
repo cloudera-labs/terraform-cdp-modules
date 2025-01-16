@@ -27,7 +27,25 @@
 
 # Bastion public IP
 output "bastion_instance_public_ip" {
-  value       = module.ex01_bastion.bastion_instance_public_ip
-  
+  value = module.ex01_bastion.bastion_instance_public_ip
+
   description = "The public IP assigned to the Bastion host."
+}
+
+output "bastion_instance_private_ip" {
+  value = module.ex01_bastion.bastion_instance_private_ip
+
+  description = "The private IP assigned to the Bastion host."
+}
+
+output "bastion_instance_details" {
+  value = module.ex01_bastion.bastion_instance_details
+
+  description = "The details of the Bastion host."
+}
+
+output "bastion_instance_id" {
+  value = module.ex01_bastion.bastion_instance_id
+
+  description = "The instance ID assigned to the Bastion host."
 }
