@@ -243,6 +243,7 @@ variable "route_tables_to_update" {
   description = "List of any route tables to update to point to the Network interface of the Proxy VM"
   type = list(object({
     route_tables           = list(string)
+    availability_zones     = optional(list(string))
     destination_cidr_block = string
   }))
 
