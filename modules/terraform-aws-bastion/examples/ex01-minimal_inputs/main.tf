@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2025 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,15 +32,14 @@ module "ex01_bastion" {
   source = "../.."
 
   vpc_id = module.ex01_network_vpc.vpc_id
-  bastion_subnet_id             = module.ex01_network_vpc.public_subnets[0]
+  bastion_subnet_id = module.ex01_network_vpc.public_subnets[0]
+  bastion_aws_keypair_name = var.aws_key_pair
 
-  bastion_aws_keypair_name    = var.aws_key_pair
+  bastion_user_data = base64encode(file("./files/ex-bash.sh"))
+  replace_on_user_data_change = true
 
-  # create_eip = false
-
-  # create_bastion_sg = false
-  # bastion_security_group_id = "sg-010f0d473d69935db"
-
+  bastion_host_name = "${var.name_prefix}-bastion"
+  eip_name = "${var.name_prefix}-eip"
   bastion_security_group_name = "${var.name_prefix}-sg"
   ingress_rules = [
     {

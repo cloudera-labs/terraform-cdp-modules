@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2025 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ resource "aws_eip" "bastion_eip" {
   count = var.create_eip ? 1 : 0
 
   domain = "vpc"
+  tags = merge(var.env_tags, { Name = var.eip_name })
 }
 
 resource "aws_instance" "bastion" {
@@ -25,13 +26,24 @@ resource "aws_instance" "bastion" {
   subnet_id     = var.bastion_subnet_id
   key_name = var.bastion_aws_keypair_name
   vpc_security_group_ids = [local.bastion_security_group_id]
-  associate_public_ip_address = !var.create_eip # Only auto-assign public IP when not using EIP.
+  associate_public_ip_address = var.enable_bastion_public_ip
+  user_data = var.bastion_user_data
+  user_data_replace_on_change = var.replace_on_user_data_change
 
-  user_data = base64encode(file(local.bastion_cloud_init_file))
+  tags = merge(var.env_tags, { Name = var.bastion_host_name })
 
-
-  tags = {
-    Name = "bastion-test"
+  availability_zone = var.bastion_az
+  iam_instance_profile = var.bastion_inst_profile
+  private_ip = var.bastion_private_ip
+  disable_api_termination = var.disable_api_termination
+  instance_initiated_shutdown_behavior = var.bastion_shutdown_behaviour
+  source_dest_check = var.bastion_src_dest_check
+  monitoring = var.bastion_monitoring
+  tenancy = var.bastion_tenancy
+  placement_group = var.bastion_placement_grp
+  cpu_options {
+    core_count       = var.bastion_cpu_options != null ? var.bastion_cpu_options.core_count : null
+    threads_per_core = var.bastion_cpu_options != null ? var.bastion_cpu_options.threads_per_core : null
   }
 }
 
