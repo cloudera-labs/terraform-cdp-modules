@@ -12,9 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Find AWS region
-data "aws_region" "current" {}
-
 # Find AMI for default bastion VM
 data "aws_ami" "bastion_default_ami" {
 
@@ -26,9 +23,4 @@ data "aws_ami" "bastion_default_ami" {
   }
 
   owners = ["amazon"]
-}
-
-# Find details of the VPC
-data "aws_vpc" "bastion_vpc" {
-  id = var.vpc_id
 }

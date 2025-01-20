@@ -30,3 +30,18 @@ output "bastion_instance_public_ip" {
   description = "The public IP address of the Bastion instance."
   value       = aws_instance.bastion.public_ip
 }
+
+output "bastion_instance_private_ip" {
+  description = "The private IP address of the Bastion instance."
+  value       = aws_instance.bastion.private_ip
+}
+
+output "bastion_instance_details" {
+  description = "The details of the Bastion instance."
+  value       = aws_instance.bastion
+}
+
+output "bastion_instance_id" {
+  description = "The ID of the Bastion instance."
+  value       = aws_instance.bastion.id
+}

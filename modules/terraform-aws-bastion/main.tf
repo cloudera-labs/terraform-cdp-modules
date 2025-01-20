@@ -17,30 +17,30 @@ resource "aws_eip" "bastion_eip" {
   count = var.create_eip ? 1 : 0
 
   domain = "vpc"
-  tags = merge(var.env_tags, { Name = var.eip_name })
+  tags   = merge(var.env_tags, { Name = var.eip_name })
 }
 
 resource "aws_instance" "bastion" {
-  ami = local.bastion_aws_ami
-  instance_type = var.bastion_aws_instance_type
-  subnet_id     = var.bastion_subnet_id
-  key_name = var.bastion_aws_keypair_name
-  vpc_security_group_ids = [local.bastion_security_group_id]
+  ami                         = local.bastion_aws_ami
+  instance_type               = var.bastion_aws_instance_type
+  subnet_id                   = var.bastion_subnet_id
+  key_name                    = var.bastion_aws_keypair_name
+  vpc_security_group_ids      = [local.bastion_security_group_id]
   associate_public_ip_address = var.enable_bastion_public_ip
-  user_data = var.bastion_user_data
+  user_data                   = var.bastion_user_data
   user_data_replace_on_change = var.replace_on_user_data_change
 
   tags = merge(var.env_tags, { Name = var.bastion_host_name })
 
-  availability_zone = var.bastion_az
-  iam_instance_profile = var.bastion_inst_profile
-  private_ip = var.bastion_private_ip
-  disable_api_termination = var.disable_api_termination
+  availability_zone                    = var.bastion_az
+  iam_instance_profile                 = var.bastion_inst_profile
+  private_ip                           = var.bastion_private_ip
+  disable_api_termination              = var.disable_api_termination
   instance_initiated_shutdown_behavior = var.bastion_shutdown_behaviour
-  source_dest_check = var.bastion_src_dest_check
-  monitoring = var.bastion_monitoring
-  tenancy = var.bastion_tenancy
-  placement_group = var.bastion_placement_grp
+  source_dest_check                    = var.bastion_src_dest_check
+  monitoring                           = var.bastion_monitoring
+  tenancy                              = var.bastion_tenancy
+  placement_group                      = var.bastion_placement_grp
   cpu_options {
     core_count       = var.bastion_cpu_options != null ? var.bastion_cpu_options.core_count : null
     threads_per_core = var.bastion_cpu_options != null ? var.bastion_cpu_options.threads_per_core : null
@@ -50,7 +50,7 @@ resource "aws_instance" "bastion" {
 resource "aws_eip_association" "bastion_eip_assoc" {
   count = var.create_eip ? 1 : 0
 
-  instance_id = aws_instance.bastion.id
+  instance_id   = aws_instance.bastion.id
   allocation_id = aws_eip.bastion_eip[0].id
 }
 

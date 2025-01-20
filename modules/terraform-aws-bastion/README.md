@@ -39,8 +39,6 @@ No modules.
 | [aws_security_group_rule.bastion_egress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.bastion_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_ami.bastion_default_ami](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
-| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
-| [aws_vpc.bastion_vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc) | data source |
 
 ## Inputs
 
@@ -52,12 +50,11 @@ No modules.
 | <a name="input_bastion_aws_ami"></a> [bastion\_aws\_ami](#input\_bastion\_aws\_ami) | The AWS AMI to use for the bastion VM. | `string` | `null` | no |
 | <a name="input_bastion_aws_instance_type"></a> [bastion\_aws\_instance\_type](#input\_bastion\_aws\_instance\_type) | The EC2 instance type to use for the bastion VM. | `string` | `"t3.medium"` | no |
 | <a name="input_bastion_az"></a> [bastion\_az](#input\_bastion\_az) | The availability zone where the bastion instance will be created. | `string` | `null` | no |
-| <a name="input_bastion_cpu_options"></a> [bastion\_cpu\_options](#input\_bastion\_cpu\_options) | The CPU options for the bastion instance (e.g., number of cores and threads per core) | <pre>object({<br/>    core_count  = number<br/>    threads_per_core = number<br/>  })</pre> | `null` | no |
+| <a name="input_bastion_cpu_options"></a> [bastion\_cpu\_options](#input\_bastion\_cpu\_options) | The CPU options for the bastion instance (e.g., number of cores and threads per core) | <pre>object({<br/>    core_count       = number<br/>    threads_per_core = number<br/>  })</pre> | `null` | no |
 | <a name="input_bastion_host_name"></a> [bastion\_host\_name](#input\_bastion\_host\_name) | Name of bastion host. | `string` | `null` | no |
 | <a name="input_bastion_inst_profile"></a> [bastion\_inst\_profile](#input\_bastion\_inst\_profile) | The IAM instance profile for the bastion instance. | `string` | `null` | no |
 | <a name="input_bastion_monitoring"></a> [bastion\_monitoring](#input\_bastion\_monitoring) | Whether to enable detailed monitoring for the bastion instance | `bool` | `null` | no |
 | <a name="input_bastion_placement_grp"></a> [bastion\_placement\_grp](#input\_bastion\_placement\_grp) | The placement group to associate with the bastion instance | `string` | `null` | no |
-| <a name="input_bastion_port"></a> [bastion\_port](#input\_bastion\_port) | Port number which the bastion listens. | `number` | `3129` | no |
 | <a name="input_bastion_private_ip"></a> [bastion\_private\_ip](#input\_bastion\_private\_ip) | The private IP address for the bastion instance | `string` | `null` | no |
 | <a name="input_bastion_security_group_id"></a> [bastion\_security\_group\_id](#input\_bastion\_security\_group\_id) | ID for existing Security Group to be used for the bastion VM. Required when create\_bastion\_sg is false. | `string` | `null` | no |
 | <a name="input_bastion_security_group_name"></a> [bastion\_security\_group\_name](#input\_bastion\_security\_group\_name) | Name of bastion Security Group for CDP environment. Used only if create\_bastion\_sg is true. | `string` | `null` | no |
@@ -79,5 +76,8 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_bastion_instance_details"></a> [bastion\_instance\_details](#output\_bastion\_instance\_details) | The details of the Bastion instance. |
+| <a name="output_bastion_instance_id"></a> [bastion\_instance\_id](#output\_bastion\_instance\_id) | The ID of the Bastion instance. |
+| <a name="output_bastion_instance_private_ip"></a> [bastion\_instance\_private\_ip](#output\_bastion\_instance\_private\_ip) | The private IP address of the Bastion instance. |
 | <a name="output_bastion_instance_public_ip"></a> [bastion\_instance\_public\_ip](#output\_bastion\_instance\_public\_ip) | The public IP address of the Bastion instance. |
 <!-- END_TF_DOCS -->
