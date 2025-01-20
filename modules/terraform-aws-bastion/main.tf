@@ -42,8 +42,8 @@ resource "aws_instance" "bastion" {
   tenancy                              = var.bastion_tenancy
   placement_group                      = var.bastion_placement_grp
   cpu_options {
-  core_count = try(var.bastion_cpu_options.core_count, null) 
-  threads_per_core = try(var.bastion_cpu_options.threads_per_core, null) 
+    core_count       = try(var.bastion_cpu_options.core_count, null)
+    threads_per_core = try(var.bastion_cpu_options.threads_per_core, null)
   }
 }
 
