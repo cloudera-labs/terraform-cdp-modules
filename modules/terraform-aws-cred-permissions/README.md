@@ -41,13 +41,16 @@ No modules.
 | [aws_iam_role.cdp_xaccount_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy.cdp_xaccount_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [time_sleep.iam_propagation](https://registry.terraform.io/providers/hashicorp/time/0.9.1/docs/resources/sleep) | resource |
+| [aws_iam_policy_document.cdp_xaccount_assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.cdp_xaccount_role_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.cml_backup_assume_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_role.existing_xaccount_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_role) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_create_cml_assume_role_policy"></a> [create\_cml\_assume\_role\_policy](#input\_create\_cml\_assume\_role\_policy) | Add AWS Backup Service, required for CML Backup and Restore, to Cross Account Trust Relationship. | `bool` | `false` | no |
 | <a name="input_existing_xaccount_role_name"></a> [existing\_xaccount\_role\_name](#input\_existing\_xaccount\_role\_name) | Name of existing CDP Cross Account Role. If set then no policy or role resources are created. | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags applied to provised resources | `map(any)` | `null` | no |
 | <a name="input_xaccount_account_id"></a> [xaccount\_account\_id](#input\_xaccount\_account\_id) | Account ID of the cross account. Required if xaccount resources are to be created. | `string` | `null` | no |

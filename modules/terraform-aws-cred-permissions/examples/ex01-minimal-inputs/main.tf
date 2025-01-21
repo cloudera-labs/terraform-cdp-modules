@@ -44,6 +44,8 @@ module "ex01_minimal_inputs" {
 
   xaccount_role_name = "${var.env_prefix}-xaccount-role"
 
+  # Assume role trust relationship required for CML backup and restore
+  create_cml_assume_role_policy = true
 }
 
 # Use the CDP Terraform Provider to find the xaccount account and external ids
