@@ -433,6 +433,15 @@ variable "xaccount_account_policy_doc" {
 
 }
 
+# Add extra assume role policy for CML Backup and Restore
+variable "xaccount_cml_backup_assume_role" {
+  type = bool
+
+  description = "Add AWS Backup Service, required for CML Backup and Restore, to Cross Account Trust Relationship."
+
+  default = false
+}
+
 # CDP IDBroker Assume Role policy
 variable "idbroker_policy_doc" {
   type        = string

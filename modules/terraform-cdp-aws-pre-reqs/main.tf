@@ -345,7 +345,8 @@ module "aws_cdp_cred_permissions" {
 
   xaccount_policy_name        = local.xaccount_policy_name
   xaccount_account_policy_doc = var.xaccount_account_policy_doc
-
+  create_cml_assume_role_policy = var.xaccount_cml_backup_assume_role
+  
   existing_xaccount_role_name = var.existing_xaccount_role_name
 
   tags = local.env_tags

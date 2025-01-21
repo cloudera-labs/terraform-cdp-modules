@@ -21,16 +21,15 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.30 |
-| <a name="requirement_http"></a> [http](#requirement\_http) | 3.2.1 |
-| <a name="requirement_random"></a> [random](#requirement\_random) | 3.4.3 |
-| <a name="requirement_time"></a> [time](#requirement\_time) | 0.9.1 |
+| <a name="requirement_http"></a> [http](#requirement\_http) | ~> 3.2.1 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.4.3 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.30 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.4.3 |
+| <a name="provider_random"></a> [random](#provider\_random) | ~> 3.4.3 |
 
 ## Modules
 
@@ -66,7 +65,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [aws_security_group_rule.cdp_knox_sg_ingress_self](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_vpc_endpoint.gateway_endpoints](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
 | [aws_vpc_endpoint.interface_endpoints](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
-| [random_id.bucket_suffix](https://registry.terraform.io/providers/hashicorp/random/3.4.3/docs/resources/id) | resource |
+| [random_id.bucket_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
 | [aws_vpc_endpoint_service.gateway_endpoints](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc_endpoint_service) | data source |
 | [aws_vpc_endpoint_service.interface_endpoints](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc_endpoint_service) | data source |
 
@@ -135,6 +134,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_vpc_public_inbound_acl_rules"></a> [vpc\_public\_inbound\_acl\_rules](#input\_vpc\_public\_inbound\_acl\_rules) | Inbound network ACLs for Public subnets. Exposes default value of VPC module variable to allow for overriding. Only used when create\_vpc is true. | `list(map(string))` | <pre>[<br>  {<br>    "cidr_block": "0.0.0.0/0",<br>    "from_port": 0,<br>    "protocol": "-1",<br>    "rule_action": "allow",<br>    "rule_number": 100,<br>    "to_port": 0<br>  }<br>]</pre> | no |
 | <a name="input_vpc_public_outbound_acl_rules"></a> [vpc\_public\_outbound\_acl\_rules](#input\_vpc\_public\_outbound\_acl\_rules) | Public subnets outbound network ACLs. Exposes default value of VPC module variable to allow for overriding. Only used when create\_vpc is true. | `list(map(string))` | <pre>[<br>  {<br>    "cidr_block": "0.0.0.0/0",<br>    "from_port": 0,<br>    "protocol": "-1",<br>    "rule_action": "allow",<br>    "rule_number": 100,<br>    "to_port": 0<br>  }<br>]</pre> | no |
 | <a name="input_vpc_public_subnets_map_public_ip_on_launch"></a> [vpc\_public\_subnets\_map\_public\_ip\_on\_launch](#input\_vpc\_public\_subnets\_map\_public\_ip\_on\_launch) | Auto-assign public IP on launch for instances created in Public Subnets.  Exposes default value of VPC module variable to allow for overriding. Only used when create\_vpc is true. | `bool` | `true` | no |
+| <a name="input_xaccount_cml_backup_assume_role"></a> [xaccount\_cml\_backup\_assume\_role](#input\_xaccount\_cml\_backup\_assume\_role) | Add AWS Backup Service, required for CML Backup and Restore, to Cross Account Trust Relationship. | `bool` | `false` | no |
 | <a name="input_xaccount_policy_name"></a> [xaccount\_policy\_name](#input\_xaccount\_policy\_name) | Cross Account Policy name | `string` | `null` | no |
 | <a name="input_xaccount_role_name"></a> [xaccount\_role\_name](#input\_xaccount\_role\_name) | Cross account Assume role Name | `string` | `null` | no |
 
