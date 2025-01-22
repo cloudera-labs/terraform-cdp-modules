@@ -152,11 +152,6 @@ resource "aws_nat_gateway" "nat_gateway" {
   tags = { Name = format("%s-%02d", "${var.nat_gateway_name_prefix}-ngw", count.index) }
 }
 
-output "tgw_subnet_offset" {
-  value = var.tgw_cidr_range
-
-}
-
 # ------- Route Table Entries -------
 resource "aws_route" "fw_nat_rtb_rt" {
 
