@@ -20,20 +20,6 @@ variable "tags" {
   default = {}
 }
 
-variable "cdp_region" {
-  type        = string
-  description = "CDP Control Plane region, used in Proxy Whitelist configuration files."
-
-  default = "us-west-1"
-}
-
-variable "aws_region" {
-  type        = string
-  description = "AWS region, used in Domain allowlist configuration files. If not provided will perform lookup of aws_region data source."
-
-  default = null
-}
-
 # ------- Firewall Rule Groups -------
 # Rule group for CDP deployment
 variable "cdp_fw_rule_group_capacity" {
