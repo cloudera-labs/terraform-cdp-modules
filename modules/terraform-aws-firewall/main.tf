@@ -46,7 +46,7 @@ resource "aws_networkfirewall_firewall_policy" "fw_policy" {
   name = var.firewall_policy_name
 
   firewall_policy {
-    stateful_default_actions = ["aws:drop_established"]
+    stateful_default_actions = ["aws:drop_established", "aws:alert_established"]
     stateful_engine_options {
       rule_order              = "STRICT_ORDER"
       stream_exception_policy = "DROP"
