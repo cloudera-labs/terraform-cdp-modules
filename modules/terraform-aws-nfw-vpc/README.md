@@ -82,7 +82,6 @@ No modules.
 | <a name="output_nat_subnet_route_tables"></a> [nat\_subnet\_route\_tables](#output\_nat\_subnet\_route\_tables) | List of IDs of the routes tables associated with the NAT subnets |
 | <a name="output_nat_subnets"></a> [nat\_subnets](#output\_nat\_subnets) | All details of the NAT subnets |
 | <a name="output_tgw_subnet_ids"></a> [tgw\_subnet\_ids](#output\_tgw\_subnet\_ids) | The IDs of Transit Gateway subnets |
-| <a name="output_tgw_subnet_offset"></a> [tgw\_subnet\_offset](#output\_tgw\_subnet\_offset) | n/a |
 | <a name="output_tgw_subnet_route_tables"></a> [tgw\_subnet\_route\_tables](#output\_tgw\_subnet\_route\_tables) | List of IDs of the routes tables associated with the Transit Gateway subnets |
 | <a name="output_tgw_subnets"></a> [tgw\_subnets](#output\_tgw\_subnets) | All details of the Transit Gateway subnets |
 | <a name="output_vpc_cidr_blocks"></a> [vpc\_cidr\_blocks](#output\_vpc\_cidr\_blocks) | CIDR Block Associations for the VPC |

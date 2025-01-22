@@ -33,6 +33,11 @@ variable "cdp_firewall_rule_group_name" {
   type = string
 
   description = "Name of the CDP Rule Group."
+
+  validation {
+    condition     = (length(var.cdp_firewall_rule_group_name) >= 1 && length(var.cdp_firewall_rule_group_name) <= 64)
+    error_message = "The length of cdp_firewall_rule_group_name must be between 1 and 64 characters."
+  }
 }
 
 variable "cdp_firewall_domain_allowlist" {
@@ -52,6 +57,11 @@ variable "firewall_policy_name" {
   type = string
 
   description = "Name of the Firewall Policy."
+
+  validation {
+    condition     = (length(var.firewall_policy_name) >= 1 && length(var.firewall_policy_name) <= 128)
+    error_message = "The length of firewall_policy_name must be between 1 and 128 characters."
+  }
 }
 
 # ------- Firewall -------
@@ -59,6 +69,11 @@ variable "firewall_name" {
   type = string
 
   description = "Name of the Firewall."
+
+  validation {
+    condition     = (length(var.firewall_name) >= 1 && length(var.firewall_name) <= 256)
+    error_message = "The length of firewall_name must be between 1 and 256 characters."
+  }
 }
 
 variable "firewall_subnet_ids" {
