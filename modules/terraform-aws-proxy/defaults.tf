@@ -34,9 +34,10 @@ locals {
   route_tables_to_update = flatten([
     for route in var.route_tables_to_update :
     [
-      for rt in route.route_tables :
+      for rti, rt in route.route_tables :
       {
         route_table            = rt
+        availability_zone      = try(route.availability_zones[rti], null)
         destination_cidr_block = route.destination_cidr_block
       }
     ]
@@ -50,22 +51,5 @@ locals {
       subnet_id = eni.subnet_id
     }
   ]
-
-  # TODO: Explore better rt to eni mapping with the below
-  # route_table_details = [
-  #   for rt in data.aws_route_table.proxy_rt :
-  #   {
-  #     rt_id      = rt.id
-  #     subnet_ids = rt.associations[*].subnet_id
-  #   }
-  # ]
-
-  route_table_to_lb_eni_assoc = {
-    for k, v in data.aws_route_table.proxy_rt : v.id => {
-      # TODO: eni of same subnet assoc if possible otherwise the first eni_id in lb_eni_details
-      eni = local.lb_eni_details[0].eni_id
-    }
-  }
-
 
 }
