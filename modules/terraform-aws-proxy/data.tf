@@ -48,14 +48,3 @@ data "aws_network_interface" "proxy_lb" {
     values = [each.value]
   }
 }
-
-# Find route table details
-data "aws_route_table" "proxy_rt" {
-
-  for_each = {
-    for k, v in local.route_tables_to_update : k => v
-  }
-
-  route_table_id = each.value.route_table
-
-}
