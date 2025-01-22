@@ -46,7 +46,6 @@ No modules.
 | [aws_ami.proxy_default_ami](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
 | [aws_network_interface.proxy_lb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/network_interface) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
-| [aws_route_table.proxy_rt](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route_table) | data source |
 | [aws_vpc.proxy_vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc) | data source |
 
 ## Inputs
@@ -76,7 +75,7 @@ No modules.
 | <a name="input_proxy_security_group_id"></a> [proxy\_security\_group\_id](#input\_proxy\_security\_group\_id) | ID for existing Security Group to be used for the proxy VM. Required when create\_proxy\_sg is false | `string` | `null` | no |
 | <a name="input_proxy_security_group_name"></a> [proxy\_security\_group\_name](#input\_proxy\_security\_group\_name) | Name of Proxy Security Group for CDP environment. Used only if create\_proxy\_sg is true. | `string` | `null` | no |
 | <a name="input_proxy_whitelist_file"></a> [proxy\_whitelist\_file](#input\_proxy\_whitelist\_file) | Location of the Proxy Whitelist file. If not specified the files/squid-http-whitelist.txt.tpl file accompanying the module is used. | `string` | `null` | no |
-| <a name="input_route_tables_to_update"></a> [route\_tables\_to\_update](#input\_route\_tables\_to\_update) | List of any route tables to update to point to the Network interface of the Proxy VM | <pre>list(object({<br>    route_tables           = list(string)<br>    destination_cidr_block = string<br>  }))</pre> | `[]` | no |
+| <a name="input_route_tables_to_update"></a> [route\_tables\_to\_update](#input\_route\_tables\_to\_update) | List of any route tables to update to point to the Network interface of the Proxy VM | <pre>list(object({<br>    route_tables           = list(string)<br>    availability_zones     = optional(list(string))<br>    destination_cidr_block = string<br>  }))</pre> | `[]` | no |
 
 ## Outputs
 
