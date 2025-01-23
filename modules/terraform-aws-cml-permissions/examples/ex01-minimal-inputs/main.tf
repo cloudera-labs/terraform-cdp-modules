@@ -1,4 +1,4 @@
-# Copyright 2024 Cloudera, Inc. All Rights Reserved.
+# Copyright 2025 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,8 +30,8 @@ provider "aws" {
   region = var.aws_region
 }
 
-module "ex01_minimal_inputs" {
-  source = "../.."
+module "xaccount_iam_role" {
+  source = "../../../terraform-aws-cred-permissions"
 
   tags = var.tags
 
@@ -44,8 +44,21 @@ module "ex01_minimal_inputs" {
 
   xaccount_role_name = "${var.env_prefix}-xaccount-role"
 
-  # Assume role trust relationship required for CML backup and restore
+  # Create assume role trust relationship required for CML backup and restore
   create_cml_assume_role_policy = true
+}
+
+module "ex01_minimal_inputs" {
+  source = "../.."
+
+  tags = var.tags
+
+  cml_backup_policy_name  = "${var.env_prefix}-cml-backup-policy"
+  cml_restore_policy_name = "${var.env_prefix}-cml-restore-policy"
+
+  xaccount_role_name = module.xaccount_iam_role.aws_xaccount_role_name
+
+  depends_on = [module.xaccount_iam_role]
 }
 
 # Use the CDP Terraform Provider to find the xaccount account and external ids
@@ -53,12 +66,7 @@ data "cdp_environments_aws_credential_prerequisites" "cdp_prereqs" {}
 
 # ------- Outputs -------
 output "xaccount_role_arn" {
-  value = module.ex01_minimal_inputs.aws_xaccount_role_arn
+  value = module.xaccount_iam_role.aws_xaccount_role_arn
 
   description = "The ARN of the created Cross Account Role"
-}
-output "xaccount_role_name" {
-  value = module.ex01_minimal_inputs.aws_xaccount_role_name
-
-  description = "The name of the created Cross Account Role"
 }

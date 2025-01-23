@@ -78,3 +78,13 @@ variable "existing_xaccount_role_name" {
 
   default = null
 }
+
+# ------- Assume role policy for CML Backup and Restore -------
+variable "create_cml_assume_role_policy" {
+  type = bool
+
+  description = "Add AWS Backup Service, required for CML Backup and Restore, to Cross Account Trust Relationship."
+
+  default = false
+}
+
