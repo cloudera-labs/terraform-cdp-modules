@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2025 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -183,5 +183,8 @@ resource "aws_route" "vpc_tgw_route" {
 
   route_table_id         = each.value.route_table
   destination_cidr_block = each.value.destination_cidr_block
-  network_interface_id   = local.route_table_to_lb_eni_assoc[each.value.route_table].eni
+  # Where route table AZ info is available, use Network LB ENI from same AZ as subnet where route table is associated. Otherwise set to first LB ENI
+  # Ref: https://github.com/hashicorp/terraform-provider-aws/issues/16759#issuecomment-1768591117
+  network_interface_id = try(element([for lbeni in tolist(local.lb_eni_details) : lbeni.eni_id if lbeni.az == each.value.availability_zone], 0), local.lb_eni_details[0].eni_id)
+
 }

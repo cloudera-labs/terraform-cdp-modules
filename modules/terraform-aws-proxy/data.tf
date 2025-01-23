@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2025 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -47,15 +47,4 @@ data "aws_network_interface" "proxy_lb" {
     name   = "subnet-id"
     values = [each.value]
   }
-}
-
-# Find route table details
-data "aws_route_table" "proxy_rt" {
-
-  for_each = {
-    for k, v in local.route_tables_to_update : k => v
-  }
-
-  route_table_id = each.value.route_table
-
 }
