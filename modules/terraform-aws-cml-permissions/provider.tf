@@ -22,6 +22,10 @@ terraform {
       source  = "hashicorp/http"
       version = ">= 3.2.1"
     }
+    assert = {
+      source  = "hashicorp/assert"
+      version = ">= 0.15.0"
+    }
   }
 
   required_version = ">= 1.3.0"
