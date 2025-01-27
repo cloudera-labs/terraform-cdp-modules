@@ -171,13 +171,6 @@ resource "aws_iam_role_policy_attachment" "cdp_log_role_attach1" {
   policy_arn = aws_iam_policy.cdp_log_data_access_policy.arn
 }
 
-# Attach AWS Datalake Restore Policy to the Role
-resource "aws_iam_role_policy_attachment" "cdp_log_role_attach2" {
-
-  role       = aws_iam_role.cdp_log_role.name
-  policy_arn = aws_iam_policy.cdp_datalake_restore_policy.arn
-}
-
 # Attach AWS Datalake Backup Policy to the Role
 resource "aws_iam_role_policy_attachment" "cdp_log_role_attach3" {
   role       = aws_iam_role.cdp_log_role.name
