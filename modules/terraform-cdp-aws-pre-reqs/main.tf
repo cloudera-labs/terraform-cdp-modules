@@ -476,12 +476,38 @@ data "aws_iam_policy_document" "cdp_xaccount_role_policy_doc" {
   }
 }
 
+# Optional assume role policy document for the CML Backup and Restore
+data "aws_iam_policy_document" "cml_backup_assume_policy_doc" {
+
+  count = var.xaccount_cml_backup_assume_role ? 1 : 0
+
+  version = "2012-10-17"
+
+  statement {
+    actions = ["sts:AssumeRole"]
+    effect  = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["backup.amazonaws.com"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "cdp_xaccount_assume_role_policy" {
+
+  source_policy_documents = [
+    data.aws_iam_policy_document.cdp_xaccount_role_policy_doc.json,
+    try(data.aws_iam_policy_document.cml_backup_assume_policy_doc[0].json, "")
+  ]
+}
+
 # Create the IAM role that uses the above assume_role_policy document
 resource "aws_iam_role" "cdp_xaccount_role" {
   name        = local.xaccount_role_name
   description = "CDP Cross Account role for ${var.env_prefix}"
 
-  assume_role_policy = data.aws_iam_policy_document.cdp_xaccount_role_policy_doc.json
+  assume_role_policy = data.aws_iam_policy_document.cdp_xaccount_assume_role_policy.json
 
   tags = merge(local.env_tags, { Name = local.xaccount_role_name })
 }
