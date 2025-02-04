@@ -15,6 +15,13 @@
 data "aws_iam_role" "xaccount_role" {
 
   name = var.xaccount_role_name
+
+  lifecycle {
+    postcondition {
+      condition     = provider::assert::regex(".*backup.amazonaws.com.*", self.assume_role_policy)
+      error_message = "${var.xaccount_role_name} role must have AWS backup.amazonaws.com "
+    }
+  }
 }
 
 # HTTP get request to download policy documents
