@@ -1,7 +1,7 @@
 <!-- BEGIN_TF_DOCS -->
 # Terraform Module for Azure Resource Group
 
-This module contains resource files and example variable definition files for creation of the Resource Group on Azure. The module can be used for creation of the pre-requisite resources for Cloudera Data Platform (CDP) Public Cloud.
+This module contains resource files and example variable definition files for creation of a Resource Group on Azure. The module can be used for creation of the pre-requisite resources for Cloudera Data Platform (CDP) Public Cloud.
 
 ## Usage
 
