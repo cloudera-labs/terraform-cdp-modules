@@ -32,9 +32,10 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_azure_cdp_vnet"></a> [azure\_cdp\_vnet](#module\_azure\_cdp\_vnet) | ./modules/vnet | n/a |
+| <a name="module_azure_cdp_rmgp"></a> [azure\_cdp\_rmgp](#module\_azure\_cdp\_rmgp) | ../terraform-azure-resource-group | n/a |
+| <a name="module_azure_cdp_vnet"></a> [azure\_cdp\_vnet](#module\_azure\_cdp\_vnet) | ../terraform-azure-vnet | n/a |
 | <a name="module_azure_cml_nfs"></a> [azure\_cml\_nfs](#module\_azure\_cml\_nfs) | ../terraform-azure-nfs | n/a |
-| <a name="module_stor_private_endpoints"></a> [stor\_private\_endpoints](#module\_stor\_private\_endpoints) | ../terraform-azure-endpoints | n/a |
+| <a name="module_stor_private_endpoints"></a> [stor\_private\_endpoints](#module\_stor\_private\_endpoints) | ../terraform-azure-storage-endpoints | n/a |
 
 ## Resources
 
@@ -49,7 +50,6 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [azurerm_network_security_rule.cdp_knox_sg_ingress_extra_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
 | [azurerm_private_dns_zone.flexible_server_dns_zone](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.flexible_server_vnet_link](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
-| [azurerm_resource_group.cdp_rmgp](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_role_assignment.cdp_datalake_admin_backup_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.cdp_datalake_admin_data_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.cdp_datalake_admin_log_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
@@ -73,10 +73,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [azurerm_user_assigned_identity.cdp_raz](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 | [random_id.bucket_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
 | [azuread_client_config.current](https://registry.terraform.io/providers/hashicorp/azuread/2.46.0/docs/data-sources/client_config) | data source |
-| [azurerm_resource_group.cdp_rmgp](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
-| [azurerm_subnet.cdp_subnets](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
-| [azurerm_virtual_network.cdp_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
 
 ## Inputs
 

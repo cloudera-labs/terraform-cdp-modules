@@ -13,47 +13,66 @@
 # limitations under the License.
 
 # ------- Azure Resource Group -------
-resource "azurerm_resource_group" "cdp_rmgp" {
+module "azure_cdp_rmgp" {
 
-  count = var.create_vnet ? 1 : 0
+  source = "../terraform-azure-resource-group"
 
-  name     = local.resourcegroup_name
-  location = var.azure_region
+  create_resource_group = var.create_vnet
 
-  tags = merge(local.env_tags, { Name = local.resourcegroup_name })
+  # Variables required when creating RG
+  resourcegroup_name = var.create_vnet ? local.resourcegroup_name : null
+  azure_region       = var.create_vnet ? var.azure_region : null
+  tags               = var.create_vnet ? var.env_tags : null
+
+  # Variables required when using pre-existing RG
+  existing_resource_group_name = var.create_vnet ? null : var.cdp_resourcegroup_name
+
 }
 
 # ------- VNet -------
 # Create the VNet & subnets if required
 module "azure_cdp_vnet" {
-  count = var.create_vnet ? 1 : 0
 
-  source = "./modules/vnet"
+  source = "../terraform-azure-vnet"
+
+  create_vnet = var.create_vnet
 
   deployment_template = var.deployment_template
   resourcegroup_name  = local.cdp_resourcegroup_name
-  vnet_name           = local.vnet_name
-  vnet_cidr           = var.vnet_cidr
-  vnet_region         = var.azure_region
-  subnet_count        = var.subnet_count
 
-  env_prefix = var.env_prefix
-  tags       = local.env_tags
+  # Variables required when creating VNet
+  vnet_name   = var.create_vnet ? local.vnet_name : null
+  vnet_cidr   = var.create_vnet ? var.vnet_cidr : null
+  vnet_region = var.create_vnet ? var.azure_region : null
 
-  cdp_subnet_range       = var.cdp_subnet_range
-  gateway_subnet_range   = var.gateway_subnet_range
-  delegated_subnet_range = var.delegated_subnet_range
+  cdp_subnet_prefix       = var.create_vnet ? "${var.env_prefix}-cdp-sbnt" : null
+  gateway_subnet_prefix   = var.create_vnet ? "${var.env_prefix}-gw-sbnt" : null
+  delegated_subnet_prefix = var.create_vnet ? "${var.env_prefix}-delegated-sbnt" : null
 
-  cdp_subnets_private_endpoint_network_policies     = var.cdp_subnets_private_endpoint_network_policies
-  gateway_subnets_private_endpoint_network_policies = var.gateway_subnets_private_endpoint_network_policies
+  subnet_count                                  = var.create_vnet ? var.subnet_count : null
+  cdp_subnet_range                              = var.create_vnet ? var.cdp_subnet_range : null
+  cdp_subnets_private_endpoint_network_policies = var.create_vnet ? var.cdp_subnets_private_endpoint_network_policies : null
+
+  gateway_subnet_range                              = var.create_vnet ? var.gateway_subnet_range : null
+  gateway_subnets_private_endpoint_network_policies = var.create_vnet ? var.gateway_subnets_private_endpoint_network_policies : null
+  delegated_subnet_range                            = var.create_vnet ? var.delegated_subnet_range : null
+
+  tags = var.create_vnet ? local.env_tags : null
+
+  # Variables required for pre-existing VNet
+  existing_vnet_name              = var.create_vnet ? null : var.cdp_vnet_name
+  existing_cdp_subnet_names       = var.create_vnet ? null : var.cdp_subnet_names
+  existing_gateway_subnet_names   = var.create_vnet ? null : var.cdp_gw_subnet_names
+  existing_delegated_subnet_names = var.create_vnet ? null : var.cdp_delegated_subnet_names
+
+  depends_on = [module.azure_cdp_rmgp]
 }
-
 
 # ------- Security Groups -------
 # Default SG
 resource "azurerm_network_security_group" "cdp_default_sg" {
   name                = local.security_group_default_name
-  location            = data.azurerm_resource_group.cdp_rmgp.location
+  location            = module.azure_cdp_rmgp.resource_group_location
   resource_group_name = local.cdp_resourcegroup_name
 
   tags = merge(local.env_tags, { Name = local.security_group_default_name })
@@ -79,7 +98,7 @@ resource "azurerm_network_security_rule" "cdp_default_sg_ingress_extra_access" {
 # Knox SG
 resource "azurerm_network_security_group" "cdp_knox_sg" {
   name                = local.security_group_knox_name
-  location            = data.azurerm_resource_group.cdp_rmgp.location
+  location            = module.azure_cdp_rmgp.resource_group_location
   resource_group_name = local.cdp_resourcegroup_name
 
   tags = merge(local.env_tags, { Name = local.security_group_knox_name })
@@ -103,7 +122,6 @@ resource "azurerm_network_security_rule" "cdp_knox_sg_ingress_extra_access" {
   network_security_group_name = azurerm_network_security_group.cdp_knox_sg.name
 }
 
-
 # ------- Azure Storage Account -------
 resource "random_id" "bucket_suffix" {
   count = var.random_id_for_bucket ? 1 : 0
@@ -119,7 +137,7 @@ resource "azurerm_storage_account" "cdp_storage_locations" {
 
   name                = "${each.value}${local.storage_suffix}"
   resource_group_name = local.cdp_resourcegroup_name
-  location            = data.azurerm_resource_group.cdp_rmgp.location
+  location            = module.azure_cdp_rmgp.resource_group_location
 
   public_network_access_enabled = var.storage_public_network_access_enabled
 
@@ -141,7 +159,7 @@ resource "azurerm_storage_account_network_rules" "cdp_storage_access_rules" {
   default_action             = "Deny"
   ip_rules                   = [for cdr in var.ingress_extra_cidrs_and_ports.cidrs : can(regex("^[\\d.]{4}:/31|/32$", cdr)) ? replace(cdr, "/^([\\d.]{4}):/31|/32$/", "$1") : cdr]
   bypass                     = ["AzureServices"]
-  virtual_network_subnet_ids = values(data.azurerm_subnet.cdp_subnets)[*].id
+  virtual_network_subnet_ids = module.azure_cdp_vnet.vnet_cdp_subnet_ids
 }
 
 # ------- Azure Private endpoints for Storage Accounts -------
@@ -156,7 +174,7 @@ module "stor_private_endpoints" {
 
   private_endpoint_prefix              = var.env_prefix
   private_endpoint_storage_account_ids = values(azurerm_storage_account.cdp_storage_locations)[*].id
-  private_endpoint_target_subnet_ids   = values(data.azurerm_subnet.cdp_subnets)[*].id
+  private_endpoint_target_subnet_ids   = module.azure_cdp_vnet.vnet_cdp_subnet_ids
 
   tags = var.env_tags
 
@@ -220,7 +238,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "flexible_server_vnet_l
   name                  = "${var.env_prefix}.flex-server-vent-link"
   resource_group_name   = local.cdp_resourcegroup_name
   private_dns_zone_name = azurerm_private_dns_zone.flexible_server_dns_zone[0].name
-  virtual_network_id    = data.azurerm_virtual_network.cdp_vnet.id
+  virtual_network_id    = module.azure_cdp_vnet.vnet_id
 
   tags = merge(local.env_tags)
 }
@@ -258,7 +276,7 @@ resource "azuread_application_password" "cdp_xaccount_app_password" {
 
 # Create Azure Managed Identity
 resource "azurerm_user_assigned_identity" "cdp_idbroker" {
-  location            = data.azurerm_resource_group.cdp_rmgp.location
+  location            = module.azure_cdp_rmgp.resource_group_location
   name                = local.idbroker_managed_identity_name
   resource_group_name = local.cdp_resourcegroup_name
 
@@ -281,7 +299,7 @@ resource "azurerm_role_assignment" "cdp_idbroker_assign" {
 
 # Create Azure Managed Identity
 resource "azurerm_user_assigned_identity" "cdp_datalake_admin" {
-  location            = data.azurerm_resource_group.cdp_rmgp.location
+  location            = module.azure_cdp_rmgp.resource_group_location
   name                = local.datalake_admin_managed_identity_name
   resource_group_name = local.cdp_resourcegroup_name
 
@@ -328,7 +346,7 @@ resource "azurerm_role_assignment" "cdp_datalake_admin_backup_container_assign" 
 
 # Create Azure Managed Identity
 resource "azurerm_user_assigned_identity" "cdp_log_data_access" {
-  location            = data.azurerm_resource_group.cdp_rmgp.location
+  location            = module.azure_cdp_rmgp.resource_group_location
   name                = local.log_data_access_managed_identity_name
   resource_group_name = local.cdp_resourcegroup_name
 
@@ -362,7 +380,7 @@ resource "azurerm_role_assignment" "cdp_log_data_access_backup_container_assign"
 
 # Create Azure Managed Identity
 resource "azurerm_user_assigned_identity" "cdp_ranger_audit_data_access" {
-  location            = data.azurerm_resource_group.cdp_rmgp.location
+  location            = module.azure_cdp_rmgp.resource_group_location
   name                = local.ranger_audit_data_access_managed_identity_name
   resource_group_name = local.cdp_resourcegroup_name
 
@@ -410,7 +428,7 @@ resource "azurerm_user_assigned_identity" "cdp_raz" {
 
   count = var.enable_raz ? 1 : 0
 
-  location            = data.azurerm_resource_group.cdp_rmgp.location
+  location            = module.azure_cdp_rmgp.resource_group_location
   name                = local.raz_managed_identity_name
   resource_group_name = local.cdp_resourcegroup_name
 
@@ -454,7 +472,7 @@ module "azure_cml_nfs" {
   create_vm_mounting_nfs                   = var.create_vm_mounting_nfs
 
   depends_on = [
-    azurerm_resource_group.cdp_rmgp,
+    module.azure_cdp_rmgp,
     module.azure_cdp_vnet
   ]
 }
