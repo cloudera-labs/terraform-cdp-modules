@@ -17,28 +17,3 @@ data "azurerm_subscription" "current" {}
 
 # Get the configuration of the AzureAD provider
 data "azuread_client_config" "current" {}
-
-# Find details of the Azure Resource group
-data "azurerm_resource_group" "cdp_rmgp" {
-  name = local.cdp_resourcegroup_name
-
-  depends_on = [azurerm_resource_group.cdp_rmgp]
-}
-
-data "azurerm_virtual_network" "cdp_vnet" {
-  name                = local.cdp_vnet_name
-  resource_group_name = local.cdp_resourcegroup_name
-
-  depends_on = [module.azure_cdp_vnet]
-}
-
-data "azurerm_subnet" "cdp_subnets" {
-
-  for_each = toset(local.cdp_subnet_names)
-
-  name                 = each.value
-  virtual_network_name = local.vnet_name
-  resource_group_name  = local.resourcegroup_name
-
-  depends_on = [module.azure_cdp_vnet]
-}

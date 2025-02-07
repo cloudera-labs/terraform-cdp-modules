@@ -75,7 +75,6 @@ module "ex02_vnet_lookup" {
 
   create_vnet = false
 
-
   deployment_template = var.deployment_template
 
   resourcegroup_name              = module.rmgp.resource_group_name
@@ -83,24 +82,6 @@ module "ex02_vnet_lookup" {
   existing_cdp_subnet_names       = module.ex02_existing_vnet.vnet_cdp_subnet_names
   existing_gateway_subnet_names   = module.ex02_existing_vnet.vnet_gateway_subnet_names
   existing_delegated_subnet_names = module.ex02_existing_vnet.vnet_delegated_subnet_names
-
-  # vnet_name           = "${var.env_prefix}-net"
-  # vnet_cidr           = var.vnet_cidr
-  # vnet_region         = var.azure_region
-
-  # cdp_subnet_prefix       = "${var.env_prefix}-cdp-sbnt"
-  # gateway_subnet_prefix   = "${var.env_prefix}-gw-sbnt"
-  # delegated_subnet_prefix = "${var.env_prefix}-delegated-sbnt"
-
-  # subnet_count                                  = var.subnet_count
-  # cdp_subnet_range                              = var.cdp_subnet_range
-  # cdp_subnets_private_endpoint_network_policies = var.cdp_subnets_private_endpoint_network_policies
-
-  # gateway_subnet_range                              = var.gateway_subnet_range
-  # gateway_subnets_private_endpoint_network_policies = var.gateway_subnets_private_endpoint_network_policies
-  # delegated_subnet_range                            = var.delegated_subnet_range
-
-  # tags = var.env_tags
 
   depends_on = [module.ex02_existing_vnet]
 }

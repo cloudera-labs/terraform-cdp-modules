@@ -27,7 +27,6 @@ output "vnet_address_space" {
   value       = data.azurerm_virtual_network.vnet.address_space
 }
 
-# TODO: Support byo
 output "vnet_cdp_subnet_ids" {
   description = "List of IDs of subnets for CDP Resources"
   value       = values(data.azurerm_subnet.cdp_subnets)[*].id
