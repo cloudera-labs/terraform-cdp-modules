@@ -19,7 +19,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_cdp"></a> [cdp](#requirement\_cdp) | >= 0.6.1 |
 
 ## Providers
@@ -46,8 +46,6 @@ No resources.
 | <a name="input_data_storage_location"></a> [data\_storage\_location](#input\_data\_storage\_location) | Data storage location. The location has to be in uri format for the cloud provider - i.e. s3a:// for AWS, abfs:// for Azure,  gs:// | `string` | n/a | yes |
 | <a name="input_deployment_template"></a> [deployment\_template](#input\_deployment\_template) | Deployment Pattern to use for Cloud resources and CDP | `string` | n/a | yes |
 | <a name="input_env_prefix"></a> [env\_prefix](#input\_env\_prefix) | Shorthand name for the environment. Used in CDP resource descriptions. This will be used to construct the value of where any of the CDP resource variables (e.g. environment\_name, cdp\_iam\_admin\_group\_name) are not defined. | `string` | n/a | yes |
-| <a name="input_environment_cascading_delete"></a> [environment\_cascading\_delete](#input\_environment\_cascading\_delete) | Flag to enable cascading delete of environment and associated resources | `bool` | n/a | yes |
-| <a name="input_environment_description"></a> [environment\_description](#input\_environment\_description) | Description of CDP environment | `string` | n/a | yes |
 | <a name="input_infra_type"></a> [infra\_type](#input\_infra\_type) | Cloud Provider to deploy CDP. | `string` | n/a | yes |
 | <a name="input_log_storage_location"></a> [log\_storage\_location](#input\_log\_storage\_location) | Log storage location. The location has to be in uri format for the cloud provider - i.e. s3a:// for AWS, abfs:// for Azure,  gs:// | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | Region which cloud resources will be created | `string` | n/a | yes |
@@ -112,6 +110,8 @@ No resources.
 | <a name="input_env_tags"></a> [env\_tags](#input\_env\_tags) | Tags applied to provisioned resources | `map(any)` | `null` | no |
 | <a name="input_environment_async_creation"></a> [environment\_async\_creation](#input\_environment\_async\_creation) | Flag to specify if Terraform should wait for CDP environment resource creation/deletion | `bool` | `false` | no |
 | <a name="input_environment_call_failure_threshold"></a> [environment\_call\_failure\_threshold](#input\_environment\_call\_failure\_threshold) | Threshold value that specifies how many times should a single CDP Environment API call failure happen before giving up the polling | `number` | `3` | no |
+| <a name="input_environment_cascading_delete"></a> [environment\_cascading\_delete](#input\_environment\_cascading\_delete) | Flag to enable cascading delete of environment and associated resources | `bool` | `null` | no |
+| <a name="input_environment_description"></a> [environment\_description](#input\_environment\_description) | Description of CDP environment | `string` | `null` | no |
 | <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Name of the CDP environment. Defaults to '<env\_prefix>-cdp-env' if not specified. | `string` | `null` | no |
 | <a name="input_environment_polling_timeout"></a> [environment\_polling\_timeout](#input\_environment\_polling\_timeout) | Timeout value in minutes for how long to poll for CDP Environment resource creation/deletion | `number` | `60` | no |
 | <a name="input_freeipa_catalog"></a> [freeipa\_catalog](#input\_freeipa\_catalog) | Image catalog to use for FreeIPA image selection | `string` | `null` | no |
