@@ -394,6 +394,11 @@ variable "encryption_key_arn" {
   description = "ARN of the AWS KMS CMK to use for the server-side encryption of AWS storage resources. Only applicable for CDP deployment on AWS."
 
   default = null
+
+  validation {
+    condition     = (var.encryption_key_arn == null ? true : (var.infra_type == "aws" ? true : false))
+    error_message = "encryption_key_arn can only be set when 'infra_type' is set to 'aws'."
+  }
 }
 
 variable "s3_guard_table_name" {
@@ -402,6 +407,11 @@ variable "s3_guard_table_name" {
   description = "Name for the DynamoDB table backing S3Guard. Only applicable for CDP deployment on AWS."
 
   default = null
+
+  validation {
+    condition     = (var.s3_guard_table_name == null ? true : (var.infra_type == "aws" ? true : false))
+    error_message = "s3_guard_table_name can only be set when 'infra_type' is set to 'aws'."
+  }
 }
 
 # ------- CDP Environment Deployment - Azure specific -------
@@ -411,6 +421,11 @@ variable "enable_outbound_load_balancer" {
   description = "Create outbound load balancers for Azure environments. Only applicable for CDP deployment on Azure."
 
   default = null
+
+  validation {
+    condition     = (var.enable_outbound_load_balancer == null ? true : (var.infra_type == "azure" ? true : false))
+    error_message = "enable_outbound_load_balancer can only be set when 'infra_type' is set to 'azure'."
+  }
 }
 
 variable "encryption_key_resource_group_name" {
@@ -419,6 +434,11 @@ variable "encryption_key_resource_group_name" {
   description = "Name of the existing Azure resource group hosting the Azure Key Vault containing customer managed key which will be used to encrypt the Azure Managed Disk. Only applicable for CDP deployment on Azure."
 
   default = null
+
+  validation {
+    condition     = (var.encryption_key_resource_group_name == null ? true : (var.infra_type == "azure" ? true : false))
+    error_message = "encryption_key_resource_group_name can only be set when 'infra_type' is set to 'azure'."
+  }
 }
 
 variable "encryption_key_url" {
@@ -427,6 +447,11 @@ variable "encryption_key_url" {
   description = "URL of the key which will be used to encrypt the Azure Managed Disks. Only applicable for CDP deployment on Azure."
 
   default = null
+
+  validation {
+    condition     = (var.encryption_key_url == null ? true : (var.infra_type == "azure" ? true : false))
+    error_message = "encryption_key_url can only be set when 'infra_type' is set to 'azure'."
+  }
 }
 
 variable "encryption_at_host" {
@@ -435,6 +460,11 @@ variable "encryption_at_host" {
   description = "Provision resources with host encryption enabled. Only applicable for CDP deployment on Azure."
 
   default = null
+
+  validation {
+    condition     = (var.encryption_at_host == null ? true : (var.infra_type == "azure" ? true : false))
+    error_message = "encryption_at_host can only be set when 'infra_type' is set to 'azure'."
+  }
 }
 
 variable "encryption_user_managed_identity" {
@@ -443,6 +473,11 @@ variable "encryption_user_managed_identity" {
   description = "Managed Identity ID for encryption"
 
   default = ""
+
+  validation {
+    condition     = (var.encryption_user_managed_identity == "" ? true : (var.infra_type == "azure" ? true : false))
+    error_message = "encryption_user_managed_identity can only be set when 'infra_type' is set to 'azure'."
+  }
 }
 
 # ------- Cloud Service Provider Settings - General -------
@@ -498,6 +533,12 @@ variable "aws_vpc_id" {
   description = "AWS Virtual Private Network ID. Required for CDP deployment on AWS."
 
   default = null
+
+  validation {
+    condition     = (var.infra_type == "aws" && var.aws_vpc_id == null) ? false : true
+    error_message = "aws_vpc_id must be set when 'infra_type' is 'aws'."
+  }
+
 }
 
 variable "aws_public_subnet_ids" {
@@ -505,6 +546,11 @@ variable "aws_public_subnet_ids" {
   description = "List of public subnet ids. Required for CDP deployment on AWS."
 
   default = null
+
+  # validation {
+  #   condition     = (var.infra_type == "aws" && (var.aws_public_subnet_ids == null || var.aws_private_subnet_ids == null )) ? false : true
+  #   error_message = "aws_public_subnet_ids and/or aws_private_subnet_ids must be set when 'infra_type' is 'aws'."
+  # }  
 }
 
 variable "aws_private_subnet_ids" {
@@ -512,6 +558,11 @@ variable "aws_private_subnet_ids" {
   description = "List of private subnet ids. Required for CDP deployment on AWS."
 
   default = null
+
+  #   validation {
+  #   condition     = (var.infra_type == "aws" && (var.aws_public_subnet_ids == null || var.aws_private_subnet_ids == null )) ? false : true
+  #   error_message = "aws_public_subnet_ids and/or aws_private_subnet_ids must be set when 'infra_type' is 'aws'."
+  # }  
 }
 
 variable "aws_security_group_default_id" {
@@ -520,6 +571,11 @@ variable "aws_security_group_default_id" {
   description = "ID of the Default Security Group for CDP environment. Required for CDP deployment on AWS."
 
   default = null
+
+  validation {
+    condition     = (var.infra_type == "aws" && var.aws_security_group_default_id == null) ? false : true
+    error_message = "aws_security_group_default_id must be set when 'infra_type' is 'aws'."
+  }
 }
 
 variable "aws_security_group_knox_id" {
@@ -528,6 +584,11 @@ variable "aws_security_group_knox_id" {
   description = "ID of the Knox Security Group for CDP environment. Required for CDP deployment on AWS."
 
   default = null
+
+  validation {
+    condition     = (var.infra_type == "aws" && var.aws_security_group_knox_id == null) ? false : true
+    error_message = "aws_security_group_knox_id must be set when 'infra_type' is 'aws'."
+  }
 }
 
 variable "aws_security_access_cidr" {
@@ -545,6 +606,11 @@ variable "aws_datalake_admin_role_arn" {
 
   default = null
 
+  validation {
+    condition     = (var.infra_type == "aws" && var.aws_datalake_admin_role_arn == null) ? false : true
+    error_message = "aws_datalake_admin_role_arn must be set when 'infra_type' is 'aws'."
+  }
+
 }
 
 variable "aws_ranger_audit_role_arn" {
@@ -554,6 +620,10 @@ variable "aws_ranger_audit_role_arn" {
 
   default = null
 
+  validation {
+    condition     = (var.infra_type == "aws" && var.aws_ranger_audit_role_arn == null) ? false : true
+    error_message = "aws_ranger_audit_role_arn must be set when 'infra_type' is 'aws'."
+  }
 }
 
 variable "aws_xaccount_role_arn" {
@@ -562,6 +632,11 @@ variable "aws_xaccount_role_arn" {
   description = "Cross Account Role ARN. Required for CDP deployment on AWS."
 
   default = null
+
+  validation {
+    condition     = (var.infra_type == "aws" && var.aws_xaccount_role_arn == null) ? false : true
+    error_message = "aws_xaccount_role_arn must be set when 'infra_type' is 'aws'."
+  }
 
 }
 
@@ -572,6 +647,10 @@ variable "aws_log_instance_profile_arn" {
 
   default = null
 
+  validation {
+    condition     = (var.infra_type == "aws" && var.aws_log_instance_profile_arn == null) ? false : true
+    error_message = "aws_log_instance_profile_arn must be set when 'infra_type' is 'aws'."
+  }
 }
 
 variable "aws_idbroker_instance_profile_arn" {
@@ -580,6 +659,11 @@ variable "aws_idbroker_instance_profile_arn" {
   description = "IDBroker Instance Profile ARN. Required for CDP deployment on AWS."
 
   default = null
+
+  validation {
+    condition     = (var.infra_type == "aws" && var.aws_idbroker_instance_profile_arn == null) ? false : true
+    error_message = "aws_idbroker_instance_profile_arn must be set when 'infra_type' is 'aws'."
+  }
 }
 
 variable "aws_raz_role_arn" {
@@ -588,6 +672,11 @@ variable "aws_raz_role_arn" {
   description = "ARN for Ranger Authorization Service (RAZ) role. Only applicable for CDP deployment on AWS."
 
   default = null
+
+  validation {
+    condition     = (var.infra_type == "aws" && var.enable_raz == true && var.aws_raz_role_arn == null) ? false : true
+    error_message = "aws_raz_role_arn must be set when 'infra_type' is 'aws' and RAZ is enabled."
+  }
 }
 
 # ------- Cloud Service Provider Settings - Azure specific -------
@@ -597,6 +686,11 @@ variable "azure_subscription_id" {
   description = "Subscription ID where the Azure pre-reqs are created. Required for CDP deployment on Azure."
 
   default = null
+
+  validation {
+    condition     = (var.infra_type == "azure" && var.azure_subscription_id == null) ? false : true
+    error_message = "azure_subscription_id must be set when 'infra_type' is 'azure'."
+  }
 }
 
 variable "azure_tenant_id" {
@@ -605,6 +699,11 @@ variable "azure_tenant_id" {
   description = "Tenant ID where the Azure pre-reqs are created. Required for CDP deployment on Azure."
 
   default = null
+
+  validation {
+    condition     = (var.infra_type == "azure" && var.azure_tenant_id == null) ? false : true
+    error_message = "azure_tenant_id must be set when 'infra_type' is 'azure'."
+  }
 }
 
 variable "azure_resource_group_name" {
@@ -612,6 +711,11 @@ variable "azure_resource_group_name" {
   description = "Azure Resource Group name. Required for CDP deployment on Azure."
 
   default = null
+
+  validation {
+    condition     = (var.infra_type == "azure" && var.azure_resource_group_name == null) ? false : true
+    error_message = "azure_resource_group_name must be set when 'infra_type' is 'azure'."
+  }
 }
 
 variable "azure_vnet_name" {
@@ -620,6 +724,10 @@ variable "azure_vnet_name" {
 
   default = null
 
+  validation {
+    condition     = (var.infra_type == "azure" && var.azure_vnet_name == null) ? false : true
+    error_message = "azure_vnet_name must be set when 'infra_type' is 'azure'."
+  }
 }
 
 variable "azure_aks_private_dns_zone_id" {
@@ -658,6 +766,10 @@ variable "azure_cdp_subnet_names" {
 
   default = null
 
+  validation {
+    condition     = (var.infra_type == "azure" && var.azure_cdp_subnet_names == null) ? false : true
+    error_message = "azure_cdp_subnet_names must be set when 'infra_type' is 'azure'."
+  }
 }
 
 variable "azure_cdp_gateway_subnet_names" {
@@ -682,6 +794,10 @@ variable "azure_security_group_default_uri" {
 
   default = null
 
+  validation {
+    condition     = (var.infra_type == "azure" && var.azure_security_group_default_uri == null) ? false : true
+    error_message = "azure_security_group_default_uri must be set when 'infra_type' is 'azure'."
+  }
 }
 
 variable "azure_security_group_knox_uri" {
@@ -690,6 +806,10 @@ variable "azure_security_group_knox_uri" {
 
   default = null
 
+  validation {
+    condition     = (var.infra_type == "azure" && var.azure_security_group_knox_uri == null) ? false : true
+    error_message = "azure_security_group_knox_uri must be set when 'infra_type' is 'azure'."
+  }
 }
 
 variable "azure_security_access_cidr" {
@@ -732,6 +852,10 @@ variable "azure_idbroker_identity_id" {
 
   default = null
 
+  validation {
+    condition     = (var.infra_type == "azure" && var.azure_idbroker_identity_id == null) ? false : true
+    error_message = "azure_idbroker_identity_id must be set when 'infra_type' is 'azure'."
+  }
 }
 
 variable "azure_datalakeadmin_identity_id" {
@@ -740,6 +864,11 @@ variable "azure_datalakeadmin_identity_id" {
   description = "Datalake Admin Managed Identity ID. Required for CDP deployment on Azure."
 
   default = null
+
+  validation {
+    condition     = (var.infra_type == "azure" && var.azure_datalakeadmin_identity_id == null) ? false : true
+    error_message = "azure_datalakeadmin_identity_id must be set when 'infra_type' is 'azure'."
+  }
 
 }
 
@@ -750,6 +879,10 @@ variable "azure_ranger_audit_identity_id" {
 
   default = null
 
+  validation {
+    condition     = (var.infra_type == "azure" && var.azure_ranger_audit_identity_id == null) ? false : true
+    error_message = "azure_ranger_audit_identity_id must be set when 'infra_type' is 'azure'."
+  }
 }
 
 variable "azure_log_identity_id" {
@@ -759,6 +892,11 @@ variable "azure_log_identity_id" {
 
   default = null
 
+  validation {
+    condition     = (var.infra_type == "azure" && var.azure_log_identity_id == null) ? false : true
+    error_message = "azure_log_identity_id must be set when 'infra_type' is 'azure'."
+  }
+
 }
 
 variable "azure_raz_identity_id" {
@@ -767,6 +905,11 @@ variable "azure_raz_identity_id" {
   description = "RAZ Managed Identity ID. Required for CDP deployment on Azure."
 
   default = null
+
+  validation {
+    condition     = (var.infra_type == "azure" && var.enable_raz == true && var.azure_raz_identity_id == null) ? false : true
+    error_message = "azure_raz_identity_id must be set when 'infra_type' is 'azure' and RAZ is enabled."
+  }
 
 }
 
@@ -794,6 +937,11 @@ variable "gcp_project_id" {
   description = "GCP project to deploy CDP environment. Required for CDP deployment on GCP."
 
   default = null
+
+  validation {
+    condition     = (var.infra_type == "gcp" && var.gcp_project_id == null) ? false : true
+    error_message = "gcp_project_id must be set when 'infra_type' is 'gcp'."
+  }
 }
 
 variable "gcp_xaccount_service_account_private_key" {
@@ -803,6 +951,10 @@ variable "gcp_xaccount_service_account_private_key" {
 
   default = null
 
+  validation {
+    condition     = (var.infra_type == "gcp" && var.gcp_xaccount_service_account_private_key == null) ? false : true
+    error_message = "gcp_xaccount_service_account_private_key must be set when 'infra_type' is 'gcp'."
+  }
 }
 
 variable "gcp_network_name" {
@@ -810,6 +962,11 @@ variable "gcp_network_name" {
   description = "GCP Network VPC name. Required for CDP deployment on GCP."
 
   default = null
+
+  validation {
+    condition     = (var.infra_type == "gcp" && var.gcp_network_name == null) ? false : true
+    error_message = "gcp_network_name must be set when 'infra_type' is 'gcp'."
+  }
 
 }
 
@@ -819,6 +976,10 @@ variable "gcp_cdp_subnet_names" {
 
   default = null
 
+  validation {
+    condition     = (var.infra_type == "gcp" && var.gcp_cdp_subnet_names == null) ? false : true
+    error_message = "gcp_cdp_subnet_names must be set when 'infra_type' is 'gcp'."
+  }
 }
 
 variable "gcp_availability_zones" {
@@ -835,6 +996,10 @@ variable "gcp_firewall_default_id" {
 
   default = null
 
+  validation {
+    condition     = (var.infra_type == "gcp" && var.gcp_firewall_default_id == null) ? false : true
+    error_message = "gcp_firewall_default_id must be set when 'infra_type' is 'gcp'."
+  }
 }
 
 variable "gcp_firewall_knox_id" {
@@ -842,6 +1007,11 @@ variable "gcp_firewall_knox_id" {
   description = "Knox Firewall for CDP environment. Required for CDP deployment on GCP."
 
   default = null
+
+  validation {
+    condition     = (var.infra_type == "gcp" && var.gcp_firewall_knox_id == null) ? false : true
+    error_message = "gcp_firewall_knox_id must be set when 'infra_type' is 'gcp'."
+  }
 
 }
 
@@ -852,6 +1022,10 @@ variable "gcp_idbroker_service_account_email" {
 
   default = null
 
+  validation {
+    condition     = (var.infra_type == "gcp" && var.gcp_idbroker_service_account_email == null) ? false : true
+    error_message = "gcp_idbroker_service_account_email must be set when 'infra_type' is 'gcp'."
+  }
 }
 
 variable "gcp_log_service_account_email" {
@@ -861,6 +1035,10 @@ variable "gcp_log_service_account_email" {
 
   default = null
 
+  validation {
+    condition     = (var.infra_type == "gcp" && var.gcp_log_service_account_email == null) ? false : true
+    error_message = "gcp_log_service_account_email must be set when 'infra_type' is 'gcp'."
+  }
 }
 
 variable "gcp_ranger_audit_service_account_email" {
@@ -869,6 +1047,11 @@ variable "gcp_ranger_audit_service_account_email" {
   description = "Email id of the service account for Ranger Audit. Required for CDP deployment on GCP."
 
   default = null
+
+  validation {
+    condition     = (var.infra_type == "gcp" && var.gcp_ranger_audit_service_account_email == null) ? false : true
+    error_message = "gcp_ranger_audit_service_account_email must be set when 'infra_type' is 'gcp'."
+  }
 
 }
 
@@ -879,6 +1062,10 @@ variable "gcp_datalake_admin_service_account_email" {
 
   default = null
 
+  validation {
+    condition     = (var.infra_type == "gcp" && var.gcp_datalake_admin_service_account_email == null) ? false : true
+    error_message = "gcp_datalake_admin_service_account_email must be set when 'infra_type' is 'gcp'."
+  }
 }
 
 variable "gcp_encryption_key" {
@@ -896,4 +1083,10 @@ variable "gcp_raz_service_account_email" {
   description = "Email id of the service account for Ranger Authorization Service (RAZ). Only applicable for CDP deployment on GCP."
 
   default = null
+
+  validation {
+    condition     = (var.infra_type == "gcp" && var.enable_raz == true && var.gcp_raz_service_account_email == null) ? false : true
+    error_message = "gcp_raz_service_account_email must be set when 'infra_type' is 'gcp' and RAZ is enabled."
+  }
+
 }
