@@ -35,5 +35,5 @@ output "bastion_instance_id" {
 
 output "bastion_password_data" {
   description = "The password data for the Bastion instance."
-  value = try(aws_instance.bastion.password_data,null)
+  value       = try(aws_instance.bastion.password_data, null)
 }

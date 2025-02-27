@@ -214,6 +214,7 @@ variable "bastion_cpu_options" {
 
 variable "bastion_get_password_data" {
   description = "Return the password data for the bastion instance"
+  type        = bool
 
   default = null
 }
