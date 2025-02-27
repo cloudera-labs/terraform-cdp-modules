@@ -45,6 +45,7 @@ resource "aws_instance" "bastion" {
     core_count       = try(var.bastion_cpu_options.core_count, null)
     threads_per_core = try(var.bastion_cpu_options.threads_per_core, null)
   }
+  get_password_data = var.bastion_get_password_data
 }
 
 resource "aws_eip_association" "bastion_eip_assoc" {

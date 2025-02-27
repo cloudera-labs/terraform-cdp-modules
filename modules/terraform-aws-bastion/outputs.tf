@@ -15,7 +15,7 @@
 # Bastion public IP
 output "bastion_instance_public_ip" {
   description = "The public IP address of the Bastion instance."
-  value       = aws_instance.bastion.public_ip
+  value       = var.create_eip ? aws_eip.bastion_eip[0].public_ip : aws_instance.bastion.public_ip
 }
 
 output "bastion_instance_private_ip" {
@@ -31,4 +31,9 @@ output "bastion_instance_details" {
 output "bastion_instance_id" {
   description = "The ID of the Bastion instance."
   value       = aws_instance.bastion.id
+}
+
+output "bastion_password_data" {
+  description = "The password data for the Bastion instance."
+  value = try(aws_instance.bastion.password_data,null)
 }

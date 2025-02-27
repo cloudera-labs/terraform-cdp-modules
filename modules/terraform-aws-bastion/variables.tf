@@ -211,3 +211,9 @@ variable "bastion_cpu_options" {
   })
   default = null
 }
+
+variable "bastion_get_password_data" {
+  description = "Return the password data for the bastion instance"
+
+  default = null
+}
