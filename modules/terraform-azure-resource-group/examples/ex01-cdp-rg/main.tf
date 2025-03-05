@@ -12,3 +12,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+terraform {
+  required_version = ">= 1.5.7"
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = ">= 4.0.0"
+    }
+  }
+}
+
+provider "azurerm" {
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
+
+}
+
+# ------- Azure Resource Group -------
+module "ex01_cdp_rmgp" {
+  source = "../.."
+
+  resourcegroup_name = "${var.env_prefix}-net"
+  azure_region       = var.azure_region
+
+  tags = var.env_tags
+
+}

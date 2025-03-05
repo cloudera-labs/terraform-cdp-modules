@@ -12,8 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Access information about Azure Subscription
-data "azurerm_subscription" "current" {}
+# ------- Global settings -------
+variable "env_prefix" {
+  type        = string
+  description = "Shorthand name for the environment."
+}
 
-# Get the configuration of the AzureAD provider
-data "azuread_client_config" "current" {}
+variable "azure_region" {
+  type        = string
+  description = "Region which Cloud resources will be created"
+}
+
+variable "env_tags" {
+  type        = map(any)
+  description = "Tags applied to provised resources"
+
+  default = null
+}

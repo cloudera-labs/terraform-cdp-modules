@@ -15,22 +15,26 @@
 
 # ------- VNet -------
 resource "azurerm_virtual_network" "cdp_vnet" {
+
+  count = var.create_vnet ? 1 : 0
+
   name                = var.vnet_name
   location            = var.vnet_region
   resource_group_name = var.resourcegroup_name
   address_space       = [var.vnet_cidr]
   dns_servers         = []
 
-  tags = merge(var.tags, { Name = "${var.env_prefix}-net" })
+  tags = merge(var.tags, { Name = var.vnet_name })
 }
 
 # ------- Subnets -------
 # Azure VNet Public Subnets
 resource "azurerm_subnet" "cdp_subnets" {
 
-  for_each = { for idx, subnet in local.cdp_subnets : idx => subnet }
+  for_each = { for idx, subnet in local.cdp_subnets : idx => subnet
+  if var.create_vnet }
 
-  virtual_network_name = azurerm_virtual_network.cdp_vnet.name
+  virtual_network_name = azurerm_virtual_network.cdp_vnet[0].name
   resource_group_name  = var.resourcegroup_name
   name                 = each.value.name
   address_prefixes     = [each.value.cidr]
@@ -42,9 +46,10 @@ resource "azurerm_subnet" "cdp_subnets" {
 
 resource "azurerm_subnet" "gateway_subnets" {
 
-  for_each = { for idx, subnet in local.gw_subnets : idx => subnet }
+  for_each = { for idx, subnet in local.gw_subnets : idx => subnet
+  if var.create_vnet }
 
-  virtual_network_name = azurerm_virtual_network.cdp_vnet.name
+  virtual_network_name = azurerm_virtual_network.cdp_vnet[0].name
   resource_group_name  = var.resourcegroup_name
   name                 = each.value.name
   address_prefixes     = [each.value.cidr]
@@ -54,11 +59,12 @@ resource "azurerm_subnet" "gateway_subnets" {
 
 }
 
-resource "azurerm_subnet" "delegation_subnet" {
+resource "azurerm_subnet" "delegated_subnet" {
 
-  for_each = { for idx, subnet in local.delegated_subnets : idx => subnet }
+  for_each = { for idx, subnet in local.delegated_subnets : idx => subnet
+  if var.create_vnet }
 
-  virtual_network_name = azurerm_virtual_network.cdp_vnet.name
+  virtual_network_name = azurerm_virtual_network.cdp_vnet[0].name
   resource_group_name  = var.resourcegroup_name
   name                 = each.value.name
   address_prefixes     = [each.value.cidr]

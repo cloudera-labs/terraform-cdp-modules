@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Access information about Azure Subscription
-data "azurerm_subscription" "current" {}
+data "azurerm_resource_group" "rmgp" {
+  name = local.resource_group_name
 
-# Get the configuration of the AzureAD provider
-data "azuread_client_config" "current" {}
+  depends_on = [azurerm_resource_group.rmgp]
+}

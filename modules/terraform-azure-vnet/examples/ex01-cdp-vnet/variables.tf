@@ -12,82 +12,51 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# ------- Global settings -------
+variable "env_prefix" {
+  type        = string
+  description = "Shorthand name for the environment. Used in resource descriptions"
+}
+
+variable "azure_region" {
+  type        = string
+  description = "Region which Cloud resources will be created"
+}
+
+variable "env_tags" {
+  type        = map(any)
+  description = "Tags applied to provised resources"
+
+  default = null
+}
+
+# ------- CDP Environment Deployment -------
 variable "deployment_template" {
   type = string
 
   description = "Deployment Pattern to use for Cloud resources and CDP"
-
-  validation {
-    condition     = contains(["public", "semi-private", "private"], var.deployment_template)
-    error_message = "Valid values for var: deployment_template are (public, semi-private, private)."
-  }
 }
 
-variable "resourcegroup_name" {
-  type        = string
-  description = "Resource Group Name"
-}
-
-variable "vnet_name" {
-  type        = string
-  description = "VNet name"
-
-  validation {
-    condition     = length(var.vnet_name) >= 1 && length(var.vnet_name) <= 80
-    error_message = "The length of vnet_name must be 80 characters or less."
-  }
-
-  validation {
-    condition     = can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,80}$", var.vnet_name))
-    error_message = "vnet_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
-  }
-}
-
+# ------- Network Resources -------
 variable "vnet_cidr" {
   type        = string
-  description = "VNet CIDR Block"
+  description = "VPC CIDR Block. Required if create_vpc is true."
 
-}
-
-variable "cdp_subnet_range" {
-  type        = number
-  description = "Size of each (internal) cluster subnet"
-
-}
-
-variable "gateway_subnet_range" {
-  type        = number
-  description = "Size of each gateway subnet"
-
-}
-
-variable "delegated_subnet_range" {
-  type        = number
-  description = "Size of each Postgres Flexible Server delegated subnet"
-
-}
-
-variable "vnet_region" {
-  type        = string
-  description = "Region which VNet will be created"
-
+  default = "10.10.0.0/16"
 }
 
 variable "subnet_count" {
   type        = string
-  description = "Number of Subnets Required"
+  description = "Number of CDP Subnets Required"
 
+  default = "3"
 }
 
-variable "tags" {
-  type        = map(any)
-  description = "Tags applied to provised resources"
+variable "cdp_subnet_range" {
+  type        = number
+  description = "Size of each (internal) cluster subnet. Required if create_vpc is true."
 
-}
-
-variable "env_prefix" {
-  type        = string
-  description = "Shorthand name for the environment. Used in resource descriptions"
+  default = 19
 }
 
 variable "cdp_subnets_private_endpoint_network_policies" {
@@ -99,6 +68,15 @@ variable "cdp_subnets_private_endpoint_network_policies" {
     condition     = (var.cdp_subnets_private_endpoint_network_policies == null ? true : contains(["Disabled", "Enabled", "NetworkSecurityGroupEnabled", "RouteTableEnabled"], var.cdp_subnets_private_endpoint_network_policies))
     error_message = "Valid values for var: cdp_subnets_private_endpoint_network_policies are (Disabled, Enabled, NetworkSecurityGroupEnabled, RouteTableEnabled)."
   }
+
+  default = "Enabled"
+}
+
+variable "gateway_subnet_range" {
+  type        = number
+  description = "Size of each gateway subnet. Required if create_vpc is true."
+
+  default = 24
 }
 
 variable "gateway_subnets_private_endpoint_network_policies" {
@@ -110,4 +88,13 @@ variable "gateway_subnets_private_endpoint_network_policies" {
     condition     = (var.gateway_subnets_private_endpoint_network_policies == null ? true : contains(["Disabled", "Enabled", "NetworkSecurityGroupEnabled", "RouteTableEnabled"], var.gateway_subnets_private_endpoint_network_policies))
     error_message = "Valid values for var: gateway_subnets_private_endpoint_network_policies are (Disabled, Enabled, NetworkSecurityGroupEnabled, RouteTableEnabled)."
   }
+
+  default = "Enabled"
+}
+
+variable "delegated_subnet_range" {
+  type        = number
+  description = "Size of each Postgres Flexible Server delegated subnet. Required if create_vpc is true."
+
+  default = 26
 }
