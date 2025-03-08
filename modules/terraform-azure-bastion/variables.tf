@@ -18,7 +18,7 @@ variable "azure_region" {
 
 variable "bastion_resourcegroup_name" {
   type        = string
-  description = "Pre-existing Resource Group Name"
+  description = "Bastion Resource Group Name"
 
 }
 
