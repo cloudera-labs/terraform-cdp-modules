@@ -1,4 +1,4 @@
-# Terraform Module for Azure Private Endpoints
+# Terraform Module for Azure Bastion Host
 
 This module contains resource files and example variable definition files to create a Bastion Host on Azure. This module can be used to assist in deploying Cloudera Data Platform (CDP) Public Cloud in a secure environment, where the CDP Environment requires a Bastion host.
 
