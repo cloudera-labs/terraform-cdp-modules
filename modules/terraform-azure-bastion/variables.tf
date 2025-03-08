@@ -13,12 +13,14 @@
 # limitations under the License.
 
 variable "azure_region" {
-  type = string
+  type        = string
+  description = "Region for the bastion host"
+
 }
 
 variable "bastion_resourcegroup_name" {
   type        = string
-  description = "Bastion Resource Group Name"
+  description = "Bastion resource group name"
 
 }
 
@@ -31,20 +33,20 @@ variable "tags" {
 
 variable "use_static_public_ip" {
   type        = bool
-  description = "If true, creates a static public IP. Otherwise, creates a dynamic public IP."
+  description = "Whether to assign a static public IP to the bastion host"
 
   default = false
 }
 
 variable "bastion_public_ip_name" {
   type        = string
-  description = "Name of Public IP"
+  description = "Name of Public IP of bastion host"
 
 }
 
 variable "bastion_host_name" {
   type        = string
-  description = "Name of bastion host."
+  description = "Name of bastion host"
 
 }
 
@@ -56,6 +58,6 @@ variable "bastion_ipconfig_name" {
 
 variable "bastion_subnet_id" {
   type        = string
-  description = "Subnet ID for bastion"
+  description = "Subnet ID of bastion"
 
 }

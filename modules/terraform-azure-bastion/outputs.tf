@@ -13,10 +13,11 @@
 # limitations under the License. 
 
 output "bastion_public_ip" {
-  description = "Bastion public IP"
+  description = "Public IP of bastion host"
   value       = azurerm_public_ip.bastion_pip.ip_address
 }
 
 output "bastion_host_name" {
-  value = azurerm_bastion_host.bastion.name
+  description = "Name of bastion host"
+  value       = azurerm_bastion_host.bastion.name
 }

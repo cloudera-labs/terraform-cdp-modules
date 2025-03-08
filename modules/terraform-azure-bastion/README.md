@@ -39,19 +39,19 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_azure_region"></a> [azure\_region](#input\_azure\_region) | n/a | `string` | n/a | yes |
-| <a name="input_bastion_host_name"></a> [bastion\_host\_name](#input\_bastion\_host\_name) | Name of bastion host. | `string` | n/a | yes |
+| <a name="input_azure_region"></a> [azure\_region](#input\_azure\_region) | Region for the bastion host | `string` | n/a | yes |
+| <a name="input_bastion_host_name"></a> [bastion\_host\_name](#input\_bastion\_host\_name) | Name of bastion host | `string` | n/a | yes |
 | <a name="input_bastion_ipconfig_name"></a> [bastion\_ipconfig\_name](#input\_bastion\_ipconfig\_name) | Name of IP configuration of bastion host | `string` | n/a | yes |
-| <a name="input_bastion_public_ip_name"></a> [bastion\_public\_ip\_name](#input\_bastion\_public\_ip\_name) | Name of Public IP | `string` | n/a | yes |
-| <a name="input_bastion_resourcegroup_name"></a> [bastion\_resourcegroup\_name](#input\_bastion\_resourcegroup\_name) | Bastion Resource Group Name | `string` | n/a | yes |
-| <a name="input_bastion_subnet_id"></a> [bastion\_subnet\_id](#input\_bastion\_subnet\_id) | Subnet ID for bastion | `string` | n/a | yes |
+| <a name="input_bastion_public_ip_name"></a> [bastion\_public\_ip\_name](#input\_bastion\_public\_ip\_name) | Name of Public IP of bastion host | `string` | n/a | yes |
+| <a name="input_bastion_resourcegroup_name"></a> [bastion\_resourcegroup\_name](#input\_bastion\_resourcegroup\_name) | Bastion resource group name | `string` | n/a | yes |
+| <a name="input_bastion_subnet_id"></a> [bastion\_subnet\_id](#input\_bastion\_subnet\_id) | Subnet ID of bastion | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags applied to provised resources | `map(any)` | `null` | no |
-| <a name="input_use_static_public_ip"></a> [use\_static\_public\_ip](#input\_use\_static\_public\_ip) | If true, creates a static public IP. Otherwise, creates a dynamic public IP. | `bool` | `false` | no |
+| <a name="input_use_static_public_ip"></a> [use\_static\_public\_ip](#input\_use\_static\_public\_ip) | Whether to assign a static public IP to the bastion host | `bool` | `false` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_bastion_host_name"></a> [bastion\_host\_name](#output\_bastion\_host\_name) | n/a |
-| <a name="output_bastion_public_ip"></a> [bastion\_public\_ip](#output\_bastion\_public\_ip) | Bastion public IP |
+| <a name="output_bastion_host_name"></a> [bastion\_host\_name](#output\_bastion\_host\_name) | Name of bastion host |
+| <a name="output_bastion_public_ip"></a> [bastion\_public\_ip](#output\_bastion\_public\_ip) | Public IP of bastion host |
 <!-- END_TF_DOCS -->
