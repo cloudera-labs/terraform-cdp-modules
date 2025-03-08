@@ -74,7 +74,6 @@ module "ex01_bastion" {
   azure_region               = var.azure_region
   tags                       = var.env_tags
 
-
   bastion_public_ip_name = "${var.env_prefix}-bastion-pip"
   use_static_public_ip   = true
 
