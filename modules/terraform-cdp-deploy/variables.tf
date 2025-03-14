@@ -125,37 +125,30 @@ variable "cdp_xacccount_credential_name" {
 
 }
 
-variable "cdp_admin_group_name" {
-  type        = string
-  description = "Name of the CDP IAM Admin Group associated with the environment. Defaults to '<env_prefix>-cdp-admin-group' if not specified."
+variable "cdp_groups" {
+  type = set(object({
+    name                          = string
+    create_group                  = bool
+    sync_membership_on_user_login = optional(bool)
+    add_id_broker_mappings        = bool
+    })
+  )
 
-  default = null
+  description = "List of CDP Groups to be added to the IDBroker mappings of the environment. If create_group is set to true then the group will be created."
 
   validation {
-    condition     = (var.cdp_admin_group_name == null ? true : length(var.cdp_admin_group_name) >= 1 && length(var.cdp_admin_group_name) <= 64)
-    error_message = "The length of cdp_admin_group_name must be 64 characters or less."
+    condition = (var.cdp_groups == null ? true : alltrue([
+      for grp in var.cdp_groups :
+      length(grp.name) >= 1 && length(grp.name) <= 64
+    ]))
+    error_message = "The length of all CDP group names must be 64 characters or less."
   }
-
   validation {
-    condition     = (var.cdp_admin_group_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,90}$", var.cdp_admin_group_name)))
-    error_message = "cdp_admin_group_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
-  }
-}
-
-variable "cdp_user_group_name" {
-  type        = string
-  description = "Name of the CDP IAM User Group associated with the environment. Defaults to '<env_prefix>-cdp-user-group' if not specified."
-
-  default = null
-
-  validation {
-    condition     = (var.cdp_user_group_name == null ? true : length(var.cdp_user_group_name) >= 1 && length(var.cdp_user_group_name) <= 64)
-    error_message = "The length of cdp_user_group_name must be 64 characters or less."
-  }
-
-  validation {
-    condition     = (var.cdp_user_group_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,90}$", var.cdp_user_group_name)))
-    error_message = "cdp_user_group_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
+    condition = (var.cdp_groups == null ? true : alltrue([
+      for grp in var.cdp_groups :
+      can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,90}$", grp.name))
+    ]))
+    error_message = "CDP group names can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
   }
 }
 

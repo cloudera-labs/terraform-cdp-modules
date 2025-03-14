@@ -82,27 +82,21 @@ resource "cdp_environments_aws_environment" "cdp_env" {
   ]
 }
 
-# ------- CDP Admin Group -------
+# ------- CDP Group -------
 # Create group
-resource "cdp_iam_group" "cdp_admin_group" {
-  group_name                    = var.cdp_admin_group_name
-  sync_membership_on_user_login = false
+resource "cdp_iam_group" "cdp_groups" {
+  for_each = {
+    for k, v in coalesce(var.cdp_groups, []) : k.name => v
+    if v.create_group
+  }
+
+  group_name                    = each.value.name
+  sync_membership_on_user_login = each.value.sync_membership_on_user_login
 }
 
-# TODO: Assign roles and resource roles to the group
+# TODO: (When supported) Assign roles and resource roles to the group
 
-# TODO: Assign users to the group
-
-# ------- CDP User Group -------
-# Create group
-resource "cdp_iam_group" "cdp_user_group" {
-  group_name                    = var.cdp_user_group_name
-  sync_membership_on_user_login = false
-}
-
-# TODO: Assign roles and resource roles to the group
-
-# TODO: Assign users to the group
+# TODO: (When supported) Assign users to the group
 
 # ------- IdBroker Mappings -------
 resource "cdp_environments_id_broker_mappings" "cdp_idbroker" {
@@ -113,17 +107,11 @@ resource "cdp_environments_id_broker_mappings" "cdp_idbroker" {
   data_access_role                    = var.datalake_admin_role_arn
   ranger_cloud_access_authorizer_role = var.enable_raz ? var.raz_role_arn : null
 
-  mappings = [{
-    accessor_crn = cdp_iam_group.cdp_admin_group.crn
-    role         = var.datalake_admin_role_arn
-    },
-    {
-      accessor_crn = cdp_iam_group.cdp_user_group.crn
-      role         = var.datalake_admin_role_arn
-    }
-  ]
+  mappings           = local.cdp_group_id_broker_mappings
+  set_empty_mappings = length(local.cdp_group_id_broker_mappings) == 0 ? true : null
 
   depends_on = [
+    cdp_iam_group.cdp_groups,
     cdp_environments_aws_environment.cdp_env
   ]
 }
