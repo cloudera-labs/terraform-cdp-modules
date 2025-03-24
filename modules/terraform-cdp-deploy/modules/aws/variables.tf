@@ -56,16 +56,16 @@ variable "cdp_xacccount_credential_name" {
 
 }
 
-variable "cdp_admin_group_name" {
-  type        = string
-  description = "Name of the CDP IAM Admin Group associated with the environment."
+variable "cdp_groups" {
+  type = set(object({
+    name                          = string
+    create_group                  = bool
+    sync_membership_on_user_login = optional(bool)
+    add_id_broker_mappings        = bool
+    })
+  )
 
-}
-
-variable "cdp_user_group_name" {
-  type        = string
-  description = "Name of the CDP IAM User Group associated with the environment."
-
+  description = "List of CDP Groups to be added to the id broker of the environment. If create_group is set to true then the group will be created."
 }
 
 variable "enable_ccm_tunnel" {

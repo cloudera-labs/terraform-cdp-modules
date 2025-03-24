@@ -31,3 +31,13 @@ output "cdp_environment_crn" {
 
   description = "CDP Environment CRN"
 }
+
+output "cdp_groups" {
+  value = try(
+    module.cdp_on_aws[0].cdp_groups,
+    module.cdp_on_azure[0].cdp_groups,
+    module.cdp_on_gcp[0].cdp_groups
+  )
+
+  description = "Details about CDP Groups"
+}

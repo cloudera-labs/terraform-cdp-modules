@@ -92,6 +92,7 @@ module "cdp_deploy" {
   region              = var.aws_region
   keypair_name        = var.aws_key_pair
   deployment_template = var.deployment_template
+  cdp_groups          = var.cdp_groups
 
   environment_async_creation = var.environment_async_creation
   datalake_async_creation    = var.datalake_async_creation

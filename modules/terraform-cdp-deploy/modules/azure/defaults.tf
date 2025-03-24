@@ -19,4 +19,14 @@ locals {
     var.cdp_xacccount_credential_name :
     cdp_environments_azure_credential.cdp_cred[0].credential_name
   )
+
+  # Construct IDBroker mappings
+  cdp_group_id_broker_mappings = [
+    for grp, grp_details in coalesce(var.cdp_groups, []) :
+    {
+      accessor_crn = data.cdp_iam_group.cdp_groups[grp_details.name].crn
+      role         = var.datalakeadmin_identity_id
+    }
+    if try(grp_details.add_id_broker_mappings, false)
+  ]
 }
