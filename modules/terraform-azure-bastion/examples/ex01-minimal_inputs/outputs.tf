@@ -12,15 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License. 
 
-output "bastion_public_ip" {
-  description = "Bastion public IP"
-  value       = module.ex01_bastion.bastion_public_ip
+output "vm_public_ip" {
+  value = module.ex01_bastion.bastion_public_ip
 }
 
-output "resource_group_name" {
-  value = module.rmgp.resource_group_name
-}
-
-output "bastion_host_name" {
-  value = module.ex01_bastion.bastion_host_name
+output "ssh_command" {
+  value = module.ex01_bastion.ssh_command
 }

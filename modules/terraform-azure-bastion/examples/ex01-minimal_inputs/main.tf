@@ -12,13 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+terraform {
+  required_version = ">= 1.5.7"
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = ">= 4.0.0"
+    }
+  }
+}
+
 provider "azurerm" {
   features {
     resource_group {
       prevent_deletion_if_contains_resources = false
     }
   }
-  subscription_id = "abce3e07-b32d-4b41-8c78-2bcaffe4ea27"
+
 }
 
 # ------- Azure Resource Group -------
@@ -31,55 +41,55 @@ module "rmgp" {
   tags = merge(var.env_tags, { Name = "${var.env_prefix}-rg" })
 }
 
-# ------- Azure VNet and SGs -------
-module "ex01_cdp_vnet" {
+# ------- Creating "existing" VNet -------
+module "ex02_existing_vnet" {
   source = "../../../terraform-azure-vnet"
 
   deployment_template = var.deployment_template
   resourcegroup_name  = module.rmgp.resource_group_name
-  vnet_name           = "${var.env_prefix}-net"
-  vnet_cidr           = "10.10.0.0/16"
+  vnet_name           = "${var.env_prefix}-existing-net"
+  vnet_cidr           = var.vnet_cidr
   vnet_region         = var.azure_region
 
-  cdp_subnet_prefix       = "${var.env_prefix}-cdp-sbnt"
-  gateway_subnet_prefix   = "${var.env_prefix}-gw-sbnt"
-  delegated_subnet_prefix = "${var.env_prefix}-delegated-sbnt"
+  cdp_subnet_prefix       = "${var.env_prefix}-existing-cdp-sbnt"
+  gateway_subnet_prefix   = "${var.env_prefix}-existing-gw-sbnt"
+  delegated_subnet_prefix = "${var.env_prefix}-existing-delegated-sbnt"
 
-  subnet_count                                  = 1
-  cdp_subnet_range                              = 19
-  cdp_subnets_private_endpoint_network_policies = "Enabled"
+  subnet_count                                  = var.subnet_count
+  cdp_subnet_range                              = var.cdp_subnet_range
+  cdp_subnets_private_endpoint_network_policies = var.cdp_subnets_private_endpoint_network_policies
 
-  gateway_subnet_range                              = 24
-  gateway_subnets_private_endpoint_network_policies = "Enabled"
-  delegated_subnet_range                            = 26
+  gateway_subnet_range                              = var.gateway_subnet_range
+  gateway_subnets_private_endpoint_network_policies = var.gateway_subnets_private_endpoint_network_policies
+  delegated_subnet_range                            = var.delegated_subnet_range
 
   tags = var.env_tags
 
   depends_on = [module.rmgp]
 }
 
-# ------- Azure Bastion Host Subnet -------
-resource "azurerm_subnet" "bastion_subnet" {
-  name                 = "AzureBastionSubnet"
-  resource_group_name  = module.rmgp.resource_group_name
-  virtual_network_name = module.ex01_cdp_vnet.vnet_name
-  address_prefixes     = ["10.10.96.0/26"]
-}
-
 # ------- Azure Bastion Host -------
 module "ex01_bastion" {
   source = "../.."
 
-  bastion_resourcegroup_name = module.rmgp.resource_group_name
-  azure_region               = var.azure_region
-  tags                       = var.env_tags
+  bastion_subnet_id = module.ex02_existing_vnet.vnet_cdp_subnet_ids[0]
 
-  bastion_public_ip_name = "${var.env_prefix}-bastion-pip"
-  use_static_public_ip   = true
+  bastion_user_data           = base64encode(file("./files/ex-bash.sh"))
+  replace_on_user_data_change = true
 
-  bastion_host_name     = "${var.env_prefix}-bastion"
-  bastion_ipconfig_name = "${var.env_prefix}-bastion-ipconfig"
-  bastion_subnet_id     = azurerm_subnet.bastion_subnet.id
+  bastion_host_name           = "${var.env_prefix}-bastion"
+  bastion_security_group_name = "${var.env_prefix}-sg"
+  bastion_pip_name            = "${var.env_prefix}-pip"
+  bastion_nic_name            = "${var.env_prefix}-nic"
+  bastion_ipconfig_name       = "${var.env_prefix}-ipconfig"
+  bastion_admin_username      = var.env_prefix
+  bastion_resourcegroup_name  = module.rmgp.resource_group_name
 
-  depends_on = [module.ex01_cdp_vnet]
+  bastion_region = var.azure_region
+
+  ssh_public_key_path = "~/.ssh/id_rsa.pub"
+
+  tags = var.env_tags
+
+  depends_on = [module.ex02_existing_vnet]
 }
