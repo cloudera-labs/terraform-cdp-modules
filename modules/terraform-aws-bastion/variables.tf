@@ -144,7 +144,7 @@ variable "bastion_user_data" {
 
 variable "replace_on_user_data_change" {
   type        = bool
-  description = "Trigger a destroy and recreate of the EC2 instance when user_data changes. Defaults to false if not set."
+  description = "Trigger a destroy and recreate the EC2 instance when user_data changes. Defaults to false if not set."
 
   default = null
 }

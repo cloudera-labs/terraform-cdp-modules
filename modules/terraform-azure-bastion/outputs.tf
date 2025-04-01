@@ -17,7 +17,6 @@ output "bastion_public_ip" {
   value       = azurerm_public_ip.bastion_pip.ip_address
 }
 
-output "bastion_host_name" {
-  description = "Name of bastion host"
-  value       = azurerm_bastion_host.bastion.name
+output "ssh_command" {
+  value = "ssh ${var.bastion_admin_username}@${azurerm_public_ip.bastion_pip.ip_address}"
 }
