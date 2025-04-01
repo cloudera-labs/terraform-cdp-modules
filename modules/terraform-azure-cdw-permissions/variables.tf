@@ -40,11 +40,11 @@ variable "azure_aks_credential_managed_identity_name" {
   description = "Name of the Managed Identity for the AKS Credential"
 
   validation {
-    condition     = length(var.azure_aks_credential_managed_identity_name) <= 24
-    error_message = "The length of azure_aks_credential_managed_identity_name must be 24 characters or less."
+    condition     = length(var.azure_aks_credential_managed_identity_name) <= 128
+    error_message = "The length of azure_aks_credential_managed_identity_name must be 128 characters or less."
   }
   validation {
-    condition     = can(regex("^[a-zA-Z0-9-_]{1,24}$", var.azure_aks_credential_managed_identity_name))
+    condition     = can(regex("^[a-zA-Z0-9-_]{1,128}$", var.azure_aks_credential_managed_identity_name))
     error_message = "azure_aks_credential_managed_identity_name can consist only of letters, numbers, hyphens (-) and underscores (_)."
   }
 }

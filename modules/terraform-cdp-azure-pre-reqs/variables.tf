@@ -375,11 +375,11 @@ variable "datalake_admin_managed_identity_name" {
   default = null
 
   validation {
-    condition     = (var.datalake_admin_managed_identity_name == null ? true : length(var.datalake_admin_managed_identity_name) <= 24)
-    error_message = "The length of datalake_admin_managed_identity_name must be 24 characters or less."
+    condition     = (var.datalake_admin_managed_identity_name == null ? true : length(var.datalake_admin_managed_identity_name) <= 128)
+    error_message = "The length of datalake_admin_managed_identity_name must be 128 characters or less."
   }
   validation {
-    condition     = (var.datalake_admin_managed_identity_name == null ? true : can(regex("^[a-zA-Z0-9-_]{1,24}$", var.datalake_admin_managed_identity_name)))
+    condition     = (var.datalake_admin_managed_identity_name == null ? true : can(regex("^[a-zA-Z0-9-_]{1,128}$", var.datalake_admin_managed_identity_name)))
     error_message = "datalake_admin_managed_identity_name can consist only of letters, numbers, hyphens (-) and underscores (_)."
   }
 }
@@ -392,11 +392,11 @@ variable "idbroker_managed_identity_name" {
   default = null
 
   validation {
-    condition     = (var.idbroker_managed_identity_name == null ? true : length(var.idbroker_managed_identity_name) <= 24)
-    error_message = "The length of idbroker_managed_identity_name must be 24 characters or less."
+    condition     = (var.idbroker_managed_identity_name == null ? true : length(var.idbroker_managed_identity_name) <= 128)
+    error_message = "The length of idbroker_managed_identity_name must be 128 characters or less."
   }
   validation {
-    condition     = (var.idbroker_managed_identity_name == null ? true : can(regex("^[a-zA-Z0-9-_]{1,24}$", var.idbroker_managed_identity_name)))
+    condition     = (var.idbroker_managed_identity_name == null ? true : can(regex("^[a-zA-Z0-9-_]{1,128}$", var.idbroker_managed_identity_name)))
     error_message = "idbroker_managed_identity_name can consist only of letters, numbers, hyphens (-) and underscores (_)."
   }
 }
@@ -409,11 +409,11 @@ variable "log_data_access_managed_identity_name" {
   default = null
 
   validation {
-    condition     = (var.log_data_access_managed_identity_name == null ? true : length(var.log_data_access_managed_identity_name) <= 24)
-    error_message = "The length of log_data_access_managed_identity_name must be 24 characters or less."
+    condition     = (var.log_data_access_managed_identity_name == null ? true : length(var.log_data_access_managed_identity_name) <= 128)
+    error_message = "The length of log_data_access_managed_identity_name must be 128 characters or less."
   }
   validation {
-    condition     = (var.log_data_access_managed_identity_name == null ? true : can(regex("^[a-zA-Z0-9-_]{1,24}$", var.log_data_access_managed_identity_name)))
+    condition     = (var.log_data_access_managed_identity_name == null ? true : can(regex("^[a-zA-Z0-9-_]{1,128}$", var.log_data_access_managed_identity_name)))
     error_message = "log_data_access_managed_identity_name can consist only of letters, numbers, hyphens (-) and underscores (_)."
   }
 }
@@ -426,11 +426,11 @@ variable "ranger_audit_data_access_managed_identity_name" {
   default = null
 
   validation {
-    condition     = (var.ranger_audit_data_access_managed_identity_name == null ? true : length(var.ranger_audit_data_access_managed_identity_name) <= 24)
-    error_message = "The length of ranger_audit_data_access_managed_identity_name must be 24 characters or less."
+    condition     = (var.ranger_audit_data_access_managed_identity_name == null ? true : length(var.ranger_audit_data_access_managed_identity_name) <= 128)
+    error_message = "The length of ranger_audit_data_access_managed_identity_name must be 128 characters or less."
   }
   validation {
-    condition     = (var.ranger_audit_data_access_managed_identity_name == null ? true : can(regex("^[a-zA-Z0-9-_]{1,24}$", var.ranger_audit_data_access_managed_identity_name)))
+    condition     = (var.ranger_audit_data_access_managed_identity_name == null ? true : can(regex("^[a-zA-Z0-9-_]{1,128}$", var.ranger_audit_data_access_managed_identity_name)))
     error_message = "ranger_audit_data_access_managed_identity_name can consist only of letters, numbers, hyphens (-) and underscores (_)."
   }
 }
@@ -443,11 +443,11 @@ variable "raz_managed_identity_name" {
   default = null
 
   validation {
-    condition     = (var.raz_managed_identity_name == null ? true : length(var.raz_managed_identity_name) <= 24)
-    error_message = "The length of raz_managed_identity_name must be 24 characters or less."
+    condition     = (var.raz_managed_identity_name == null ? true : length(var.raz_managed_identity_name) <= 128)
+    error_message = "The length of raz_managed_identity_name must be 128 characters or less."
   }
   validation {
-    condition     = (var.raz_managed_identity_name == null ? true : can(regex("^[a-zA-Z0-9-_]{1,24}$", var.raz_managed_identity_name)))
+    condition     = (var.raz_managed_identity_name == null ? true : can(regex("^[a-zA-Z0-9-_]{1,128}$", var.raz_managed_identity_name)))
     error_message = "raz_managed_identity_name can consist only of letters, numbers, hyphens (-) and underscores (_)."
   }
 }

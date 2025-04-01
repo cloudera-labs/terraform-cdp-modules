@@ -12,21 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-locals {
-  # Determine the name of the cross account credential
-  cdp_xacccount_credential_name = (
-    var.create_cdp_credential == false ?
-    var.cdp_xacccount_credential_name :
-    cdp_environments_aws_credential.cdp_cred[0].credential_name
-  )
+data "cdp_iam_group" "cdp_groups" {
 
-  # Construct IDBroker mappings
-  cdp_group_id_broker_mappings = [
-    for grp, grp_details in coalesce(var.cdp_groups, []) :
-    {
-      accessor_crn = data.cdp_iam_group.cdp_groups[grp_details.name].crn
-      role         = var.datalake_admin_role_arn
-    }
-    if try(grp_details.add_id_broker_mappings, false)
-  ]
+  for_each = {
+    for k, v in coalesce(var.cdp_groups, []) : k.name => v
+  }
+
+  group_name = each.value.name
+
+  depends_on = [cdp_iam_group.cdp_groups]
 }
+

@@ -25,8 +25,7 @@ module "cdp_on_aws" {
   datalake_name                 = local.datalake_name
   create_cdp_credential         = var.create_cdp_credential
   cdp_xacccount_credential_name = local.cdp_xacccount_credential_name
-  cdp_admin_group_name          = local.cdp_admin_group_name
-  cdp_user_group_name           = local.cdp_user_group_name
+  cdp_groups                    = var.cdp_groups
 
   security_group_default_id = var.aws_security_group_default_id
   security_group_knox_id    = var.aws_security_group_knox_id
@@ -101,8 +100,7 @@ module "cdp_on_azure" {
   datalake_name                 = local.datalake_name
   create_cdp_credential         = var.create_cdp_credential
   cdp_xacccount_credential_name = local.cdp_xacccount_credential_name
-  cdp_admin_group_name          = local.cdp_admin_group_name
-  cdp_user_group_name           = local.cdp_user_group_name
+  cdp_groups                    = var.cdp_groups
 
   security_group_default_uri = var.azure_security_group_default_uri
   security_group_knox_uri    = var.azure_security_group_knox_uri
@@ -194,8 +192,7 @@ module "cdp_on_gcp" {
   datalake_name                 = local.datalake_name
   create_cdp_credential         = var.create_cdp_credential
   cdp_xacccount_credential_name = local.cdp_xacccount_credential_name
-  cdp_admin_group_name          = local.cdp_admin_group_name
-  cdp_user_group_name           = local.cdp_user_group_name
+  cdp_groups                    = var.cdp_groups
 
   firewall_default_id = var.gcp_firewall_default_id
   firewall_knox_id    = var.gcp_firewall_knox_id

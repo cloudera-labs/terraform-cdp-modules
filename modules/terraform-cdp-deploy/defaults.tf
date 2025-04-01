@@ -30,12 +30,6 @@ locals {
   cdp_xacccount_credential_name = coalesce(var.cdp_xacccount_credential_name,
   "${var.env_prefix}-xaccount-cred")
 
-  cdp_admin_group_name = coalesce(var.cdp_admin_group_name,
-  "${var.env_prefix}-${local.cloud_shorthand[var.infra_type]}-cdp-admin-group")
-
-  cdp_user_group_name = coalesce(var.cdp_user_group_name,
-  "${var.env_prefix}-${local.cloud_shorthand[var.infra_type]}-cdp-user-group")
-
   datalake_scale = coalesce(
     var.datalake_scale,
     (var.deployment_template == "public" ?

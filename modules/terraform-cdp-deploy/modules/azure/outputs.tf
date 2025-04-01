@@ -23,3 +23,10 @@ output "cdp_environment_crn" {
 
   description = "CDP Environment CRN"
 }
+
+output "cdp_groups" {
+
+  value = data.cdp_iam_group.cdp_groups
+
+  description = "CDP Group information"
+}
