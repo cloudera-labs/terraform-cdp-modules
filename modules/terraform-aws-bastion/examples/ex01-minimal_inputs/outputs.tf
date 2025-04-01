@@ -25,7 +25,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Bastion public IP
 output "bastion_instance_public_ip" {
   value = module.ex01_bastion.bastion_instance_public_ip
 

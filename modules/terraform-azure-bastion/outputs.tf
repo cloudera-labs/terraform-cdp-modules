@@ -12,11 +12,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License. 
 
-output "bastion_public_ip" {
-  description = "Public IP of bastion host"
+output "bastion_instance_public_ip" {
+  description = "The public IP address of the Bastion instance."
   value       = azurerm_public_ip.bastion_pip.ip_address
 }
 
-output "ssh_command" {
-  value = "ssh ${var.bastion_admin_username}@${azurerm_public_ip.bastion_pip.ip_address}"
+output "linux_ssh_command" {
+  description = "For Linux, SSH command required to connect to the Bastion host using the admin username and the public IP address."
+  value       = "ssh ${var.bastion_admin_username}@${azurerm_public_ip.bastion_pip.ip_address}"
+}
+
+output "bastion_instance_private_ip" {
+  description = "The private IP address of the Bastion instance."
+  value       = var.bastion_os_type == "Linux" ? azurerm_linux_virtual_machine.bastion[0].private_ip_address : azurerm_windows_virtual_machine.bastion[0].private_ip_address
+}
+
+output "bastion_instance_details" {
+  description = "The details of the Bastion instance."
+  value       = var.bastion_os_type == "Linux" ? azurerm_linux_virtual_machine.bastion[0] : azurerm_windows_virtual_machine.bastion[0]
+}
+
+output "bastion_instance_id" {
+  description = "The ID of the Bastion instance."
+  value       = var.bastion_os_type == "Linux" ? azurerm_linux_virtual_machine.bastion[0].id : azurerm_windows_virtual_machine.bastion[0].id
 }

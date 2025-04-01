@@ -12,10 +12,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License. 
 
-output "vm_public_ip" {
-  value = module.ex01_bastion.bastion_public_ip
+output "bastion_instance_public_ip" {
+  value = module.ex01_bastion.bastion_instance_public_ip
+
+  description = "The public IP assigned to the Bastion host."
 }
 
-output "ssh_command" {
-  value = module.ex01_bastion.ssh_command
+output "linux_ssh_command" {
+  value = module.ex01_bastion.linux_ssh_command
+
+  description = "For Linux, SSH command required to connect to the Bastion host using the admin username and the public IP address."
+}
+
+output "bastion_instance_private_ip" {
+  value = module.ex01_bastion.bastion_instance_private_ip
+
+  description = "The private IP assigned to the Bastion host."
+}
+
+output "bastion_instance_details" {
+  value = module.ex01_bastion.bastion_instance_details
+
+  description = "The details of the Bastion host."
+  sensitive   = true
+}
+
+output "bastion_instance_id" {
+  value = module.ex01_bastion.bastion_instance_id
+
+  description = "The instance ID assigned to the Bastion host."
 }
