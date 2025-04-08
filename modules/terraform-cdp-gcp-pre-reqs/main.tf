@@ -164,6 +164,8 @@ resource "google_storage_bucket" "cdp_storage_locations" {
   location      = local.bucket_storage_region
   storage_class = var.bucket_storage_class
 
+  public_access_prevention = var.bucket_public_access_prevention
+
   force_destroy = true
 }
 
