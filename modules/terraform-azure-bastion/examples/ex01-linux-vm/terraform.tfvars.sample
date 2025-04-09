@@ -18,5 +18,18 @@ env_prefix = "<ENTER_VALUE>" # Required name prefix for cloud and CDP resources,
 # ------- Cloud Settings -------
 azure_region = "<ENTER_VALUE>" # Change this to specify Cloud Provider region, e.g. eastus
 
-# ------- CDP Environment Deployment -------
-deployment_template = "<ENTER_VALUE>"  # Specify the deployment pattern below. Options are public, semi-private or private
+# ------- Bastion settings -------
+ingress_extra_cidrs = ["<ENTER_CIDR>", "<ENTER_CIDR>"]
+
+# ------- Resource Tagging -------
+# **NOTE: An example of how to specify tags is below; uncomment & edit if required
+# env_tags = {
+#     owner   = "<ENTER_VALUE>"
+#     project = "<ENTER_VALUE>"
+#     enddate = "<ENTER_VALUE>"
+# }
+
+# ------- Optional inputs for SSH key and Network Access Settings -------
+# **NOTE: Uncomment below settings if required
+
+# public_key_text_input = "<ENTER_VALUE>" # Set this to specify an existing SSH public key text, e.g. ssh-rsa AAA

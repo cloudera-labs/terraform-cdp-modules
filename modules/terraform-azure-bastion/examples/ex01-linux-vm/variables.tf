@@ -30,13 +30,6 @@ variable "env_tags" {
   default = null
 }
 
-# ------- CDP Environment Deployment -------
-variable "deployment_template" {
-  type = string
-
-  description = "Deployment Pattern to use for Cloud resources and CDP"
-}
-
 # ------- Network Resources -------
 variable "vnet_cidr" {
   type        = string
@@ -97,4 +90,19 @@ variable "delegated_subnet_range" {
   description = "Size of each Postgres Flexible Server delegated subnet. Required if create_vnet is true."
 
   default = 26
+}
+
+# ------- Bastion settings -------
+variable "ingress_extra_cidrs" {
+  type        = list(string)
+  description = "List of extra ingress rules to create."
+
+  default = []
+}
+
+variable "public_key_text_input" {
+  type        = string
+  description = "The SSH public key for accessing the Linux bastion."
+
+  default = null
 }

@@ -13,28 +13,35 @@
 # limitations under the License.
 
 resource "azurerm_network_security_group" "bastion_sg" {
+  count = var.create_bastion_sg ? 1 : 0
+
   name                = var.bastion_security_group_name
   location            = var.bastion_region
   resource_group_name = var.bastion_resourcegroup_name
 }
 
-resource "azurerm_network_security_rule" "ssh" {
-  name                        = "allow-ssh"
-  priority                    = 1000
+resource "azurerm_network_security_rule" "ingress_rule" {
+  for_each = { for k, v in var.ingress_rules : k => v
+    if var.create_bastion_sg
+  }
+
   direction                   = "Inbound"
   access                      = "Allow"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "22"
-  source_address_prefix       = "*"
-  destination_address_prefix  = "*"
   resource_group_name         = var.bastion_resourcegroup_name
-  network_security_group_name = azurerm_network_security_group.bastion_sg.name
+  network_security_group_name = azurerm_network_security_group.bastion_sg[0].name
+
+  name                         = each.value.rule_name
+  priority                     = each.value.priority
+  protocol                     = each.value.protocol
+  source_port_range            = each.value.from_port
+  destination_port_range       = coalesce(each.value.to_port, each.value.from_port)
+  source_address_prefixes      = each.value.src_cidrs
+  destination_address_prefixes = each.value.dest_cidrs
 }
 
 resource "azurerm_subnet_network_security_group_association" "bastion_sg_association" {
   subnet_id                 = var.bastion_subnet_id
-  network_security_group_id = azurerm_network_security_group.bastion_sg.id
+  network_security_group_id = local.bastion_security_group_id
 }
 
 resource "azurerm_public_ip" "bastion_pip" {
@@ -57,8 +64,36 @@ resource "azurerm_network_interface" "bastion_nic" {
   }
 }
 
+# ------- Create SSH Keypair if input public_key_text variable is not specified
+locals {
+  # flag to determine if keypair should be created
+  create_keypair = (var.bastion_os_type == "linux" && var.public_key_text == null && var.bastion_admin_password == null) ? true : false
+
+  # key pair value
+  public_key_text = local.create_keypair == false ? var.public_key_text : tls_private_key.cdp_private_key[0].public_key_openssh
+}
+
+# Create and save a RSA key
+resource "tls_private_key" "cdp_private_key" {
+  count = local.create_keypair ? 1 : 0
+
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+# Save the private key to ./<env_prefix>-ssh-key.pem
+resource "local_sensitive_file" "pem_file" {
+  count = local.create_keypair ? 1 : 0
+
+  filename             = var.priv_key_name
+  file_permission      = "600"
+  directory_permission = "700"
+  content              = tls_private_key.cdp_private_key[0].private_key_pem
+}
+
+# ------- Bastion VMs
 resource "azurerm_linux_virtual_machine" "bastion" {
-  count                 = var.bastion_os_type == "Linux" ? 1 : 0
+  count                 = var.bastion_os_type == "linux" ? 1 : 0
   admin_username        = var.bastion_admin_username
   location              = var.bastion_region
   name                  = var.bastion_host_name
@@ -72,26 +107,31 @@ resource "azurerm_linux_virtual_machine" "bastion" {
   resource_group_name = var.bastion_resourcegroup_name
 
   source_image_reference {
-    publisher = var.bastion_img_pub
-    offer     = var.bastion_img_offer
-    sku       = var.bastion_img_sku
-    version   = var.bastion_img_ver
+    publisher = var.bastion_image_reference.publisher
+    offer     = var.bastion_image_reference.offer
+    sku       = var.bastion_image_reference.sku
+    version   = var.bastion_image_reference.version
   }
 
   custom_data = var.replace_on_user_data_change == true ? var.bastion_user_data : null
   user_data   = var.replace_on_user_data_change == false ? var.bastion_user_data : null
 
-  admin_password = var.bastion_admin_password != null ? var.bastion_admin_password : null
-  admin_ssh_key {
-    username   = var.bastion_admin_username
-    public_key = file(var.ssh_public_key_path)
+  admin_password                  = var.bastion_admin_password
+  disable_password_authentication = var.disable_pwd_auth
+  # Conditionally include the SSH key block only if password is not provided
+  dynamic "admin_ssh_key" {
+    for_each = var.bastion_admin_password == null ? [1] : []
+    content {
+      username   = var.bastion_admin_username
+      public_key = local.public_key_text
+    }
   }
 
   tags = var.tags
 }
 
 resource "azurerm_windows_virtual_machine" "bastion" {
-  count                 = var.bastion_os_type == "Windows" ? 1 : 0
+  count                 = var.bastion_os_type == "windows" ? 1 : 0
   admin_username        = var.bastion_admin_username
   admin_password        = var.bastion_admin_password
   location              = var.bastion_region
@@ -106,10 +146,10 @@ resource "azurerm_windows_virtual_machine" "bastion" {
   resource_group_name = var.bastion_resourcegroup_name
 
   source_image_reference {
-    publisher = var.bastion_img_pub
-    offer     = var.bastion_img_offer
-    sku       = var.bastion_img_sku
-    version   = var.bastion_img_ver
+    publisher = var.bastion_image_reference.publisher
+    offer     = var.bastion_image_reference.offer
+    sku       = var.bastion_image_reference.sku
+    version   = var.bastion_image_reference.version
   }
 
   custom_data = var.replace_on_user_data_change == true ? var.bastion_user_data : null

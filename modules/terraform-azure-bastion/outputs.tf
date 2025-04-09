@@ -24,15 +24,15 @@ output "linux_ssh_command" {
 
 output "bastion_instance_private_ip" {
   description = "The private IP address of the Bastion instance."
-  value       = var.bastion_os_type == "Linux" ? azurerm_linux_virtual_machine.bastion[0].private_ip_address : azurerm_windows_virtual_machine.bastion[0].private_ip_address
+  value       = var.bastion_os_type == "linux" ? azurerm_linux_virtual_machine.bastion[0].private_ip_address : azurerm_windows_virtual_machine.bastion[0].private_ip_address
 }
 
 output "bastion_instance_details" {
   description = "The details of the Bastion instance."
-  value       = var.bastion_os_type == "Linux" ? azurerm_linux_virtual_machine.bastion[0] : azurerm_windows_virtual_machine.bastion[0]
+  value       = var.bastion_os_type == "linux" ? azurerm_linux_virtual_machine.bastion[0] : azurerm_windows_virtual_machine.bastion[0]
 }
 
 output "bastion_instance_id" {
   description = "The ID of the Bastion instance."
-  value       = var.bastion_os_type == "Linux" ? azurerm_linux_virtual_machine.bastion[0].id : azurerm_windows_virtual_machine.bastion[0].id
+  value       = var.bastion_os_type == "linux" ? azurerm_linux_virtual_machine.bastion[0].id : azurerm_windows_virtual_machine.bastion[0].id
 }

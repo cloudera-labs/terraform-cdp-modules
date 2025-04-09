@@ -1,4 +1,0 @@
-#cloud-config
-hostname: test-host
-runcmd:
-  - echo "Hello from cloud-init file!" > /tmp/hello.txt
