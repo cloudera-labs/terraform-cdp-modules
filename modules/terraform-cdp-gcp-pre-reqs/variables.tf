@@ -389,6 +389,20 @@ variable "bucket_storage_class" {
 
 }
 
+variable "bucket_public_access_prevention" {
+
+  type = string
+
+  description = "Controls public access to GCS bucket. Acceptable values are inherited or enforced."
+
+  validation {
+    condition     = contains(["inherited", "enforced"], var.bucket_public_access_prevention)
+    error_message = "Valid values for var: bucket_public_access_prevention are (inherited, enforced)."
+  }
+
+  default = "enforced"
+}
+
 # ------- Authz Resources -------
 # Cross Account Service Account
 variable "xaccount_service_account_name" {

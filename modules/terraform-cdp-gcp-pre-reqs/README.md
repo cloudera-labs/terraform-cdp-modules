@@ -73,6 +73,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_deployment_template"></a> [deployment\_template](#input\_deployment\_template) | Deployment Pattern to use for Cloud resources and CDP | `string` | n/a | yes |
 | <a name="input_env_prefix"></a> [env\_prefix](#input\_env\_prefix) | Shorthand name for the environment. Used in resource descriptions | `string` | n/a | yes |
 | <a name="input_backup_storage_bucket"></a> [backup\_storage\_bucket](#input\_backup\_storage\_bucket) | Optional Backup location for CDP environment. | `string` | `null` | no |
+| <a name="input_bucket_public_access_prevention"></a> [bucket\_public\_access\_prevention](#input\_bucket\_public\_access\_prevention) | Controls public access to GCS bucket. Acceptable values are inherited or enforced. | `string` | `"enforced"` | no |
 | <a name="input_bucket_storage_class"></a> [bucket\_storage\_class](#input\_bucket\_storage\_class) | The GCS storage class to use for the data, log and backup storage | `string` | `"NEARLINE"` | no |
 | <a name="input_bucket_storage_region"></a> [bucket\_storage\_region](#input\_bucket\_storage\_region) | The location of the Google Cloud Storage buckets for data, backups and logs. By default this follows the gcp\_region variable. | `string` | `null` | no |
 | <a name="input_cdp_subnet_names"></a> [cdp\_subnet\_names](#input\_cdp\_subnet\_names) | List of subnet names. Required if create\_vpc is false. | `list(any)` | `null` | no |
