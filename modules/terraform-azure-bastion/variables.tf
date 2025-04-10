@@ -68,12 +68,12 @@ variable "bastion_nic_name" {
   description = "Name of bastion network interface."
 }
 
-variable "bastion_pip_name" {
+variable "bastion_public_ip_name" {
   type        = string
   description = "Name of Public IP."
 }
 
-variable "bastion_pip_static" {
+variable "bastion_public_ip_static" {
   description = "Whether the Bastion Public IP should be Static (true) or Dynamic (false)."
   type        = bool
 
@@ -95,26 +95,23 @@ variable "bastion_private_ip_static" {
 variable "bastion_subnet_id" {
   type        = string
   description = "The ID of the subnet where the bastion VM will run."
-
 }
 
 # ------- Bastion VM Settings -------
 variable "bastion_os_type" {
   type        = string
   description = "The operating system type for the Bastion VM. Options are 'linux' or 'windows'."
+  default     = "linux"
 
   validation {
     condition     = contains(["linux", "windows"], var.bastion_os_type)
     error_message = "Valid values for var: bastion_os_type are (linux, windows)."
   }
-
-  default = "linux"
 }
 
 variable "bastion_resourcegroup_name" {
   type        = string
   description = "Bastion resource group name."
-
 }
 
 variable "bastion_sa_type" {
@@ -135,7 +132,7 @@ variable "bastion_size" {
   description = "Bastion VM size."
   type        = string
 
-  default = "Standard_F2"
+  default = "Standard_B1s"
 }
 
 variable "bastion_image_reference" {
@@ -149,8 +146,8 @@ variable "bastion_image_reference" {
 
   default = {
     publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
+    offer     = "ubuntu-24_04-lts"
+    sku       = "server"
     version   = "latest"
   }
 }
@@ -179,30 +176,15 @@ variable "public_key_text" {
 variable "bastion_admin_password" {
   description = "The admin password for the bastion. Required for Windows Bastion."
   type        = string
-  default     = null
 
-  validation {
-    condition     = !(var.bastion_admin_password != null && var.priv_key_name != null)
-    error_message = "If bastion_admin_password is defined, priv_key_name will be ignored."
-  }
+  default = null
 }
 
 variable "disable_pwd_auth" {
   description = "When an admin_password is specified, disable_password_authentication must be set to false."
   type        = bool
-  default     = true
 
-  validation {
-    condition     = var.bastion_admin_password == null || var.bastion_os_type == "windows" || (var.bastion_admin_password != null && var.disable_pwd_auth == false)
-    error_message = "For Linux, disable_pwd_auth must be set to true if bastion_admin_password is specified."
-  }
-}
-
-variable "priv_key_name" {
-  type        = string
-  description = "Name of private key. Required if SSH key and admin password not specified for Linux bastion, and used to create private TLS key. Will be ignored if SSH key or admin password are specified."
-
-  default = null
+  default = true
 }
 
 variable "replace_on_user_data_change" {
