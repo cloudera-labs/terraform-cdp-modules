@@ -30,13 +30,19 @@ resource "azurerm_network_security_rule" "ingress_rule" {
   resource_group_name         = var.bastion_resourcegroup_name
   network_security_group_name = azurerm_network_security_group.bastion_sg[0].name
 
-  name                         = each.value.rule_name
-  priority                     = each.value.priority
-  protocol                     = each.value.protocol
-  source_port_range            = each.value.from_port
-  destination_port_range       = coalesce(each.value.to_port, each.value.from_port)
-  source_address_prefixes      = each.value.src_cidrs
-  destination_address_prefixes = each.value.dest_cidrs
+  name                   = each.value.rule_name
+  priority               = each.value.priority
+  protocol               = each.value.protocol
+  source_port_range      = each.value.from_port
+  destination_port_range = coalesce(each.value.to_port, each.value.from_port)
+
+  # Conditionally set source_address_prefix and source_address_prefixes
+  source_address_prefix   = length(each.value.src_cidrs) == 1 ? each.value.src_cidrs[0] : null
+  source_address_prefixes = length(each.value.src_cidrs) > 1 ? each.value.src_cidrs : null
+
+  # Conditionally set destination_address_prefix and destination_address_prefixes
+  destination_address_prefix   = length(each.value.dest_cidrs) == 1 ? each.value.dest_cidrs[0] : null
+  destination_address_prefixes = length(each.value.dest_cidrs) > 1 ? each.value.dest_cidrs : null
 }
 
 resource "azurerm_subnet_network_security_group_association" "bastion_sg_association" {

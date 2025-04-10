@@ -160,6 +160,11 @@ variable "bastion_admin_username" {
 variable "bastion_host_name" {
   type        = string
   description = "Name of bastion host."
+
+  validation {
+    condition     = length(var.bastion_host_name) <= 15
+    error_message = "The bastion host name must be at most 15 characters."
+  }
 }
 
 variable "public_key_text" {
