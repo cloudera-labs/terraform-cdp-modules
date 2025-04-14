@@ -22,7 +22,7 @@ The sample `terraform.tfvars.sample` describes the required inputs for the examp
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.82.2 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.30 |
 
 ## Modules
 
@@ -51,7 +51,7 @@ No modules.
 | <a name="input_bastion_aws_instance_type"></a> [bastion\_aws\_instance\_type](#input\_bastion\_aws\_instance\_type) | The EC2 instance type to use for the bastion VM. | `string` | `"t3.medium"` | no |
 | <a name="input_bastion_az"></a> [bastion\_az](#input\_bastion\_az) | The availability zone where the bastion instance will be created. | `string` | `null` | no |
 | <a name="input_bastion_cpu_options"></a> [bastion\_cpu\_options](#input\_bastion\_cpu\_options) | The CPU options for the bastion instance (e.g., number of cores and threads per core) | <pre>object({<br/>    core_count       = number<br/>    threads_per_core = number<br/>  })</pre> | `null` | no |
-| <a name="input_bastion_get_password_data"></a> [bastion\_get\_password\_data](#input\_bastion\_get\_password\_data) | Return the password data for the bastion instance | `any` | `null` | no |
+| <a name="input_bastion_get_password_data"></a> [bastion\_get\_password\_data](#input\_bastion\_get\_password\_data) | Return the password data for the bastion instance | `bool` | `null` | no |
 | <a name="input_bastion_host_name"></a> [bastion\_host\_name](#input\_bastion\_host\_name) | Name of bastion host. | `string` | `null` | no |
 | <a name="input_bastion_inst_profile"></a> [bastion\_inst\_profile](#input\_bastion\_inst\_profile) | The IAM instance profile for the bastion instance. | `string` | `null` | no |
 | <a name="input_bastion_monitoring"></a> [bastion\_monitoring](#input\_bastion\_monitoring) | Whether to enable detailed monitoring for the bastion instance | `bool` | `null` | no |
