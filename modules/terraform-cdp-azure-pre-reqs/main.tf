@@ -12,7 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# ------- Azure Resource Group -------
+# ------- Azure Resource Groups -------
+# TODO: Support case where network RG exists but CDP RG doesn't
+
 module "azure_cdp_rmgp" {
 
   source = "../terraform-azure-resource-group"
@@ -20,12 +22,30 @@ module "azure_cdp_rmgp" {
   create_resource_group = var.create_vnet
 
   # Variables required when creating RG
-  resourcegroup_name = var.create_vnet ? local.resourcegroup_name : null
+  resourcegroup_name = var.create_vnet ? local.cdp_resourcegroup_name : null
   azure_region       = var.create_vnet ? var.azure_region : null
   tags               = var.create_vnet ? var.env_tags : null
 
   # Variables required when using pre-existing RG
   existing_resource_group_name = var.create_vnet ? null : var.cdp_resourcegroup_name
+
+}
+
+module "azure_network_rmgp" {
+
+  count = var.separate_network_resource_group ? 1 : 0
+
+  source = "../terraform-azure-resource-group"
+
+  create_resource_group = var.create_vnet
+
+  # Variables required when creating RG
+  resourcegroup_name = var.create_vnet ? local.network_resourcegroup_name : null
+  azure_region       = var.create_vnet ? var.azure_region : null
+  tags               = var.create_vnet ? var.env_tags : null
+
+  # Variables required when using pre-existing RG
+  existing_resource_group_name = var.create_vnet ? null : var.network_resourcegroup_name
 
 }
 
@@ -38,7 +58,7 @@ module "azure_cdp_vnet" {
   create_vnet = var.create_vnet
 
   deployment_template = var.deployment_template
-  resourcegroup_name  = local.cdp_resourcegroup_name
+  resourcegroup_name  = var.separate_network_resource_group ? module.azure_network_rmgp[0].resource_group_name : module.azure_cdp_rmgp.resource_group_name
 
   # Variables required when creating VNet
   vnet_name   = var.create_vnet ? local.vnet_name : null
@@ -73,7 +93,7 @@ module "azure_cdp_vnet" {
 resource "azurerm_network_security_group" "cdp_default_sg" {
   name                = local.security_group_default_name
   location            = module.azure_cdp_rmgp.resource_group_location
-  resource_group_name = local.cdp_resourcegroup_name
+  resource_group_name = var.separate_network_resource_group ? module.azure_network_rmgp[0].resource_group_name : module.azure_cdp_rmgp.resource_group_name
 
   tags = merge(local.env_tags, { Name = local.security_group_default_name })
 
@@ -91,7 +111,7 @@ resource "azurerm_network_security_rule" "cdp_default_sg_ingress_extra_access" {
   destination_address_prefix  = "*"
   source_port_range           = "*"
   destination_port_ranges     = var.ingress_extra_cidrs_and_ports.ports
-  resource_group_name         = local.cdp_resourcegroup_name
+  resource_group_name         = var.separate_network_resource_group ? module.azure_network_rmgp[0].resource_group_name : module.azure_cdp_rmgp.resource_group_name
   network_security_group_name = azurerm_network_security_group.cdp_default_sg.name
 }
 
@@ -99,7 +119,7 @@ resource "azurerm_network_security_rule" "cdp_default_sg_ingress_extra_access" {
 resource "azurerm_network_security_group" "cdp_knox_sg" {
   name                = local.security_group_knox_name
   location            = module.azure_cdp_rmgp.resource_group_location
-  resource_group_name = local.cdp_resourcegroup_name
+  resource_group_name = var.separate_network_resource_group ? module.azure_network_rmgp[0].resource_group_name : module.azure_cdp_rmgp.resource_group_name
 
   tags = merge(local.env_tags, { Name = local.security_group_knox_name })
 
@@ -118,7 +138,7 @@ resource "azurerm_network_security_rule" "cdp_knox_sg_ingress_extra_access" {
   destination_address_prefix  = "*"
   source_port_range           = "*"
   destination_port_ranges     = var.ingress_extra_cidrs_and_ports.ports
-  resource_group_name         = local.cdp_resourcegroup_name
+  resource_group_name         = var.separate_network_resource_group ? module.azure_network_rmgp[0].resource_group_name : module.azure_cdp_rmgp.resource_group_name
   network_security_group_name = azurerm_network_security_group.cdp_knox_sg.name
 }
 
@@ -136,7 +156,7 @@ resource "azurerm_storage_account" "cdp_storage_locations" {
   ]))
 
   name                = "${each.value}${local.storage_suffix}"
-  resource_group_name = local.cdp_resourcegroup_name
+  resource_group_name = module.azure_cdp_rmgp.resource_group_name
   location            = module.azure_cdp_rmgp.resource_group_location
 
   public_network_access_enabled = var.storage_public_network_access_enabled
@@ -168,7 +188,7 @@ module "stor_private_endpoints" {
 
   source = "../terraform-azure-storage-endpoints"
 
-  resourcegroup_name = local.cdp_resourcegroup_name
+  resourcegroup_name = var.separate_network_resource_group ? module.azure_network_rmgp[0].resource_group_name : module.azure_cdp_rmgp.resource_group_name
   azure_region       = var.azure_region
   vnet_name          = local.cdp_vnet_name
 
@@ -226,7 +246,7 @@ resource "azurerm_private_dns_zone" "flexible_server_dns_zone" {
   count = local.create_private_flexible_server_resources ? 1 : 0
 
   name                = "${var.env_prefix}.postgres.database.azure.com"
-  resource_group_name = local.cdp_resourcegroup_name
+  resource_group_name = var.separate_network_resource_group ? module.azure_network_rmgp[0].resource_group_name : module.azure_cdp_rmgp.resource_group_name
 
   tags = merge(local.env_tags)
 }
@@ -236,7 +256,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "flexible_server_vnet_l
   count = local.create_private_flexible_server_resources ? 1 : 0
 
   name                  = "${var.env_prefix}.flex-server-vent-link"
-  resource_group_name   = local.cdp_resourcegroup_name
+  resource_group_name   = var.separate_network_resource_group ? module.azure_network_rmgp[0].resource_group_name : module.azure_cdp_rmgp.resource_group_name
   private_dns_zone_name = azurerm_private_dns_zone.flexible_server_dns_zone[0].name
   virtual_network_id    = module.azure_cdp_vnet.vnet_id
 
@@ -278,7 +298,7 @@ resource "azuread_application_password" "cdp_xaccount_app_password" {
 resource "azurerm_user_assigned_identity" "cdp_idbroker" {
   location            = module.azure_cdp_rmgp.resource_group_location
   name                = local.idbroker_managed_identity_name
-  resource_group_name = local.cdp_resourcegroup_name
+  resource_group_name = module.azure_cdp_rmgp.resource_group_name
 
   tags = merge(local.env_tags, { Name = local.idbroker_managed_identity_name })
 }
@@ -301,7 +321,7 @@ resource "azurerm_role_assignment" "cdp_idbroker_assign" {
 resource "azurerm_user_assigned_identity" "cdp_datalake_admin" {
   location            = module.azure_cdp_rmgp.resource_group_location
   name                = local.datalake_admin_managed_identity_name
-  resource_group_name = local.cdp_resourcegroup_name
+  resource_group_name = module.azure_cdp_rmgp.resource_group_name
 
   tags = merge(local.env_tags, { Name = local.datalake_admin_managed_identity_name })
 }
@@ -348,7 +368,7 @@ resource "azurerm_role_assignment" "cdp_datalake_admin_backup_container_assign" 
 resource "azurerm_user_assigned_identity" "cdp_log_data_access" {
   location            = module.azure_cdp_rmgp.resource_group_location
   name                = local.log_data_access_managed_identity_name
-  resource_group_name = local.cdp_resourcegroup_name
+  resource_group_name = module.azure_cdp_rmgp.resource_group_name
 
   tags = merge(local.env_tags, { Name = local.log_data_access_managed_identity_name })
 }
@@ -382,7 +402,7 @@ resource "azurerm_role_assignment" "cdp_log_data_access_backup_container_assign"
 resource "azurerm_user_assigned_identity" "cdp_ranger_audit_data_access" {
   location            = module.azure_cdp_rmgp.resource_group_location
   name                = local.ranger_audit_data_access_managed_identity_name
-  resource_group_name = local.cdp_resourcegroup_name
+  resource_group_name = module.azure_cdp_rmgp.resource_group_name
 
   tags = merge(local.env_tags, { Name = local.ranger_audit_data_access_managed_identity_name })
 }
@@ -430,7 +450,7 @@ resource "azurerm_user_assigned_identity" "cdp_raz" {
 
   location            = module.azure_cdp_rmgp.resource_group_location
   name                = local.raz_managed_identity_name
-  resource_group_name = local.cdp_resourcegroup_name
+  resource_group_name = module.azure_cdp_rmgp.resource_group_name
 
   tags = merge(local.env_tags, { Name = local.raz_managed_identity_name })
 }
@@ -454,7 +474,7 @@ module "azure_cml_nfs" {
   count  = var.create_azure_cml_nfs ? 1 : 0
   source = "../terraform-azure-nfs"
 
-  resourcegroup_name                       = local.cdp_resourcegroup_name
+  resourcegroup_name                       = module.azure_cdp_rmgp.resource_group_name
   azure_region                             = var.azure_region
   nfs_file_share_name                      = local.nfs_file_share_name
   nfs_file_share_size                      = var.nfs_file_share_size
