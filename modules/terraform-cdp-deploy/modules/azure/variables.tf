@@ -332,13 +332,24 @@ variable "region" {
 
 }
 
-variable "resource_group_name" {
+variable "cdp_resource_group_name" {
   type        = string
-  description = "Resource Group name"
+  description = "Resource Group name for Cloudera resources"
 
   validation {
-    condition     = var.resource_group_name != null
-    error_message = "Valid values for var: resource_group_name must be a existing Azure Resource group."
+    condition     = var.cdp_resource_group_name != null
+    error_message = "Valid values for var: cdp_resource_group_name must be a existing Azure Resource group."
+  }
+
+}
+
+variable "network_resource_group_name" {
+  type        = string
+  description = "Resource Group name for Network resources"
+
+  validation {
+    condition     = var.network_resource_group_name != null
+    error_message = "Valid values for var: network_resource_group_name must be a existing Azure Resource group."
   }
 
 }
