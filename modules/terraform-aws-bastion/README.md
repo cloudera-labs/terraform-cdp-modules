@@ -22,7 +22,7 @@ The sample `terraform.tfvars.sample` describes the required inputs for the examp
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.30 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.82.2 |
 
 ## Modules
 
@@ -71,7 +71,7 @@ No modules.
 | <a name="input_enable_bastion_public_ip"></a> [enable\_bastion\_public\_ip](#input\_enable\_bastion\_public\_ip) | Whether to create and assign an public IP to the bastion host. | `bool` | `null` | no |
 | <a name="input_env_tags"></a> [env\_tags](#input\_env\_tags) | Tags applied to provisioned resources. | `map(any)` | `{}` | no |
 | <a name="input_ingress_rules"></a> [ingress\_rules](#input\_ingress\_rules) | List of ingress rules to create. Used only if create\_bastion\_sg is true. | <pre>list(object({<br/>    cidrs     = list(string)<br/>    from_port = number<br/>    to_port   = optional(number)<br/>    protocol  = string<br/>  }))</pre> | `[]` | no |
-| <a name="input_replace_on_user_data_change"></a> [replace\_on\_user\_data\_change](#input\_replace\_on\_user\_data\_change) | Trigger a destroy and recreate of the EC2 instance when user\_data changes. Defaults to false if not set. | `bool` | `null` | no |
+| <a name="input_replace_on_user_data_change"></a> [replace\_on\_user\_data\_change](#input\_replace\_on\_user\_data\_change) | Trigger a destroy and recreate the EC2 instance when user\_data changes. Defaults to false if not set. | `bool` | `null` | no |
 
 ## Outputs
 
