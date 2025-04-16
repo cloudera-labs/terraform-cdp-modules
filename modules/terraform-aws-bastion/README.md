@@ -22,7 +22,7 @@ The sample `terraform.tfvars.sample` describes the required inputs for the examp
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.82.2 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.30 |
 
 ## Modules
 
