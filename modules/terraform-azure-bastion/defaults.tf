@@ -1,4 +1,4 @@
-# Copyright 2024 Cloudera, Inc. All Rights Reserved.
+# Copyright 2025 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,14 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = ">= 4.0.0"
-    }
-  }
+locals {
 
-  required_version = ">= 1.9.0"
+  # Security Groups
+  bastion_security_group_id = (var.create_bastion_sg ?
+  azurerm_network_security_group.bastion_sg[0].id : var.bastion_security_group_id)
+
 }
-

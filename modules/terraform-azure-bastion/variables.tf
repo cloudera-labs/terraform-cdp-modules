@@ -26,9 +26,40 @@ variable "bastion_region" {
 }
 
 # ------- Bastion SG -------
+variable "create_bastion_sg" {
+  type        = bool
+  description = "Flag to specify if the Security Group for the bastion should be created."
+
+  default = true
+}
+
 variable "bastion_security_group_name" {
   type        = string
-  description = "Name of bastion Security Group for CDP environment."
+  description = "Name of bastion Security Group for CDP environment. Required when create_bastion_sg is true."
+
+  default = null
+}
+
+variable "bastion_security_group_id" {
+  type        = string
+  description = "ID for existing Security Group to be used for the bastion VM. Required when create_bastion_sg is false."
+
+  default = null
+}
+
+variable "ingress_rules" {
+  description = "List of ingress rules to create."
+  type = list(object({
+
+    rule_name  = string
+    priority   = number
+    protocol   = string
+    from_port  = string
+    to_port    = string
+    src_cidrs  = list(string)
+    dest_cidrs = list(string)
+  }))
+  default = []
 }
 
 # ------- Bastion Network -------
@@ -46,7 +77,7 @@ variable "bastion_pip_static" {
   description = "Whether the Bastion Public IP should be Static (true) or Dynamic (false)."
   type        = bool
 
-  default = true
+  default = false
 }
 
 variable "bastion_ipconfig_name" {
@@ -70,9 +101,14 @@ variable "bastion_subnet_id" {
 # ------- Bastion VM Settings -------
 variable "bastion_os_type" {
   type        = string
-  description = "The operating system type for the Bastion VM. Options are 'Linux' or 'Windows'."
+  description = "The operating system type for the Bastion VM. Options are 'linux' or 'windows'."
 
-  default = "Linux"
+  validation {
+    condition     = contains(["linux", "windows"], var.bastion_os_type)
+    error_message = "Valid values for var: bastion_os_type are (linux, windows)."
+  }
+
+  default = "linux"
 }
 
 variable "bastion_resourcegroup_name" {
@@ -102,32 +138,21 @@ variable "bastion_size" {
   default = "Standard_F2"
 }
 
-variable "bastion_img_pub" {
-  description = "Bastion OS image publisher. E.g., 'Canonical', 'MicrosoftWindowsServer'"
-  type        = string
+variable "bastion_image_reference" {
+  description = "The image reference for the bastion host."
+  type = object({
+    publisher = string # Bastion OS image publisher. E.g., 'Canonical', 'MicrosoftWindowsServer'
+    offer     = string # Bastion OS image offer. E.g., 'UbuntuServer', 'WindowsServer'
+    sku       = string # Bastion OS image SKU. E.g., '18.04-LTS', '2019-Datacenter'
+    version   = string # Bastion OS image version.
+  })
 
-  default = "Canonical"
-}
-
-variable "bastion_img_offer" {
-  description = "Bastion OS image offer. E.g., 'UbuntuServer', 'WindowsServer'"
-  type        = string
-
-  default = "UbuntuServer"
-}
-
-variable "bastion_img_sku" {
-  description = "Bastion OS image SKU. E.g., '18.04-LTS', '2019-Datacenter'"
-  type        = string
-
-  default = "18.04-LTS"
-}
-
-variable "bastion_img_ver" {
-  description = "Bastion OS image version."
-  type        = string
-
-  default = "latest"
+  default = {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
+    version   = "latest"
+  }
 }
 
 variable "bastion_admin_username" {
@@ -138,24 +163,46 @@ variable "bastion_admin_username" {
 variable "bastion_host_name" {
   type        = string
   description = "Name of bastion host."
-
 }
 
-variable "ssh_public_key_path" {
+variable "public_key_text" {
+  description = "The SSH public key for accessing the Linux bastion."
   type        = string
-  description = "Path to the SSH public key. One of either admin_password or admin_ssh_key must be specified for Linux."
+  default     = null
+
+  validation {
+    condition     = !(var.public_key_text != null && var.bastion_admin_password != null)
+    error_message = "Do not define both public_key_text and bastion_admin_password."
+  }
 }
 
 variable "bastion_admin_password" {
-  description = "The administrator password for the bastion host. This is used to log in to the instance. Required for Windows. For Linux, if not null, will replace SSH authentication."
+  description = "The admin password for the bastion. Required for Windows Bastion."
   type        = string
-
-  default = null
+  default     = null
 
   validation {
-    condition     = var.bastion_os_type == "Linux" || (var.bastion_os_type == "Windows" && var.bastion_admin_password != null)
-    error_message = "For Windows OS, 'bastion_admin_password' must be specified."
+    condition     = !(var.bastion_admin_password != null && var.priv_key_name != null)
+    error_message = "If bastion_admin_password is defined, priv_key_name will be ignored."
   }
+}
+
+variable "disable_pwd_auth" {
+  description = "When an admin_password is specified, disable_password_authentication must be set to false."
+  type        = bool
+  default     = true
+
+  validation {
+    condition     = var.bastion_admin_password == null || var.bastion_os_type == "windows" || (var.bastion_admin_password != null && var.disable_pwd_auth == false)
+    error_message = "For Linux, disable_pwd_auth must be set to true if bastion_admin_password is specified."
+  }
+}
+
+variable "priv_key_name" {
+  type        = string
+  description = "Name of private key. Required if SSH key and admin password not specified for Linux bastion, and used to create private TLS key. Will be ignored if SSH key or admin password are specified."
+
+  default = null
 }
 
 variable "replace_on_user_data_change" {

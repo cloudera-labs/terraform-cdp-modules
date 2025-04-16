@@ -28,7 +28,6 @@ provider "azurerm" {
       prevent_deletion_if_contains_resources = false
     }
   }
-
 }
 
 # ------- Azure Resource Group -------
@@ -45,7 +44,7 @@ module "rmgp" {
 module "ex02_existing_vnet" {
   source = "../../../terraform-azure-vnet"
 
-  deployment_template = var.deployment_template
+  deployment_template = "public"
   resourcegroup_name  = module.rmgp.resource_group_name
   vnet_name           = "${var.env_prefix}-existing-net"
   vnet_cidr           = var.vnet_cidr
@@ -72,22 +71,47 @@ module "ex02_existing_vnet" {
 module "ex01_bastion" {
   source = "../.."
 
-  bastion_subnet_id = module.ex02_existing_vnet.vnet_cdp_subnet_ids[0]
+  bastion_region             = var.azure_region
+  bastion_resourcegroup_name = module.rmgp.resource_group_name
+  bastion_subnet_id          = module.ex02_existing_vnet.vnet_cdp_subnet_ids[0]
 
   bastion_user_data           = base64encode(file("./files/ex-bash.sh"))
   replace_on_user_data_change = true
+  bastion_pip_static          = true
+
+  bastion_admin_username = var.env_prefix
+
+  public_key_text = var.public_key_text_input
+  # priv_key_name = "${var.env_prefix}-ssh-key.pem"
+  # bastion_admin_password = "Test#123"
+  # disable_pwd_auth = false
 
   bastion_host_name           = "${var.env_prefix}-bastion"
   bastion_security_group_name = "${var.env_prefix}-sg"
   bastion_pip_name            = "${var.env_prefix}-pip"
   bastion_nic_name            = "${var.env_prefix}-nic"
   bastion_ipconfig_name       = "${var.env_prefix}-ipconfig"
-  bastion_admin_username      = var.env_prefix
-  bastion_resourcegroup_name  = module.rmgp.resource_group_name
 
-  bastion_region = var.azure_region
-
-  ssh_public_key_path = "~/.ssh/id_rsa.pub"
+  ingress_rules = [
+    {
+      rule_name  = "vnet"
+      priority   = 101
+      protocol   = "Tcp"
+      from_port  = "*"
+      to_port    = "65535"
+      src_cidrs  = module.ex02_existing_vnet.vnet_address_space
+      dest_cidrs = module.ex02_existing_vnet.vnet_address_space
+    },
+    {
+      rule_name  = "ssh"
+      priority   = 100
+      protocol   = "Tcp"
+      from_port  = "*"
+      to_port    = "22"
+      src_cidrs  = var.ingress_extra_cidrs
+      dest_cidrs = var.ingress_extra_cidrs
+    }
+  ]
 
   tags = var.env_tags
 
