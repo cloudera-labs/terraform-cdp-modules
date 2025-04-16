@@ -51,13 +51,20 @@ variable "ingress_rules" {
   description = "List of ingress rules to create."
   type = list(object({
 
-    rule_name  = string
-    priority   = number
-    protocol   = string
-    from_port  = string
-    to_port    = string
-    src_cidrs  = list(string)
-    dest_cidrs = list(string)
+    rule_name          = string
+    description        = optional(string)
+    protocol           = string
+    src_port_range     = optional(string)
+    src_port_ranges    = optional(list(string))
+    dest_port_range    = optional(string)
+    dest_port_ranges   = optional(list(string))
+    src_addr_prefix    = optional(string)
+    src_addr_prefixes  = optional(list(string))
+    src_app_sg_ids     = optional(list(string))
+    dest_addr_prefix   = optional(string)
+    dest_addr_prefixes = optional(list(string))
+    dest_app_sg_ids    = optional(list(string))
+    priority           = number
   }))
   default = []
 }

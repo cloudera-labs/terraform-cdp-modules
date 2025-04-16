@@ -67,7 +67,7 @@ module "ex02_existing_vnet" {
   depends_on = [module.rmgp]
 }
 
-# ------- Create SSH Keypair if input public_key_text variable is not specified
+# ------- Create SSH Keypair if input public_key_text or bastion_admin_password is not specified
 # Create and save a RSA key
 resource "tls_private_key" "cdp_private_key" {
   algorithm = "RSA"
@@ -108,22 +108,22 @@ module "ex01_bastion" {
 
   ingress_rules = [
     {
-      rule_name  = "vnet"
-      priority   = 101
-      protocol   = "Tcp"
-      from_port  = "*"
-      to_port    = "65535"
-      src_cidrs  = module.ex02_existing_vnet.vnet_address_space
-      dest_cidrs = module.ex02_existing_vnet.vnet_address_space
+      rule_name          = "vnet"
+      priority           = 101
+      protocol           = "Tcp"
+      src_port_range     = "*"
+      dest_port_range    = "*"
+      src_addr_prefixes  = module.ex02_existing_vnet.vnet_address_space
+      dest_addr_prefixes = module.ex02_existing_vnet.vnet_address_space
     },
     {
-      rule_name  = "ssh"
-      priority   = 100
-      protocol   = "Tcp"
-      from_port  = "*"
-      to_port    = "22"
-      src_cidrs  = var.ingress_extra_cidrs
-      dest_cidrs = var.ingress_extra_cidrs
+      rule_name        = "ssh"
+      priority         = 100
+      protocol         = "Tcp"
+      src_port_range   = "*"
+      dest_port_range  = "22"
+      src_addr_prefix  = var.ingress_extra_cidr
+      dest_addr_prefix = var.ingress_extra_cidr
     }
   ]
 

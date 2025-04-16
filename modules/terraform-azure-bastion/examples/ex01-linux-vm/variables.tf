@@ -100,6 +100,13 @@ variable "ingress_extra_cidrs" {
   default = []
 }
 
+variable "ingress_extra_cidr" {
+  type        = string
+  description = "Extra ingress rule to create."
+
+  default = ""
+}
+
 variable "public_key_text_input" {
   type        = string
   description = "The SSH public key for accessing the Linux bastion."
