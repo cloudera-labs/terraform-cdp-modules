@@ -7,7 +7,7 @@ This module contains resource files and example variable definition files to cre
 
 The [examples](./examples) directory has example Azure Cloud Service Provider deployments for different scenarios:
 
-* `ex01-minimal_inputs` demonstrates how this module can be used to create a Bastion Host in a Vnet. The [terraform-azure-vnet](../../../terraform-azure-vnet/README.md) and [terraform-azure-resource-group](../../../terraform-azure-resource-group/README.md) modules are also used as part of this example.
+* `ex01-minimal_inputs` demonstrates how this module can be used to create a Bastion Host in a Vnet.
 
 The sample `terraform.tfvars.sample` describes the required inputs for the example.
 
