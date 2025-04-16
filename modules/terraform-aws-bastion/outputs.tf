@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Bastion public IP
 output "bastion_instance_public_ip" {
   description = "The public IP address of the Bastion instance."
   value       = var.create_eip ? aws_eip.bastion_eip[0].public_ip : aws_instance.bastion.public_ip

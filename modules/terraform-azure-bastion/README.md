@@ -73,6 +73,9 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_bastion_public_ip"></a> [bastion\_public\_ip](#output\_bastion\_public\_ip) | Public IP of bastion host |
-| <a name="output_ssh_command"></a> [ssh\_command](#output\_ssh\_command) | n/a |
+| <a name="output_bastion_instance_details"></a> [bastion\_instance\_details](#output\_bastion\_instance\_details) | The details of the Bastion instance. |
+| <a name="output_bastion_instance_id"></a> [bastion\_instance\_id](#output\_bastion\_instance\_id) | The ID of the Bastion instance. |
+| <a name="output_bastion_instance_private_ip"></a> [bastion\_instance\_private\_ip](#output\_bastion\_instance\_private\_ip) | The private IP address of the Bastion instance. |
+| <a name="output_bastion_instance_public_ip"></a> [bastion\_instance\_public\_ip](#output\_bastion\_instance\_public\_ip) | The public IP address of the Bastion instance. |
+| <a name="output_linux_ssh_command"></a> [linux\_ssh\_command](#output\_linux\_ssh\_command) | For Linux, SSH command required to connect to the Bastion host using the admin username and the public IP address. |
 <!-- END_TF_DOCS -->
