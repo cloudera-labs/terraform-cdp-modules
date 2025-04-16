@@ -699,15 +699,27 @@ variable "azure_tenant_id" {
   }
 }
 
-variable "azure_resource_group_name" {
+variable "azure_cdp_resource_group_name" {
   type        = string
-  description = "Azure Resource Group name. Required for CDP deployment on Azure."
+  description = "Azure Resource Group name for CDP resources. Required for Cloudera on Azure deployment."
 
   default = null
 
   validation {
-    condition     = (var.infra_type == "azure" && var.azure_resource_group_name == null) ? false : true
-    error_message = "azure_resource_group_name must be set when 'infra_type' is 'azure'."
+    condition     = (var.infra_type == "azure" && var.azure_cdp_resource_group_name == null) ? false : true
+    error_message = "azure_cdp_resource_group_name must be set when 'infra_type' is 'azure'."
+  }
+}
+
+variable "azure_network_resource_group_name" {
+  type        = string
+  description = "Azure Resource Group name for Network resources. Required for Cloudera on Azure deployment."
+
+  default = null
+
+  validation {
+    condition     = (var.infra_type == "azure" && var.azure_network_resource_group_name == null) ? false : true
+    error_message = "azure_network_resource_group_name must be set when 'infra_type' is 'azure'."
   }
 }
 

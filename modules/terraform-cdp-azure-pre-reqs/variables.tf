@@ -65,20 +65,45 @@ variable "enable_raz" {
 }
 
 # ------- Network Resources -------
-variable "resourcegroup_name" {
+variable "separate_network_resource_group" {
+  type        = bool
+  description = "Flag to specify if separate resource group is to be used for network and Cloudera resources"
+
+  default = false
+}
+
+variable "network_resourcegroup_name" {
   type        = string
-  description = "Resource Group name"
+  description = "Resource Group name for Network resources. Only used if separate_network_resource_group is true. If create_vnet is false this is a pre-existing resource group."
 
   default = null
 
   validation {
-    condition     = (var.resourcegroup_name == null ? true : length(var.resourcegroup_name) >= 1 && length(var.resourcegroup_name) <= 90)
-    error_message = "The length of resourcegroup_name must be 90 characters or less."
+    condition     = (var.network_resourcegroup_name == null ? true : length(var.network_resourcegroup_name) >= 1 && length(var.network_resourcegroup_name) <= 90)
+    error_message = "The length of network_resourcegroup_name must be 90 characters or less."
   }
 
   validation {
-    condition     = (var.resourcegroup_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,90}$", var.resourcegroup_name)))
-    error_message = "resourcegroup_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
+    condition     = (var.network_resourcegroup_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,90}$", var.network_resourcegroup_name)))
+    error_message = "network_resourcegroup_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
+  }
+
+}
+
+variable "cdp_resourcegroup_name" {
+  type        = string
+  description = "Resource Group name for resources. If create_vnet is false this is a pre-existing resource group."
+
+  default = null
+
+  validation {
+    condition     = (var.cdp_resourcegroup_name == null ? true : length(var.cdp_resourcegroup_name) >= 1 && length(var.cdp_resourcegroup_name) <= 90)
+    error_message = "The length of cdp_resourcegroup_name must be 90 characters or less."
+  }
+
+  validation {
+    condition     = (var.cdp_resourcegroup_name == null ? true : can(regex("^[a-zA-Z0-9\\-\\_\\.]{1,90}$", var.cdp_resourcegroup_name)))
+    error_message = "cdp_resourcegroup_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
   }
 
 }
@@ -134,13 +159,6 @@ variable "delegated_subnet_range" {
   description = "Size of each Postgres Flexible Server delegated subnet. Required if create_vpc is true."
 
   default = 26
-}
-
-variable "cdp_resourcegroup_name" {
-  type        = string
-  description = "Pre-existing Resource Group for CDP environment. Required if create_vnet is false."
-
-  default = null
 }
 
 variable "cdp_vnet_name" {

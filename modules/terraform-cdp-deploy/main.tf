@@ -130,7 +130,8 @@ module "cdp_on_azure" {
   tenant_id       = var.azure_tenant_id
 
   region                                             = var.region
-  resource_group_name                                = var.azure_resource_group_name
+  cdp_resource_group_name                            = var.azure_cdp_resource_group_name
+  network_resource_group_name                        = var.azure_network_resource_group_name
   vnet_name                                          = var.azure_vnet_name
   cdp_subnet_names                                   = var.azure_cdp_subnet_names
   cdp_gateway_subnet_names                           = var.azure_cdp_gateway_subnet_names

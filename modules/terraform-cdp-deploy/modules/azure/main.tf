@@ -57,7 +57,7 @@ resource "cdp_environments_azure_environment" "cdp_env" {
 
   use_public_ip = var.use_public_ips
   existing_network_params = {
-    resource_group_name          = var.resource_group_name
+    resource_group_name          = var.network_resource_group_name
     network_id                   = var.vnet_name
     subnet_ids                   = var.cdp_subnet_names
     aks_private_dns_zone_id      = var.azure_aks_private_dns_zone_id
@@ -70,7 +70,7 @@ resource "cdp_environments_azure_environment" "cdp_env" {
   endpoint_access_gateway_subnet_ids = (length(var.cdp_gateway_subnet_names) > 0) ? var.cdp_gateway_subnet_names : null
 
   # Set this parameter to deploy all resources into a single resource group
-  resource_group_name = var.use_single_resource_group ? var.resource_group_name : null
+  resource_group_name = var.use_single_resource_group ? var.cdp_resource_group_name : null
 
   freeipa = {
     instance_count_by_group = var.freeipa_instances

@@ -92,10 +92,11 @@ module "cdp_deploy" {
   azure_subscription_id = module.cdp_azure_prereqs.azure_subscription_id
   azure_tenant_id       = module.cdp_azure_prereqs.azure_tenant_id
 
-  azure_resource_group_name      = module.cdp_azure_prereqs.azure_resource_group_name
-  azure_vnet_name                = module.cdp_azure_prereqs.azure_vnet_name
-  azure_cdp_subnet_names         = module.cdp_azure_prereqs.azure_cdp_subnet_names
-  azure_cdp_gateway_subnet_names = module.cdp_azure_prereqs.azure_cdp_gateway_subnet_names
+  azure_cdp_resource_group_name     = module.cdp_azure_prereqs.azure_cdp_resource_group_name
+  azure_network_resource_group_name = module.cdp_azure_prereqs.azure_network_resource_group_name
+  azure_vnet_name                   = module.cdp_azure_prereqs.azure_vnet_name
+  azure_cdp_subnet_names            = module.cdp_azure_prereqs.azure_cdp_subnet_names
+  azure_cdp_gateway_subnet_names    = module.cdp_azure_prereqs.azure_cdp_gateway_subnet_names
 
   azure_environment_flexible_server_delegated_subnet_names = module.cdp_azure_prereqs.azure_cdp_flexible_server_delegated_subnet_names
   azure_datalake_flexible_server_delegated_subnet_name     = try(module.cdp_azure_prereqs.azure_cdp_flexible_server_delegated_subnet_names[0], null)
