@@ -76,6 +76,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_bastion_admin_username"></a> [bastion\_admin\_username](#output\_bastion\_admin\_username) | The administrator username for the bastion host. This is used to log in to the instance. |
 | <a name="output_bastion_instance_details"></a> [bastion\_instance\_details](#output\_bastion\_instance\_details) | The details of the Bastion instance. |
 | <a name="output_bastion_instance_id"></a> [bastion\_instance\_id](#output\_bastion\_instance\_id) | The ID of the Bastion instance. |
 | <a name="output_bastion_instance_private_ip"></a> [bastion\_instance\_private\_ip](#output\_bastion\_instance\_private\_ip) | The private IP address of the Bastion instance. |

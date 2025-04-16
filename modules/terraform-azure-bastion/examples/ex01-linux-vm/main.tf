@@ -117,13 +117,13 @@ module "ex01_bastion" {
       dest_addr_prefixes = module.ex02_existing_vnet.vnet_address_space
     },
     {
-      rule_name        = "ssh"
-      priority         = 100
-      protocol         = "Tcp"
-      src_port_range   = "*"
-      dest_port_range  = "22"
-      src_addr_prefix  = var.ingress_extra_cidr
-      dest_addr_prefix = var.ingress_extra_cidr
+      rule_name         = "ssh"
+      priority          = 100
+      protocol          = "Tcp"
+      src_port_range    = "*"
+      dest_port_range   = "22"
+      src_addr_prefixes = var.ingress_extra_cidrs
+      dest_addr_prefix  = "*"
     }
   ]
 

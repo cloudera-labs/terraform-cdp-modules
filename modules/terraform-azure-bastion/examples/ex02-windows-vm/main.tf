@@ -68,7 +68,7 @@ module "ex02_existing_vnet" {
 }
 
 # ------- Azure Bastion Host -------
-module "ex01_bastion" {
+module "ex02_bastion" {
   source = "../.."
 
   bastion_region             = var.azure_region
@@ -98,22 +98,22 @@ module "ex01_bastion" {
 
   ingress_rules = [
     {
-      rule_name  = "vnet"
-      priority   = 101
-      protocol   = "Tcp"
-      from_port  = "*"
-      to_port    = "65535"
-      src_cidrs  = module.ex02_existing_vnet.vnet_address_space
-      dest_cidrs = module.ex02_existing_vnet.vnet_address_space
+      rule_name          = "vnet"
+      priority           = 101
+      protocol           = "Tcp"
+      src_port_range     = "*"
+      dest_port_range    = "*"
+      src_addr_prefixes  = module.ex02_existing_vnet.vnet_address_space
+      dest_addr_prefixes = module.ex02_existing_vnet.vnet_address_space
     },
     {
-      rule_name  = "rdp"
-      priority   = 100
-      protocol   = "Tcp"
-      from_port  = "*"
-      to_port    = "3389"
-      src_cidrs  = var.ingress_extra_cidrs
-      dest_cidrs = var.ingress_extra_cidrs
+      rule_name         = "rdp"
+      priority          = 100
+      protocol          = "Tcp"
+      src_port_range    = "*"
+      dest_port_range   = "3389"
+      src_addr_prefixes = var.ingress_extra_cidrs
+      dest_addr_prefix  = "*"
     }
   ]
 

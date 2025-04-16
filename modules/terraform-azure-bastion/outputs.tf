@@ -17,6 +17,11 @@ output "bastion_instance_public_ip" {
   value       = azurerm_public_ip.bastion_pip.ip_address
 }
 
+output "bastion_admin_username" {
+  description = "The administrator username for the bastion host. This is used to log in to the instance."
+  value       = var.bastion_admin_username
+}
+
 output "linux_ssh_command" {
   description = "For Linux, SSH command required to connect to the Bastion host using the admin username and the public IP address."
   value       = "ssh ${var.bastion_admin_username}@${azurerm_public_ip.bastion_pip.ip_address}"

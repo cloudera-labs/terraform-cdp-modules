@@ -18,6 +18,12 @@ output "bastion_instance_public_ip" {
   description = "The public IP assigned to the Bastion host."
 }
 
+output "bastion_admin_username" {
+  value = module.ex01_bastion.bastion_admin_username
+
+  description = "The administrator username for the bastion host. This is used to log in to the instance."
+}
+
 output "linux_ssh_command" {
   value = module.ex01_bastion.linux_ssh_command
 

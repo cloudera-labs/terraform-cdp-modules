@@ -21,7 +21,6 @@ azure_region = "<ENTER_VALUE>" # Change this to specify Cloud Provider region, e
 # ------- Bastion settings -------
 # **NOTE: Uncomment one of the below settings as required
 ingress_extra_cidrs = ["<ENTER_CIDR>", "<ENTER_CIDR>"]
-ingress_extra_cidr = "<ENTER_CIDR>"
 
 # ------- Resource Tagging -------
 # **NOTE: An example of how to specify tags is below; uncomment & edit if required

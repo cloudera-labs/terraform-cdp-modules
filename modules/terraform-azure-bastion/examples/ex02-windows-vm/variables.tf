@@ -96,6 +96,4 @@ variable "delegated_subnet_range" {
 variable "ingress_extra_cidrs" {
   type        = list(string)
   description = "List of extra ingress rules to create."
-
-  default = []
 }
