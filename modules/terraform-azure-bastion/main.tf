@@ -45,10 +45,10 @@ resource "azurerm_subnet_network_security_group_association" "bastion_sg_associa
 }
 
 resource "azurerm_public_ip" "bastion_pip" {
-  name                = var.bastion_pip_name
+  name                = var.bastion_public_ip_name
   location            = var.bastion_region
   resource_group_name = var.bastion_resourcegroup_name
-  allocation_method   = var.bastion_pip_static ? "Static" : "Dynamic"
+  allocation_method   = var.bastion_public_ip_static ? "Static" : "Dynamic"
 }
 
 resource "azurerm_network_interface" "bastion_nic" {
@@ -62,33 +62,6 @@ resource "azurerm_network_interface" "bastion_nic" {
     private_ip_address_allocation = var.bastion_private_ip_static ? "Static" : "Dynamic"
     public_ip_address_id          = azurerm_public_ip.bastion_pip.id
   }
-}
-
-# ------- Create SSH Keypair if input public_key_text variable is not specified
-locals {
-  # flag to determine if keypair should be created
-  create_keypair = (var.bastion_os_type == "linux" && var.public_key_text == null && var.bastion_admin_password == null) ? true : false
-
-  # key pair value
-  public_key_text = local.create_keypair == false ? var.public_key_text : tls_private_key.cdp_private_key[0].public_key_openssh
-}
-
-# Create and save a RSA key
-resource "tls_private_key" "cdp_private_key" {
-  count = local.create_keypair ? 1 : 0
-
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
-# Save the private key to ./<env_prefix>-ssh-key.pem
-resource "local_sensitive_file" "pem_file" {
-  count = local.create_keypair ? 1 : 0
-
-  filename             = var.priv_key_name
-  file_permission      = "600"
-  directory_permission = "700"
-  content              = tls_private_key.cdp_private_key[0].private_key_pem
 }
 
 # ------- Bastion VMs
@@ -123,7 +96,7 @@ resource "azurerm_linux_virtual_machine" "bastion" {
     for_each = var.bastion_admin_password == null ? [1] : []
     content {
       username   = var.bastion_admin_username
-      public_key = local.public_key_text
+      public_key = var.public_key_text
     }
   }
 

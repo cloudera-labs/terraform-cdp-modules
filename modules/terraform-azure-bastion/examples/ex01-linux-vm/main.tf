@@ -67,6 +67,21 @@ module "ex02_existing_vnet" {
   depends_on = [module.rmgp]
 }
 
+# ------- Create SSH Keypair if input public_key_text variable is not specified
+# Create and save a RSA key
+resource "tls_private_key" "cdp_private_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+# Save the private key to ./<env_prefix>-ssh-key.pem
+resource "local_sensitive_file" "pem_file" {
+  filename             = "${var.env_prefix}-ssh-key.pem"
+  file_permission      = "600"
+  directory_permission = "700"
+  content              = tls_private_key.cdp_private_key.private_key_pem
+}
+
 # ------- Azure Bastion Host -------
 module "ex01_bastion" {
   source = "../.."
@@ -77,18 +92,17 @@ module "ex01_bastion" {
 
   bastion_user_data           = base64encode(file("./files/ex-bash.sh"))
   replace_on_user_data_change = true
-  bastion_pip_static          = true
+  bastion_public_ip_static    = true
 
   bastion_admin_username = var.env_prefix
 
-  public_key_text = var.public_key_text_input
-  # priv_key_name = "${var.env_prefix}-ssh-key.pem"
+  public_key_text = var.public_key_text_input != null ? var.public_key_text_input : tls_private_key.cdp_private_key.public_key_openssh
   # bastion_admin_password = "Test#123"
   # disable_pwd_auth = false
 
   bastion_host_name           = "${var.env_prefix}-bastion"
   bastion_security_group_name = "${var.env_prefix}-sg"
-  bastion_pip_name            = "${var.env_prefix}-pip"
+  bastion_public_ip_name      = "${var.env_prefix}-pip"
   bastion_nic_name            = "${var.env_prefix}-nic"
   bastion_ipconfig_name       = "${var.env_prefix}-ipconfig"
 

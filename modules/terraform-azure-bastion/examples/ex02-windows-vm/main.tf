@@ -77,7 +77,7 @@ module "ex01_bastion" {
 
   bastion_user_data           = base64encode(file("./files/ex-bash.sh"))
   replace_on_user_data_change = true
-  bastion_pip_static          = true
+  bastion_public_ip_static    = true
 
   bastion_os_type        = "windows"
   bastion_admin_username = var.env_prefix
@@ -92,7 +92,7 @@ module "ex01_bastion" {
 
   bastion_host_name           = "${var.env_prefix}-bastion"
   bastion_security_group_name = "${var.env_prefix}-sg"
-  bastion_pip_name            = "${var.env_prefix}-pip"
+  bastion_public_ip_name      = "${var.env_prefix}-pip"
   bastion_nic_name            = "${var.env_prefix}-nic"
   bastion_ipconfig_name       = "${var.env_prefix}-ipconfig"
 
