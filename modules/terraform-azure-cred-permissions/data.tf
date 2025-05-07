@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2025 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,5 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Get the configuration of the AzureAD provider
+data "azuread_client_config" "current" {}
+
 # Access information about Azure Subscription
-data "azurerm_subscription" "current" {}
+data "azurerm_subscription" "sub_details" {
+
+  count = local.create_xaccount_resources ? 1 : 0
+
+  subscription_id = var.azure_subscription_id
+}
+
+# Lookup existing AzureAD application
+data "azuread_application" "existing_xaccount_app" {
+
+  count = local.create_xaccount_resources ? 0 : 1
+
+  client_id = var.existing_xaccount_app_client_id
+}

@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2025 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,5 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Access information about Azure Subscription
-data "azurerm_subscription" "current" {}
+# ------- Global settings -------
+variable "env_prefix" {
+  type        = string
+  description = "Shorthand name for the environment. Used in resource descriptions"
+}
+
+variable "azure_region" {
+  type        = string
+  description = "Region which Cloud resources will be created"
+}
+
+variable "env_tags" {
+  type        = map(any)
+  description = "Tags applied to provised resources"
+
+  default = null
+}

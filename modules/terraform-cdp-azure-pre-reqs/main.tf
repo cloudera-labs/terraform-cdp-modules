@@ -245,31 +245,15 @@ resource "azurerm_private_dns_zone_virtual_network_link" "flexible_server_vnet_l
 
 # ------- Azure Cross Account App -------
 
-# Create Azure AD Application
-resource "azuread_application" "cdp_xaccount_app" {
-  display_name = local.xaccount_app_name
+module "azure_cloudera_cred_permissions" {
+  source = "../terraform-azure-cred-permissions"
 
-  owners = [data.azuread_client_config.current.object_id]
-}
+  xaccount_app_name             = local.xaccount_app_name
+  azure_subscription_id         = data.azurerm_subscription.current.subscription_id
+  xaccount_app_role_assignments = var.xaccount_app_role_assignments
 
-# Create Service Principal associated with the Azure AD App
-resource "azuread_service_principal" "cdp_xaccount_app_sp" {
-  client_id = azuread_application.cdp_xaccount_app.client_id
-
-  owners = [data.azuread_client_config.current.object_id]
-}
-
-# Create role assignment for Service Principal
-resource "azurerm_role_assignment" "cdp_xaccount_role" {
-  scope                = data.azurerm_subscription.current.id
-  role_definition_name = "Contributor"
-  principal_id         = azuread_service_principal.cdp_xaccount_app_sp.id
-}
-
-# Create Application password (client secret)
-resource "azuread_application_password" "cdp_xaccount_app_password" {
-  application_id    = azuread_application.cdp_xaccount_app.id
-  end_date_relative = "17520h" #expire in 2 years # TODO: Review and parameterize
+  existing_xaccount_app_client_id = var.existing_xaccount_app_client_id
+  existing_xaccount_app_pword     = var.existing_xaccount_app_pword
 }
 
 # ------- Azure Managed Identities & Role Asignment - IDBroker -------

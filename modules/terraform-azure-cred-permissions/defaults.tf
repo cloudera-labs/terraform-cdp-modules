@@ -12,5 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Access information about Azure Subscription
-data "azurerm_subscription" "current" {}
+locals {
+
+  # ------- Determine if resources should be created -------
+  create_xaccount_resources = (var.existing_xaccount_app_client_id == null)
+
+  xaccount_app_owners = coalesce(var.xaccount_app_owners, [data.azuread_client_config.current.object_id])
+
+}
