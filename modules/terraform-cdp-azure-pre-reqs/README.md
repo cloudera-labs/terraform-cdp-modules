@@ -34,6 +34,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 |------|--------|---------|
 | <a name="module_azure_cdp_rmgp"></a> [azure\_cdp\_rmgp](#module\_azure\_cdp\_rmgp) | ../terraform-azure-resource-group | n/a |
 | <a name="module_azure_cdp_vnet"></a> [azure\_cdp\_vnet](#module\_azure\_cdp\_vnet) | ../terraform-azure-vnet | n/a |
+| <a name="module_azure_cloudera_cred_permissions"></a> [azure\_cloudera\_cred\_permissions](#module\_azure\_cloudera\_cred\_permissions) | ../terraform-azure-cred-permissions | n/a |
 | <a name="module_azure_cml_nfs"></a> [azure\_cml\_nfs](#module\_azure\_cml\_nfs) | ../terraform-azure-nfs | n/a |
 | <a name="module_stor_private_endpoints"></a> [stor\_private\_endpoints](#module\_stor\_private\_endpoints) | ../terraform-azure-storage-endpoints | n/a |
 
@@ -41,9 +42,6 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 
 | Name | Type |
 |------|------|
-| [azuread_application.cdp_xaccount_app](https://registry.terraform.io/providers/hashicorp/azuread/2.46.0/docs/resources/application) | resource |
-| [azuread_application_password.cdp_xaccount_app_password](https://registry.terraform.io/providers/hashicorp/azuread/2.46.0/docs/resources/application_password) | resource |
-| [azuread_service_principal.cdp_xaccount_app_sp](https://registry.terraform.io/providers/hashicorp/azuread/2.46.0/docs/resources/service_principal) | resource |
 | [azurerm_network_security_group.cdp_default_sg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
 | [azurerm_network_security_group.cdp_knox_sg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
 | [azurerm_network_security_rule.cdp_default_sg_ingress_extra_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
@@ -60,7 +58,6 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [azurerm_role_assignment.cdp_ranger_audit_data_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.cdp_ranger_audit_log_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.cdp_raz_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_xaccount_role](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_storage_account.cdp_storage_locations](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
 | [azurerm_storage_account_network_rules.cdp_storage_access_rules](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account_network_rules) | resource |
 | [azurerm_storage_container.cdp_backup_storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
@@ -105,6 +102,8 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_delegated_subnet_range"></a> [delegated\_subnet\_range](#input\_delegated\_subnet\_range) | Size of each Postgres Flexible Server delegated subnet. Required if create\_vpc is true. | `number` | `26` | no |
 | <a name="input_enable_raz"></a> [enable\_raz](#input\_enable\_raz) | Flag to enable Ranger Authorization Service (RAZ) | `bool` | `true` | no |
 | <a name="input_env_tags"></a> [env\_tags](#input\_env\_tags) | Tags applied to provisioned resources | `map(any)` | `null` | no |
+| <a name="input_existing_xaccount_app_client_id"></a> [existing\_xaccount\_app\_client\_id](#input\_existing\_xaccount\_app\_client\_id) | Client ID of existing Azure AD Application for Cloudera Cross Account. If set then no application or SPN resources are created. | `string` | `null` | no |
+| <a name="input_existing_xaccount_app_pword"></a> [existing\_xaccount\_app\_pword](#input\_existing\_xaccount\_app\_pword) | Password of existing Azure AD Application for Cloudera Cross Account. If set then no application or SPN resources are created. | `string` | `null` | no |
 | <a name="input_gateway_subnet_range"></a> [gateway\_subnet\_range](#input\_gateway\_subnet\_range) | Size of each gateway subnet. Required if create\_vpc is true. | `number` | `24` | no |
 | <a name="input_gateway_subnets_private_endpoint_network_policies"></a> [gateway\_subnets\_private\_endpoint\_network\_policies](#input\_gateway\_subnets\_private\_endpoint\_network\_policies) | Enable or Disable network policies for the private endpoint on the Gateway subnets | `string` | `"Enabled"` | no |
 | <a name="input_idbroker_managed_identity_name"></a> [idbroker\_managed\_identity\_name](#input\_idbroker\_managed\_identity\_name) | IDBroker Managed Identity name | `string` | `null` | no |
@@ -132,6 +131,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_vnet_cidr"></a> [vnet\_cidr](#input\_vnet\_cidr) | VNet CIDR Block. Required if create\_vpc is true. | `string` | `"10.10.0.0/16"` | no |
 | <a name="input_vnet_name"></a> [vnet\_name](#input\_vnet\_name) | VNet name | `string` | `null` | no |
 | <a name="input_xaccount_app_name"></a> [xaccount\_app\_name](#input\_xaccount\_app\_name) | Cross account application name within Azure Active Directory | `string` | `null` | no |
+| <a name="input_xaccount_app_role_assignments"></a> [xaccount\_app\_role\_assignments](#input\_xaccount\_app\_role\_assignments) | List of Role Assignments for the Cross Account Service Principal. If scope is not specified then scope is set to var.azure\_subscription\_id | <pre>list(object({<br/>    role        = string<br/>    description = string<br/>    scope       = optional(string)<br/>    })<br/>  )</pre> | <pre>[<br/>  {<br/>    "description": "Contributor Role to Cross Account Service Principal at Subscription Level",<br/>    "role": "Contributor"<br/>  }<br/>]</pre> | no |
 
 ## Outputs
 

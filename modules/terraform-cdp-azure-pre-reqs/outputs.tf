@@ -142,14 +142,14 @@ output "azure_backup_storage_location" {
 }
 
 output "azure_xaccount_app_uuid" {
-  value = azuread_application.cdp_xaccount_app.client_id
+  value = module.azure_cloudera_cred_permissions.azure_xaccount_app_client_id
 
   description = "UUID for the Azure AD Cross Account Application"
 
 }
 
 output "azure_xaccount_app_pword" {
-  value = azuread_application_password.cdp_xaccount_app_password.value
+  value = module.azure_cloudera_cred_permissions.azure_xaccount_app_pword
 
   description = "Password for the Azure AD Cross Account Application"
 
