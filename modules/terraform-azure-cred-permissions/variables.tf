@@ -67,7 +67,8 @@ variable "xaccount_app_role_assignments" {
 }
 
 variable "xaccount_app_password_end_date_relative" {
-  type = string
+  type        = string
+  description = "The relative duration for which the password (client secret) for the Cross Account application is valid."
 
   default = "17520h" #expire in 2 years
 }

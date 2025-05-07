@@ -40,7 +40,7 @@ resource "azurerm_role_assignment" "cdp_xaccount_role" {
 
   scope                = coalesce(each.value.scope, data.azurerm_subscription.sub_details[0].id)
   role_definition_name = each.value.role
-  principal_id         = azuread_service_principal.cdp_xaccount_app_sp[0].id
+  principal_id         = azuread_service_principal.cdp_xaccount_app_sp[0].object_id
 
   description = each.value.description
 }
