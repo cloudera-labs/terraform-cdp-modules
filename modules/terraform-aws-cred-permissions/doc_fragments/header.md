@@ -1,4 +1,4 @@
-# Terraform Module for CDP Credential Prerequisites on AWS
+# Terraform Module for Cloudera on AWS Credential Prerequisites
 
 This module contains resource files and example variable definition files for creation of the Cloudera Data Platform (CDP) Public Cloud Cross Account Credential pre-requisite on AWS.
 
