@@ -21,7 +21,10 @@ locals {
   )
 
   # ------- Network Resources -------
-  resourcegroup_name = coalesce(var.resourcegroup_name, "${var.env_prefix}-rmgp")
+  cdp_resourcegroup_name = coalesce(var.cdp_resourcegroup_name,
+  var.separate_network_resource_group ? "${var.env_prefix}-cdp-rmgp" : "${var.env_prefix}-rmgp")
+
+  network_resourcegroup_name = coalesce(var.network_resourcegroup_name, "${var.env_prefix}-net-rmgp")
 
   vnet_name = coalesce(var.vnet_name, "${var.env_prefix}-net")
 
@@ -29,8 +32,6 @@ locals {
   security_group_default_name = coalesce(var.security_group_default_name, "${var.env_prefix}-default-sg")
 
   security_group_knox_name = coalesce(var.security_group_knox_name, "${var.env_prefix}-knox-sg")
-
-  cdp_resourcegroup_name = module.azure_cdp_rmgp.resource_group_name
 
   cdp_vnet_name = module.azure_cdp_vnet.vnet_name
 

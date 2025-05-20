@@ -24,8 +24,14 @@ output "azure_tenant_id" {
   description = "Tenant ID where the Azure pre-reqs are created"
 }
 
-output "azure_resource_group_name" {
-  value = local.cdp_resourcegroup_name
+output "azure_cdp_resource_group_name" {
+  value = module.azure_cdp_rmgp.resource_group_name
+
+  description = "Azure Resource Group Name"
+}
+
+output "azure_network_resource_group_name" {
+  value = try(module.azure_network_rmgp[0].resource_group_name, module.azure_cdp_rmgp.resource_group_name)
 
   description = "Azure Resource Group Name"
 }
