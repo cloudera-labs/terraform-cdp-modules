@@ -384,6 +384,24 @@ variable "xaccount_app_name" {
 
 }
 
+variable "xaccount_app_role_assignments" {
+  type = list(object({
+    role        = string
+    description = string
+    scope       = optional(string)
+    })
+  )
+
+  description = "List of Role Assignments for the Cross Account Service Principal. If scope is not specified then scope is set to var.azure_subscription_id"
+
+  default = [
+    {
+      "description" : "Contributor Role to Cross Account Service Principal at Subscription Level",
+      "role" : "Contributor"
+    }
+  ]
+}
+
 # Managed Identities
 variable "datalake_admin_managed_identity_name" {
   type = string
@@ -695,4 +713,21 @@ variable "nfs_file_share_size" {
   description = "NFS File Share size"
   default     = 100
 }
+
+# ------- Support for Authz resources -------
+# Cross Account Application
+variable "existing_xaccount_app_client_id" {
+  type        = string
+  description = "Client ID of existing Azure AD Application for Cloudera Cross Account. If set then no application or SPN resources are created."
+
+  default = null
+}
+
+variable "existing_xaccount_app_pword" {
+  type        = string
+  description = "Password of existing Azure AD Application for Cloudera Cross Account. If set then no application or SPN resources are created."
+
+  default = null
+}
+
 

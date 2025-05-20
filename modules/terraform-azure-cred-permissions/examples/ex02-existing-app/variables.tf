@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2025 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,5 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Access information about Azure Subscription
-data "azurerm_subscription" "current" {}
+# ------- Global settings -------
+variable "existing_xaccount_app_client_id" {
+  type        = string
+  description = "Client ID of existing existing Azure AD Application for Cloudera Cross Account."
+}
+
+variable "existing_xaccount_app_pword" {
+  type        = string
+  description = "Password of existing Azure AD Application for Cloudera Cross Account."
+}
