@@ -178,6 +178,23 @@ variable "workload_analytics" {
 
 }
 
+variable "compute_cluster_enabled" {
+  type = bool
+
+  description = "Enable externalized compute cluster for the environment"
+
+}
+
+variable "compute_cluster_configuration" {
+  type = object({
+    kube_api_authorized_ip_ranges = optional(set(string))
+    private_cluster               = optional(bool)
+    worker_node_subnets           = optional(set(string))
+  })
+
+  description = "Kubernetes configuration for the externalized compute cluster"
+}
+
 variable "datalake_scale" {
   type = string
 

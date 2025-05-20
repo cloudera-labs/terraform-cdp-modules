@@ -93,6 +93,24 @@ variable "cdp_groups" {
     ]))
     error_message = "CDP group names can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
   }
+}
+variable "compute_cluster_enabled" {
+  type = bool
+
+  description = "Enable externalized compute cluster for the environment"
+
+  default = false
+}
+
+variable "compute_cluster_configuration" {
+  type = map(object({
+    kube_api_authorized_ip_ranges = optional(set(string))
+    outbound_type                 = optional(string)
+    private_cluster               = optional(bool)
+    worker_node_subnets           = optional(set(string))
+  }))
+
+  description = "Kubernetes configuration for the externalized compute cluster"
 
   default = null
 }
