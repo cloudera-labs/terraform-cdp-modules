@@ -200,7 +200,7 @@ variable "environment_polling_timeout" {
 
   description = " Timeout value in minutes for how long to poll for CDP Environment resource creation/deletion"
 
-  default = 60
+  default = 120
 }
 
 variable "multiaz" {
