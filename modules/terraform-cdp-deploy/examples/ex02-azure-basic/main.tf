@@ -88,6 +88,9 @@ module "cdp_deploy" {
   environment_async_creation = var.environment_async_creation
   datalake_async_creation    = var.datalake_async_creation
 
+  compute_cluster_enabled       = var.compute_cluster_enabled
+  compute_cluster_configuration = var.compute_cluster_configuration
+
   # From pre-reqs module output
   azure_subscription_id = module.cdp_azure_prereqs.azure_subscription_id
   azure_tenant_id       = module.cdp_azure_prereqs.azure_tenant_id
