@@ -82,6 +82,11 @@ resource "cdp_environments_azure_environment" "cdp_env" {
     os                      = var.freeipa_os
   }
 
+  compute_cluster = {
+    enabled       = var.compute_cluster_enabled
+    configuration = var.compute_cluster_configuration
+  }
+
   proxy_config_name  = var.proxy_config_name
   workload_analytics = var.workload_analytics
   enable_tunnel      = var.enable_ccm_tunnel

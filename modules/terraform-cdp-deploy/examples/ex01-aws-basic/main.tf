@@ -40,6 +40,11 @@ terraform {
 
 provider "aws" {
   region = var.aws_region
+
+  # ignore tags created by data services
+  ignore_tags {
+    key_prefixes = ["kubernetes.io/cluster"]
+  }
 }
 
 module "cdp_aws_prereqs" {
@@ -96,6 +101,9 @@ module "cdp_deploy" {
 
   environment_async_creation = var.environment_async_creation
   datalake_async_creation    = var.datalake_async_creation
+
+  compute_cluster_enabled       = var.compute_cluster_enabled
+  compute_cluster_configuration = var.compute_cluster_configuration
 
   # From pre-reqs module output
   aws_vpc_id             = module.cdp_aws_prereqs.aws_vpc_id

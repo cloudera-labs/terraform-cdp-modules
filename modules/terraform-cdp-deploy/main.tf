@@ -85,6 +85,9 @@ module "cdp_on_aws" {
   datalake_recipes      = var.datalake_recipes
 
   environment_cascading_delete = var.environment_cascading_delete
+
+  compute_cluster_enabled       = var.compute_cluster_enabled
+  compute_cluster_configuration = var.compute_cluster_configuration
 }
 
 # ------- Call sub-module for Azure Deployment -------
@@ -178,6 +181,9 @@ module "cdp_on_azure" {
   datalake_flexible_server_delegated_subnet_name = var.azure_datalake_flexible_server_delegated_subnet_name
 
   environment_cascading_delete = var.environment_cascading_delete
+
+  compute_cluster_enabled       = var.compute_cluster_enabled
+  compute_cluster_configuration = var.compute_cluster_configuration
 }
 
 # ------- Call sub-module for GCP Deployment -------
