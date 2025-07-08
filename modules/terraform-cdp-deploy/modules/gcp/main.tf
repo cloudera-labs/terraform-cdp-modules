@@ -58,6 +58,7 @@ resource "cdp_environments_gcp_environment" "cdp_env" {
     instance_count_by_group = var.freeipa_instances
     instance_type           = var.freeipa_instance_type
     recipes                 = var.freeipa_recipes
+    multi_az                = var.multiaz
   }
 
   workload_analytics = var.workload_analytics
@@ -127,6 +128,7 @@ resource "cdp_datalake_gcp_datalake" "cdp_datalake" {
   image        = var.datalake_image
   java_version = var.datalake_java_version
   recipes      = var.datalake_recipes
+  multi_az     = var.multiaz
 
   polling_options = {
     async                  = var.datalake_async_creation
