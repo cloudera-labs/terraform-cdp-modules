@@ -129,6 +129,16 @@ variable "bastion_aws_instance_type" {
   default = "t3.medium"
 }
 
+variable "bastion_aws_root_volume" {
+  type = object({
+    delete_on_termination = optional(bool, true)
+    volume_size           = optional(number, 100)
+    volume_type           = optional(string)
+  })
+  description = "Root volume details for the bastion instance."
+  default     = {}
+}
+
 variable "bastion_aws_keypair_name" {
   type        = string
   description = "SSH Keypair name for the bastion VM."
