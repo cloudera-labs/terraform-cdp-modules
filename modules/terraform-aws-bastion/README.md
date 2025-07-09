@@ -49,6 +49,7 @@ No modules.
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC ID for where the bastion VM will run. | `string` | n/a | yes |
 | <a name="input_bastion_aws_ami"></a> [bastion\_aws\_ami](#input\_bastion\_aws\_ami) | The AWS AMI to use for the bastion VM. | `string` | `null` | no |
 | <a name="input_bastion_aws_instance_type"></a> [bastion\_aws\_instance\_type](#input\_bastion\_aws\_instance\_type) | The EC2 instance type to use for the bastion VM. | `string` | `"t3.medium"` | no |
+| <a name="input_bastion_aws_root_volume"></a> [bastion\_aws\_root\_volume](#input\_bastion\_aws\_root\_volume) | Root volume details for the bastion instance. | <pre>object({<br/>    delete_on_termination = optional(bool, true)<br/>    volume_size           = optional(number, 100)<br/>    volume_type           = optional(string)<br/>  })</pre> | `{}` | no |
 | <a name="input_bastion_az"></a> [bastion\_az](#input\_bastion\_az) | The availability zone where the bastion instance will be created. | `string` | `null` | no |
 | <a name="input_bastion_cpu_options"></a> [bastion\_cpu\_options](#input\_bastion\_cpu\_options) | The CPU options for the bastion instance (e.g., number of cores and threads per core) | <pre>object({<br/>    core_count       = number<br/>    threads_per_core = number<br/>  })</pre> | `null` | no |
 | <a name="input_bastion_get_password_data"></a> [bastion\_get\_password\_data](#input\_bastion\_get\_password\_data) | Return the password data for the bastion instance | `bool` | `null` | no |
