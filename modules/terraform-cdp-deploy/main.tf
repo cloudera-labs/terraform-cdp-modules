@@ -207,6 +207,7 @@ module "cdp_on_gcp" {
   datalake_scale    = local.datalake_scale
   datalake_version  = var.datalake_version
   enable_raz        = var.enable_raz
+  multiaz           = var.multiaz
   enable_ccm_tunnel = var.enable_ccm_tunnel
 
   freeipa_instances     = var.freeipa_instances
