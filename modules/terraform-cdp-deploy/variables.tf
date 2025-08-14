@@ -206,7 +206,7 @@ variable "environment_polling_timeout" {
 variable "multiaz" {
   type = bool
 
-  description = "Flag to specify that the FreeIPA and DataLake instances will be deployed across multi-availability zones."
+  description = "Flag to specify that the FreeIPA and DataLake instances will be deployed across multi-availability zones. Note that with LIGHT_DUTY datalake multiaz datalake is disabled."
 
   default = true
 }
