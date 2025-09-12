@@ -409,7 +409,7 @@ variable "enable_bucket_versioning" {
 
   description = "Flag to enable versioning of S3 buckets."
 
-  default = true
+  default = false
 
 }
 
