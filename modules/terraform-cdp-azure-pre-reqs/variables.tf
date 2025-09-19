@@ -140,6 +140,28 @@ variable "vnet_cidr" {
   default = "10.10.0.0/16"
 }
 
+variable "create_nat_gateway" {
+  type = bool
+
+  description = "Flag to specify if the NAT Gateway should be created. Only applicable if create_vnet is true."
+
+  default = true
+}
+
+variable "nat_gateway_name" {
+  type        = string
+  description = "Name of the NAT Gateway"
+
+  default = null
+}
+
+variable "nat_public_ip_name" {
+  type        = string
+  description = "Name of the NAT Public IP"
+
+  default = null
+}
+
 variable "cdp_subnet_range" {
   type        = number
   description = "Size of each (internal) cluster subnet. Required if create_vpc is true."

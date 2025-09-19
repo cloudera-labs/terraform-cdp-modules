@@ -28,6 +28,10 @@ locals {
 
   vnet_name = coalesce(var.vnet_name, "${var.env_prefix}-net")
 
+  nat_public_ip_name = coalesce(var.nat_public_ip_name, "${var.env_prefix}-nat-ip")
+
+  nat_gateway_name = coalesce(var.nat_gateway_name, "${var.env_prefix}-nat-gateway")
+
   # Security Groups
   security_group_default_name = coalesce(var.security_group_default_name, "${var.env_prefix}-default-sg")
 

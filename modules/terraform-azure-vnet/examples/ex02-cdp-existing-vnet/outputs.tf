@@ -56,3 +56,8 @@ output "vnet_delegated_subnet_names" {
   description = "Names of subnets delegated for Private Flexbile Servers"
   value       = module.ex02_vnet_lookup.vnet_delegated_subnet_names
 }
+
+output "nat_gateway_name" {
+  description = "Name of the NAT Gateway"
+  value       = module.ex02_vnet_lookup.nat_gateway_name
+}

@@ -51,6 +51,9 @@ module "ex01_cdp_vnet" {
   vnet_cidr           = var.vnet_cidr
   vnet_region         = var.azure_region
 
+  nat_gateway_name   = "${var.env_prefix}-nat"
+  nat_public_ip_name = "${var.env_prefix}-nat-ip"
+
   cdp_subnet_prefix       = "${var.env_prefix}-cdp-sbnt"
   gateway_subnet_prefix   = "${var.env_prefix}-gw-sbnt"
   delegated_subnet_prefix = "${var.env_prefix}-delegated-sbnt"
