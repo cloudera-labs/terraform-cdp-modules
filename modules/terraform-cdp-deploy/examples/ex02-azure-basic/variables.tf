@@ -114,6 +114,14 @@ variable "compute_cluster_configuration" {
 
   default = null
 }
+
+variable "azure_create_private_endpoints" {
+  type        = bool
+  description = "Flag to specify if private endpoints should be created for Azure resources. If not specified the default is true for deployment_template values of semi-private and private, otherwise false."
+
+  default = null
+}
+
 # ------- Network Resources -------
 variable "ingress_extra_cidrs_and_ports" {
   type = object({
@@ -121,6 +129,14 @@ variable "ingress_extra_cidrs_and_ports" {
     ports = list(number)
   })
   description = "List of extra CIDR blocks and ports to include in Security Group Ingress rules"
+}
+
+variable "create_delegated_subnet" {
+  type = bool
+
+  description = "Flag to specify if the delegated subnet should be created. Only applicable if create_vnet is true. When this is set to true the azure_create_private_endpoints should be false."
+
+  default = false
 }
 
 # ------- Optional inputs for BYO-VNet -------
@@ -156,6 +172,13 @@ variable "cdp_subnet_names" {
 variable "cdp_gw_subnet_names" {
   type        = list(any)
   description = "List of subnet names for CDP Gateway. Required if create_vnet is false."
+
+  default = null
+}
+
+variable "cdp_delegated_subnet_names" {
+  type        = list(any)
+  description = "List of subnet names delegated for Flexible Servers. Required if create_vnet is false."
 
   default = null
 }

@@ -123,6 +123,14 @@ variable "tags" {
   default = null
 }
 
+variable "create_delegated_subnet" {
+  type = bool
+
+  description = "Flag to specify if the delegated subnet should be created. Only applicable if create_vnet is true."
+
+  default = false
+}
+
 variable "create_nat_gateway" {
   type = bool
 
