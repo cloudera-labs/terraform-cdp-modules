@@ -42,6 +42,11 @@ locals {
     (var.deployment_template == "semi-private") ? "PUBLIC" : "PRIVATE"
   )
 
+  azure_create_private_endpoints = coalesce(
+    var.azure_create_private_endpoints,
+    (var.deployment_template != "public") ? true : false
+  )
+
   # ------- Cloud Provider Settings - General -------
   cloud_shorthand = {
     azure = "az"

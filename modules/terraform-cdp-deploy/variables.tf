@@ -774,7 +774,7 @@ variable "azure_database_private_dns_zone_id" {
 
 variable "azure_create_private_endpoints" {
   type        = bool
-  description = "Flag to specify that Azure Postgres will be configured with Private Endpoint and a Private DNS Zone."
+  description = "Flag to specify that Azure Postgres will be configured with Private Endpoint and a Private DNS Zone. Mutually exclusive with delegated subnet input variables."
 
   default = null
 }
@@ -808,9 +808,18 @@ variable "azure_cdp_gateway_subnet_names" {
 
 variable "azure_environment_flexible_server_delegated_subnet_names" {
   type        = list(any)
-  description = "List of Azure Subnet Names delegated for Private Flexible servers. Required for CDP deployment on Azure."
+  description = "List of Azure Subnet Names delegated for Private Flexible servers. This variable is mutually exclusive with azure_create_private_endpoints."
 
   default = null
+
+  validation {
+    condition = !(
+      (var.azure_environment_flexible_server_delegated_subnet_names != null &&
+      length(var.azure_environment_flexible_server_delegated_subnet_names) > 0) &&
+      (var.azure_create_private_endpoints == true)
+    )
+    error_message = "azure_environment_flexible_server_delegated_subnet_names and azure_create_private_endpoints are mutually exclusive and cannot be used together."
+  }
 
 }
 
@@ -945,6 +954,14 @@ variable "azure_datalake_flexible_server_delegated_subnet_name" {
   description = "The subnet ID for the subnet within which you want to configure your Azure Flexible Server for the CDP datalake"
 
   default = null
+
+  validation {
+    condition = !(
+      (var.azure_datalake_flexible_server_delegated_subnet_name != null) &&
+      (var.azure_create_private_endpoints == true)
+    )
+    error_message = "azure_datalake_flexible_server_delegated_subnet_name and azure_create_private_endpoints are mutually exclusive and cannot be used together."
+  }
 }
 
 variable "azure_load_balancer_sku" {

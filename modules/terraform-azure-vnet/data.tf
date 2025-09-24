@@ -43,7 +43,7 @@ data "azurerm_subnet" "gateway_subnets" {
 
 data "azurerm_subnet" "delegated_subnets" {
 
-  for_each = toset(local.delegated_subnet_names)
+  for_each = toset(coalesce(local.delegated_subnet_names, []))
 
   name                 = each.value
   virtual_network_name = local.vnet_name
