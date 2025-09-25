@@ -65,6 +65,10 @@ module "azure_cdp_vnet" {
   vnet_cidr   = var.create_vnet ? var.vnet_cidr : null
   vnet_region = var.create_vnet ? var.azure_region : null
 
+  create_nat_gateway = var.create_nat_gateway
+  nat_gateway_name   = var.create_vnet && var.create_nat_gateway ? local.nat_gateway_name : null
+  nat_public_ip_name = var.create_vnet && var.create_nat_gateway ? local.nat_public_ip_name : null
+
   cdp_subnet_prefix       = var.create_vnet ? "${var.env_prefix}-cdp-sbnt" : null
   gateway_subnet_prefix   = var.create_vnet ? "${var.env_prefix}-gw-sbnt" : null
   delegated_subnet_prefix = var.create_vnet ? "${var.env_prefix}-delegated-sbnt" : null

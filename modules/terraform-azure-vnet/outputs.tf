@@ -57,3 +57,12 @@ output "vnet_delegated_subnet_names" {
   value       = values(data.azurerm_subnet.delegated_subnets)[*].name
 }
 
+output "nat_gateway_name" {
+  description = "The name of the NAT Gateway"
+  value       = try(azurerm_nat_gateway.cdp_nat_gateway[0].name, null)
+}
+
+output "nat_gateway_id" {
+  description = "The id of the NAT Gateway"
+  value       = try(azurerm_nat_gateway.cdp_nat_gateway[0].id, null)
+}

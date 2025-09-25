@@ -34,9 +34,14 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [azurerm_nat_gateway.cdp_nat_gateway](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/nat_gateway) | resource |
+| [azurerm_nat_gateway_public_ip_association.cdp_nat_ip_association](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/nat_gateway_public_ip_association) | resource |
+| [azurerm_public_ip.cdp_nat_public_ip](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
 | [azurerm_subnet.cdp_subnets](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_subnet.delegated_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_subnet.gateway_subnets](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
+| [azurerm_subnet_nat_gateway_association.nat_cdp_subnet_association](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_nat_gateway_association) | resource |
+| [azurerm_subnet_nat_gateway_association.nat_gateway_subnet_association](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_nat_gateway_association) | resource |
 | [azurerm_virtual_network.cdp_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network) | resource |
 | [azurerm_subnet.cdp_subnets](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | data source |
 | [azurerm_subnet.delegated_subnets](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | data source |
@@ -51,7 +56,9 @@ No modules.
 | <a name="input_resourcegroup_name"></a> [resourcegroup\_name](#input\_resourcegroup\_name) | Resource Group Name | `string` | n/a | yes |
 | <a name="input_cdp_subnet_prefix"></a> [cdp\_subnet\_prefix](#input\_cdp\_subnet\_prefix) | Prefix string to give each subnet used for CDP resources | `string` | `null` | no |
 | <a name="input_cdp_subnet_range"></a> [cdp\_subnet\_range](#input\_cdp\_subnet\_range) | Size of each (internal) cluster subnet | `number` | `null` | no |
+| <a name="input_cdp_subnets_default_outbound_access_enabled"></a> [cdp\_subnets\_default\_outbound\_access\_enabled](#input\_cdp\_subnets\_default\_outbound\_access\_enabled) | Enable or Disable default outbound access for the CDP subnets | `bool` | `false` | no |
 | <a name="input_cdp_subnets_private_endpoint_network_policies"></a> [cdp\_subnets\_private\_endpoint\_network\_policies](#input\_cdp\_subnets\_private\_endpoint\_network\_policies) | Enable or Disable network policies for the private endpoint on the CDP subnets | `string` | `null` | no |
+| <a name="input_create_nat_gateway"></a> [create\_nat\_gateway](#input\_create\_nat\_gateway) | Flag to specify if the NAT Gateway should be created. Only applicable if create\_vnet is true. | `bool` | `true` | no |
 | <a name="input_create_vnet"></a> [create\_vnet](#input\_create\_vnet) | Flag to specify if the VNet should be created. Otherwise data sources will be used to lookup details of existing resources. | `bool` | `true` | no |
 | <a name="input_delegated_subnet_prefix"></a> [delegated\_subnet\_prefix](#input\_delegated\_subnet\_prefix) | Prefix string to give each Delegated subnet | `string` | `null` | no |
 | <a name="input_delegated_subnet_range"></a> [delegated\_subnet\_range](#input\_delegated\_subnet\_range) | Size of each Postgres Flexible Server delegated subnet | `number` | `null` | no |
@@ -61,7 +68,12 @@ No modules.
 | <a name="input_existing_vnet_name"></a> [existing\_vnet\_name](#input\_existing\_vnet\_name) | Name of existing VNet. Required if create\_vnet is false. | `string` | `null` | no |
 | <a name="input_gateway_subnet_prefix"></a> [gateway\_subnet\_prefix](#input\_gateway\_subnet\_prefix) | Prefix string to give each Gateway subnet | `string` | `null` | no |
 | <a name="input_gateway_subnet_range"></a> [gateway\_subnet\_range](#input\_gateway\_subnet\_range) | Size of each gateway subnet | `number` | `null` | no |
+| <a name="input_gateway_subnets_default_outbound_access_enabled"></a> [gateway\_subnets\_default\_outbound\_access\_enabled](#input\_gateway\_subnets\_default\_outbound\_access\_enabled) | Enable or Disable default outbound access for the Gateway subnets | `bool` | `false` | no |
 | <a name="input_gateway_subnets_private_endpoint_network_policies"></a> [gateway\_subnets\_private\_endpoint\_network\_policies](#input\_gateway\_subnets\_private\_endpoint\_network\_policies) | Enable or Disable network policies for the private endpoint on the Gateway subnets | `string` | `null` | no |
+| <a name="input_nat_gateway_name"></a> [nat\_gateway\_name](#input\_nat\_gateway\_name) | Name of the NAT Gateway | `string` | `null` | no |
+| <a name="input_nat_public_ip_allocation_method"></a> [nat\_public\_ip\_allocation\_method](#input\_nat\_public\_ip\_allocation\_method) | Allocation method for the NAT Public IP | `string` | `"Static"` | no |
+| <a name="input_nat_public_ip_name"></a> [nat\_public\_ip\_name](#input\_nat\_public\_ip\_name) | Name of the NAT Public IP | `string` | `null` | no |
+| <a name="input_nat_public_ip_sku"></a> [nat\_public\_ip\_sku](#input\_nat\_public\_ip\_sku) | SKU for the NAT Public IP | `string` | `"Standard"` | no |
 | <a name="input_subnet_count"></a> [subnet\_count](#input\_subnet\_count) | Number of Subnets Required | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags applied to provised resources | `map(any)` | `null` | no |
 | <a name="input_vnet_cidr"></a> [vnet\_cidr](#input\_vnet\_cidr) | VNet CIDR Block | `string` | `null` | no |
@@ -72,6 +84,8 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_nat_gateway_id"></a> [nat\_gateway\_id](#output\_nat\_gateway\_id) | The id of the NAT Gateway |
+| <a name="output_nat_gateway_name"></a> [nat\_gateway\_name](#output\_nat\_gateway\_name) | The name of the NAT Gateway |
 | <a name="output_vnet_address_space"></a> [vnet\_address\_space](#output\_vnet\_address\_space) | The Address Space of the VNet |
 | <a name="output_vnet_cdp_subnet_ids"></a> [vnet\_cdp\_subnet\_ids](#output\_vnet\_cdp\_subnet\_ids) | List of IDs of subnets for CDP Resources |
 | <a name="output_vnet_cdp_subnet_names"></a> [vnet\_cdp\_subnet\_names](#output\_vnet\_cdp\_subnet\_names) | Names of the subnets for CDP Resources |

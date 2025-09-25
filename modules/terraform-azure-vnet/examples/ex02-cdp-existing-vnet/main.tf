@@ -55,6 +55,9 @@ module "ex02_existing_vnet" {
   gateway_subnet_prefix   = "${var.env_prefix}-existing-gw-sbnt"
   delegated_subnet_prefix = "${var.env_prefix}-existing-delegated-sbnt"
 
+  nat_gateway_name   = "${var.env_prefix}-nat"
+  nat_public_ip_name = "${var.env_prefix}-nat-ip"
+
   subnet_count                                  = var.subnet_count
   cdp_subnet_range                              = var.cdp_subnet_range
   cdp_subnets_private_endpoint_network_policies = var.cdp_subnets_private_endpoint_network_policies

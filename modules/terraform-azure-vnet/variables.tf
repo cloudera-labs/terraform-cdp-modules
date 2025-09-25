@@ -123,6 +123,52 @@ variable "tags" {
   default = null
 }
 
+variable "create_nat_gateway" {
+  type = bool
+
+  description = "Flag to specify if the NAT Gateway should be created. Only applicable if create_vnet is true."
+
+  default = true
+}
+
+variable "nat_public_ip_name" {
+  type        = string
+  description = "Name of the NAT Public IP"
+
+  validation {
+    condition     = !(var.create_vnet && var.create_nat_gateway) || var.nat_public_ip_name != null
+    error_message = "nat_public_ip_name must not be null when both create_vnet and create_nat_gateway are true."
+  }
+
+  default = null
+}
+
+variable "nat_gateway_name" {
+  type        = string
+  description = "Name of the NAT Gateway"
+
+  validation {
+    condition     = !(var.create_vnet && var.create_nat_gateway) || var.nat_gateway_name != null
+    error_message = "nat_gateway_name must not be null when both create_vnet and create_nat_gateway are true."
+  }
+
+  default = null
+}
+
+variable "nat_public_ip_allocation_method" {
+  type        = string
+  description = "Allocation method for the NAT Public IP"
+
+  default = "Static"
+}
+
+variable "nat_public_ip_sku" {
+  type        = string
+  description = "SKU for the NAT Public IP"
+
+  default = "Standard"
+}
+
 variable "cdp_subnets_private_endpoint_network_policies" {
   type = string
 
@@ -147,6 +193,18 @@ variable "gateway_subnets_private_endpoint_network_policies" {
   }
 
   default = null
+}
+
+variable "cdp_subnets_default_outbound_access_enabled" {
+  type        = bool
+  description = "Enable or Disable default outbound access for the CDP subnets"
+  default     = false
+}
+
+variable "gateway_subnets_default_outbound_access_enabled" {
+  type        = bool
+  description = "Enable or Disable default outbound access for the Gateway subnets"
+  default     = false
 }
 
 # VNet and Subnet IDs for existing resources (used when create_vnet = false)
