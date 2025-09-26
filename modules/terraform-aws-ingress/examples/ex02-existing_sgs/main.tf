@@ -53,16 +53,6 @@ module "ex01_sg" {
   existing_default_security_group_name = aws_security_group.existing_default_sg.name
   existing_knox_security_group_name    = aws_security_group.existing_knox_sg.name
 
-  # default_security_group_name = "${var.name_prefix}-default-sg"
-  # knox_security_group_name = "${var.name_prefix}-knox-sg"
-  # prefix_list_name = "${var.name_prefix}-prefix-list"
-  # # use_prefix_list_for_ingress = true
-
-  # ingress_vpc_cidr = module.ex02_vpc.vpc_cidr_blocks[0]
-  # ingress_extra_cidrs_and_ports = var.ingress_extra_cidrs_and_ports
-
-  # tags = var.tags
-
   depends_on = [module.ex02_vpc]
 
 }

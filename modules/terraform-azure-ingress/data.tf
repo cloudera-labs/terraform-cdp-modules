@@ -12,19 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# ------- Global Settings -------
-name_prefix = "<ENTER_VALUE>"
-
-tags = {
-  "Project" = "terraform-cdp-modules"
-  "Module"  = "terraform-aws-ingress"
+data "azurerm_network_security_group" "cdp_default_sg" {
+  name                = local.create_default_security_group ? azurerm_network_security_group.cdp_default_sg[0].name : var.existing_default_security_group_name
+  resource_group_name = var.resource_group_name
 }
 
-# ------- Cloud Settings -------
-aws_region = "<ENTER_VALUE>" # Change this to specify Cloud Provider region, e.g. eu-west-1
-
-# ------- Ingress settings -------
-ingress_extra_cidrs_and_ports = {
- cidrs = ["<ENTER_IP_VALUE>/32", "<ENTER_IP_VALUE>/32"],
- ports = [443, 22]
+data "azurerm_network_security_group" "cdp_knox_sg" {
+  name                = local.create_knox_security_group ? azurerm_network_security_group.cdp_knox_sg[0].name : var.existing_knox_security_group_name
+  resource_group_name = var.resource_group_name
 }

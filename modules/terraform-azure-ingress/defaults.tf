@@ -12,19 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# ------- Global Settings -------
-name_prefix = "<ENTER_VALUE>"
+locals {
 
-tags = {
-  "Project" = "terraform-cdp-modules"
-  "Module"  = "terraform-aws-ingress"
-}
+  # ------- Determine if resources should be created -------
+  create_default_security_group = (var.existing_default_security_group_name == null)
 
-# ------- Cloud Settings -------
-aws_region = "<ENTER_VALUE>" # Change this to specify Cloud Provider region, e.g. eu-west-1
+  create_knox_security_group = (var.existing_knox_security_group_name == null)
 
-# ------- Ingress settings -------
-ingress_extra_cidrs_and_ports = {
- cidrs = ["<ENTER_IP_VALUE>/32", "<ENTER_IP_VALUE>/32"],
- ports = [443, 22]
 }

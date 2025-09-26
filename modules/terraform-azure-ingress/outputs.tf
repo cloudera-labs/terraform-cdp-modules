@@ -10,21 +10,16 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-# limitations under the License.
+# limitations under the License. 
 
-# ------- Global Settings -------
-name_prefix = "<ENTER_VALUE>"
+output "azure_default_security_group_uri" {
+  value = data.azurerm_network_security_group.cdp_default_sg.id
 
-tags = {
-  "Project" = "terraform-cdp-modules"
-  "Module"  = "terraform-aws-ingress"
+  description = "Azure Default Security Group URI"
 }
 
-# ------- Cloud Settings -------
-aws_region = "<ENTER_VALUE>" # Change this to specify Cloud Provider region, e.g. eu-west-1
+output "azure_knox_security_group_uri" {
+  value = data.azurerm_network_security_group.cdp_knox_sg.id
 
-# ------- Ingress settings -------
-ingress_extra_cidrs_and_ports = {
- cidrs = ["<ENTER_IP_VALUE>/32", "<ENTER_IP_VALUE>/32"],
- ports = [443, 22]
+  description = "Azure Knox Security Group URI"
 }
