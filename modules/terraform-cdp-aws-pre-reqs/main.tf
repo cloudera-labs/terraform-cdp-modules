@@ -43,92 +43,31 @@ module "aws_cdp_vpc" {
 }
 
 # ------- Security Groups -------
-# Default SG
-resource "aws_security_group" "cdp_default_sg" {
-  vpc_id      = module.aws_cdp_vpc.vpc_id
-  name        = local.security_group_default_name
-  description = local.security_group_default_name
-  tags        = merge(local.env_tags, { Name = local.security_group_default_name })
-}
 
-# Create self reference ingress rule to allow communication within the security group
-resource "aws_security_group_rule" "cdp_default_sg_ingress_self" {
-  security_group_id = aws_security_group.cdp_default_sg.id
-  type              = "ingress"
-  from_port         = 0
-  to_port           = 0
-  description       = "Self-reference ingress rule"
-  protocol          = "all"
-  self              = true
-}
+# Default and Knox SG
+module "aws_cdp_ingress" {
 
-# Create security group rules from combining the default and extra list of ingress rules
-resource "aws_security_group_rule" "cdp_default_sg_ingress" {
-  count = length(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))
+  source = "../terraform-aws-ingress"
 
-  description       = "Ingress rules for Default CDP Security Group"
-  security_group_id = aws_security_group.cdp_default_sg.id
-  type              = "ingress"
-  cidr_blocks       = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].cidr
-  from_port         = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].port
-  to_port           = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].port
-  protocol          = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].protocol
-}
+  vpc_id = module.aws_cdp_vpc.vpc_id
 
-# Terraform removes the default ALLOW ALL egress. Let's recreate this
-resource "aws_security_group_rule" "cdp_default_sg_egress" {
+  default_security_group_name = local.security_group_default_name
+  knox_security_group_name    = local.security_group_knox_name
 
-  description       = "Egress rule for Default CDP Security Group"
-  security_group_id = aws_security_group.cdp_default_sg.id
-  type              = "egress"
-  cidr_blocks       = var.cdp_default_sg_egress_cidrs #tfsec:ignore:aws-ec2-no-public-egress-sgr #tfsec:ignore:aws-vpc-no-public-egress-sgr
-  from_port         = 0
-  to_port           = 0
-  protocol          = "all"
-}
+  use_prefix_list_for_ingress = var.use_prefix_list_for_ingress
+  prefix_list_name            = local.prefix_list_name
 
-# Knox SG
-resource "aws_security_group" "cdp_knox_sg" {
-  vpc_id      = module.aws_cdp_vpc.vpc_id
-  name        = local.security_group_knox_name
-  description = local.security_group_knox_name
-  tags        = merge(local.env_tags, { Name = local.security_group_knox_name })
-}
+  ingress_vpc_cidr              = module.aws_cdp_vpc.vpc_cidr_blocks[0]
+  ingress_extra_cidrs_and_ports = var.ingress_extra_cidrs_and_ports
 
-# Create self reference ingress rule to allow communication within the security group.
-resource "aws_security_group_rule" "cdp_knox_sg_ingress_self" {
-  security_group_id = aws_security_group.cdp_knox_sg.id
-  type              = "ingress"
-  from_port         = 0
-  to_port           = 0
-  description       = "Self-reference ingress rule"
-  protocol          = "all"
-  self              = true
-}
+  cdp_default_sg_egress_cidrs = var.cdp_default_sg_egress_cidrs
+  cdp_knox_sg_egress_cidrs    = var.cdp_knox_sg_egress_cidrs
 
-# Create security group rules from combining the default and extra list of ingress rules
-resource "aws_security_group_rule" "cdp_knox_sg_ingress" {
-  count = length(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))
+  existing_default_security_group_name = var.existing_default_security_group_name
+  existing_knox_security_group_name    = var.existing_knox_security_group_name
 
-  description       = "Ingress rule for Knox CDP Security Group"
-  security_group_id = aws_security_group.cdp_knox_sg.id
-  type              = "ingress"
-  cidr_blocks       = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].cidr
-  from_port         = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].port
-  to_port           = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].port
-  protocol          = tolist(concat(local.security_group_rules_ingress, local.security_group_rules_extra_ingress))[count.index].protocol
-}
+  tags = local.env_tags
 
-# Terraform removes the default ALLOW ALL egress. Let's recreate this
-resource "aws_security_group_rule" "cdp_knox_sg_egress" {
-
-  description       = "Egress rule for Knox CDP Security Group"
-  security_group_id = aws_security_group.cdp_knox_sg.id
-  type              = "egress"
-  cidr_blocks       = var.cdp_knox_sg_egress_cidrs #tfsec:ignore:aws-ec2-no-public-egress-sgr #tfsec:ignore:aws-vpc-no-public-egress-sgr
-  from_port         = 0
-  to_port           = 0
-  protocol          = "all"
 }
 
 # VPC Endpoint SG

@@ -36,6 +36,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_aws_cdp_cred_permissions"></a> [aws\_cdp\_cred\_permissions](#module\_aws\_cdp\_cred\_permissions) | ../terraform-aws-cred-permissions | n/a |
+| <a name="module_aws_cdp_ingress"></a> [aws\_cdp\_ingress](#module\_aws\_cdp\_ingress) | ../terraform-aws-ingress | n/a |
 | <a name="module_aws_cdp_permissions"></a> [aws\_cdp\_permissions](#module\_aws\_cdp\_permissions) | ../terraform-aws-permissions | n/a |
 | <a name="module_aws_cdp_vpc"></a> [aws\_cdp\_vpc](#module\_aws\_cdp\_vpc) | ../terraform-aws-vpc | n/a |
 
@@ -51,18 +52,10 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | [aws_s3_bucket_versioning.cdp_storage_location_versioning](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
 | [aws_s3_object.cdp_backup_storage_object](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_object) | resource |
 | [aws_s3_object.cdp_log_storage_object](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_object) | resource |
-| [aws_security_group.cdp_default_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.cdp_endpoint_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
-| [aws_security_group.cdp_knox_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
-| [aws_security_group_rule.cdp_default_sg_egress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
-| [aws_security_group_rule.cdp_default_sg_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
-| [aws_security_group_rule.cdp_default_sg_ingress_self](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.cdp_endpoint_ingress_self](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.cdp_endpoint_sg_egress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.cdp_endpoint_sg_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
-| [aws_security_group_rule.cdp_knox_sg_egress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
-| [aws_security_group_rule.cdp_knox_sg_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
-| [aws_security_group_rule.cdp_knox_sg_ingress_self](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_vpc_endpoint.gateway_endpoints](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
 | [aws_vpc_endpoint.interface_endpoints](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
 | [random_id.bucket_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
@@ -108,6 +101,8 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_enable_bucket_versioning"></a> [enable\_bucket\_versioning](#input\_enable\_bucket\_versioning) | Flag to enable versioning of S3 buckets. | `bool` | `true` | no |
 | <a name="input_enable_kms_bucket_encryption"></a> [enable\_kms\_bucket\_encryption](#input\_enable\_kms\_bucket\_encryption) | Flag to create AWS KMS for encryption of S3 buckets. Currently disabled as further settings needed for successful CDP deployment. | `bool` | `false` | no |
 | <a name="input_env_tags"></a> [env\_tags](#input\_env\_tags) | Tags applied to provised resources | `map(any)` | `null` | no |
+| <a name="input_existing_default_security_group_name"></a> [existing\_default\_security\_group\_name](#input\_existing\_default\_security\_group\_name) | Name of existing Default Security Group for Cloudera on cloud environment. If set then no security group or ingress rules are created for the Default SG. | `string` | `null` | no |
+| <a name="input_existing_knox_security_group_name"></a> [existing\_knox\_security\_group\_name](#input\_existing\_knox\_security\_group\_name) | Name of existing Knox Security Group for Cloudera on cloud environment. If set then no security group or ingress rules are created for the Knox SG. | `string` | `null` | no |
 | <a name="input_existing_xaccount_role_name"></a> [existing\_xaccount\_role\_name](#input\_existing\_xaccount\_role\_name) | Name of existing CDP Cross Account Role. If set then no Cross Account policy or role resources are created. | `string` | `null` | no |
 | <a name="input_idbroker_policy_name"></a> [idbroker\_policy\_name](#input\_idbroker\_policy\_name) | IDBroker Policy name | `string` | `null` | no |
 | <a name="input_idbroker_role_name"></a> [idbroker\_role\_name](#input\_idbroker\_role\_name) | IDBroker service role Name | `string` | `null` | no |
@@ -116,6 +111,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_log_data_access_policy_name"></a> [log\_data\_access\_policy\_name](#input\_log\_data\_access\_policy\_name) | Log Data Access Policy Name | `string` | `null` | no |
 | <a name="input_log_role_name"></a> [log\_role\_name](#input\_log\_role\_name) | Log service role Name | `string` | `null` | no |
 | <a name="input_log_storage"></a> [log\_storage](#input\_log\_storage) | Optional log locations for CDP environment. If not provided follow the data\_storage variable | <pre>object({<br/>    log_storage_bucket = string<br/>    log_storage_object = string<br/>  })</pre> | `null` | no |
+| <a name="input_prefix_list_name"></a> [prefix\_list\_name](#input\_prefix\_list\_name) | Prefix List for Security Group Ingress rules | `string` | `null` | no |
 | <a name="input_private_cidr_range"></a> [private\_cidr\_range](#input\_private\_cidr\_range) | Size of each private subnet. Required if create\_vpc is true. Number of subnets will be automatically selected to match on the number of Availability Zones in the selected AWS region. (Depending on the selected deployment pattern, one subnet will be created per region.) | `number` | `19` | no |
 | <a name="input_private_network_extensions"></a> [private\_network\_extensions](#input\_private\_network\_extensions) | Enable creation of resources for connectivity to CDP Control Plane (public subnet and NAT Gateway) for Private Deployment. Only relevant for private deployment template | `bool` | `true` | no |
 | <a name="input_public_cidr_range"></a> [public\_cidr\_range](#input\_public\_cidr\_range) | Size of each public subnet. Required if create\_vpc is true. Number of subnets will be automatically selected to match on the number of Availability Zones in the selected AWS region. (Depending on the selected deployment pattern, one subnet will be created per region.) | `number` | `24` | no |
@@ -125,6 +121,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_security_group_default_name"></a> [security\_group\_default\_name](#input\_security\_group\_default\_name) | Default Security Group for CDP environment | `string` | `null` | no |
 | <a name="input_security_group_endpoint_name"></a> [security\_group\_endpoint\_name](#input\_security\_group\_endpoint\_name) | Security Group for VPC Endpoints | `string` | `null` | no |
 | <a name="input_security_group_knox_name"></a> [security\_group\_knox\_name](#input\_security\_group\_knox\_name) | Knox Security Group for CDP environment | `string` | `null` | no |
+| <a name="input_use_prefix_list_for_ingress"></a> [use\_prefix\_list\_for\_ingress](#input\_use\_prefix\_list\_for\_ingress) | Whether to use prefix lists for ingress rules instead of direct CIDR blocks | `bool` | `false` | no |
 | <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | VPC CIDR Block. Required if create\_vpc is true. | `string` | `"10.10.0.0/16"` | no |
 | <a name="input_vpc_endpoint_gateway_services"></a> [vpc\_endpoint\_gateway\_services](#input\_vpc\_endpoint\_gateway\_services) | List of AWS services used for VPC Gateway Endpoints | `list(string)` | <pre>[<br/>  "s3"<br/>]</pre> | no |
 | <a name="input_vpc_endpoint_interface_services"></a> [vpc\_endpoint\_interface\_services](#input\_vpc\_endpoint\_interface\_services) | List of AWS services used for VPC Interface Endpoints | `list(string)` | <pre>[<br/>  "sts",<br/>  "rds",<br/>  "elasticloadbalancing",<br/>  "elasticfilesystem",<br/>  "eks",<br/>  "ecr.dkr",<br/>  "ecr.api",<br/>  "ec2",<br/>  "cloudformation",<br/>  "autoscaling"<br/>]</pre> | no |

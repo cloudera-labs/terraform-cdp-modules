@@ -31,6 +31,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_azure_cdp_ingress"></a> [azure\_cdp\_ingress](#module\_azure\_cdp\_ingress) | ../terraform-azure-ingress | n/a |
 | <a name="module_azure_cdp_rmgp"></a> [azure\_cdp\_rmgp](#module\_azure\_cdp\_rmgp) | ../terraform-azure-resource-group | n/a |
 | <a name="module_azure_cdp_vnet"></a> [azure\_cdp\_vnet](#module\_azure\_cdp\_vnet) | ../terraform-azure-vnet | n/a |
 | <a name="module_azure_cloudera_cred_permissions"></a> [azure\_cloudera\_cred\_permissions](#module\_azure\_cloudera\_cred\_permissions) | ../terraform-azure-cred-permissions | n/a |
@@ -42,10 +43,6 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 
 | Name | Type |
 |------|------|
-| [azurerm_network_security_group.cdp_default_sg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
-| [azurerm_network_security_group.cdp_knox_sg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
-| [azurerm_network_security_rule.cdp_default_sg_ingress_extra_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
-| [azurerm_network_security_rule.cdp_knox_sg_ingress_extra_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
 | [azurerm_private_dns_zone.flexible_server_dns_zone](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.flexible_server_vnet_link](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_role_assignment.cdp_datalake_admin_backup_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
@@ -102,6 +99,8 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_delegated_subnet_range"></a> [delegated\_subnet\_range](#input\_delegated\_subnet\_range) | Size of each Postgres Flexible Server delegated subnet. Required if create\_vpc is true. | `number` | `26` | no |
 | <a name="input_enable_raz"></a> [enable\_raz](#input\_enable\_raz) | Flag to enable Ranger Authorization Service (RAZ) | `bool` | `true` | no |
 | <a name="input_env_tags"></a> [env\_tags](#input\_env\_tags) | Tags applied to provisioned resources | `map(any)` | `null` | no |
+| <a name="input_existing_default_security_group_name"></a> [existing\_default\_security\_group\_name](#input\_existing\_default\_security\_group\_name) | Name of existing Default Security Group for Cloudera on cloud environment. If set then no security group or ingress rules are created for the Default SG. | `string` | `null` | no |
+| <a name="input_existing_knox_security_group_name"></a> [existing\_knox\_security\_group\_name](#input\_existing\_knox\_security\_group\_name) | Name of existing Knox Security Group for Cloudera on cloud environment. If set then no security group or ingress rules are created for the Knox SG. | `string` | `null` | no |
 | <a name="input_existing_xaccount_app_client_id"></a> [existing\_xaccount\_app\_client\_id](#input\_existing\_xaccount\_app\_client\_id) | Client ID of existing Azure AD Application for Cloudera Cross Account. If set then no application or SPN resources are created. | `string` | `null` | no |
 | <a name="input_existing_xaccount_app_pword"></a> [existing\_xaccount\_app\_pword](#input\_existing\_xaccount\_app\_pword) | Password of existing Azure AD Application for Cloudera Cross Account. If set then no application or SPN resources are created. | `string` | `null` | no |
 | <a name="input_gateway_subnet_range"></a> [gateway\_subnet\_range](#input\_gateway\_subnet\_range) | Size of each gateway subnet. Required if create\_vpc is true. | `number` | `24` | no |

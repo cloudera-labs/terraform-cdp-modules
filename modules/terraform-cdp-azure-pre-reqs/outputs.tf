@@ -78,13 +78,13 @@ output "azure_database_private_dns_zone_id" {
 }
 
 output "azure_security_group_default_uri" {
-  value = azurerm_network_security_group.cdp_default_sg.id
+  value = module.azure_cdp_ingress.azure_default_security_group_uri
 
   description = "Azure Default Security Group URI"
 }
 
 output "azure_security_group_knox_uri" {
-  value = azurerm_network_security_group.cdp_knox_sg.id
+  value = module.azure_cdp_ingress.azure_knox_security_group_uri
 
   description = "Azure Knox Security Group URI"
 }

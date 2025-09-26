@@ -93,57 +93,24 @@ module "azure_cdp_vnet" {
 }
 
 # ------- Security Groups -------
-# Default SG
-resource "azurerm_network_security_group" "cdp_default_sg" {
-  name                = local.security_group_default_name
-  location            = module.azure_cdp_rmgp.resource_group_location
+# Default and Knox SG
+module "azure_cdp_ingress" {
+
+  source = "../terraform-azure-ingress"
+
   resource_group_name = var.separate_network_resource_group ? module.azure_network_rmgp[0].resource_group_name : module.azure_cdp_rmgp.resource_group_name
+  azure_region        = var.azure_region
 
-  tags = merge(local.env_tags, { Name = local.security_group_default_name })
+  default_security_group_name = local.security_group_default_name
+  knox_security_group_name    = local.security_group_knox_name
 
-}
+  ingress_extra_cidrs_and_ports = var.ingress_extra_cidrs_and_ports
+  tags                          = local.env_tags
 
-# Create security group rules for extra list of ingress rules
-# TODO: How to handle the case where ingress_extra_cidrs_and_ports is []
-resource "azurerm_network_security_rule" "cdp_default_sg_ingress_extra_access" {
-  name                        = "AllowAccessForExtraCidrsAndPorts"
-  priority                    = 201
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_address_prefixes     = var.ingress_extra_cidrs_and_ports.cidrs
-  destination_address_prefix  = "*"
-  source_port_range           = "*"
-  destination_port_ranges     = var.ingress_extra_cidrs_and_ports.ports
-  resource_group_name         = var.separate_network_resource_group ? module.azure_network_rmgp[0].resource_group_name : module.azure_cdp_rmgp.resource_group_name
-  network_security_group_name = azurerm_network_security_group.cdp_default_sg.name
-}
+  # Support for pre-existing SGs
+  existing_default_security_group_name = var.existing_default_security_group_name
+  existing_knox_security_group_name    = var.existing_knox_security_group_name
 
-# Knox SG
-resource "azurerm_network_security_group" "cdp_knox_sg" {
-  name                = local.security_group_knox_name
-  location            = module.azure_cdp_rmgp.resource_group_location
-  resource_group_name = var.separate_network_resource_group ? module.azure_network_rmgp[0].resource_group_name : module.azure_cdp_rmgp.resource_group_name
-
-  tags = merge(local.env_tags, { Name = local.security_group_knox_name })
-
-}
-
-
-# Create security group rules for extra list of ingress rules
-# TODO: How to handle the case where ingress_extra_cidrs_and_ports is []
-resource "azurerm_network_security_rule" "cdp_knox_sg_ingress_extra_access" {
-  name                        = "AllowAccessForExtraCidrsAndPorts"
-  priority                    = 201
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_address_prefixes     = var.ingress_extra_cidrs_and_ports.cidrs
-  destination_address_prefix  = "*"
-  source_port_range           = "*"
-  destination_port_ranges     = var.ingress_extra_cidrs_and_ports.ports
-  resource_group_name         = var.separate_network_resource_group ? module.azure_network_rmgp[0].resource_group_name : module.azure_cdp_rmgp.resource_group_name
-  network_security_group_name = azurerm_network_security_group.cdp_knox_sg.name
 }
 
 # ------- Azure Storage Account -------

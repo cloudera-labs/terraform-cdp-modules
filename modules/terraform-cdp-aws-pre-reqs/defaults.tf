@@ -24,11 +24,11 @@ locals {
   vpc_name = coalesce(var.vpc_name, "${var.env_prefix}-net")
 
   # Security Groups
-  security_group_default_name = coalesce(var.security_group_default_name, "${var.env_prefix}-default-sg")
-
-  security_group_knox_name = coalesce(var.security_group_knox_name, "${var.env_prefix}-knox-sg")
-
+  security_group_default_name  = coalesce(var.security_group_default_name, "${var.env_prefix}-default-sg")
+  security_group_knox_name     = coalesce(var.security_group_knox_name, "${var.env_prefix}-knox-sg")
   security_group_endpoint_name = coalesce(var.security_group_endpoint_name, "${var.env_prefix}-endpoint-sg")
+
+  prefix_list_name = coalesce(var.prefix_list_name, "${var.env_prefix}-prefix-list")
 
   security_group_rules_ingress = [
     {
@@ -36,15 +36,6 @@ locals {
       cidr     = module.aws_cdp_vpc.vpc_cidr_blocks,
       port     = "0",
       protocol = "all"
-    }
-  ]
-
-  security_group_rules_extra_ingress = [
-    for idx, port in var.ingress_extra_cidrs_and_ports.ports :
-    {
-      cidr     = var.ingress_extra_cidrs_and_ports.cidrs
-      port     = port
-      protocol = "tcp"
     }
   ]
 
