@@ -122,13 +122,13 @@ output "aws_backup_storage_location" {
 }
 
 output "aws_security_group_default_id" {
-  value = aws_security_group.cdp_default_sg.id
+  value = module.aws_cdp_ingress.aws_security_group_default_id
 
   description = "AWS security group id for default CDP SG"
 }
 
 output "aws_security_group_knox_id" {
-  value = aws_security_group.cdp_knox_sg.id
+  value = module.aws_cdp_ingress.aws_security_group_knox_id
 
   description = "AWS security group id for Knox CDP SG"
 }

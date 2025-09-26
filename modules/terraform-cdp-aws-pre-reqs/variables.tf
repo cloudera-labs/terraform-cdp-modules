@@ -233,6 +233,19 @@ variable "security_group_knox_name" {
   }
 }
 
+variable "prefix_list_name" {
+  type = string
+
+  description = "Prefix List for Security Group Ingress rules"
+
+  default = null
+
+  validation {
+    condition     = (var.prefix_list_name == null ? true : length(var.prefix_list_name) <= 256)
+    error_message = "The length of prefix_list_name must be 256 characters or less."
+  }
+}
+
 variable "security_group_endpoint_name" {
   type = string
 
@@ -687,10 +700,25 @@ variable "ranger_audit_role_name" {
   }
 }
 
-# ------- Support for pre-existing roles -------
+# ------- Support for pre-existing resources -------
 variable "existing_xaccount_role_name" {
   type        = string
   description = "Name of existing CDP Cross Account Role. If set then no Cross Account policy or role resources are created."
 
   default = null
 }
+
+variable "existing_default_security_group_name" {
+  type        = string
+  description = "Name of existing Default Security Group for Cloudera on cloud environment. If set then no security group or ingress rules are created for the Default SG."
+
+  default = null
+}
+
+variable "existing_knox_security_group_name" {
+  type        = string
+  description = "Name of existing Knox Security Group for Cloudera on cloud environment. If set then no security group or ingress rules are created for the Knox SG."
+
+  default = null
+}
+
