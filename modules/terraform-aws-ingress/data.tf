@@ -12,11 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Find details of the VPC
-data "aws_vpc" "vpc" {
-  id = var.vpc_id
-}
-
+# Find details of the Security Groups
 data "aws_security_group" "cdp_default_sg" {
 
   name   = local.create_default_security_group ? aws_security_group.cdp_default_sg[0].name : var.existing_default_security_group_name

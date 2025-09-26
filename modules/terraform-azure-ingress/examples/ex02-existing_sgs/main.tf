@@ -70,12 +70,5 @@ module "ex02_sg" {
   existing_default_security_group_name = azurerm_network_security_group.cdp_default_sg.name
   existing_knox_security_group_name    = azurerm_network_security_group.cdp_knox_sg.name
 
-  # default_security_group_name = "${var.env_prefix}-default-sg"
-  # knox_security_group_name    = "${var.env_prefix}-knox-sg"
-
-  # ingress_extra_cidrs_and_ports = var.ingress_extra_cidrs_and_ports
-
-  # tags = var.env_tags
-
   depends_on = [module.rmgp]
 }

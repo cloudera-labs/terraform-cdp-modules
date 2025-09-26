@@ -233,6 +233,13 @@ variable "security_group_knox_name" {
   }
 }
 
+variable "use_prefix_list_for_ingress" {
+  description = "Whether to use prefix lists for ingress rules instead of direct CIDR blocks"
+  type        = bool
+
+  default = false
+}
+
 variable "prefix_list_name" {
   type = string
 

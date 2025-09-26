@@ -736,7 +736,7 @@ variable "nfs_file_share_size" {
   default     = 100
 }
 
-# ------- Support for Authz resources -------
+# ------- Support for existing Authz resources -------
 # Cross Account Application
 variable "existing_xaccount_app_client_id" {
   type        = string
@@ -752,4 +752,17 @@ variable "existing_xaccount_app_pword" {
   default = null
 }
 
+# ------- Support for existing Security Groups -------
+variable "existing_default_security_group_name" {
+  type        = string
+  description = "Name of existing Default Security Group for Cloudera on cloud environment. If set then no security group or ingress rules are created for the Default SG."
 
+  default = null
+}
+
+variable "existing_knox_security_group_name" {
+  type        = string
+  description = "Name of existing Knox Security Group for Cloudera on cloud environment. If set then no security group or ingress rules are created for the Knox SG."
+
+  default = null
+}

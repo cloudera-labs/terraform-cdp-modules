@@ -107,6 +107,10 @@ module "azure_cdp_ingress" {
   ingress_extra_cidrs_and_ports = var.ingress_extra_cidrs_and_ports
   tags                          = local.env_tags
 
+  # Support for pre-existing SGs
+  existing_default_security_group_name = var.existing_default_security_group_name
+  existing_knox_security_group_name    = var.existing_knox_security_group_name
+
 }
 
 # ------- Azure Storage Account -------

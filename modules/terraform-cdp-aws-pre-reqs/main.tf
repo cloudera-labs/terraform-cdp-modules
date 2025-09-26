@@ -53,10 +53,18 @@ module "aws_cdp_ingress" {
 
   default_security_group_name = local.security_group_default_name
   knox_security_group_name    = local.security_group_knox_name
+
+  use_prefix_list_for_ingress = var.use_prefix_list_for_ingress
   prefix_list_name            = local.prefix_list_name
 
   ingress_vpc_cidr              = module.aws_cdp_vpc.vpc_cidr_blocks[0]
   ingress_extra_cidrs_and_ports = var.ingress_extra_cidrs_and_ports
+
+  cdp_default_sg_egress_cidrs = var.cdp_default_sg_egress_cidrs
+  cdp_knox_sg_egress_cidrs    = var.cdp_knox_sg_egress_cidrs
+
+  existing_default_security_group_name = var.existing_default_security_group_name
+  existing_knox_security_group_name    = var.existing_knox_security_group_name
 
   tags = local.env_tags
 

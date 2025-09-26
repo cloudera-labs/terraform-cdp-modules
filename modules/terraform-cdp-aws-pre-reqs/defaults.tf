@@ -39,15 +39,6 @@ locals {
     }
   ]
 
-  security_group_rules_extra_ingress = [
-    for idx, port in var.ingress_extra_cidrs_and_ports.ports :
-    {
-      cidr     = var.ingress_extra_cidrs_and_ports.cidrs
-      port     = port
-      protocol = "tcp"
-    }
-  ]
-
   # ------- Storage Resources -------
   storage_suffix = var.random_id_for_bucket ? "-${one(random_id.bucket_suffix).hex}" : ""
 

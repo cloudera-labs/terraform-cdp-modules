@@ -51,7 +51,6 @@ No modules.
 | [aws_vpc_security_group_ingress_rule.cdp_knox_vpc_sg_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
 | [aws_security_group.cdp_default_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/security_group) | data source |
 | [aws_security_group.cdp_knox_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/security_group) | data source |
-| [aws_vpc.vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc) | data source |
 
 ## Inputs
 
@@ -68,7 +67,7 @@ No modules.
 | <a name="input_knox_security_group_name"></a> [knox\_security\_group\_name](#input\_knox\_security\_group\_name) | Knox Security Group for Cloudera on cloud environment | `string` | `null` | no |
 | <a name="input_prefix_list_name"></a> [prefix\_list\_name](#input\_prefix\_list\_name) | Name of the AWS Prefix List to use for the security group rules. | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags applied to provisioned resources | `map(any)` | `null` | no |
-| <a name="input_use_prefix_list_for_ingress"></a> [use\_prefix\_list\_for\_ingress](#input\_use\_prefix\_list\_for\_ingress) | Whether to use prefix lists for ingress rules instead of direct CIDR blocks | `bool` | `true` | no |
+| <a name="input_use_prefix_list_for_ingress"></a> [use\_prefix\_list\_for\_ingress](#input\_use\_prefix\_list\_for\_ingress) | Whether to use prefix lists for ingress rules instead of direct CIDR blocks | `bool` | `false` | no |
 
 ## Outputs
 
