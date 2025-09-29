@@ -75,9 +75,7 @@ No modules.
 | <a name="input_raz_managed_identity_name"></a> [raz\_managed\_identity\_name](#input\_raz\_managed\_identity\_name) | RAZ Managed Identity name | `string` | n/a | yes |
 | <a name="input_raz_storage_role_assignments"></a> [raz\_storage\_role\_assignments](#input\_raz\_storage\_role\_assignments) | List of Role Assignments for the Ranger Audit Managed Identity assigned to the Log Storage Container. | <pre>list(object({<br/>    role        = string<br/>    description = string<br/>    })<br/>  )</pre> | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Azrue Resource Group for Managed Identities. | `string` | n/a | yes |
-| <a name="input_backup_storage_account_id"></a> [backup\_storage\_account\_id](#input\_backup\_storage\_account\_id) | Resource Manager ID of the Backup Storage Account. Required only if RAZ is enabled. Not required if log storage is the same as data and log storage. | `string` | `null` | no |
 | <a name="input_data_storage_account_id"></a> [data\_storage\_account\_id](#input\_data\_storage\_account\_id) | Resource Manager ID of the Data Storage Account. Required only if RAZ is enabled. | `string` | `null` | no |
-| <a name="input_log_storage_account_id"></a> [log\_storage\_account\_id](#input\_log\_storage\_account\_id) | Resource Manager ID of the Log Storage Account. Required only if RAZ is enabled. Not required if log storage is the same as data storage. | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags applied to provised resources | `map(any)` | `null` | no |
 
 ## Outputs

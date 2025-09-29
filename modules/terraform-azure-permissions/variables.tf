@@ -250,22 +250,8 @@ variable "data_storage_account_id" {
 
   default = null
 
-}
-
-variable "log_storage_account_id" {
-  type = string
-
-  description = "Resource Manager ID of the Log Storage Account. Required only if RAZ is enabled. Not required if log storage is the same as data storage."
-
-  default = null
-
-}
-
-variable "backup_storage_account_id" {
-  type = string
-
-  description = "Resource Manager ID of the Backup Storage Account. Required only if RAZ is enabled. Not required if log storage is the same as data and log storage."
-
-  default = null
-
+  validation {
+    condition     = var.enable_raz ? var.data_storage_account_id != null : true
+    error_message = "data_storage_account_id must be provided if RAZ is enabled."
+  }
 }

@@ -177,33 +177,11 @@ resource "azurerm_user_assigned_identity" "cdp_raz" {
 
 # Assign the required roles to the managed identity
 resource "azurerm_role_assignment" "cdp_raz_data_storage_assign" {
-  count = var.enable_raz ? length(local.raz_data_storage_role_assignments) : 0
+  count = var.enable_raz ? length(var.raz_storage_role_assignments) : 0
 
   scope                = var.data_storage_account_id
-  role_definition_name = local.raz_data_storage_role_assignments[count.index].role
+  role_definition_name = var.raz_storage_role_assignments[count.index].role
   principal_id         = azurerm_user_assigned_identity.cdp_raz[0].principal_id
 
-  description = local.raz_data_storage_role_assignments[count.index].description
+  description = var.raz_storage_role_assignments[count.index].description
 }
-
-# resource "azurerm_role_assignment" "cdp_raz_log_storage_assign" {
-
-#   for_each = local.raz_log_storage_role_assignments
-
-#   scope                = var.log_storage_account_id
-#   role_definition_name = each.value.role
-#   principal_id         = azurerm_user_assigned_identity.cdp_raz[0].principal_id
-
-#   description = each.value.description
-# }
-
-# resource "azurerm_role_assignment" "cdp_raz_backup_storage_assign" {
-
-#   for_each = local.raz_backup_storage_role_assignments
-
-#   scope                = var.backup_storage_account_id
-#   role_definition_name = each.value.role
-#   principal_id         = azurerm_user_assigned_identity.cdp_raz[0].principal_id
-
-#   description = each.value.description
-# }
