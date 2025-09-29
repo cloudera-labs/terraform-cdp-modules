@@ -20,14 +20,14 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 2.46.0 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | >= 2.46.0, < 4.0.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 4.0.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 2.46.0 |
+| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | >= 2.46.0, < 4.0.0 |
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 4.0.0 |
 
 ## Modules
@@ -38,12 +38,12 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azuread_application.cdp_xaccount_app](https://registry.terraform.io/providers/hashicorp/azuread/2.46.0/docs/resources/application) | resource |
-| [azuread_application_password.cdp_xaccount_app_password](https://registry.terraform.io/providers/hashicorp/azuread/2.46.0/docs/resources/application_password) | resource |
-| [azuread_service_principal.cdp_xaccount_app_sp](https://registry.terraform.io/providers/hashicorp/azuread/2.46.0/docs/resources/service_principal) | resource |
+| [azuread_application.cdp_xaccount_app](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application) | resource |
+| [azuread_application_password.cdp_xaccount_app_password](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application_password) | resource |
+| [azuread_service_principal.cdp_xaccount_app_sp](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal) | resource |
 | [azurerm_role_assignment.cdp_xaccount_role](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azuread_application.existing_xaccount_app](https://registry.terraform.io/providers/hashicorp/azuread/2.46.0/docs/data-sources/application) | data source |
-| [azuread_client_config.current](https://registry.terraform.io/providers/hashicorp/azuread/2.46.0/docs/data-sources/client_config) | data source |
+| [azuread_application.existing_xaccount_app](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/application) | data source |
+| [azuread_client_config.current](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/client_config) | data source |
 | [azurerm_subscription.sub_details](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
 
 ## Inputs
