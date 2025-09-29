@@ -163,32 +163,32 @@ output "azure_xaccount_app_pword" {
 }
 
 output "azure_idbroker_identity_id" {
-  value = azurerm_user_assigned_identity.cdp_idbroker.id
+  value = module.azure_cloudera_permissions.azure_idbroker_identity_id
 
   description = "IDBroker Managed Identity ID"
 }
 
 output "azure_datalakeadmin_identity_id" {
-  value = azurerm_user_assigned_identity.cdp_datalake_admin.id
+  value = module.azure_cloudera_permissions.azure_datalakeadmin_identity_id
 
   description = "Datalake Admin Managed Identity ID"
 }
 
 output "azure_ranger_audit_identity_id" {
-  value = azurerm_user_assigned_identity.cdp_ranger_audit_data_access.id
+  value = module.azure_cloudera_permissions.azure_ranger_audit_identity_id
 
   description = "Ranger Audit Managed Identity ID"
 }
 
 output "azure_log_identity_id" {
-  value = azurerm_user_assigned_identity.cdp_log_data_access.id
+  value = module.azure_cloudera_permissions.azure_log_identity_id
 
   description = "Log Data Access Managed Identity ID"
 
 }
 
 output "azure_raz_identity_id" {
-  value = (var.enable_raz) ? azurerm_user_assigned_identity.cdp_raz[0].id : ""
+  value = module.azure_cloudera_permissions.azure_raz_identity_id
 
   description = "RAZ Managed Identity ID. Value returned if RAZ is enabled"
 }

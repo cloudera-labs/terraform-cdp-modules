@@ -247,182 +247,40 @@ module "azure_cloudera_cred_permissions" {
   existing_xaccount_app_pword     = var.existing_xaccount_app_pword
 }
 
-# ------- Azure Managed Identities & Role Asignment - IDBroker -------
+# ------- Azure Managed Identities & Role Asignment -------
 
-# Create Azure Managed Identity
-resource "azurerm_user_assigned_identity" "cdp_idbroker" {
-  location            = module.azure_cdp_rmgp.resource_group_location
-  name                = local.idbroker_managed_identity_name
+module "azure_cloudera_permissions" {
+  source = "../terraform-azure-permissions"
+
+  azure_region        = module.azure_cdp_rmgp.resource_group_location
   resource_group_name = module.azure_cdp_rmgp.resource_group_name
 
-  tags = merge(local.env_tags, { Name = local.idbroker_managed_identity_name })
-}
+  idbroker_managed_identity_name = local.idbroker_managed_identity_name
+  idbroker_role_assignments      = var.idbroker_role_assignments
 
-# Assign the required roles to the managed identity
-resource "azurerm_role_assignment" "cdp_idbroker_assign" {
+  datalake_admin_managed_identity_name             = local.datalake_admin_managed_identity_name
+  datalake_admin_data_container_role_assignments   = var.datalake_admin_data_container_role_assignments
+  datalake_admin_log_container_role_assignments    = var.datalake_admin_log_container_role_assignments
+  datalake_admin_backup_container_role_assignments = var.datalake_admin_backup_container_role_assignments
 
-  for_each = { for idx, role in var.idbroker_role_assignments : idx => role }
+  data_storage_container_id   = azurerm_storage_container.cdp_data_storage.id
+  log_storage_container_id    = azurerm_storage_container.cdp_log_storage.id
+  backup_storage_container_id = azurerm_storage_container.cdp_backup_storage.id
 
-  scope                = data.azurerm_subscription.current.id
-  role_definition_name = each.value.role
-  principal_id         = azurerm_user_assigned_identity.cdp_idbroker.principal_id
+  log_data_access_managed_identity_name = local.log_data_access_managed_identity_name
+  log_data_access_role_assignments      = var.log_data_access_role_assignments
 
-  description = each.value.description
-}
+  ranger_audit_data_access_managed_identity_name = local.ranger_audit_data_access_managed_identity_name
+  ranger_audit_data_container_role_assignments   = var.ranger_audit_data_container_role_assignments
+  ranger_audit_log_container_role_assignments    = var.ranger_audit_log_container_role_assignments
+  ranger_audit_backup_container_role_assignments = var.ranger_audit_backup_container_role_assignments
 
-# ------- Azure Managed Identities & Role Asignment - Datalake Admin -------
+  enable_raz                   = var.enable_raz
+  raz_managed_identity_name    = local.raz_managed_identity_name
+  raz_storage_role_assignments = local.raz_storage_role_assignments
+  data_storage_account_id      = azurerm_storage_account.cdp_storage_locations[local.data_storage.data_storage_bucket].id
 
-# Create Azure Managed Identity
-resource "azurerm_user_assigned_identity" "cdp_datalake_admin" {
-  location            = module.azure_cdp_rmgp.resource_group_location
-  name                = local.datalake_admin_managed_identity_name
-  resource_group_name = module.azure_cdp_rmgp.resource_group_name
-
-  tags = merge(local.env_tags, { Name = local.datalake_admin_managed_identity_name })
-}
-
-# Assign the required roles to the managed identity for Data storage container
-resource "azurerm_role_assignment" "cdp_datalake_admin_data_container_assign" {
-
-  for_each = { for idx, role in var.datalake_admin_data_container_role_assignments : idx => role }
-
-  scope                = azurerm_storage_container.cdp_data_storage.id
-  role_definition_name = each.value.role
-  principal_id         = azurerm_user_assigned_identity.cdp_datalake_admin.principal_id
-
-  description = each.value.description
-}
-
-# Assign the required roles to the managed identity for Log storage container
-resource "azurerm_role_assignment" "cdp_datalake_admin_log_container_assign" {
-
-  for_each = { for idx, role in var.datalake_admin_log_container_role_assignments : idx => role }
-
-  scope                = azurerm_storage_container.cdp_log_storage.id
-  role_definition_name = each.value.role
-  principal_id         = azurerm_user_assigned_identity.cdp_datalake_admin.principal_id
-
-  description = each.value.description
-}
-
-# Assign the required roles to the managed identity for Backup storage container
-resource "azurerm_role_assignment" "cdp_datalake_admin_backup_container_assign" {
-
-  for_each = { for idx, role in var.datalake_admin_backup_container_role_assignments : idx => role }
-
-  scope                = azurerm_storage_container.cdp_backup_storage.id
-  role_definition_name = each.value.role
-  principal_id         = azurerm_user_assigned_identity.cdp_datalake_admin.principal_id
-
-  description = each.value.description
-}
-
-# ------- Azure Managed Identities & Role Asignment - Log Data Access -------
-
-# Create Azure Managed Identity
-resource "azurerm_user_assigned_identity" "cdp_log_data_access" {
-  location            = module.azure_cdp_rmgp.resource_group_location
-  name                = local.log_data_access_managed_identity_name
-  resource_group_name = module.azure_cdp_rmgp.resource_group_name
-
-  tags = merge(local.env_tags, { Name = local.log_data_access_managed_identity_name })
-}
-
-# Assign the required roles to the managed identity
-resource "azurerm_role_assignment" "cdp_log_data_access_log_container_assign" {
-
-  for_each = { for idx, role in var.log_data_access_role_assignments : idx => role }
-
-  scope                = azurerm_storage_container.cdp_log_storage.id
-  role_definition_name = each.value.role
-  principal_id         = azurerm_user_assigned_identity.cdp_log_data_access.principal_id
-
-  description = each.value.description
-}
-
-resource "azurerm_role_assignment" "cdp_log_data_access_backup_container_assign" {
-
-  for_each = { for idx, role in var.log_data_access_role_assignments : idx => role }
-
-  scope                = azurerm_storage_container.cdp_backup_storage.id
-  role_definition_name = each.value.role
-  principal_id         = azurerm_user_assigned_identity.cdp_log_data_access.principal_id
-
-  description = each.value.description
-}
-
-# ------- Azure Managed Identities & Role Asignment - Ranger Audit -------
-
-# Create Azure Managed Identity
-resource "azurerm_user_assigned_identity" "cdp_ranger_audit_data_access" {
-  location            = module.azure_cdp_rmgp.resource_group_location
-  name                = local.ranger_audit_data_access_managed_identity_name
-  resource_group_name = module.azure_cdp_rmgp.resource_group_name
-
-  tags = merge(local.env_tags, { Name = local.ranger_audit_data_access_managed_identity_name })
-}
-
-# Assign the required roles to the managed identity
-resource "azurerm_role_assignment" "cdp_ranger_audit_data_container_assign" {
-
-  for_each = { for idx, role in var.ranger_audit_data_container_role_assignments : idx => role }
-
-  scope                = azurerm_storage_container.cdp_data_storage.id
-  role_definition_name = each.value.role
-  principal_id         = azurerm_user_assigned_identity.cdp_ranger_audit_data_access.principal_id
-
-  description = each.value.description
-}
-
-resource "azurerm_role_assignment" "cdp_ranger_audit_log_container_assign" {
-
-  for_each = { for idx, role in var.ranger_audit_log_container_role_assignments : idx => role }
-
-  scope                = azurerm_storage_container.cdp_log_storage.id
-  role_definition_name = each.value.role
-  principal_id         = azurerm_user_assigned_identity.cdp_ranger_audit_data_access.principal_id
-
-  description = each.value.description
-}
-
-resource "azurerm_role_assignment" "cdp_ranger_audit_backup_container_assign" {
-
-  for_each = { for idx, role in var.ranger_audit_backup_container_role_assignments : idx => role }
-
-  scope                = azurerm_storage_container.cdp_backup_storage.id
-  role_definition_name = each.value.role
-  principal_id         = azurerm_user_assigned_identity.cdp_ranger_audit_data_access.principal_id
-
-  description = each.value.description
-}
-
-# ------- Azure Managed Identities & Role Asignment - RAZ -------
-
-# Create Azure Managed Identity
-resource "azurerm_user_assigned_identity" "cdp_raz" {
-
-  count = var.enable_raz ? 1 : 0
-
-  location            = module.azure_cdp_rmgp.resource_group_location
-  name                = local.raz_managed_identity_name
-  resource_group_name = module.azure_cdp_rmgp.resource_group_name
-
-  tags = merge(local.env_tags, { Name = local.raz_managed_identity_name })
-}
-
-# Assign the required roles to the managed identity
-resource "azurerm_role_assignment" "cdp_raz_assign" {
-
-  for_each = {
-    for idx, item in local.raz_storage_role_assignments : idx => item
-    if var.enable_raz == true
-  }
-
-  scope                = each.value.scope
-  role_definition_name = each.value.role
-  principal_id         = azurerm_user_assigned_identity.cdp_raz[0].principal_id
-
-  description = each.value.description
+  tags = local.env_tags
 }
 
 module "azure_cml_nfs" {

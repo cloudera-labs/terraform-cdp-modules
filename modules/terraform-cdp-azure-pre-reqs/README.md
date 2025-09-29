@@ -35,6 +35,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="module_azure_cdp_rmgp"></a> [azure\_cdp\_rmgp](#module\_azure\_cdp\_rmgp) | ../terraform-azure-resource-group | n/a |
 | <a name="module_azure_cdp_vnet"></a> [azure\_cdp\_vnet](#module\_azure\_cdp\_vnet) | ../terraform-azure-vnet | n/a |
 | <a name="module_azure_cloudera_cred_permissions"></a> [azure\_cloudera\_cred\_permissions](#module\_azure\_cloudera\_cred\_permissions) | ../terraform-azure-cred-permissions | n/a |
+| <a name="module_azure_cloudera_permissions"></a> [azure\_cloudera\_permissions](#module\_azure\_cloudera\_permissions) | ../terraform-azure-permissions | n/a |
 | <a name="module_azure_cml_nfs"></a> [azure\_cml\_nfs](#module\_azure\_cml\_nfs) | ../terraform-azure-nfs | n/a |
 | <a name="module_azure_network_rmgp"></a> [azure\_network\_rmgp](#module\_azure\_network\_rmgp) | ../terraform-azure-resource-group | n/a |
 | <a name="module_stor_private_endpoints"></a> [stor\_private\_endpoints](#module\_stor\_private\_endpoints) | ../terraform-azure-storage-endpoints | n/a |
@@ -45,26 +46,11 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 |------|------|
 | [azurerm_private_dns_zone.flexible_server_dns_zone](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.flexible_server_vnet_link](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
-| [azurerm_role_assignment.cdp_datalake_admin_backup_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_datalake_admin_data_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_datalake_admin_log_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_idbroker_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_log_data_access_backup_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_log_data_access_log_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_ranger_audit_backup_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_ranger_audit_data_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_ranger_audit_log_container_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cdp_raz_assign](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_storage_account.cdp_storage_locations](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
 | [azurerm_storage_account_network_rules.cdp_storage_access_rules](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account_network_rules) | resource |
 | [azurerm_storage_container.cdp_backup_storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.cdp_data_storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.cdp_log_storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
-| [azurerm_user_assigned_identity.cdp_datalake_admin](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
-| [azurerm_user_assigned_identity.cdp_idbroker](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
-| [azurerm_user_assigned_identity.cdp_log_data_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
-| [azurerm_user_assigned_identity.cdp_ranger_audit_data_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
-| [azurerm_user_assigned_identity.cdp_raz](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 | [random_id.bucket_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
 
