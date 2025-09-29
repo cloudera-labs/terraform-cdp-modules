@@ -92,7 +92,7 @@ variable "network_resourcegroup_name" {
 
 variable "cdp_resourcegroup_name" {
   type        = string
-  description = "Resource Group name for resources. If create_vnet is false this is a pre-existing resource group."
+  description = "Resource Group name for resources. If either create_vnet or create_resource_group is false this is a pre-existing resource group."
 
   default = null
 
@@ -106,6 +106,14 @@ variable "cdp_resourcegroup_name" {
     error_message = "cdp_resourcegroup_name can consist only of letters, numbers, dots (.), hyphens (-) and underscores (_)."
   }
 
+}
+
+variable "create_resource_group" {
+  type = bool
+
+  description = "Flag to specify if the Resource Group should be created"
+
+  default = true
 }
 
 variable "create_vnet" {
@@ -135,7 +143,7 @@ variable "vnet_name" {
 
 variable "vnet_cidr" {
   type        = string
-  description = "VNet CIDR Block. Required if create_vpc is true."
+  description = "VNet CIDR Block. Required if create_vnet is true."
 
   default = "10.10.0.0/16"
 }
@@ -164,21 +172,21 @@ variable "nat_public_ip_name" {
 
 variable "cdp_subnet_range" {
   type        = number
-  description = "Size of each (internal) cluster subnet. Required if create_vpc is true."
+  description = "Size of each (internal) cluster subnet. Required if create_vnet is true."
 
   default = 19
 }
 
 variable "gateway_subnet_range" {
   type        = number
-  description = "Size of each gateway subnet. Required if create_vpc is true."
+  description = "Size of each gateway subnet. Required if create_vnet is true."
 
   default = 24
 }
 
 variable "delegated_subnet_range" {
   type        = number
-  description = "Size of each Postgres Flexible Server delegated subnet. Required if create_vpc is true."
+  description = "Size of each Postgres Flexible Server delegated subnet. Required if create_vnet is true."
 
   default = 26
 }
