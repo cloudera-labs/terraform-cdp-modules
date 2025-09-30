@@ -9,6 +9,8 @@ The [examples](./examples) directory has example Azure Cloud Service Provider de
 
 * `ex01-minimal-inputs` uses the minimum set of inputs for the module.
 
+* `ex02-existing-rg` uses a pre-existing Azure resource group.
+
 In each directory an example `terraform.tfvars.sample` values file is included to show input variable values.
 
 ## Requirements
