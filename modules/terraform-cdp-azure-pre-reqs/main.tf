@@ -71,6 +71,7 @@ module "azure_cdp_vnet" {
 
   cdp_subnet_prefix       = var.create_vnet ? "${var.env_prefix}-cdp-sbnt" : null
   gateway_subnet_prefix   = var.create_vnet ? "${var.env_prefix}-gw-sbnt" : null
+  create_delegated_subnet = var.create_delegated_subnet
   delegated_subnet_prefix = var.create_vnet ? "${var.env_prefix}-delegated-sbnt" : null
 
   subnet_count                                  = var.create_vnet ? var.subnet_count : null
@@ -216,7 +217,7 @@ resource "azurerm_private_dns_zone" "flexible_server_dns_zone" {
 
   count = local.create_private_flexible_server_resources ? 1 : 0
 
-  name                = "${var.env_prefix}.postgres.database.azure.com"
+  name                = "privatelink.postgres.database.azure.com"
   resource_group_name = var.separate_network_resource_group ? module.azure_network_rmgp[0].resource_group_name : module.azure_cdp_rmgp.resource_group_name
 
   tags = merge(local.env_tags)

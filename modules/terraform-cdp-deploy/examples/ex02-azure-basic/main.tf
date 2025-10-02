@@ -62,14 +62,16 @@ module "cdp_azure_prereqs" {
 
   deployment_template           = var.deployment_template
   ingress_extra_cidrs_and_ports = var.ingress_extra_cidrs_and_ports
+  create_nat_gateway            = var.create_nat_gateway
+  create_delegated_subnet       = var.create_delegated_subnet
 
   # Inputs for BYO-VNet
-  create_vnet            = var.create_vnet
-  cdp_resourcegroup_name = var.cdp_resourcegroup_name
-  cdp_vnet_name          = var.cdp_vnet_name
-  cdp_subnet_names       = var.cdp_subnet_names
-  cdp_gw_subnet_names    = var.cdp_gw_subnet_names
-
+  create_vnet                = var.create_vnet
+  cdp_resourcegroup_name     = var.cdp_resourcegroup_name
+  cdp_vnet_name              = var.cdp_vnet_name
+  cdp_subnet_names           = var.cdp_subnet_names
+  cdp_gw_subnet_names        = var.cdp_gw_subnet_names
+  cdp_delegated_subnet_names = var.cdp_delegated_subnet_names
   # Tags to apply resources (omitted by default)
   env_tags = var.env_tags
 
@@ -90,6 +92,8 @@ module "cdp_deploy" {
 
   compute_cluster_enabled       = var.compute_cluster_enabled
   compute_cluster_configuration = var.compute_cluster_configuration
+
+  azure_create_private_endpoints = coalesce(var.azure_create_private_endpoints, var.deployment_template != "public")
 
   # From pre-reqs module output
   azure_subscription_id = module.cdp_azure_prereqs.azure_subscription_id

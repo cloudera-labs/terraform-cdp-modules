@@ -191,6 +191,14 @@ variable "delegated_subnet_range" {
   default = 26
 }
 
+variable "create_delegated_subnet" {
+  type = bool
+
+  description = "Flag to specify if the delegated subnet should be created. Only applicable if create_vnet is true."
+
+  default = false
+}
+
 variable "cdp_vnet_name" {
   type        = string
   description = "Pre-existing VNet Name for CDP environment. Required if create_vnet is false."
@@ -214,7 +222,7 @@ variable "cdp_gw_subnet_names" {
 
 variable "cdp_delegated_subnet_names" {
   type        = list(any)
-  description = "List of subnet names delegated for Flexible Servers. Required if create_vnet is false."
+  description = "List of subnet names delegated for Flexible Servers. Only used if create_vnet is false."
 
   default = null
 }

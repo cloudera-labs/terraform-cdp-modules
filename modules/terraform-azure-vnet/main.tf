@@ -62,7 +62,7 @@ resource "azurerm_subnet" "gateway_subnets" {
 resource "azurerm_subnet" "delegated_subnet" {
 
   for_each = { for idx, subnet in local.delegated_subnets : idx => subnet
-  if var.create_vnet }
+  if var.create_vnet && var.create_delegated_subnet }
 
   virtual_network_name = azurerm_virtual_network.cdp_vnet[0].name
   resource_group_name  = var.resourcegroup_name
