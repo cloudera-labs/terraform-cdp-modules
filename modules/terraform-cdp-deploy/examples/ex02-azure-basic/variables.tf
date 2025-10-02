@@ -131,6 +131,14 @@ variable "ingress_extra_cidrs_and_ports" {
   description = "List of extra CIDR blocks and ports to include in Security Group Ingress rules"
 }
 
+variable "create_nat_gateway" {
+  type = bool
+
+  description = "Flag to specify if the NAT Gateway should be created. Only applicable if create_vnet is true."
+
+  default = true
+}
+
 variable "create_delegated_subnet" {
   type = bool
 

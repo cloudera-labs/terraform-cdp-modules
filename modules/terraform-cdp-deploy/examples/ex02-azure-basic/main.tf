@@ -62,6 +62,7 @@ module "cdp_azure_prereqs" {
 
   deployment_template           = var.deployment_template
   ingress_extra_cidrs_and_ports = var.ingress_extra_cidrs_and_ports
+  create_nat_gateway            = var.create_nat_gateway
   create_delegated_subnet       = var.create_delegated_subnet
 
   # Inputs for BYO-VNet
