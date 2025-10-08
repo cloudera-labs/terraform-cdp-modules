@@ -813,12 +813,13 @@ variable "azure_environment_flexible_server_delegated_subnet_names" {
   default = null
 
   validation {
-    condition = !(
+    condition = (
+      var.infra_type == "azure" &&
       (var.azure_environment_flexible_server_delegated_subnet_names != null &&
-      length(var.azure_environment_flexible_server_delegated_subnet_names) > 0) &&
+      try(length(var.azure_environment_flexible_server_delegated_subnet_names), 0) > 0) &&
       (var.azure_create_private_endpoints == true)
-    )
-    error_message = "azure_environment_flexible_server_delegated_subnet_names and azure_create_private_endpoints are mutually exclusive and cannot be used together."
+    ) ? false : true
+    error_message = "azure_environment_flexible_server_delegated_subnet_names and azure_create_private_endpoints are mutually exclusive and cannot be used together when infra_type is 'azure'."
   }
 
 }
