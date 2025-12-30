@@ -107,6 +107,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_idbroker_policy_name"></a> [idbroker\_policy\_name](#input\_idbroker\_policy\_name) | IDBroker Policy name | `string` | `null` | no |
 | <a name="input_idbroker_role_name"></a> [idbroker\_role\_name](#input\_idbroker\_role\_name) | IDBroker service role Name | `string` | `null` | no |
 | <a name="input_ingress_extra_cidrs_and_ports"></a> [ingress\_extra\_cidrs\_and\_ports](#input\_ingress\_extra\_cidrs\_and\_ports) | List of extra CIDR blocks and ports to include in Security Group Ingress rules | <pre>object({<br/>    cidrs = list(string)<br/>    ports = list(number)<br/>  })</pre> | <pre>{<br/>  "cidrs": [],<br/>  "ports": []<br/>}</pre> | no |
+| <a name="input_ingress_extra_vpc_cidrs"></a> [ingress\_extra\_vpc\_cidrs](#input\_ingress\_extra\_vpc\_cidrs) | Additional VPC CIDR blocks to include in Security Group Ingress rule | `list(string)` | `null` | no |
 | <a name="input_log_bucket_access_policy_name"></a> [log\_bucket\_access\_policy\_name](#input\_log\_bucket\_access\_policy\_name) | Log Bucket Access Data Access Policy Name | `string` | `null` | no |
 | <a name="input_log_data_access_policy_name"></a> [log\_data\_access\_policy\_name](#input\_log\_data\_access\_policy\_name) | Log Data Access Policy Name | `string` | `null` | no |
 | <a name="input_log_role_name"></a> [log\_role\_name](#input\_log\_role\_name) | Log service role Name | `string` | `null` | no |
