@@ -108,10 +108,18 @@ variable "cdp_resourcegroup_name" {
 
 }
 
-variable "create_resource_group" {
+variable "create_cdp_resource_group" {
   type = bool
 
-  description = "Flag to specify if the Resource Group should be created"
+  description = "Flag to specify if the Resource Group for Cloudera Resources should be created"
+
+  default = true
+}
+
+variable "create_network_resource_group" {
+  type = bool
+
+  description = "Flag to specify if the Resource Group for Network Resources should be created. Note that if create_vnet is false this must be false. Note that if separate_network_resource_group is false this will not be used."
 
   default = true
 }

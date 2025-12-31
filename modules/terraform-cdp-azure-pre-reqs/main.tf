@@ -19,15 +19,18 @@ module "azure_cdp_rmgp" {
 
   source = "../terraform-azure-resource-group"
 
-  create_resource_group = (var.create_resource_group && var.create_vnet)
+  create_resource_group = (
+    var.create_cdp_resource_group &&
+    (var.create_vnet || var.separate_network_resource_group)
+  )
 
   # Variables required when creating RG
-  resourcegroup_name = (var.create_resource_group && var.create_vnet) ? local.cdp_resourcegroup_name : null
-  azure_region       = (var.create_resource_group && var.create_vnet) ? var.azure_region : null
-  tags               = (var.create_resource_group && var.create_vnet) ? var.env_tags : null
+  resourcegroup_name = (var.create_cdp_resource_group && (var.create_vnet || var.separate_network_resource_group)) ? local.cdp_resourcegroup_name : null
+  azure_region       = (var.create_cdp_resource_group && (var.create_vnet || var.separate_network_resource_group)) ? var.azure_region : null
+  tags               = (var.create_cdp_resource_group && (var.create_vnet || var.separate_network_resource_group)) ? var.env_tags : null
 
   # Variables required when using pre-existing RG
-  existing_resource_group_name = (var.create_resource_group && var.create_vnet) ? null : var.cdp_resourcegroup_name
+  existing_resource_group_name = (var.create_cdp_resource_group && (var.create_vnet || var.separate_network_resource_group)) ? null : var.cdp_resourcegroup_name
 
 }
 
@@ -37,15 +40,15 @@ module "azure_network_rmgp" {
 
   source = "../terraform-azure-resource-group"
 
-  create_resource_group = (var.create_resource_group && var.create_vnet)
+  create_resource_group = (var.create_network_resource_group && var.create_vnet)
 
   # Variables required when creating RG
-  resourcegroup_name = (var.create_resource_group && var.create_vnet) ? local.network_resourcegroup_name : null
-  azure_region       = (var.create_resource_group && var.create_vnet) ? var.azure_region : null
-  tags               = (var.create_resource_group && var.create_vnet) ? var.env_tags : null
+  resourcegroup_name = (var.create_network_resource_group && var.create_vnet) ? local.network_resourcegroup_name : null
+  azure_region       = (var.create_network_resource_group && var.create_vnet) ? var.azure_region : null
+  tags               = (var.create_network_resource_group && var.create_vnet) ? var.env_tags : null
 
   # Variables required when using pre-existing RG
-  existing_resource_group_name = (var.create_resource_group && var.create_vnet) ? null : var.network_resourcegroup_name
+  existing_resource_group_name = (var.create_network_resource_group && var.create_vnet) ? null : var.network_resourcegroup_name
 
 }
 

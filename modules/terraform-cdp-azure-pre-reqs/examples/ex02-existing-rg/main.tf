@@ -45,8 +45,8 @@ module "ex04_existing_rg" {
   ingress_extra_cidrs_and_ports = var.ingress_extra_cidrs_and_ports
 
   # Used existing resource group
-  create_resource_group  = false
-  cdp_resourcegroup_name = azurerm_resource_group.rmgp.name
+  create_cdp_resource_group = false
+  cdp_resourcegroup_name    = azurerm_resource_group.rmgp.name
 
   depends_on = [azurerm_resource_group.rmgp]
 }
