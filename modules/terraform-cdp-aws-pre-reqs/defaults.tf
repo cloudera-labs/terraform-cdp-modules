@@ -31,13 +31,13 @@ locals {
   prefix_list_name = coalesce(var.prefix_list_name, "${var.env_prefix}-prefix-list")
 
   security_group_rules_ingress = [
-    {
-      # CIDR ingress
-      cidr     = module.aws_cdp_vpc.vpc_cidr_blocks,
-      port     = "0",
-      protocol = "all"
-    }
-  ]
+  for cidr in module.aws_cdp_vpc.vpc_cidr_blocks : {
+    # CIDR ingress
+    cidr     = cidr
+    port     = "0"
+    protocol = "all"
+  }
+]
 
   # ------- Storage Resources -------
   storage_suffix = var.random_id_for_bucket ? "-${one(random_id.bucket_suffix).hex}" : ""

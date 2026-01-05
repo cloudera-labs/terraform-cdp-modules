@@ -96,16 +96,15 @@ resource "aws_security_group_rule" "cdp_endpoint_ingress_self" {
 }
 
 # Create security group rules from combining the default and extra list of ingress rules
-resource "aws_security_group_rule" "cdp_endpoint_sg_ingress" {
-  count = (var.create_vpc && var.create_vpc_endpoints) ? length(local.security_group_rules_ingress) : 0
+resource "aws_vpc_security_group_ingress_rule" "cdp_endpoint_sg_ingress" {
+  count = length(local.security_group_rules_ingress)
 
   description       = "Ingress rules for Endpoint Security Group"
   security_group_id = aws_security_group.cdp_endpoint_sg[0].id
-  type              = "ingress"
-  cidr_blocks       = tolist(local.security_group_rules_ingress)[count.index].cidr
-  from_port         = tolist(local.security_group_rules_ingress)[count.index].port
-  to_port           = tolist(local.security_group_rules_ingress)[count.index].port
-  protocol          = tolist(local.security_group_rules_ingress)[count.index].protocol
+  cidr_ipv4         = local.security_group_rules_ingress[count.index].cidr
+  ip_protocol       = local.security_group_rules_ingress[count.index].protocol
+  from_port         = local.security_group_rules_ingress[count.index].port
+  to_port           = local.security_group_rules_ingress[count.index].port
 }
 
 # Terraform removes the default ALLOW ALL egress. Let's recreate this
