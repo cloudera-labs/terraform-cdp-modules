@@ -166,8 +166,6 @@ variable "freeipa_architecture" {
     condition     = (var.freeipa_architecture == null ? true : contains(["X86_64", "ARM64"], var.freeipa_architecture))
     error_message = "Valid values for var: freeipa_architecture are (X86_64, ARM64)."
   }
-
-  default = null
 }
 
 variable "proxy_config_name" {
