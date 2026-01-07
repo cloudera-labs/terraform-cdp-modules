@@ -116,6 +116,7 @@ No resources.
 | <a name="input_environment_description"></a> [environment\_description](#input\_environment\_description) | Description of CDP environment | `string` | `null` | no |
 | <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Name of the CDP environment. Defaults to '<env\_prefix>-cdp-env' if not specified. | `string` | `null` | no |
 | <a name="input_environment_polling_timeout"></a> [environment\_polling\_timeout](#input\_environment\_polling\_timeout) | Timeout value in minutes for how long to poll for CDP Environment resource creation/deletion | `number` | `120` | no |
+| <a name="input_freeipa_architecture"></a> [freeipa\_architecture](#input\_freeipa\_architecture) | The Architecture to be used for the FreeIPA instances | `string` | `null` | no |
 | <a name="input_freeipa_catalog"></a> [freeipa\_catalog](#input\_freeipa\_catalog) | Image catalog to use for FreeIPA image selection | `string` | `null` | no |
 | <a name="input_freeipa_image_id"></a> [freeipa\_image\_id](#input\_freeipa\_image\_id) | Image ID to use for creating FreeIPA instances | `string` | `null` | no |
 | <a name="input_freeipa_instance_type"></a> [freeipa\_instance\_type](#input\_freeipa\_instance\_type) | Instance Type to use for creating FreeIPA instances | `string` | `null` | no |
