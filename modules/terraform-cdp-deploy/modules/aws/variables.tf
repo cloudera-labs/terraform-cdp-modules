@@ -157,6 +157,19 @@ variable "freeipa_os" {
 
 }
 
+variable "freeipa_architecture" {
+  type = string
+
+  description = "The Architecture to be used for the FreeIPA instances"
+
+  validation {
+    condition     = (var.freeipa_architecture == null ? true : contains(["X86_64", "ARM64"], var.freeipa_architecture))
+    error_message = "Valid values for var: freeipa_architecture are (X86_64, ARM64)."
+  }
+
+  default = null
+}
+
 variable "proxy_config_name" {
   type = string
 

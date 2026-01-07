@@ -52,6 +52,7 @@ resource "cdp_environments_aws_environment" "cdp_env" {
   endpoint_access_gateway_subnet_ids = (length(var.public_subnet_ids) > 0) ? var.public_subnet_ids : null
 
   freeipa = {
+    architecture            = var.freeipa_architecture
     instance_count_by_group = var.freeipa_instances
     multi_az                = var.multiaz
     catalog                 = var.freeipa_catalog
