@@ -43,10 +43,12 @@ No modules.
 | [aws_vpc_security_group_egress_rule.cdp_knox_sg_egress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_egress_rule) | resource |
 | [aws_vpc_security_group_ingress_rule.cdp_default_extra_sg_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
 | [aws_vpc_security_group_ingress_rule.cdp_default_extra_sg_ingress_pl](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
+| [aws_vpc_security_group_ingress_rule.cdp_default_extra_vpc_sg_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
 | [aws_vpc_security_group_ingress_rule.cdp_default_sg_ingress_self](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
 | [aws_vpc_security_group_ingress_rule.cdp_default_vpc_sg_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
 | [aws_vpc_security_group_ingress_rule.cdp_knox_extra_sg_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
 | [aws_vpc_security_group_ingress_rule.cdp_knox_extra_sg_ingress_pl](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
+| [aws_vpc_security_group_ingress_rule.cdp_knox_extra_vpc_sg_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
 | [aws_vpc_security_group_ingress_rule.cdp_knox_sg_ingress_self](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
 | [aws_vpc_security_group_ingress_rule.cdp_knox_vpc_sg_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
 | [aws_security_group.cdp_default_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/security_group) | data source |
@@ -63,6 +65,7 @@ No modules.
 | <a name="input_existing_default_security_group_name"></a> [existing\_default\_security\_group\_name](#input\_existing\_default\_security\_group\_name) | Name of existing Default Security Group for Cloudera on cloud environment. If set then no security group or ingress rules are created for the Default SG. | `string` | `null` | no |
 | <a name="input_existing_knox_security_group_name"></a> [existing\_knox\_security\_group\_name](#input\_existing\_knox\_security\_group\_name) | Name of existing Knox Security Group for Cloudera on cloud environment. If set then no security group or ingress rules are created for the Knox SG. | `string` | `null` | no |
 | <a name="input_ingress_extra_cidrs_and_ports"></a> [ingress\_extra\_cidrs\_and\_ports](#input\_ingress\_extra\_cidrs\_and\_ports) | List of extra CIDR blocks and ports to include in Security Group Ingress rules | <pre>object({<br/>    cidrs = list(string)<br/>    ports = list(number)<br/>  })</pre> | <pre>{<br/>  "cidrs": [],<br/>  "ports": []<br/>}</pre> | no |
+| <a name="input_ingress_extra_vpc_cidrs"></a> [ingress\_extra\_vpc\_cidrs](#input\_ingress\_extra\_vpc\_cidrs) | VPC CIDR blocks to include in Security Group Ingress rule | `list(string)` | `null` | no |
 | <a name="input_ingress_vpc_cidr"></a> [ingress\_vpc\_cidr](#input\_ingress\_vpc\_cidr) | VPC CIDR block to include in Security Group Ingress rule | `string` | `null` | no |
 | <a name="input_knox_security_group_name"></a> [knox\_security\_group\_name](#input\_knox\_security\_group\_name) | Knox Security Group for Cloudera on cloud environment | `string` | `null` | no |
 | <a name="input_prefix_list_name"></a> [prefix\_list\_name](#input\_prefix\_list\_name) | Name of the AWS Prefix List to use for the security group rules. | `string` | `null` | no |

@@ -58,6 +58,7 @@ module "aws_cdp_ingress" {
   prefix_list_name            = local.prefix_list_name
 
   ingress_vpc_cidr              = module.aws_cdp_vpc.vpc_cidr_blocks[0]
+  ingress_extra_vpc_cidrs       = var.ingress_extra_vpc_cidrs
   ingress_extra_cidrs_and_ports = var.ingress_extra_cidrs_and_ports
 
   cdp_default_sg_egress_cidrs = var.cdp_default_sg_egress_cidrs

@@ -50,6 +50,19 @@ resource "aws_vpc_security_group_ingress_rule" "cdp_default_vpc_sg_ingress" {
   tags = merge(var.tags, { Name = var.default_security_group_name })
 }
 
+
+resource "aws_vpc_security_group_ingress_rule" "cdp_default_extra_vpc_sg_ingress" {
+
+  for_each = local.create_default_security_group ? toset(coalesce(var.ingress_extra_vpc_cidrs, [])) : []
+
+  security_group_id = aws_security_group.cdp_default_sg[0].id
+  description       = "Additional inter VPC CIDR ingress rule for ${var.default_security_group_name}"
+  cidr_ipv4         = each.value
+  ip_protocol       = "-1"
+
+  tags = merge(var.tags, { Name = var.default_security_group_name })
+}
+
 # Create security group rules for specified extra list of ingress rules - direct CIDR method
 resource "aws_vpc_security_group_ingress_rule" "cdp_default_extra_sg_ingress" {
 
@@ -124,6 +137,19 @@ resource "aws_vpc_security_group_ingress_rule" "cdp_knox_vpc_sg_ingress" {
   security_group_id = aws_security_group.cdp_knox_sg[0].id
   description       = "Inter VPC CIDR ingress rule for ${var.knox_security_group_name}"
   cidr_ipv4         = var.ingress_vpc_cidr
+  ip_protocol       = "-1"
+
+  tags = merge(var.tags, { Name = var.knox_security_group_name })
+}
+
+
+resource "aws_vpc_security_group_ingress_rule" "cdp_knox_extra_vpc_sg_ingress" {
+
+  for_each = local.create_knox_security_group ? toset(coalesce(var.ingress_extra_vpc_cidrs, [])) : []
+
+  security_group_id = aws_security_group.cdp_knox_sg[0].id
+  description       = "Additional inter VPC CIDR ingress rule for ${var.knox_security_group_name}"
+  cidr_ipv4         = each.value
   ip_protocol       = "-1"
 
   tags = merge(var.tags, { Name = var.knox_security_group_name })

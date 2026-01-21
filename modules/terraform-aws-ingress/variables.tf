@@ -64,6 +64,15 @@ variable "ingress_vpc_cidr" {
   }
 }
 
+variable "ingress_extra_vpc_cidrs" {
+  type = list(string)
+
+  description = "VPC CIDR blocks to include in Security Group Ingress rule"
+
+  default = null
+
+}
+
 variable "cdp_default_sg_egress_cidrs" {
   type = list(string)
 
