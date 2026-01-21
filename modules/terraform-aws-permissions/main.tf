@@ -119,6 +119,8 @@ resource "aws_iam_role" "cdp_idbroker_role" {
 resource "aws_iam_instance_profile" "cdp_idbroker_role_instance_profile" {
   name = var.idbroker_role_name
   role = aws_iam_role.cdp_idbroker_role.name
+
+  depends_on = [aws_iam_role.cdp_idbroker_role]
 }
 
 # Attach CDP IDBroker Assume Policy to the Role
@@ -163,6 +165,8 @@ resource "aws_iam_role" "cdp_log_role" {
 resource "aws_iam_instance_profile" "cdp_log_role_instance_profile" {
   name = var.log_role_name
   role = aws_iam_role.cdp_log_role.name
+
+  depends_on = [aws_iam_role.cdp_log_role]
 }
 
 # Attach AWS Log Location Policy to the Role
@@ -207,6 +211,8 @@ resource "aws_iam_role" "cdp_datalake_admin_role" {
 resource "aws_iam_instance_profile" "cdp_datalake_admin_role_instance_profile" {
   name = var.datalake_admin_role_name
   role = aws_iam_role.cdp_datalake_admin_role.name
+
+  depends_on = [aws_iam_role.cdp_datalake_admin_role]
 }
 
 # Attach AWS Datalake Admin S3 Policy to the Role
@@ -277,6 +283,8 @@ resource "aws_iam_role" "cdp_ranger_audit_role" {
 resource "aws_iam_instance_profile" "cdp_ranger_audit_role_instance_profile" {
   name = var.ranger_audit_role_name
   role = aws_iam_role.cdp_ranger_audit_role.name
+
+  depends_on = [aws_iam_role.cdp_ranger_audit_role]
 }
 
 # Attach AWS Ranger Audit S3 Policy to the Role
