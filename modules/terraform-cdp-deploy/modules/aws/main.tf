@@ -134,9 +134,10 @@ resource "cdp_datalake_aws_datalake" "cdp_datalake" {
   enable_ranger_raz = var.enable_raz
   multi_az          = var.datalake_scale == "LIGHT_DUTY" ? null : var.multiaz
 
-  image        = var.datalake_image
-  java_version = var.datalake_java_version
-  recipes      = var.datalake_recipes
+  image                  = var.datalake_image
+  java_version           = var.datalake_java_version
+  recipes                = var.datalake_recipes
+  custom_instance_groups = var.datalake_custom_instance_groups
 
   polling_options = {
     async                  = var.datalake_async_creation

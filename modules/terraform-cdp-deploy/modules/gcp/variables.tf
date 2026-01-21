@@ -201,6 +201,17 @@ variable "datalake_recipes" {
 
 }
 
+variable "datalake_custom_instance_groups" {
+  type = set(
+    object({
+      instance_type = string,
+      name          = string
+    })
+  )
+
+  description = "Custom properties to configure on an instance group level"
+}
+
 variable "datalake_async_creation" {
   type = bool
 

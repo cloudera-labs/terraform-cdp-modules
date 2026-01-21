@@ -80,9 +80,10 @@ module "cdp_on_aws" {
   proxy_config_name   = var.proxy_config_name
   s3_guard_table_name = var.s3_guard_table_name
 
-  datalake_image        = var.datalake_image
-  datalake_java_version = var.datalake_java_version
-  datalake_recipes      = var.datalake_recipes
+  datalake_image                  = var.datalake_image
+  datalake_java_version           = var.datalake_java_version
+  datalake_recipes                = var.datalake_recipes
+  datalake_custom_instance_groups = var.datalake_custom_instance_groups
 
   environment_cascading_delete = var.environment_cascading_delete
 
@@ -179,6 +180,7 @@ module "cdp_on_azure" {
   datalake_java_version                          = var.datalake_java_version
   datalake_recipes                               = var.datalake_recipes
   datalake_flexible_server_delegated_subnet_name = var.azure_datalake_flexible_server_delegated_subnet_name
+  datalake_custom_instance_groups                = var.datalake_custom_instance_groups
 
   environment_cascading_delete = var.environment_cascading_delete
 
@@ -249,9 +251,10 @@ module "cdp_on_gcp" {
   log_service_account_email            = var.gcp_log_service_account_email
   raz_service_account_email            = var.gcp_raz_service_account_email
 
-  datalake_image        = var.datalake_image
-  datalake_java_version = var.datalake_java_version
-  datalake_recipes      = var.datalake_recipes
+  datalake_image                  = var.datalake_image
+  datalake_java_version           = var.datalake_java_version
+  datalake_recipes                = var.datalake_recipes
+  datalake_custom_instance_groups = var.datalake_custom_instance_groups
 
   environment_cascading_delete = var.environment_cascading_delete
 }

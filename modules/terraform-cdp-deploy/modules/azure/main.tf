@@ -161,9 +161,10 @@ resource "cdp_datalake_azure_datalake" "cdp_datalake" {
   flexible_server_delegated_subnet_id = var.datalake_flexible_server_delegated_subnet_name
   load_balancer_sku                   = var.load_balancer_sku
 
-  image        = var.datalake_image
-  java_version = var.datalake_java_version
-  recipes      = var.datalake_recipes
+  image                  = var.datalake_image
+  java_version           = var.datalake_java_version
+  recipes                = var.datalake_recipes
+  custom_instance_groups = var.datalake_custom_instance_groups
 
   polling_options = {
     async                  = var.datalake_async_creation
