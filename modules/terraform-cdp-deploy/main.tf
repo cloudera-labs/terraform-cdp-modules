@@ -20,12 +20,12 @@ module "cdp_on_aws" {
 
   tags = local.env_tags
 
-  environment_name              = local.environment_name
-  environment_description       = var.environment_description
-  datalake_name                 = local.datalake_name
-  create_cdp_credential         = var.create_cdp_credential
-  cdp_xacccount_credential_name = local.cdp_xacccount_credential_name
-  cdp_groups                    = var.cdp_groups
+  environment_name             = local.environment_name
+  environment_description      = var.environment_description
+  datalake_name                = local.datalake_name
+  create_cdp_credential        = var.create_cdp_credential
+  cdp_xaccount_credential_name = local.cdp_xaccount_credential_name
+  cdp_groups                   = var.cdp_groups
 
   security_group_default_id = var.aws_security_group_default_id
   security_group_knox_id    = var.aws_security_group_knox_id
@@ -69,6 +69,9 @@ module "cdp_on_aws" {
   log_instance_profile_arn      = var.aws_log_instance_profile_arn
 
   # Optional parameters defaulting to null
+  xaccount_skip_org_policy_decisions = var.aws_xaccount_skip_org_policy_decisions
+  xaccount_verify_permissions        = var.aws_xaccount_verify_permissions
+
   freeipa_catalog       = var.freeipa_catalog
   freeipa_image_id      = var.freeipa_image_id
   freeipa_instance_type = var.freeipa_instance_type
@@ -99,12 +102,12 @@ module "cdp_on_azure" {
 
   tags = local.env_tags
 
-  environment_name              = local.environment_name
-  environment_description       = var.environment_description
-  datalake_name                 = local.datalake_name
-  create_cdp_credential         = var.create_cdp_credential
-  cdp_xacccount_credential_name = local.cdp_xacccount_credential_name
-  cdp_groups                    = var.cdp_groups
+  environment_name             = local.environment_name
+  environment_description      = var.environment_description
+  datalake_name                = local.datalake_name
+  create_cdp_credential        = var.create_cdp_credential
+  cdp_xaccount_credential_name = local.cdp_xaccount_credential_name
+  cdp_groups                   = var.cdp_groups
 
   security_group_default_uri = var.azure_security_group_default_uri
   security_group_knox_uri    = var.azure_security_group_knox_uri
@@ -196,12 +199,12 @@ module "cdp_on_gcp" {
 
   tags = local.env_tags
 
-  environment_name              = local.environment_name
-  environment_description       = var.environment_description
-  datalake_name                 = local.datalake_name
-  create_cdp_credential         = var.create_cdp_credential
-  cdp_xacccount_credential_name = local.cdp_xacccount_credential_name
-  cdp_groups                    = var.cdp_groups
+  environment_name             = local.environment_name
+  environment_description      = var.environment_description
+  datalake_name                = local.datalake_name
+  create_cdp_credential        = var.create_cdp_credential
+  cdp_xaccount_credential_name = local.cdp_xaccount_credential_name
+  cdp_groups                   = var.cdp_groups
 
   firewall_default_id = var.gcp_firewall_default_id
   firewall_knox_id    = var.gcp_firewall_knox_id

@@ -27,7 +27,7 @@ locals {
   datalake_name = coalesce(var.datalake_name,
   "${var.env_prefix}-${local.cloud_shorthand[var.infra_type]}-dl")
 
-  cdp_xacccount_credential_name = coalesce(var.cdp_xacccount_credential_name,
+  cdp_xaccount_credential_name = coalesce(var.cdp_xaccount_credential_name,
   "${var.env_prefix}-xaccount-cred")
 
   datalake_scale = coalesce(
