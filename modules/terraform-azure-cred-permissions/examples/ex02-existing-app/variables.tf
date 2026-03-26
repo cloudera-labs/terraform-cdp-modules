@@ -27,5 +27,5 @@ variable "skip_xaccount_app_data_source" {
   type        = bool
   description = "Skip reading Azure AD application details via data source."
 
-  default     = false
+  default = false
 }
