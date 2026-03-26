@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2026 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +17,9 @@ locals {
   # ------- Determine if resources should be created -------
   create_xaccount_resources = (var.existing_xaccount_app_client_id == null)
 
-  xaccount_app_owners = coalesce(var.xaccount_app_owners, [data.azuread_client_config.current.object_id])
+  xaccount_app_owners = coalesce(var.xaccount_app_owners, try([data.azuread_client_config.current[0].object_id], []))
+
+  # Skip if: skip_xaccount_app_data_source is true, OR if we are creating new resources (no existing app to look up)
+  use_app_data_source = !var.skip_xaccount_app_data_source && !local.create_xaccount_resources
 
 }

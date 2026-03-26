@@ -1,4 +1,4 @@
-# Copyright 2025 Cloudera, Inc. All Rights Reserved.
+# Copyright 2026 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,4 +21,11 @@ variable "existing_xaccount_app_client_id" {
 variable "existing_xaccount_app_pword" {
   type        = string
   description = "Password of existing Azure AD Application for Cloudera Cross Account."
+}
+
+variable "skip_xaccount_app_data_source" {
+  type        = bool
+  description = "Skip reading Azure AD application details via data source."
+
+  default     = false
 }

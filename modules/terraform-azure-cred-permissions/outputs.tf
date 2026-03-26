@@ -1,4 +1,4 @@
-# Copyright 2025 Cloudera, Inc. All Rights Reserved.
+# Copyright 2026 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,17 +13,19 @@
 # limitations under the License.
 
 output "azure_xaccount_app_client_id" {
-  value = local.create_xaccount_resources ? azuread_application.cdp_xaccount_app[0].client_id : data.azuread_application.existing_xaccount_app[0].client_id
+  value = local.create_xaccount_resources ? azuread_application.cdp_xaccount_app[0].client_id : (
+    local.use_app_data_source ? data.azuread_application.existing_xaccount_app[0].client_id : var.existing_xaccount_app_client_id
+  )
 
   description = "Client ID for the Azure AD Cross Account Application"
-
 }
 
 output "azure_xaccount_app" {
-  value = local.create_xaccount_resources ? azuread_application.cdp_xaccount_app[0] : data.azuread_application.existing_xaccount_app[0]
+  value = local.create_xaccount_resources ? azuread_application.cdp_xaccount_app[0] : (
+    local.use_app_data_source ? data.azuread_application.existing_xaccount_app[0] : null
+  )
 
   description = "Full details for the Azure AD Cross Account Application"
-
 }
 
 output "azure_xaccount_app_pword" {
@@ -38,5 +40,4 @@ output "azure_xaccount_service_principal_id" {
   value = try(azuread_service_principal.cdp_xaccount_app_sp[0].id, null)
 
   description = "ID for the Azure AD Cross Account Service Principal"
-
 }

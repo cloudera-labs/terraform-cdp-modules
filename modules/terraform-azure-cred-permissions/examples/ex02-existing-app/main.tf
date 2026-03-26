@@ -1,4 +1,4 @@
-# Copyright 2025 Cloudera, Inc. All Rights Reserved.
+# Copyright 2026 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -43,4 +43,5 @@ module "ex01_xaccount_app" {
 
   existing_xaccount_app_client_id = var.existing_xaccount_app_client_id
   existing_xaccount_app_pword     = var.existing_xaccount_app_pword
+  skip_xaccount_app_data_source   = var.skip_xaccount_app_data_source
 }

@@ -1,4 +1,4 @@
-# Copyright 2025 Cloudera, Inc. All Rights Reserved.
+# Copyright 2026 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -87,4 +87,23 @@ variable "existing_xaccount_app_pword" {
 
   default = null
 
+}
+
+variable "skip_xaccount_app_data_source" {
+  type        = bool
+  default     = false
+  description = <<-EOT
+    Skip reading Azure AD application details via data source. 
+    Set to true when the Terraform executor lacks Azure Entra ID read permissions.
+    and all required app details are provided explicitly via variables.
+    When true and using an existing app, you must provide existing_xaccount_app_client_id and existing_xaccount_app_pword.
+  EOT
+
+  validation {
+    condition = !var.skip_xaccount_app_data_source || var.existing_xaccount_app_client_id == null || (
+      var.existing_xaccount_app_client_id != null &&
+      var.existing_xaccount_app_pword != null
+    )
+    error_message = "When skip_xaccount_app_data_source is true and existing_xaccount_app_client_id is provided, you must also provide existing_xaccount_app_pword and existing_xaccount_app_client_id."
+  }
 }
