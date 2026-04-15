@@ -1,4 +1,4 @@
-# Copyright 2025 Cloudera, Inc. All Rights Reserved.
+# Copyright 2026 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ resource "cdp_environments_aws_credential" "cdp_cred" {
 # ------- CDP Environment -------
 resource "cdp_environments_aws_environment" "cdp_env" {
   environment_name = var.environment_name
+  environment_type = var.environment_type
   description      = var.environment_description
   credential_name  = local.cdp_xaccount_credential_name
   region           = var.region
@@ -70,6 +71,8 @@ resource "cdp_environments_aws_environment" "cdp_env" {
     configuration = var.compute_cluster_configuration
   }
 
+  custom_docker_registry = var.custom_docker_registry
+
   proxy_config_name   = var.proxy_config_name
   s3_guard_table_name = var.s3_guard_table_name
   workload_analytics  = var.workload_analytics
@@ -83,8 +86,17 @@ resource "cdp_environments_aws_environment" "cdp_env" {
     polling_timeout        = var.environment_polling_timeout
   }
 
-  cascading_delete = var.environment_cascading_delete
-  tags             = var.tags
+  security = {
+    se_linux = var.environment_security_selinux
+  }
+
+  delete_options = {
+    cascading = var.environment_cascading_delete
+    forced    = var.environment_force_delete
+  }
+
+
+  tags = var.tags
 
   depends_on = [
     cdp_environments_aws_credential.cdp_cred
@@ -108,7 +120,7 @@ resource "cdp_iam_group" "cdp_groups" {
 # TODO: (When supported) Assign users to the group
 
 # ------- IdBroker Mappings -------
-resource "cdp_environments_id_broker_mappings" "cdp_idbroker" {
+resource "cdp_environments_id_broker_mappings" "cdp_idbroker" {  
   environment_name = cdp_environments_aws_environment.cdp_env.environment_name
   environment_crn  = cdp_environments_aws_environment.cdp_env.crn
 
@@ -136,6 +148,7 @@ resource "cdp_datalake_aws_datalake" "cdp_datalake" {
   runtime           = var.datalake_version == "latest" ? null : var.datalake_version
   scale             = var.datalake_scale
   enable_ranger_raz = var.enable_raz
+  enable_ranger_rms = var.enable_ranger_rms
   multi_az          = var.datalake_scale == "LIGHT_DUTY" ? null : var.multiaz
 
   image                  = var.datalake_image
@@ -148,6 +161,14 @@ resource "cdp_datalake_aws_datalake" "cdp_datalake" {
     async                  = var.datalake_async_creation
     call_failure_threshold = var.datalake_call_failure_threshold
     polling_timeout        = var.datalake_polling_timeout
+  }
+
+  security = {
+    se_linux = var.datalake_security_selinux
+  }
+
+  delete_options = {
+    forced = var.datalake_force_delete
   }
 
   tags = var.tags
