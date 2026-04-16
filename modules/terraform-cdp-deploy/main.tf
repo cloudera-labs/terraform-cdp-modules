@@ -21,7 +21,7 @@ module "cdp_on_aws" {
   tags = local.env_tags
 
   environment_name             = local.environment_name
-  environment_type              = var.environment_type
+  environment_type             = var.environment_type
   environment_description      = var.environment_description
   datalake_name                = local.datalake_name
   create_cdp_credential        = var.create_cdp_credential
@@ -112,7 +112,7 @@ module "cdp_on_azure" {
   tags = local.env_tags
 
   environment_name             = local.environment_name
-  environment_type              = var.environment_type
+  environment_type             = var.environment_type
   environment_description      = var.environment_description
   datalake_name                = local.datalake_name
   create_cdp_credential        = var.create_cdp_credential
@@ -213,7 +213,7 @@ module "cdp_on_gcp" {
   tags = local.env_tags
 
   environment_name             = local.environment_name
-  environment_type              = var.environment_type
+  environment_type             = var.environment_type
   environment_description      = var.environment_description
   datalake_name                = local.datalake_name
   create_cdp_credential        = var.create_cdp_credential
