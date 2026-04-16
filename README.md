@@ -28,6 +28,7 @@ This repository contains a number of Terraform modules for creation of the pre-r
 | [terraform-azure-bastion](modules/terraform-azure-bastion/README.md) | Module to create a Bastion Virtual Machine instance on Azure. |
 | [terraform-azure-nfs](modules/terraform-azure-nfs/README.md) | Module for creation of Azure NFS File Share required for Cloudera Machine Learning (CML) Public Cloud. Also optionally creates a Virtual Machine which can be used to mount and set the required ownership for CML workspace's projects folder.|
 | [terraform-azure-cdw-permissions](modules/terraform-azure-cdw-permissions/README.md) | Module for creation of the Azure Kubernetes Service (AKS) managed identity required for the Cloudera Data Warehouse (CDW) service.|
+| [terraform-azure-cde-permissions](modules/terraform-azure-cde-permissions/README.md) | Module for creation of the Azure managed identity required for the Cloudera Data Engineering (CDE) service.|
 | [terraform-azure-storage-endpoints](modules/terraform-azure-storage-endpoints/README.md) | Module for creation creation of Azure private endpoints between specified storage accounts and VNet subnets.|
 
 Each module contains Terraform resource configuration and example variable definition files.
