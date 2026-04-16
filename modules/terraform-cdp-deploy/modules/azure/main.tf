@@ -17,7 +17,7 @@ resource "cdp_environments_azure_credential" "cdp_cred" {
 
   count = var.create_cdp_credential ? 1 : 0
 
-  credential_name = var.cdp_xacccount_credential_name
+  credential_name = var.cdp_xaccount_credential_name
   subscription_id = var.subscription_id
   tenant_id       = var.tenant_id
   app_based = {
@@ -38,7 +38,7 @@ resource "cdp_environments_azure_image_terms" "cdp_azure_images" {
 resource "cdp_environments_azure_environment" "cdp_env" {
   environment_name = var.environment_name
   description      = var.environment_description
-  credential_name  = local.cdp_xacccount_credential_name
+  credential_name  = local.cdp_xaccount_credential_name
   region           = var.region
 
   security_access = {

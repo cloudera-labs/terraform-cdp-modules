@@ -102,25 +102,25 @@ variable "datalake_name" {
 variable "create_cdp_credential" {
   type = bool
 
-  description = "Flag to specify if the CDP Cross Account Credential should be created. If set to false then cdp_xacccount_credential_name should be a valid pre-existing credential."
+  description = "Flag to specify if the CDP Cross Account Credential should be created. If set to false then cdp_xaccount_credential_name should be a valid pre-existing credential."
 
   default = true
 }
 
-variable "cdp_xacccount_credential_name" {
+variable "cdp_xaccount_credential_name" {
   type        = string
   description = "Name of the CDP Cross Account Credential. Defaults to '<env_prefix>-xaccount-cred' if not specified. If create_cdp_credential is set to false then this should should be a valid pre-existing credential."
 
   default = null
 
   validation {
-    condition     = (var.cdp_xacccount_credential_name == null ? true : length(var.cdp_xacccount_credential_name) >= 5 && length(var.cdp_xacccount_credential_name) <= 100)
-    error_message = "The length of cdp_xacccount_credential_name must be between 5 and 100 characters."
+    condition     = (var.cdp_xaccount_credential_name == null ? true : length(var.cdp_xaccount_credential_name) >= 5 && length(var.cdp_xaccount_credential_name) <= 100)
+    error_message = "The length of cdp_xaccount_credential_name must be between 5 and 100 characters."
   }
 
   validation {
-    condition     = (var.cdp_xacccount_credential_name == null ? true : can(regex("^[a-z0-9-]{5,100}$", var.cdp_xacccount_credential_name)))
-    error_message = "cdp_xacccount_credential_name can consist only of lowercase letters, numbers, and hyphens (-)."
+    condition     = (var.cdp_xaccount_credential_name == null ? true : can(regex("^[a-z0-9-]{5,100}$", var.cdp_xaccount_credential_name)))
+    error_message = "cdp_xaccount_credential_name can consist only of lowercase letters, numbers, and hyphens (-)."
   }
 
 }
@@ -665,6 +665,22 @@ variable "aws_xaccount_role_arn" {
     error_message = "aws_xaccount_role_arn must be set when 'infra_type' is 'aws'."
   }
 
+}
+
+variable "aws_xaccount_skip_org_policy_decisions" {
+  type = bool
+
+  description = "Flag to specify if the Cloudera Cross Account Credential should skip organization policy decisions. Only used for CDP deployment on AWS."
+
+  default = null
+}
+
+variable "aws_xaccount_verify_permissions" {
+  type = bool
+
+  description = "Flag to specify if the Cloudera Cross Account Credential should verify permissions. Only used for CDP deployment on AWS."
+
+  default = null
 }
 
 variable "aws_log_instance_profile_arn" {

@@ -14,9 +14,9 @@
 
 locals {
   # Determine the name of the cross account credential
-  cdp_xacccount_credential_name = (
+  cdp_xaccount_credential_name = (
     var.create_cdp_credential == false ?
-    var.cdp_xacccount_credential_name :
+    var.cdp_xaccount_credential_name :
     cdp_environments_gcp_credential.cdp_cred[0].credential_name
   )
 

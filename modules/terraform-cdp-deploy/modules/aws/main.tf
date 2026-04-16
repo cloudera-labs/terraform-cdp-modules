@@ -17,16 +17,19 @@ resource "cdp_environments_aws_credential" "cdp_cred" {
 
   count = var.create_cdp_credential ? 1 : 0
 
-  credential_name = var.cdp_xacccount_credential_name
+  credential_name = var.cdp_xaccount_credential_name
   role_arn        = var.xaccount_role_arn
   description     = "AWS Cross Account Credential for AWS env ${var.environment_name}"
+
+  skip_org_policy_decisions = var.xaccount_skip_org_policy_decisions
+  verify_permissions        = var.xaccount_verify_permissions
 }
 
 # ------- CDP Environment -------
 resource "cdp_environments_aws_environment" "cdp_env" {
   environment_name = var.environment_name
   description      = var.environment_description
-  credential_name  = local.cdp_xacccount_credential_name
+  credential_name  = local.cdp_xaccount_credential_name
   region           = var.region
 
   security_access = {
