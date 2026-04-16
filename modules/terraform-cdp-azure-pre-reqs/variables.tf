@@ -1,4 +1,4 @@
-# Copyright 2023 Cloudera, Inc. All Rights Reserved.
+# Copyright 2026 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -774,6 +774,18 @@ variable "existing_xaccount_app_pword" {
   description = "Password of existing Azure AD Application for Cloudera Cross Account. If set then no application or SPN resources are created."
 
   default = null
+}
+
+variable "skip_xaccount_app_data_source" {
+  type        = bool
+  default     = false
+  description = <<-EOT
+    Skip reading Azure AD application details via data source. 
+    Set to true when the Terraform executor lacks Azure Entra ID read permissions.
+    and all required app details are provided explicitly via variables.
+    When true and using an existing app, you must provide existing_xaccount_app_client_id and existing_xaccount_app_pword.
+  EOT
+
 }
 
 # ------- Support for existing Security Groups -------

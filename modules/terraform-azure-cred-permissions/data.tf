@@ -1,4 +1,4 @@
-# Copyright 2025 Cloudera, Inc. All Rights Reserved.
+# Copyright 2026 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,7 +13,12 @@
 # limitations under the License.
 
 # Get the configuration of the AzureAD provider
-data "azuread_client_config" "current" {}
+# Skip when skip_xaccount_app_data_source is true and no new resources are being created
+data "azuread_client_config" "current" {
+
+  count = (!var.skip_xaccount_app_data_source || local.create_xaccount_resources) ? 1 : 0
+
+}
 
 # Access information about Azure Subscription
 data "azurerm_subscription" "sub_details" {
@@ -26,7 +31,7 @@ data "azurerm_subscription" "sub_details" {
 # Lookup existing AzureAD application
 data "azuread_application" "existing_xaccount_app" {
 
-  count = local.create_xaccount_resources ? 0 : 1
+  count = local.use_app_data_source ? 1 : 0
 
   client_id = var.existing_xaccount_app_client_id
 }
