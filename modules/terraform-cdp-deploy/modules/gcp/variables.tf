@@ -429,9 +429,11 @@ variable "idbroker_service_account_email" {
   description = "Email id of the service account for IDBroker"
 
   validation {
-    condition     = var.idbroker_service_account_email != null
-    error_message = "Valid values for var: idbroker_service_account_email must be a valid Email id for the GCP IDBroker Service Account."
+    condition     = (var.environment_type == "HYBRID" || var.idbroker_service_account_email != null)
+    error_message = "Valid values for var: idbroker_service_account_email must be a valid Email id for the GCP IDBroker Service Account when environment_type is not HYBRID."
   }
+
+  default = null
 
 }
 
@@ -453,9 +455,11 @@ variable "ranger_audit_service_account_email" {
   description = "Email id of the service account for Ranger Audit"
 
   validation {
-    condition     = var.ranger_audit_service_account_email != null
-    error_message = "Valid values for var: ranger_audit_service_account_email must be a valid Email id for the GCP Ranger Audit Service Account."
+    condition     = (var.environment_type == "HYBRID" || var.ranger_audit_service_account_email != null)
+    error_message = "Valid values for var: ranger_audit_service_account_email must be a valid Email id for the GCP Ranger Audit Service Account when environment_type is not HYBRID."
   }
+
+  default = null
 
 }
 
@@ -465,9 +469,11 @@ variable "datalake_admin_service_account_email" {
   description = "Email id of the service account for Datalake Admin"
 
   validation {
-    condition     = var.datalake_admin_service_account_email != null
-    error_message = "Valid values for var: datalake_admin_service_account_email must be a valid Email id for the GCP Datalake Admin Service Account."
+    condition     = (var.environment_type == "HYBRID" || var.datalake_admin_service_account_email != null)
+    error_message = "Valid values for var: datalake_admin_service_account_email must be a valid Email id for the GCP Datalake Admin Service Account when environment_type is not HYBRID."
   }
+
+  default = null
 
 }
 

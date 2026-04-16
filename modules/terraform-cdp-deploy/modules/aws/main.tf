@@ -120,7 +120,9 @@ resource "cdp_iam_group" "cdp_groups" {
 # TODO: (When supported) Assign users to the group
 
 # ------- IdBroker Mappings -------
-resource "cdp_environments_id_broker_mappings" "cdp_idbroker" {  
+resource "cdp_environments_id_broker_mappings" "cdp_idbroker" {
+  count = var.environment_type != "HYBRID" ? 1 : 0
+
   environment_name = cdp_environments_aws_environment.cdp_env.environment_name
   environment_crn  = cdp_environments_aws_environment.cdp_env.crn
 
@@ -139,6 +141,8 @@ resource "cdp_environments_id_broker_mappings" "cdp_idbroker" {
 
 # ------- CDP Datalake -------
 resource "cdp_datalake_aws_datalake" "cdp_datalake" {
+  count = var.environment_type != "HYBRID" ? 1 : 0
+
   datalake_name    = var.datalake_name
   environment_name = cdp_environments_aws_environment.cdp_env.environment_name
 
@@ -175,7 +179,6 @@ resource "cdp_datalake_aws_datalake" "cdp_datalake" {
 
   depends_on = [
     cdp_environments_aws_credential.cdp_cred,
-    cdp_environments_aws_environment.cdp_env,
-    cdp_environments_id_broker_mappings.cdp_idbroker
+    cdp_environments_aws_environment.cdp_env
   ]
 }

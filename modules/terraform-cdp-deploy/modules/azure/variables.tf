@@ -559,9 +559,11 @@ variable "idbroker_identity_id" {
   description = "IDBroker Managed Identity ID."
 
   validation {
-    condition     = var.idbroker_identity_id != null
-    error_message = "Valid values for var: idbroker_identity_id must be a valid ID for IDBroker Managed Identity."
+    condition     = (var.environment_type == "HYBRID" || var.idbroker_identity_id != null)
+    error_message = "Valid values for var: idbroker_identity_id must be a valid ID for IDBroker Managed Identity when environment_type is not HYBRID."
   }
+
+  default = null
 
 }
 
@@ -571,9 +573,11 @@ variable "datalakeadmin_identity_id" {
   description = "Datalake Admin Managed Identity ID."
 
   validation {
-    condition     = var.datalakeadmin_identity_id != null
-    error_message = "Valid values for var: datalakeadmin_identity_id must be a valid ID for Datalake Admin Managed Identity."
+    condition     = (var.environment_type == "HYBRID" || var.datalakeadmin_identity_id != null)
+    error_message = "Valid values for var: datalakeadmin_identity_id must be a valid ID for Datalake Admin Managed Identity when environment_type is not HYBRID."
   }
+
+  default = null
 
 }
 
@@ -583,10 +587,11 @@ variable "ranger_audit_identity_id" {
   description = "Ranger Audit Managed Identity ID."
 
   validation {
-    condition     = var.ranger_audit_identity_id != null
-    error_message = "Valid values for var: ranger_audit_identity_id must be a valid ID for Ranger Audit Managed Identity."
+    condition     = (var.environment_type == "HYBRID" || var.ranger_audit_identity_id != null)
+    error_message = "Valid values for var: ranger_audit_identity_id must be a valid ID for Ranger Audit Managed Identity when environment_type is not HYBRID."
   }
 
+  default = null
 
 }
 
@@ -609,8 +614,10 @@ variable "raz_identity_id" {
   description = "RAZ Managed Identity ID."
 
   validation {
-    condition     = var.raz_identity_id != null
-    error_message = "Valid values for var: raz_identity_id must be a valid ID for RAZ Managed Identity."
+    condition     = (var.environment_type == "HYBRID" || var.raz_identity_id != null)
+    error_message = "Valid values for var: raz_identity_id must be a valid ID for RAZ Managed Identity when environment_type is not HYBRID."
   }
+
+  default = null
 
 }

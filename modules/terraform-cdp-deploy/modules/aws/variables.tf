@@ -485,10 +485,11 @@ variable "datalake_admin_role_arn" {
   description = "Datalake Admin Role ARN."
 
   validation {
-    condition     = var.datalake_admin_role_arn != null
-    error_message = "Valid values for var: datalake_admin_role_arn must be a valid ARN for Datalake Admin Role."
+    condition     = (var.environment_type == "HYBRID" || var.datalake_admin_role_arn != null)
+    error_message = "Valid values for var: datalake_admin_role_arn must be a valid ARN for Datalake Admin Role when environment_type is not HYBRID."
   }
 
+  default = null
 }
 
 variable "ranger_audit_role_arn" {
@@ -497,9 +498,11 @@ variable "ranger_audit_role_arn" {
   description = "Ranger Audit Role ARN."
 
   validation {
-    condition     = var.ranger_audit_role_arn != null
-    error_message = "Valid values for var: ranger_audit_role_arn must be a valid ARN for Ranger Audit Role."
+    condition     = (var.environment_type == "HYBRID" || var.ranger_audit_role_arn != null)
+    error_message = "Valid values for var: ranger_audit_role_arn must be a valid ARN for Ranger Audit Role when environment_type is not HYBRID."
   }
+
+  default = null
 
 }
 
@@ -533,9 +536,11 @@ variable "idbroker_instance_profile_arn" {
   description = "IDBroker Instance Profile ARN."
 
   validation {
-    condition     = var.idbroker_instance_profile_arn != null
-    error_message = "Valid values for var: idbroker_instance_profile_arn must be a valid ARN for IDBroker Instance Profile."
+    condition     = (var.environment_type == "HYBRID" || var.idbroker_instance_profile_arn != null)
+    error_message = "Valid values for var: idbroker_instance_profile_arn must be a valid ARN for IDBroker Instance Profile when environment_type is not HYBRID."
   }
+
+  default = null
 
 }
 

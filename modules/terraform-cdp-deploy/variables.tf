@@ -728,10 +728,9 @@ variable "aws_datalake_admin_role_arn" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "aws" && var.aws_datalake_admin_role_arn == null) ? false : true
-    error_message = "aws_datalake_admin_role_arn must be set when 'infra_type' is 'aws'."
+    condition     = (var.infra_type == "aws" && var.environment_type != "HYBRID" && var.aws_datalake_admin_role_arn == null) ? false : true
+    error_message = "aws_datalake_admin_role_arn must be set when 'infra_type' is 'aws' and 'environment_type' is not 'HYBRID'."
   }
-
 }
 
 variable "aws_ranger_audit_role_arn" {
@@ -742,8 +741,8 @@ variable "aws_ranger_audit_role_arn" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "aws" && var.aws_ranger_audit_role_arn == null) ? false : true
-    error_message = "aws_ranger_audit_role_arn must be set when 'infra_type' is 'aws'."
+    condition     = (var.infra_type == "aws" && var.environment_type != "HYBRID" && var.aws_ranger_audit_role_arn == null) ? false : true
+    error_message = "aws_ranger_audit_role_arn must be set when 'infra_type' is 'aws' and 'environment_type' is not 'HYBRID'."
   }
 }
 
@@ -798,8 +797,8 @@ variable "aws_idbroker_instance_profile_arn" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "aws" && var.aws_idbroker_instance_profile_arn == null) ? false : true
-    error_message = "aws_idbroker_instance_profile_arn must be set when 'infra_type' is 'aws'."
+    condition     = (var.infra_type == "aws" && var.environment_type != "HYBRID" && var.aws_idbroker_instance_profile_arn == null) ? false : true
+    error_message = "aws_idbroker_instance_profile_arn must be set when 'infra_type' is 'aws' and 'environment_type' is not 'HYBRID'."
   }
 }
 
@@ -811,8 +810,8 @@ variable "aws_raz_role_arn" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "aws" && var.enable_raz == true && var.aws_raz_role_arn == null) ? false : true
-    error_message = "aws_raz_role_arn must be set when 'infra_type' is 'aws' and RAZ is enabled."
+    condition     = (var.infra_type == "aws" && var.environment_type != "HYBRID" && var.enable_raz == true && var.aws_raz_role_arn == null) ? false : true
+    error_message = "aws_raz_role_arn must be set when 'infra_type' is 'aws', 'environment_type' is not 'HYBRID', and RAZ is enabled."
   }
 }
 
@@ -1025,8 +1024,8 @@ variable "azure_idbroker_identity_id" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "azure" && var.azure_idbroker_identity_id == null) ? false : true
-    error_message = "azure_idbroker_identity_id must be set when 'infra_type' is 'azure'."
+    condition     = (var.infra_type == "azure" && var.environment_type != "HYBRID" && var.azure_idbroker_identity_id == null) ? false : true
+    error_message = "azure_idbroker_identity_id must be set when 'infra_type' is 'azure' and 'environment_type' is not 'HYBRID'."
   }
 }
 
@@ -1038,8 +1037,8 @@ variable "azure_datalakeadmin_identity_id" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "azure" && var.azure_datalakeadmin_identity_id == null) ? false : true
-    error_message = "azure_datalakeadmin_identity_id must be set when 'infra_type' is 'azure'."
+    condition     = (var.infra_type == "azure" && var.environment_type != "HYBRID" && var.azure_datalakeadmin_identity_id == null) ? false : true
+    error_message = "azure_datalakeadmin_identity_id must be set when 'infra_type' is 'azure' and 'environment_type' is not 'HYBRID'."
   }
 
 }
@@ -1052,8 +1051,8 @@ variable "azure_ranger_audit_identity_id" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "azure" && var.azure_ranger_audit_identity_id == null) ? false : true
-    error_message = "azure_ranger_audit_identity_id must be set when 'infra_type' is 'azure'."
+    condition     = (var.infra_type == "azure" && var.environment_type != "HYBRID" && var.azure_ranger_audit_identity_id == null) ? false : true
+    error_message = "azure_ranger_audit_identity_id must be set when 'infra_type' is 'azure' and 'environment_type' is not 'HYBRID'."
   }
 }
 
@@ -1079,8 +1078,8 @@ variable "azure_raz_identity_id" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "azure" && var.enable_raz == true && var.azure_raz_identity_id == null) ? false : true
-    error_message = "azure_raz_identity_id must be set when 'infra_type' is 'azure' and RAZ is enabled."
+    condition     = (var.infra_type == "azure" && var.environment_type != "HYBRID" && var.enable_raz == true && var.azure_raz_identity_id == null) ? false : true
+    error_message = "azure_raz_identity_id must be set when 'infra_type' is 'azure', 'environment_type' is not 'HYBRID', and RAZ is enabled."
   }
 
 }
@@ -1229,8 +1228,8 @@ variable "gcp_idbroker_service_account_email" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "gcp" && var.gcp_idbroker_service_account_email == null) ? false : true
-    error_message = "gcp_idbroker_service_account_email must be set when 'infra_type' is 'gcp'."
+    condition     = (var.infra_type == "gcp" && var.environment_type != "HYBRID" && var.gcp_idbroker_service_account_email == null) ? false : true
+    error_message = "gcp_idbroker_service_account_email must be set when 'infra_type' is 'gcp' and 'environment_type' is not 'HYBRID'."
   }
 }
 
@@ -1255,8 +1254,8 @@ variable "gcp_ranger_audit_service_account_email" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "gcp" && var.gcp_ranger_audit_service_account_email == null) ? false : true
-    error_message = "gcp_ranger_audit_service_account_email must be set when 'infra_type' is 'gcp'."
+    condition     = (var.infra_type == "gcp" && var.environment_type != "HYBRID" && var.gcp_ranger_audit_service_account_email == null) ? false : true
+    error_message = "gcp_ranger_audit_service_account_email must be set when 'infra_type' is 'gcp' and 'environment_type' is not 'HYBRID'."
   }
 
 }
@@ -1269,8 +1268,8 @@ variable "gcp_datalake_admin_service_account_email" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "gcp" && var.gcp_datalake_admin_service_account_email == null) ? false : true
-    error_message = "gcp_datalake_admin_service_account_email must be set when 'infra_type' is 'gcp'."
+    condition     = (var.infra_type == "gcp" && var.environment_type != "HYBRID" && var.gcp_datalake_admin_service_account_email == null) ? false : true
+    error_message = "gcp_datalake_admin_service_account_email must be set when 'infra_type' is 'gcp' and 'environment_type' is not 'HYBRID'."
   }
 }
 
@@ -1291,8 +1290,8 @@ variable "gcp_raz_service_account_email" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "gcp" && var.enable_raz == true && var.gcp_raz_service_account_email == null) ? false : true
-    error_message = "gcp_raz_service_account_email must be set when 'infra_type' is 'gcp' and RAZ is enabled."
+    condition     = (var.infra_type == "gcp" && var.environment_type != "HYBRID" && var.enable_raz == true && var.gcp_raz_service_account_email == null) ? false : true
+    error_message = "gcp_raz_service_account_email must be set when 'infra_type' is 'gcp', 'environment_type' is not 'HYBRID', and RAZ is enabled."
   }
 
 }

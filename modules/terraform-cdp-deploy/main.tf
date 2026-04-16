@@ -274,7 +274,7 @@ module "cdp_on_gcp" {
   datalake_java_version           = var.datalake_java_version
   datalake_recipes                = var.datalake_recipes
   datalake_custom_instance_groups = var.datalake_custom_instance_groups
-  datalake_force_delete          = var.datalake_force_delete
+  datalake_force_delete           = var.datalake_force_delete
 
   environment_security_selinux = var.environment_security_selinux
   environment_cascading_delete = var.environment_cascading_delete

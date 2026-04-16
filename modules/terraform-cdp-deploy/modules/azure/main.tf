@@ -144,6 +144,9 @@ resource "cdp_iam_group" "cdp_groups" {
 
 # ------- IdBroker Mappings -------
 resource "cdp_environments_id_broker_mappings" "cdp_idbroker" {
+
+  count = var.environment_type != "HYBRID" ? 1 : 0
+
   environment_name = cdp_environments_azure_environment.cdp_env.environment_name
   environment_crn  = cdp_environments_azure_environment.cdp_env.crn
 
@@ -161,6 +164,9 @@ resource "cdp_environments_id_broker_mappings" "cdp_idbroker" {
 
 # ------- CDP Datalake -------
 resource "cdp_datalake_azure_datalake" "cdp_datalake" {
+
+  count = var.environment_type != "HYBRID" ? 1 : 0
+
   datalake_name    = var.datalake_name
   environment_name = cdp_environments_azure_environment.cdp_env.environment_name
 
