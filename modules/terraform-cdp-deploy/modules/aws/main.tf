@@ -142,7 +142,7 @@ resource "cdp_datalake_aws_datalake" "cdp_datalake" {
   java_version           = var.datalake_java_version
   recipes                = var.datalake_recipes
   custom_instance_groups = var.datalake_custom_instance_groups
-  architecture = var.datalake_architecture
+  architecture           = var.datalake_architecture
 
   polling_options = {
     async                  = var.datalake_async_creation
