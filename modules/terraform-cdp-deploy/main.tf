@@ -78,6 +78,7 @@ module "cdp_on_aws" {
   freeipa_recipes       = var.freeipa_recipes
   freeipa_os            = var.freeipa_os
   freeipa_architecture  = var.freeipa_architecture
+  datalake_architecture = var.datalake_architecture
 
   encryption_key_arn = var.encryption_key_arn
 
