@@ -169,6 +169,17 @@ variable "freeipa_os" {
 
 }
 
+variable "freeipa_architecture" {
+  type = string
+
+  description = "The CPU Architecture to be used for the FreeIPA instances"
+
+  validation {
+    condition     = (var.freeipa_architecture == null ? true : contains(["X86_64", "ARM64"], var.freeipa_architecture))
+    error_message = "Valid values for var: freeipa_architecture are (X86_64, ARM64)."
+  }
+}
+
 variable "proxy_config_name" {
   type = string
 
@@ -296,6 +307,18 @@ variable "datalake_polling_timeout" {
   description = "Timeout value in minutes for how long to poll for CDP datalake resource creation/deletion"
 
 }
+
+variable "datalake_architecture" {
+  type = string
+
+  description = "The CPU Architecture to be used for the Datalake instances"
+
+  validation {
+    condition     = (var.datalake_architecture == null ? true : contains(["X86_64", "ARM64"], var.datalake_architecture))
+    error_message = "Valid values for var: datalake_architecture are (X86_64, ARM64)."
+  }
+}
+
 # ------- Cloud Service Provider Settings -------
 variable "region" {
   type        = string

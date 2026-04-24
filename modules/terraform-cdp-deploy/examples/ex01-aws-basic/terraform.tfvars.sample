@@ -48,3 +48,7 @@ ingress_extra_cidrs_and_ports = {
 
 # ------- Optional inputs for Control Plane Connectivity in fully private environment -------
 # private_network_extensions=true # Set to false if external networking connectivity to CDP Control Plane exists
+
+# ------- Optional inputs instance architecture -------
+# freeipa_architecture  = "ARM64" # The CPU Architecture to be used for the FreeIPA instance, options are X86_64 or ARM64.
+# datalake_architecture = "ARM64" # The CPU Architecture to be used for the Datalake instances, options are X86_64 or ARM64.
