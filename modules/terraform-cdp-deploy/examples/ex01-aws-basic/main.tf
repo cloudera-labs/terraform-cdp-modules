@@ -102,6 +102,9 @@ module "cdp_deploy" {
   environment_async_creation = var.environment_async_creation
   datalake_async_creation    = var.datalake_async_creation
 
+  freeipa_architecture  = var.freeipa_architecture
+  datalake_architecture = var.datalake_architecture
+
   compute_cluster_enabled       = var.compute_cluster_enabled
   compute_cluster_configuration = var.compute_cluster_configuration
 
