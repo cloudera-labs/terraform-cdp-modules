@@ -1,4 +1,4 @@
-# Copyright 2025 Cloudera, Inc. All Rights Reserved.
+# Copyright 2026 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ resource "cdp_environments_gcp_credential" "cdp_cred" {
 # ------- CDP Environment -------
 resource "cdp_environments_gcp_environment" "cdp_env" {
   environment_name = var.environment_name
+  environment_type = var.environment_type
   description      = var.environment_description
   credential_name  = local.cdp_xaccount_credential_name
   region           = var.region
@@ -48,11 +49,13 @@ resource "cdp_environments_gcp_environment" "cdp_env" {
     shared_project_id = var.project_id
     subnet_names      = var.cdp_subnet_names
   }
-  availability_zones             = var.availability_zones
-  endpoint_access_gateway_scheme = var.endpoint_access_scheme
+  availability_zones                 = var.availability_zones
+  endpoint_access_gateway_scheme     = var.endpoint_access_scheme
+  endpoint_access_gateway_subnet_ids = (var.cdp_gateway_subnet_names != null && length(var.cdp_gateway_subnet_names) > 0) ? var.cdp_gateway_subnet_names : null
 
-  encryption_key    = var.encryption_key
-  proxy_config_name = var.proxy_config_name
+  encryption_key         = var.encryption_key
+  proxy_config_name      = var.proxy_config_name
+  custom_docker_registry = var.custom_docker_registry
 
   freeipa = {
     instance_count_by_group = var.freeipa_instances
@@ -70,8 +73,16 @@ resource "cdp_environments_gcp_environment" "cdp_env" {
     polling_timeout        = var.environment_polling_timeout
   }
 
-  cascading_delete = var.environment_cascading_delete
-  tags             = var.tags
+  security = {
+    se_linux = var.environment_security_selinux
+  }
+
+  delete_options = {
+    cascading = var.environment_cascading_delete
+    forced    = var.environment_force_delete
+  }
+
+  tags = var.tags
 
   depends_on = [
     cdp_environments_gcp_credential.cdp_cred
@@ -96,6 +107,9 @@ resource "cdp_iam_group" "cdp_groups" {
 
 # ------- IdBroker Mappings -------
 resource "cdp_environments_id_broker_mappings" "cdp_idbroker" {
+
+  count = var.environment_type != "HYBRID" ? 1 : 0
+
   environment_name = cdp_environments_gcp_environment.cdp_env.environment_name
   environment_crn  = cdp_environments_gcp_environment.cdp_env.crn
 
@@ -113,6 +127,9 @@ resource "cdp_environments_id_broker_mappings" "cdp_idbroker" {
 
 # ------- CDP Datalake -------
 resource "cdp_datalake_gcp_datalake" "cdp_datalake" {
+
+  count = var.environment_type != "HYBRID" ? 1 : 0
+
   datalake_name    = var.datalake_name
   environment_name = cdp_environments_gcp_environment.cdp_env.environment_name
 
@@ -135,6 +152,14 @@ resource "cdp_datalake_gcp_datalake" "cdp_datalake" {
     async                  = var.datalake_async_creation
     call_failure_threshold = var.datalake_call_failure_threshold
     polling_timeout        = var.datalake_polling_timeout
+  }
+
+  security = {
+    se_linux = var.datalake_security_selinux
+  }
+
+  delete_options = {
+    forced = var.datalake_force_delete
   }
 
   tags = var.tags

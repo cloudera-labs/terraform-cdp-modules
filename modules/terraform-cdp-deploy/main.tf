@@ -1,4 +1,4 @@
-# Copyright 2025 Cloudera, Inc. All Rights Reserved.
+# Copyright 2026 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ module "cdp_on_aws" {
   tags = local.env_tags
 
   environment_name             = local.environment_name
+  environment_type             = var.environment_type
   environment_description      = var.environment_description
   datalake_name                = local.datalake_name
   create_cdp_credential        = var.create_cdp_credential
@@ -85,15 +86,21 @@ module "cdp_on_aws" {
   proxy_config_name   = var.proxy_config_name
   s3_guard_table_name = var.s3_guard_table_name
 
+  enable_ranger_rms               = var.enable_ranger_rms
   datalake_image                  = var.datalake_image
   datalake_java_version           = var.datalake_java_version
   datalake_recipes                = var.datalake_recipes
   datalake_custom_instance_groups = var.datalake_custom_instance_groups
+  datalake_security_selinux       = var.datalake_security_selinux
+  datalake_force_delete           = var.datalake_force_delete
 
+  environment_security_selinux = var.environment_security_selinux
   environment_cascading_delete = var.environment_cascading_delete
+  environment_force_delete     = var.environment_force_delete
 
   compute_cluster_enabled       = var.compute_cluster_enabled
   compute_cluster_configuration = var.compute_cluster_configuration
+  custom_docker_registry        = var.custom_docker_registry
 }
 
 # ------- Call sub-module for Azure Deployment -------
@@ -105,6 +112,7 @@ module "cdp_on_azure" {
   tags = local.env_tags
 
   environment_name             = local.environment_name
+  environment_type             = var.environment_type
   environment_description      = var.environment_description
   datalake_name                = local.datalake_name
   create_cdp_credential        = var.create_cdp_credential
@@ -161,11 +169,9 @@ module "cdp_on_azure" {
   raz_identity_id           = var.azure_raz_identity_id
 
   # Optional parameters defaulting to null
-  freeipa_catalog       = var.freeipa_catalog
-  freeipa_image_id      = var.freeipa_image_id
-  freeipa_instance_type = var.freeipa_instance_type
-  freeipa_recipes       = var.freeipa_recipes
-  freeipa_os            = var.freeipa_os
+  environment_availability_zones = var.azure_environment_availability_zones
+  freeipa_instance_type          = var.freeipa_instance_type
+  freeipa_recipes                = var.freeipa_recipes
 
   enable_outbound_load_balancer = var.enable_outbound_load_balancer
   load_balancer_sku             = var.azure_load_balancer_sku
@@ -186,11 +192,16 @@ module "cdp_on_azure" {
   datalake_recipes                               = var.datalake_recipes
   datalake_flexible_server_delegated_subnet_name = var.azure_datalake_flexible_server_delegated_subnet_name
   datalake_custom_instance_groups                = var.datalake_custom_instance_groups
+  datalake_database_type                         = var.azure_datalake_database_type
 
+  environment_security_selinux = var.environment_security_selinux
   environment_cascading_delete = var.environment_cascading_delete
+  environment_force_delete     = var.environment_force_delete
 
   compute_cluster_enabled       = var.compute_cluster_enabled
   compute_cluster_configuration = var.compute_cluster_configuration
+  custom_docker_registry        = var.custom_docker_registry
+  data_service_configurations   = var.azure_data_service_configurations
 }
 
 # ------- Call sub-module for GCP Deployment -------
@@ -202,6 +213,7 @@ module "cdp_on_gcp" {
   tags = local.env_tags
 
   environment_name             = local.environment_name
+  environment_type             = var.environment_type
   environment_description      = var.environment_description
   datalake_name                = local.datalake_name
   create_cdp_credential        = var.create_cdp_credential
@@ -231,15 +243,17 @@ module "cdp_on_gcp" {
   datalake_async_creation            = var.datalake_async_creation
   datalake_call_failure_threshold    = var.datalake_call_failure_threshold
   datalake_polling_timeout           = var.datalake_polling_timeout
+  datalake_security_selinux          = var.datalake_security_selinux
 
   use_public_ips = local.use_public_ips
 
   project_id = var.gcp_project_id
 
-  region           = var.region
-  network_name     = var.gcp_network_name
-  cdp_subnet_names = var.gcp_cdp_subnet_names
-  public_key_text  = var.public_key_text
+  region                   = var.region
+  network_name             = var.gcp_network_name
+  cdp_subnet_names         = var.gcp_cdp_subnet_names
+  cdp_gateway_subnet_names = var.gcp_cdp_gateway_subnet_names
+  public_key_text          = var.public_key_text
 
   data_storage_location   = var.data_storage_location
   log_storage_location    = var.log_storage_location
@@ -260,6 +274,11 @@ module "cdp_on_gcp" {
   datalake_java_version           = var.datalake_java_version
   datalake_recipes                = var.datalake_recipes
   datalake_custom_instance_groups = var.datalake_custom_instance_groups
+  datalake_force_delete           = var.datalake_force_delete
 
+  environment_security_selinux = var.environment_security_selinux
   environment_cascading_delete = var.environment_cascading_delete
+  environment_force_delete     = var.environment_force_delete
+
+  custom_docker_registry = var.custom_docker_registry
 }

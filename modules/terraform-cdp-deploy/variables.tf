@@ -1,4 +1,4 @@
-# Copyright 2025 Cloudera, Inc. All Rights Reserved.
+# Copyright 2026 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -68,6 +68,18 @@ variable "environment_name" {
   }
 }
 
+variable "environment_type" {
+  type        = string
+  description = "Type of environment to create - Options are HYBRID or PUBLIC_CLOUD"
+
+  validation {
+    condition     = (var.environment_type == null ? true : contains(["HYBRID", "PUBLIC_CLOUD"], var.environment_type))
+    error_message = "Valid values for var: environment_type are (HYBRID, PUBLIC_CLOUD)."
+  }
+
+  default = null
+}
+
 variable "environment_description" {
   type        = string
   description = "Description of CDP environment"
@@ -78,6 +90,13 @@ variable "environment_description" {
 variable "environment_cascading_delete" {
   type        = bool
   description = "Flag to enable cascading delete of environment and associated resources"
+
+  default = null
+}
+
+variable "environment_force_delete" {
+  type        = bool
+  description = "Flag to enable forced delete of environment"
 
   default = null
 }
@@ -179,6 +198,14 @@ variable "enable_raz" {
   default = true
 }
 
+variable "enable_ranger_rms" {
+  type = bool
+
+  description = "Flag to enable Ranger Resource Mapping Server (RMS). Only applicable on Cloudera on AWS datalakes."
+
+  default = null
+}
+
 variable "environment_async_creation" {
   type = bool
 
@@ -201,6 +228,18 @@ variable "environment_polling_timeout" {
   description = " Timeout value in minutes for how long to poll for CDP Environment resource creation/deletion"
 
   default = 120
+}
+
+variable "environment_security_selinux" {
+  type        = string
+  description = "Specify the SELinux configuration to be used. Available values are PERMISSIVE or ENFORCING."
+
+  validation {
+    condition     = (var.environment_security_selinux == null ? true : contains(["PERMISSIVE", "ENFORCING"], var.environment_security_selinux))
+    error_message = "Valid values for var: environment_security_selinux are (PERMISSIVE, ENFORCING)."
+  }
+
+  default = null
 }
 
 variable "multiaz" {
@@ -281,6 +320,16 @@ variable "proxy_config_name" {
   type = string
 
   description = "Name of the proxy config to use for the environment."
+
+  default = null
+}
+
+variable "custom_docker_registry" {
+  type = object({
+    crn = string
+  })
+
+  description = "The CRN of the desired custom docker registry for data services to be used."
 
   default = null
 }
@@ -435,6 +484,25 @@ variable "datalake_architecture" {
   validation {
     condition     = (var.datalake_architecture == null ? true : contains(["X86_64", "ARM64"], var.datalake_architecture))
     error_message = "Valid values for var: datalake_architecture are (X86_64, ARM64)."
+  }
+
+  default = null
+}
+
+variable "datalake_force_delete" {
+  type        = bool
+  description = "Flag to enable forced delete of datalake"
+
+  default = null
+}
+
+variable "datalake_security_selinux" {
+  type        = string
+  description = "Specify the SELinux configuration to be used for Datalake instances. Available values are PERMISSIVE or ENFORCING."
+
+  validation {
+    condition     = (var.datalake_security_selinux == null ? true : contains(["PERMISSIVE", "ENFORCING"], var.datalake_security_selinux))
+    error_message = "Valid values for var: datalake_security_selinux are (PERMISSIVE, ENFORCING)."
   }
 
   default = null
@@ -660,10 +728,9 @@ variable "aws_datalake_admin_role_arn" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "aws" && var.aws_datalake_admin_role_arn == null) ? false : true
-    error_message = "aws_datalake_admin_role_arn must be set when 'infra_type' is 'aws'."
+    condition     = (var.infra_type == "aws" && var.environment_type != "HYBRID" && var.aws_datalake_admin_role_arn == null) ? false : true
+    error_message = "aws_datalake_admin_role_arn must be set when 'infra_type' is 'aws' and 'environment_type' is not 'HYBRID'."
   }
-
 }
 
 variable "aws_ranger_audit_role_arn" {
@@ -674,8 +741,8 @@ variable "aws_ranger_audit_role_arn" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "aws" && var.aws_ranger_audit_role_arn == null) ? false : true
-    error_message = "aws_ranger_audit_role_arn must be set when 'infra_type' is 'aws'."
+    condition     = (var.infra_type == "aws" && var.environment_type != "HYBRID" && var.aws_ranger_audit_role_arn == null) ? false : true
+    error_message = "aws_ranger_audit_role_arn must be set when 'infra_type' is 'aws' and 'environment_type' is not 'HYBRID'."
   }
 }
 
@@ -730,8 +797,8 @@ variable "aws_idbroker_instance_profile_arn" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "aws" && var.aws_idbroker_instance_profile_arn == null) ? false : true
-    error_message = "aws_idbroker_instance_profile_arn must be set when 'infra_type' is 'aws'."
+    condition     = (var.infra_type == "aws" && var.environment_type != "HYBRID" && var.aws_idbroker_instance_profile_arn == null) ? false : true
+    error_message = "aws_idbroker_instance_profile_arn must be set when 'infra_type' is 'aws' and 'environment_type' is not 'HYBRID'."
   }
 }
 
@@ -743,8 +810,8 @@ variable "aws_raz_role_arn" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "aws" && var.enable_raz == true && var.aws_raz_role_arn == null) ? false : true
-    error_message = "aws_raz_role_arn must be set when 'infra_type' is 'aws' and RAZ is enabled."
+    condition     = (var.infra_type == "aws" && var.environment_type != "HYBRID" && var.enable_raz == true && var.aws_raz_role_arn == null) ? false : true
+    error_message = "aws_raz_role_arn must be set when 'infra_type' is 'aws', 'environment_type' is not 'HYBRID', and RAZ is enabled."
   }
 }
 
@@ -825,6 +892,19 @@ variable "azure_database_private_dns_zone_id" {
 
   default = null
 
+}
+
+variable "azure_datalake_database_type" {
+  type = string
+
+  description = "The Azure database type for the datalake. Valid values are FLEXIBLE_SERVER or SINGLE_SERVER."
+
+  validation {
+    condition     = (var.azure_datalake_database_type == null ? true : contains(["FLEXIBLE_SERVER", "SINGLE_SERVER"], var.azure_datalake_database_type))
+    error_message = "Valid values for var: azure_datalake_database_type are (FLEXIBLE_SERVER, SINGLE_SERVER)."
+  }
+
+  default = null
 }
 
 variable "azure_create_private_endpoints" {
@@ -944,8 +1024,8 @@ variable "azure_idbroker_identity_id" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "azure" && var.azure_idbroker_identity_id == null) ? false : true
-    error_message = "azure_idbroker_identity_id must be set when 'infra_type' is 'azure'."
+    condition     = (var.infra_type == "azure" && var.environment_type != "HYBRID" && var.azure_idbroker_identity_id == null) ? false : true
+    error_message = "azure_idbroker_identity_id must be set when 'infra_type' is 'azure' and 'environment_type' is not 'HYBRID'."
   }
 }
 
@@ -957,8 +1037,8 @@ variable "azure_datalakeadmin_identity_id" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "azure" && var.azure_datalakeadmin_identity_id == null) ? false : true
-    error_message = "azure_datalakeadmin_identity_id must be set when 'infra_type' is 'azure'."
+    condition     = (var.infra_type == "azure" && var.environment_type != "HYBRID" && var.azure_datalakeadmin_identity_id == null) ? false : true
+    error_message = "azure_datalakeadmin_identity_id must be set when 'infra_type' is 'azure' and 'environment_type' is not 'HYBRID'."
   }
 
 }
@@ -971,8 +1051,8 @@ variable "azure_ranger_audit_identity_id" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "azure" && var.azure_ranger_audit_identity_id == null) ? false : true
-    error_message = "azure_ranger_audit_identity_id must be set when 'infra_type' is 'azure'."
+    condition     = (var.infra_type == "azure" && var.environment_type != "HYBRID" && var.azure_ranger_audit_identity_id == null) ? false : true
+    error_message = "azure_ranger_audit_identity_id must be set when 'infra_type' is 'azure' and 'environment_type' is not 'HYBRID'."
   }
 }
 
@@ -998,8 +1078,8 @@ variable "azure_raz_identity_id" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "azure" && var.enable_raz == true && var.azure_raz_identity_id == null) ? false : true
-    error_message = "azure_raz_identity_id must be set when 'infra_type' is 'azure' and RAZ is enabled."
+    condition     = (var.infra_type == "azure" && var.environment_type != "HYBRID" && var.enable_raz == true && var.azure_raz_identity_id == null) ? false : true
+    error_message = "azure_raz_identity_id must be set when 'infra_type' is 'azure', 'environment_type' is not 'HYBRID', and RAZ is enabled."
   }
 
 }
@@ -1024,6 +1104,24 @@ variable "azure_load_balancer_sku" {
   type = string
 
   description = "The Azure load balancer SKU type. Possible values are BASIC, STANDARD or None. The current default is BASIC. To disable the load balancer, use type NONE."
+
+  default = null
+}
+
+variable "azure_environment_availability_zones" {
+  type        = set(string)
+  description = "Set of availability zones to be used for deploying the environment."
+
+  default = null
+}
+
+variable "azure_data_service_configurations" {
+  type = object({
+    shared_managed_identity = string
+    aks_private_dns_zone_id = optional(string)
+  })
+
+  description = "Configuration for data services. Includes the user-assigned managed identity used by the AKS control plane and optionally the full Azure resource ID of an existing Private DNS zone used for the AKS."
 
   default = null
 }
@@ -1081,6 +1179,14 @@ variable "gcp_cdp_subnet_names" {
   }
 }
 
+variable "gcp_cdp_gateway_subnet_names" {
+  type        = list(any)
+  description = "GCP Subnet Names for Endpoint Access Gateway."
+
+  default = null
+}
+
+
 variable "gcp_availability_zones" {
   type = list(string)
 
@@ -1122,8 +1228,8 @@ variable "gcp_idbroker_service_account_email" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "gcp" && var.gcp_idbroker_service_account_email == null) ? false : true
-    error_message = "gcp_idbroker_service_account_email must be set when 'infra_type' is 'gcp'."
+    condition     = (var.infra_type == "gcp" && var.environment_type != "HYBRID" && var.gcp_idbroker_service_account_email == null) ? false : true
+    error_message = "gcp_idbroker_service_account_email must be set when 'infra_type' is 'gcp' and 'environment_type' is not 'HYBRID'."
   }
 }
 
@@ -1148,8 +1254,8 @@ variable "gcp_ranger_audit_service_account_email" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "gcp" && var.gcp_ranger_audit_service_account_email == null) ? false : true
-    error_message = "gcp_ranger_audit_service_account_email must be set when 'infra_type' is 'gcp'."
+    condition     = (var.infra_type == "gcp" && var.environment_type != "HYBRID" && var.gcp_ranger_audit_service_account_email == null) ? false : true
+    error_message = "gcp_ranger_audit_service_account_email must be set when 'infra_type' is 'gcp' and 'environment_type' is not 'HYBRID'."
   }
 
 }
@@ -1162,8 +1268,8 @@ variable "gcp_datalake_admin_service_account_email" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "gcp" && var.gcp_datalake_admin_service_account_email == null) ? false : true
-    error_message = "gcp_datalake_admin_service_account_email must be set when 'infra_type' is 'gcp'."
+    condition     = (var.infra_type == "gcp" && var.environment_type != "HYBRID" && var.gcp_datalake_admin_service_account_email == null) ? false : true
+    error_message = "gcp_datalake_admin_service_account_email must be set when 'infra_type' is 'gcp' and 'environment_type' is not 'HYBRID'."
   }
 }
 
@@ -1184,8 +1290,8 @@ variable "gcp_raz_service_account_email" {
   default = null
 
   validation {
-    condition     = (var.infra_type == "gcp" && var.enable_raz == true && var.gcp_raz_service_account_email == null) ? false : true
-    error_message = "gcp_raz_service_account_email must be set when 'infra_type' is 'gcp' and RAZ is enabled."
+    condition     = (var.infra_type == "gcp" && var.environment_type != "HYBRID" && var.enable_raz == true && var.gcp_raz_service_account_email == null) ? false : true
+    error_message = "gcp_raz_service_account_email must be set when 'infra_type' is 'gcp', 'environment_type' is not 'HYBRID', and RAZ is enabled."
   }
 
 }

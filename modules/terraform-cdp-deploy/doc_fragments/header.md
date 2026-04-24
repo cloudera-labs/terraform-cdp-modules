@@ -14,4 +14,11 @@ The [examples](./examples) directory has example Cloudera on cloud deployments:
 
 * `ex04-aws-custom-policies` creates a Cloudera on AWS deployment using custom IAM policy documents passed as local static JSON files. This example demonstrates how to implement minimal resource access policies and makes use of the [terraform-cdp-aws-pre-reqs module](../terraform-cdp-aws-pre-reqs) to create the required cloud resources with custom policies.
 
+* `ex05-aws-hybrid` creates a Cloudera Hybrid environment on AWS. This example makes use of the [terraform-cdp-aws-pre-reqs module](../terraform-cdp-aws-pre-reqs) to create the required cloud resources.
+
+* `ex06-azure-hybrid` creates a Cloudera Hybrid environment on Azure. This example makes use of the [terraform-cdp-azure-pre-reqs module](../terraform-cdp-azure-pre-reqs) to create the required cloud resources.
+
+* `ex07-gcp-hybrid` creates a Cloudera Hybrid environment on GCP. This example makes use of the [terraform-cdp-gcp-pre-reqs module](../terraform-cdp-gcp-pre-reqs) to create the required cloud resources.
+
+
 In each directory an example `terraform.tfvars.sample` values file is included to show input variable values.

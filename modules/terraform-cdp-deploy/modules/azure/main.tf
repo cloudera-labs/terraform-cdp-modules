@@ -1,4 +1,4 @@
-# Copyright 2025 Cloudera, Inc. All Rights Reserved.
+# Copyright 2026 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ resource "cdp_environments_azure_image_terms" "cdp_azure_images" {
 # ------- CDP Environment -------
 resource "cdp_environments_azure_environment" "cdp_env" {
   environment_name = var.environment_name
+  environment_type = var.environment_type
   description      = var.environment_description
   credential_name  = local.cdp_xaccount_credential_name
   region           = var.region
@@ -64,8 +65,12 @@ resource "cdp_environments_azure_environment" "cdp_env" {
     database_private_dns_zone_id = var.azure_database_private_dns_zone_id
     flexible_server_subnet_ids   = var.environment_flexible_server_delegated_subnet_names
   }
+
+
+  availability_zones       = var.environment_availability_zones
   create_private_endpoints = var.create_private_endpoints
 
+  flexible_server_subnet_ids         = var.environment_flexible_server_delegated_subnet_names
   endpoint_access_gateway_scheme     = var.endpoint_access_scheme
   endpoint_access_gateway_subnet_ids = (length(var.cdp_gateway_subnet_names) > 0) ? var.cdp_gateway_subnet_names : null
 
@@ -75,11 +80,8 @@ resource "cdp_environments_azure_environment" "cdp_env" {
   freeipa = {
     instance_count_by_group = var.freeipa_instances
     multi_az                = var.multiaz
-    catalog                 = var.freeipa_catalog
-    image_id                = var.freeipa_image_id
     instance_type           = var.freeipa_instance_type
     recipes                 = var.freeipa_recipes
-    os                      = var.freeipa_os
   }
 
   compute_cluster = {
@@ -87,6 +89,9 @@ resource "cdp_environments_azure_environment" "cdp_env" {
     configuration = var.compute_cluster_configuration
   }
 
+  custom_docker_registry = var.custom_docker_registry
+
+  data_services      = var.data_service_configurations
   proxy_config_name  = var.proxy_config_name
   workload_analytics = var.workload_analytics
   enable_tunnel      = var.enable_ccm_tunnel
@@ -96,14 +101,23 @@ resource "cdp_environments_azure_environment" "cdp_env" {
   encryption_key_url                 = var.encryption_key_url
   encryption_at_host                 = var.encryption_at_host
   encryption_user_managed_identity   = var.encryption_user_managed_identity
+
   polling_options = {
     async                  = var.environment_async_creation
     call_failure_threshold = var.environment_call_failure_threshold
     polling_timeout        = var.environment_polling_timeout
   }
 
-  cascading_delete = var.environment_cascading_delete
-  tags             = var.tags
+  security = {
+    se_linux = var.environment_security_selinux
+  }
+
+  delete_options = {
+    cascading = var.environment_cascading_delete
+    forced    = var.environment_force_delete
+  }
+
+  tags = var.tags
 
   depends_on = [
     cdp_environments_azure_credential.cdp_cred,
@@ -130,6 +144,9 @@ resource "cdp_iam_group" "cdp_groups" {
 
 # ------- IdBroker Mappings -------
 resource "cdp_environments_id_broker_mappings" "cdp_idbroker" {
+
+  count = var.environment_type != "HYBRID" ? 1 : 0
+
   environment_name = cdp_environments_azure_environment.cdp_env.environment_name
   environment_crn  = cdp_environments_azure_environment.cdp_env.crn
 
@@ -147,6 +164,9 @@ resource "cdp_environments_id_broker_mappings" "cdp_idbroker" {
 
 # ------- CDP Datalake -------
 resource "cdp_datalake_azure_datalake" "cdp_datalake" {
+
+  count = var.environment_type != "HYBRID" ? 1 : 0
+
   datalake_name    = var.datalake_name
   environment_name = cdp_environments_azure_environment.cdp_env.environment_name
 
@@ -165,6 +185,8 @@ resource "cdp_datalake_azure_datalake" "cdp_datalake" {
   java_version           = var.datalake_java_version
   recipes                = var.datalake_recipes
   custom_instance_groups = var.datalake_custom_instance_groups
+
+  database_type = var.datalake_database_type
 
   polling_options = {
     async                  = var.datalake_async_creation

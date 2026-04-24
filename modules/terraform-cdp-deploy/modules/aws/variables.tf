@@ -1,4 +1,4 @@
-# Copyright 2025 Cloudera, Inc. All Rights Reserved.
+# Copyright 2026 Cloudera, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,6 +26,17 @@ variable "environment_name" {
 
 }
 
+variable "environment_type" {
+  type        = string
+  description = "Type of environment to create - Options are HYBRID or PUBLIC_CLOUD"
+
+  validation {
+    condition     = (var.environment_type == null ? true : contains(["HYBRID", "PUBLIC_CLOUD"], var.environment_type))
+    error_message = "Valid values for var: environment_type are (HYBRID, PUBLIC_CLOUD)."
+  }
+
+}
+
 variable "environment_description" {
   type        = string
   description = "Description of CDP environment"
@@ -34,7 +45,29 @@ variable "environment_description" {
 variable "environment_cascading_delete" {
   type        = bool
   description = "Flag to enable cascading delete of environment and associated resources"
+}
 
+variable "environment_force_delete" {
+  type        = bool
+  description = "Flag to enable forced delete of environment"
+}
+
+variable "custom_docker_registry" {
+  type = object({
+    crn = string
+  })
+
+  description = "The CRN of the desired custom docker registry for data services to be used."
+}
+
+variable "environment_security_selinux" {
+  type        = string
+  description = "Specify the SELinux configuration to be used for environment instances. Available values are PERMISSIVE or ENFORCING."
+
+  validation {
+    condition     = (var.environment_security_selinux == null ? true : contains(["PERMISSIVE", "ENFORCING"], var.environment_security_selinux))
+    error_message = "Valid values for var: environment_security_selinux are (PERMISSIVE, ENFORCING)."
+  }
 }
 
 variable "datalake_name" {
@@ -91,6 +124,13 @@ variable "enable_raz" {
   type = bool
 
   description = "Flag to enable Ranger Authorization Service (RAZ)"
+
+}
+
+variable "enable_ranger_rms" {
+  type = bool
+
+  description = "Flag to enable Ranger Resource Mapping Server (RMS)"
 
 }
 
@@ -319,6 +359,22 @@ variable "datalake_architecture" {
   }
 }
 
+
+variable "datalake_force_delete" {
+  type        = bool
+  description = "Flag to enable forced delete of datalake"
+}
+
+variable "datalake_security_selinux" {
+  type        = string
+  description = "Specify the SELinux configuration to be used for Datalake instances. Available values are PERMISSIVE or ENFORCING."
+
+  validation {
+    condition     = (var.datalake_security_selinux == null ? true : contains(["PERMISSIVE", "ENFORCING"], var.datalake_security_selinux))
+    error_message = "Valid values for var: datalake_security_selinux are (PERMISSIVE, ENFORCING)."
+  }
+}
+
 # ------- Cloud Service Provider Settings -------
 variable "region" {
   type        = string
@@ -429,10 +485,11 @@ variable "datalake_admin_role_arn" {
   description = "Datalake Admin Role ARN."
 
   validation {
-    condition     = var.datalake_admin_role_arn != null
-    error_message = "Valid values for var: datalake_admin_role_arn must be a valid ARN for Datalake Admin Role."
+    condition     = (var.environment_type == "HYBRID" || var.datalake_admin_role_arn != null)
+    error_message = "Valid values for var: datalake_admin_role_arn must be a valid ARN for Datalake Admin Role when environment_type is not HYBRID."
   }
 
+  default = null
 }
 
 variable "ranger_audit_role_arn" {
@@ -441,9 +498,11 @@ variable "ranger_audit_role_arn" {
   description = "Ranger Audit Role ARN."
 
   validation {
-    condition     = var.ranger_audit_role_arn != null
-    error_message = "Valid values for var: ranger_audit_role_arn must be a valid ARN for Ranger Audit Role."
+    condition     = (var.environment_type == "HYBRID" || var.ranger_audit_role_arn != null)
+    error_message = "Valid values for var: ranger_audit_role_arn must be a valid ARN for Ranger Audit Role when environment_type is not HYBRID."
   }
+
+  default = null
 
 }
 
@@ -477,9 +536,11 @@ variable "idbroker_instance_profile_arn" {
   description = "IDBroker Instance Profile ARN."
 
   validation {
-    condition     = var.idbroker_instance_profile_arn != null
-    error_message = "Valid values for var: idbroker_instance_profile_arn must be a valid ARN for IDBroker Instance Profile."
+    condition     = (var.environment_type == "HYBRID" || var.idbroker_instance_profile_arn != null)
+    error_message = "Valid values for var: idbroker_instance_profile_arn must be a valid ARN for IDBroker Instance Profile when environment_type is not HYBRID."
   }
+
+  default = null
 
 }
 
