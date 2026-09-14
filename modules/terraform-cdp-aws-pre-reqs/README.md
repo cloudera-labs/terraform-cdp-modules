@@ -76,6 +76,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_xaccount_account_policy_doc"></a> [xaccount\_account\_policy\_doc](#input\_xaccount\_account\_policy\_doc) | Contents of cross acount policy document | `string` | n/a | yes |
 | <a name="input_xaccount_external_id"></a> [xaccount\_external\_id](#input\_xaccount\_external\_id) | External ID of the cross account | `string` | n/a | yes |
 | <a name="input_agent_source_tag"></a> [agent\_source\_tag](#input\_agent\_source\_tag) | Tag to identify deployment source | `map(any)` | <pre>{<br/>  "agent_source": "tf-cdp-module"<br/>}</pre> | no |
+| <a name="input_availability_zone_exclude_names"></a> [availability\_zone\_exclude\_names](#input\_availability\_zone\_exclude\_names) | List of Availability Zone names to exclude when looking up available zones in the region. | `list(string)` | `[]` | no |
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | Region which Cloud resources will be created | `string` | `null` | no |
 | <a name="input_backup_bucket_access_policy_name"></a> [backup\_bucket\_access\_policy\_name](#input\_backup\_bucket\_access\_policy\_name) | Backup Bucket Access Data Access Policy Name | `string` | `null` | no |
 | <a name="input_backup_storage"></a> [backup\_storage](#input\_backup\_storage) | Optional Backup location for CDP environment. If not provided follow the data\_storage variable | <pre>object({<br/>    backup_storage_bucket = string<br/>    backup_storage_object = string<br/>  })</pre> | `null` | no |

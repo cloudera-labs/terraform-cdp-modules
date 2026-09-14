@@ -37,6 +37,8 @@ module "aws_cdp_vpc" {
   vpc_private_inbound_acl_rules  = var.vpc_private_inbound_acl_rules
   vpc_private_outbound_acl_rules = var.vpc_private_outbound_acl_rules
 
+  availability_zone_exclude_names = var.availability_zone_exclude_names
+
   existing_vpc_id             = var.cdp_vpc_id
   existing_public_subnet_ids  = var.cdp_public_subnet_ids
   existing_private_subnet_ids = var.cdp_private_subnet_ids

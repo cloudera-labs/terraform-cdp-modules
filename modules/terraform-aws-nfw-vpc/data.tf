@@ -14,5 +14,6 @@
 
 # Find Availability Zones is AWS region
 data "aws_availability_zones" "zones_in_region" {
-  state = "available"
+  state         = "available"
+  exclude_names = var.availability_zone_exclude_names
 }

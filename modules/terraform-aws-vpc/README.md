@@ -48,6 +48,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_public_cidr_range"></a> [public\_cidr\_range](#input\_public\_cidr\_range) | Size of each public subnet. Only used when create\_vpc is true. | `number` | n/a | yes |
 | <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | VPC CIDR Block. Only used when create\_vpc is true. | `string` | n/a | yes |
 | <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | Name of the VPC. Only used when create\_vpc is true. | `string` | n/a | yes |
+| <a name="input_availability_zone_exclude_names"></a> [availability\_zone\_exclude\_names](#input\_availability\_zone\_exclude\_names) | List of Availability Zone names to exclude when looking up available zones in the region. | `list(string)` | `[]` | no |
 | <a name="input_cdp_vpc"></a> [cdp\_vpc](#input\_cdp\_vpc) | Flag to indicate if the VPC is for a CDP environment. Only used when create\_vpc is true. | `bool` | `true` | no |
 | <a name="input_create_vpc"></a> [create\_vpc](#input\_create\_vpc) | Flag to specify if the VPC should be created. Otherwise data sources will be used to lookup details of existing resources. | `bool` | `true` | no |
 | <a name="input_deployment_template"></a> [deployment\_template](#input\_deployment\_template) | Deployment Pattern to use for Cloud resources and CDP | `string` | `null` | no |

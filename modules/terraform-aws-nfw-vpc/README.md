@@ -61,6 +61,7 @@ No modules.
 | <a name="input_subnet_name_prefix"></a> [subnet\_name\_prefix](#input\_subnet\_name\_prefix) | Prefix string for the name of all Subnets created | `string` | n/a | yes |
 | <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | VPC CIDR Block. Only used when create\_vpc is true. | `string` | n/a | yes |
 | <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | Name of the VPC | `string` | n/a | yes |
+| <a name="input_availability_zone_exclude_names"></a> [availability\_zone\_exclude\_names](#input\_availability\_zone\_exclude\_names) | List of Availability Zone names to exclude when looking up available zones in the region. | `list(string)` | `[]` | no |
 | <a name="input_enable_dns_hostnames"></a> [enable\_dns\_hostnames](#input\_enable\_dns\_hostnames) | Enable DNS Hostname support for the VPC. Only used when create\_vpc is true. | `bool` | `true` | no |
 | <a name="input_enable_dns_support"></a> [enable\_dns\_support](#input\_enable\_dns\_support) | Enable DNS support for the VPC. Only used when create\_vpc is true. | `bool` | `true` | no |
 | <a name="input_fw_cidr_range"></a> [fw\_cidr\_range](#input\_fw\_cidr\_range) | Size of each Firewall subnets. | `number` | `24` | no |

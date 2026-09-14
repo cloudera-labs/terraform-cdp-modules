@@ -110,6 +110,13 @@ variable "single_nat_gateway" {
   default = null
 }
 
+variable "availability_zone_exclude_names" {
+  type        = list(string)
+  description = "List of Availability Zone names to exclude when looking up available zones in the region."
+
+  default = []
+}
+
 variable "enable_dns_support" {
   type        = bool
   description = "Enable DNS support for the VPC. Only used when create_vpc is true."

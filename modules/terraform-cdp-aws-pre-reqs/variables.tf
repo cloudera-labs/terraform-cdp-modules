@@ -114,6 +114,13 @@ variable "private_network_extensions" {
   default = true
 }
 
+variable "availability_zone_exclude_names" {
+  type        = list(string)
+  description = "List of Availability Zone names to exclude when looking up available zones in the region."
+
+  default = []
+}
+
 variable "vpc_public_subnets_map_public_ip_on_launch" {
   description = "Auto-assign public IP on launch for instances created in Public Subnets.  Exposes default value of VPC module variable to allow for overriding. Only used when create_vpc is true."
   type        = bool
