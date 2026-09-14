@@ -43,3 +43,5 @@ jobs:
         uses: pre-commit/action@v3.0.0
         with:
           extra_args: terraform_tflint --all-files
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
