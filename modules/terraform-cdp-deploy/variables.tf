@@ -227,7 +227,7 @@ variable "environment_create_timeout" {
 
   description = "Timeout value for how long to poll for CDP Environment resource creation. A string that can be parsed as a duration consisting of numbers and unit suffixes, such as '30s' or '2h45m'. Valid time units are 's' (seconds), 'm' (minutes), 'h' (hours)."
 
-  default = null
+  default = "90m"
 }
 
 variable "environment_update_timeout" {
@@ -489,7 +489,7 @@ variable "datalake_create_timeout" {
 
   description = "Timeout value for how long to poll for CDP Datalake resource creation. A string that can be parsed as a duration consisting of numbers and unit suffixes, such as '30s' or '2h45m'. Valid time units are 's' (seconds), 'm' (minutes), 'h' (hours)."
 
-  default = null
+  default = "90m"
 }
 
 variable "datalake_delete_timeout" {
