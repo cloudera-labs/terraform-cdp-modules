@@ -80,10 +80,12 @@ resource "cdp_environments_aws_environment" "cdp_env" {
 
   encryption_key_arn = var.encryption_key_arn
 
-  polling_options = {
-    async                  = var.environment_async_creation
-    call_failure_threshold = var.environment_call_failure_threshold
-    polling_timeout        = var.environment_polling_timeout
+  async                  = var.environment_async_creation
+  call_failure_threshold = var.environment_call_failure_threshold
+  timeouts = {
+    create = var.environment_create_timeout
+    update = var.environment_update_timeout
+    delete = var.environment_delete_timeout
   }
 
   security = {
@@ -161,10 +163,11 @@ resource "cdp_datalake_aws_datalake" "cdp_datalake" {
   custom_instance_groups = var.datalake_custom_instance_groups
   architecture           = var.datalake_architecture
 
-  polling_options = {
-    async                  = var.datalake_async_creation
-    call_failure_threshold = var.datalake_call_failure_threshold
-    polling_timeout        = var.datalake_polling_timeout
+  async                  = var.datalake_async_creation
+  call_failure_threshold = var.datalake_call_failure_threshold
+  timeouts = {
+    create = var.datalake_create_timeout
+    delete = var.datalake_delete_timeout
   }
 
   security = {

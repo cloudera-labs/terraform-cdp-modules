@@ -155,11 +155,24 @@ variable "environment_call_failure_threshold" {
 
 }
 
-variable "environment_polling_timeout" {
-  type = number
+variable "environment_create_timeout" {
+  type = string
 
-  description = "Timeout value in minutes for how long to poll for CDP Environment resource creation/deletion"
+  description = "Timeout value for how long to poll for CDP Environment resource creation. A string that can be parsed as a duration consisting of numbers and unit suffixes, such as '30s' or '2h45m'. Valid time units are 's' (seconds), 'm' (minutes), 'h' (hours)."
 
+}
+
+variable "environment_update_timeout" {
+  type = string
+
+  description = "Timeout value for how long to poll for CDP Environment resource update. A string that can be parsed as a duration consisting of numbers and unit suffixes, such as '30s' or '2h45m'. Valid time units are 's' (seconds), 'm' (minutes), 'h' (hours)."
+
+}
+
+variable "environment_delete_timeout" {
+  type = string
+
+  description = "Timeout value for how long to poll for CDP Environment resource deletion. A string that can be parsed as a duration consisting of numbers and unit suffixes, such as '30s' or '2h45m'. Valid time units are 's' (seconds), 'm' (minutes), 'h' (hours)."
 }
 
 variable "freeipa_instances" {
@@ -341,12 +354,19 @@ variable "datalake_call_failure_threshold" {
 
 }
 
-variable "datalake_polling_timeout" {
-  type = number
+variable "datalake_create_timeout" {
+  type = string
 
-  description = "Timeout value in minutes for how long to poll for CDP datalake resource creation/deletion"
+  description = "Timeout value for how long to poll for CDP Datalake resource creation. A string that can be parsed as a duration consisting of numbers and unit suffixes, such as '30s' or '2h45m'. Valid time units are 's' (seconds), 'm' (minutes), 'h' (hours)."
 
 }
+
+variable "datalake_delete_timeout" {
+  type = string
+
+  description = "Timeout value for how long to poll for CDP Datalake resource deletion. A string that can be parsed as a duration consisting of numbers and unit suffixes, such as '30s' or '2h45m'. Valid time units are 's' (seconds), 'm' (minutes), 'h' (hours)."
+}
+
 
 variable "datalake_architecture" {
   type = string
