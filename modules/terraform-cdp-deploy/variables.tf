@@ -222,12 +222,28 @@ variable "environment_call_failure_threshold" {
   default = 3
 }
 
-variable "environment_polling_timeout" {
-  type = number
+variable "environment_create_timeout" {
+  type = string
 
-  description = " Timeout value in minutes for how long to poll for CDP Environment resource creation/deletion"
+  description = "Timeout value for how long to poll for CDP Environment resource creation. A string that can be parsed as a duration consisting of numbers and unit suffixes, such as '30s' or '2h45m'. Valid time units are 's' (seconds), 'm' (minutes), 'h' (hours)."
 
-  default = 120
+  default = "90m"
+}
+
+variable "environment_update_timeout" {
+  type = string
+
+  description = "Timeout value for how long to poll for CDP Environment resource update. A string that can be parsed as a duration consisting of numbers and unit suffixes, such as '30s' or '2h45m'. Valid time units are 's' (seconds), 'm' (minutes), 'h' (hours)."
+
+  default = null
+}
+
+variable "environment_delete_timeout" {
+  type = string
+
+  description = "Timeout value for how long to poll for CDP Environment resource deletion. A string that can be parsed as a duration consisting of numbers and unit suffixes, such as '30s' or '2h45m'. Valid time units are 's' (seconds), 'm' (minutes), 'h' (hours)."
+
+  default = null
 }
 
 variable "environment_security_selinux" {
@@ -468,13 +484,22 @@ variable "datalake_call_failure_threshold" {
   default = 3
 }
 
-variable "datalake_polling_timeout" {
-  type = number
+variable "datalake_create_timeout" {
+  type = string
 
-  description = "Timeout value in minutes for how long to poll for CDP datalake resource creation/deletion"
+  description = "Timeout value for how long to poll for CDP Datalake resource creation. A string that can be parsed as a duration consisting of numbers and unit suffixes, such as '30s' or '2h45m'. Valid time units are 's' (seconds), 'm' (minutes), 'h' (hours)."
 
-  default = 90
+  default = "90m"
 }
+
+variable "datalake_delete_timeout" {
+  type = string
+
+  description = "Timeout value for how long to poll for CDP Datalake resource deletion. A string that can be parsed as a duration consisting of numbers and unit suffixes, such as '30s' or '2h45m'. Valid time units are 's' (seconds), 'm' (minutes), 'h' (hours)."
+
+  default = null
+}
+
 
 variable "datalake_architecture" {
   type = string
