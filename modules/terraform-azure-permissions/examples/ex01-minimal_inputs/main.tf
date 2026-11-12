@@ -17,7 +17,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 4.0.0"
+      version = ">= 5.0.0, < 6.0.0"
     }
   }
 }
@@ -50,7 +50,7 @@ resource "azurerm_storage_account" "cdp_storage_location" {
   resource_group_name = module.rmgp.resource_group_name
   location            = var.azure_region
 
-  public_network_access_enabled = false
+  public_network_access = "Disabled"
 
   account_kind             = "StorageV2"
   account_tier             = "Standard"

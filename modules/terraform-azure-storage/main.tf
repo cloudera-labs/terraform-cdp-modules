@@ -20,7 +20,7 @@ resource "azurerm_storage_account" "cdp_storage_locations" {
   resource_group_name = var.resource_group_name
   location            = var.location
 
-  public_network_access_enabled = var.public_network_access_enabled
+  public_network_access = var.public_network_access_enabled ? "Enabled" : "Disabled"
 
   account_kind             = var.account_kind
   account_tier             = var.account_tier

@@ -39,7 +39,7 @@ resource "azurerm_storage_account" "storage_locations" {
   resource_group_name = azurerm_resource_group.rmgp.name
   location            = var.azure_region
 
-  public_network_access_enabled = false
+  public_network_access = "Disabled"
 
   account_kind             = "StorageV2"
   account_tier             = "Standard"
@@ -51,19 +51,25 @@ resource "azurerm_storage_account" "storage_locations" {
 
 # ------- Azure VNet -------
 module "ex01_vnet" {
-  source = "../../../terraform-cdp-azure-pre-reqs/modules/vnet"
+  source = "../../../terraform-azure-vnet"
 
   vnet_name           = "${var.env_prefix}-net"
   resourcegroup_name  = azurerm_resource_group.rmgp.name
-  env_prefix          = var.env_prefix
   vnet_region         = var.azure_region
   deployment_template = var.deployment_template
+
+  nat_gateway_name   = "${var.env_prefix}-nat"
+  nat_public_ip_name = "${var.env_prefix}-nat-ip"
 
   vnet_cidr              = "10.10.0.0/16"
   subnet_count           = 3
   cdp_subnet_range       = 19
   gateway_subnet_range   = 24
   delegated_subnet_range = 26
+
+  cdp_subnet_prefix       = "${var.env_prefix}-cdp-sbnt"
+  gateway_subnet_prefix   = "${var.env_prefix}-gw-sbnt"
+  delegated_subnet_prefix = "${var.env_prefix}-delegated-sbnt"
 
   cdp_subnets_private_endpoint_network_policies     = "Enabled"
   gateway_subnets_private_endpoint_network_policies = "Enabled"

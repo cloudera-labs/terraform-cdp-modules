@@ -16,7 +16,7 @@ The sample `terraform.tfvars.sample` describes the required inputs for the examp
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 4.0.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 5.0.0, < 6.0.0 |
 | <a name="requirement_local"></a> [local](#requirement\_local) | ~> 2.5.1 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | ~> 4.0.5 |
 
@@ -24,7 +24,7 @@ The sample `terraform.tfvars.sample` describes the required inputs for the examp
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 4.0.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 5.0.0, < 6.0.0 |
 
 ## Modules
 

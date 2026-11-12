@@ -46,8 +46,7 @@ resource "azurerm_private_endpoint" "private_endpoints" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "stor_vnet_link" {
-  name                  = "${var.private_endpoint_prefix}-vnet-link"
-  resource_group_name   = var.resourcegroup_name
-  private_dns_zone_name = azurerm_private_dns_zone.stor_privatednszone.name
-  virtual_network_id    = data.azurerm_virtual_network.vnet.id
+  name                = "${var.private_endpoint_prefix}-vnet-link"
+  private_dns_zone_id = azurerm_private_dns_zone.stor_privatednszone.id
+  virtual_network_id  = data.azurerm_virtual_network.vnet.id
 }
