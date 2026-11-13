@@ -195,10 +195,9 @@ resource "azurerm_private_dns_zone_virtual_network_link" "flexible_server_vnet_l
 
   count = local.create_private_flexible_server_resources ? 1 : 0
 
-  name                  = "${var.env_prefix}.flex-server-vent-link"
-  resource_group_name   = var.separate_network_resource_group ? module.azure_network_rmgp[0].resource_group_name : module.azure_cdp_rmgp.resource_group_name
-  private_dns_zone_name = azurerm_private_dns_zone.flexible_server_dns_zone[0].name
-  virtual_network_id    = module.azure_cdp_vnet.vnet_id
+  name                = "${var.env_prefix}.flex-server-vent-link"
+  private_dns_zone_id = azurerm_private_dns_zone.flexible_server_dns_zone[0].id
+  virtual_network_id  = module.azure_cdp_vnet.vnet_id
 
   tags = merge(local.env_tags)
 }

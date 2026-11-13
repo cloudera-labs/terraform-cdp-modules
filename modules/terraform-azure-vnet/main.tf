@@ -39,7 +39,13 @@ resource "azurerm_subnet" "cdp_subnets" {
   name                 = each.value.name
   address_prefixes     = [each.value.cidr]
 
-  service_endpoints                 = ["Microsoft.Sql", "Microsoft.Storage"]
+  service_endpoint {
+    service = "Microsoft.Sql"
+  }
+  service_endpoint {
+    service = "Microsoft.Storage"
+  }
+
   private_endpoint_network_policies = var.cdp_subnets_private_endpoint_network_policies
   default_outbound_access_enabled   = var.cdp_subnets_default_outbound_access_enabled
 }
@@ -54,7 +60,13 @@ resource "azurerm_subnet" "gateway_subnets" {
   name                 = each.value.name
   address_prefixes     = [each.value.cidr]
 
-  service_endpoints                 = ["Microsoft.Sql", "Microsoft.Storage"]
+  service_endpoint {
+    service = "Microsoft.Sql"
+  }
+  service_endpoint {
+    service = "Microsoft.Storage"
+  }
+
   private_endpoint_network_policies = var.gateway_subnets_private_endpoint_network_policies
   default_outbound_access_enabled   = var.gateway_subnets_default_outbound_access_enabled
 }
@@ -69,7 +81,12 @@ resource "azurerm_subnet" "delegated_subnet" {
   name                 = each.value.name
   address_prefixes     = [each.value.cidr]
 
-  service_endpoints = ["Microsoft.Sql", "Microsoft.Storage"]
+  service_endpoint {
+    service = "Microsoft.Sql"
+  }
+  service_endpoint {
+    service = "Microsoft.Storage"
+  }
 
   delegation {
     name = "flexserver-delegation"

@@ -37,10 +37,9 @@ resource "azurerm_private_dns_zone" "nfs_privatednszone" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "nfs_vnet_link" {
-  name                  = var.nfs_vnet_link_name
-  resource_group_name   = var.resourcegroup_name
-  private_dns_zone_name = azurerm_private_dns_zone.nfs_privatednszone.name
-  virtual_network_id    = data.azurerm_virtual_network.nfs_vnet.id
+  name                = var.nfs_vnet_link_name
+  private_dns_zone_id = azurerm_private_dns_zone.nfs_privatednszone.id
+  virtual_network_id  = data.azurerm_virtual_network.nfs_vnet.id
 }
 
 
