@@ -1,15 +1,15 @@
 <!-- BEGIN_TF_DOCS -->
 # Terraform Module for Azure NFS
 
-This module contains resource files and example variable definition files for creation of the Azure NFS File Share required for Cloudera Machine Learning (CML) Public Cloud.
+This module contains resource files and example variable definition files for creating the Azure NFS file share required for Cloudera AI on cloud.
 
 * Provisions a storage account with Premium Tier and Disabled Https traffic only.
 * Creates a NFS file share of 100 GB in the storage account
 * Creates a private dns zone of type privatelink.file.core.windows.net
-* Creates a VNET link between CDP workload VNET and private DNS zone
-* Creates a private endpoint for NFS Storage Account (File sub-resource) for the specified subnets in the CDP VNET.
+* Creates a VNet link between the Cloudera workload VNet and private DNS zone.
+* Creates a private endpoint for the NFS storage account (file sub-resource) for the specified subnets in the Cloudera VNet.
 * Creates a public IP , security group allowing port 22 from everywhere
-* Creates a ubuntu VM with public IP, security group in the CDP Subnets to which private endpoint was created.
+* Creates an Ubuntu virtual machine with a public IP and security group in the Cloudera subnets where the private endpoint was created.
 
 ## Usage
 

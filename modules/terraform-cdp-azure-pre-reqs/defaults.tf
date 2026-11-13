@@ -99,7 +99,7 @@ locals {
     ]
   ])
 
-  # ---- Azure CML NFS Resources
+  # ---- Azure Cloudera AI NFS resources
 
   nfs_file_share_name      = coalesce(var.nfs_file_share_name, "${var.env_prefix}-nfs-file-share")
   nfs_storage_account_name = coalesce(var.nfs_storage_account_name, "${replace(var.env_prefix, "/[-_]/", "")}nfsstor")

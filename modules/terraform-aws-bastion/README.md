@@ -1,7 +1,7 @@
 <!-- BEGIN_TF_DOCS -->
 # Terraform Module for AWS Bastion
 
-This module contains resource files and example variable definition files to create a Bastion EC2 instance on AWS. This module can be used to assist in deploying Cloudera Data Platform (CDP) Public Cloud in a secure environment, where the CDP Environment requires a Bastion host.
+This module contains resource files and example variable definition files to create a Bastion EC2 instance on AWS. This module can assist with a secure Cloudera on AWS deployment that requires a Bastion host.
 
 ## Usage
 

@@ -1,6 +1,6 @@
 # Set up a Local Development Environment
 
-As mentioned in the Usage section of the readme, the [cdp-tf-quickstarts](https://github.com/cloudera-labs/cdp-tf-quickstarts) repository demonstrates how to deploy CDP end-to-end in a simplified way, using the modules in this repository. If you would like to customize your setup however, you may want to change some of the module code. To make sure you can test your changes locally and create customized deployments, we recommend the following setup:
+As mentioned in the Usage section of the readme, the [cdp-tf-quickstarts](https://github.com/cloudera-labs/cdp-tf-quickstarts) repository demonstrates how to deploy Cloudera on cloud end-to-end in a simplified way, using the modules in this repository. If you would like to customize your setup, you may want to change some of the module code. To make sure you can test your changes locally and create customized deployments, we recommend the following setup:
 
 1. Create a directory called `tf` and clone the Quickstart module repository
 
@@ -94,21 +94,21 @@ source = "../../terraform-cdp-modules/modules/terraform-cdp-deploy"
 #### Azure
 Same as above, just change the first module’s source to `source = "../../terraform-cdp-modules/modules/terraform-cdp-azure-pre-reqs"`
 
-# Notes on CDP authentication
+# Notes on Cloudera authentication
 
-The CDP provider offers a flexible means of providing credentials for authentication. The following methods are supported:
+The Cloudera Terraform provider offers flexible authentication. The following methods are supported:
 
 * Static credentials
 * Environment variables
 * Shared credentials file
 
-See the [CDP Terraform Provider Documentation](https://registry.terraform.io/providers/cloudera/cdp/latest/docs#authentication) for more details on each of these authentication methods.
+See the [Cloudera Terraform provider documentation](https://registry.terraform.io/providers/cloudera/cdp/latest/docs#authentication) for more details on these authentication methods.
 
-## Setting CDP Region
+## Setting the Cloudera region
 
-The [CDP Control Plane Region](https://docs.cloudera.com/cdp-public-cloud/cloud/cp-regions/topics/cdp-control-plane-regions.html) associated with a set of CDP credentials can be specified via one of the following methods:
+The [Cloudera Control Plane region](https://docs.cloudera.com/cdp-public-cloud/cloud/cp-regions/topics/cdp-control-plane-regions.html) associated with a set of Cloudera credentials can be specified in one of the following ways:
 
-1. Set the control plane region name in the CDP provider configuration of the Terraform root module as shown below.
+1. Set the control plane region name in the Cloudera provider configuration of the Terraform root module as shown below.
 
 ```terraform
 provider "cdp" {
@@ -123,7 +123,7 @@ provider "cdp" {
 export CDP_REGION="eu-1"
 ```
 
-3. Set cdp_region in your CDP config file (`~/.cdp/config`). Below shows an example for the default profile and for a custom profile.
+3. Set `cdp_region` in your Cloudera config file (`~/.cdp/config`). The following shows an example for the default profile and a custom profile.
 
 ```
 [default]
@@ -133,13 +133,13 @@ cdp_region = us-west-1
 cdp_region = eu-1
 ```
 
-See CDP Terraform Provider Documentation for further details on [setting the CDP region](https://registry.terraform.io/providers/cloudera/cdp/latest/docs#setting-the-cdp-region)
+See the Cloudera Terraform provider documentation for details on [setting the region](https://registry.terraform.io/providers/cloudera/cdp/latest/docs#setting-the-cdp-region).
 
-## Setting CDP Profile
+## Setting the Cloudera profile
 
-When using a shared credentials file a custom profile (other than `default`) can be specified via one of the following methods:
+When using a shared credentials file, you can specify a custom profile (other than `default`) in one of the following ways:
 
-1. Set the profile name in the CDP provider configuration of the Terraform root module as shown below.
+1. Set the profile name in the Cloudera provider configuration of the Terraform root module as shown below.
 
 ```terraform
 provider "cdp" {
