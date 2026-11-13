@@ -93,7 +93,7 @@ variable "azure_accept_image_terms" {
 variable "enable_ccm_tunnel" {
   type = bool
 
-  description = "Flag to enable Cluster Connectivity Manager tunnel. If false then access from Cloud to CDP Control Plane CIDRs is required from via SG ingress"
+  description = "Flag to enable the Cluster Connectivity Manager tunnel. If false, access from the cloud to Cloudera Control Plane CIDR ranges is required through security group ingress."
 
 }
 

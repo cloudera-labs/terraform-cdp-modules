@@ -1,6 +1,6 @@
-# Terraform Module for Azure Managed Identity for CDE
+# Terraform Module for the Azure Managed Identity for Cloudera Data Engineering
 
-This module contains resource files and example variable definition files for creation of the Azure managed identity  required for the Cloudera Data Engineering (CDE) service. This requirement is described [in this section](https://docs.cloudera.com/data-engineering/cloud/enable-data-engineering/topics/cde-creating-user-assigned-managed-identities.html) of the CDE documentation.
+This module contains resource files and example variable definition files for creating the Azure managed identity required for Cloudera Data Engineering. This requirement is described [in the Cloudera Data Engineering documentation](https://docs.cloudera.com/data-engineering/cloud/enable-data-engineering/topics/cde-creating-user-assigned-managed-identities.html).
 
 ## Usage
 

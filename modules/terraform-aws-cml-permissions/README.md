@@ -1,7 +1,7 @@
 <!-- BEGIN_TF_DOCS -->
-# Terraform Module for AWS IAM Permissions for CML
+# Terraform Module for AWS IAM Permissions for Cloudera AI
 
-This module contains resource files and example variable definition files for creation of the AWS IAM policies required for the Cloudera Machine Learning (CML) backup and restore functionality. This requirement is described [in this section](https://docs.cloudera.com/machine-learning/cloud/workspaces/topics/ml-backup-restore-prerequisites.html) of the CML documentation.
+This module contains resource files and example variable definition files for creating the AWS IAM policies required for Cloudera AI backup and restore. This requirement is described [in the Cloudera AI documentation](https://docs.cloudera.com/machine-learning/cloud/workspaces/topics/ml-backup-restore-prerequisites.html).
 
 ## Usage
 
@@ -47,17 +47,17 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_cml_backup_policy_name"></a> [cml\_backup\_policy\_name](#input\_cml\_backup\_policy\_name) | CDP CML Backup Policy name | `string` | n/a | yes |
-| <a name="input_cml_restore_policy_name"></a> [cml\_restore\_policy\_name](#input\_cml\_restore\_policy\_name) | CDP CML Restore Policy name | `string` | n/a | yes |
+| <a name="input_cml_backup_policy_name"></a> [cml\_backup\_policy\_name](#input\_cml\_backup\_policy\_name) | Cloudera AI backup policy name | `string` | n/a | yes |
+| <a name="input_cml_restore_policy_name"></a> [cml\_restore\_policy\_name](#input\_cml\_restore\_policy\_name) | Cloudera AI restore policy name | `string` | n/a | yes |
 | <a name="input_xaccount_role_name"></a> [xaccount\_role\_name](#input\_xaccount\_role\_name) | Name of existing cross account Assume role Name. | `string` | n/a | yes |
-| <a name="input_cml_backup_policy_doc"></a> [cml\_backup\_policy\_doc](#input\_cml\_backup\_policy\_doc) | Contents of CDP CML Backup Policy Document. If not specified document is downloaded from Cloudera Document repository | `string` | `null` | no |
-| <a name="input_cml_restore_policy_doc"></a> [cml\_restore\_policy\_doc](#input\_cml\_restore\_policy\_doc) | Contents of CDP CML Restore Policy Document. If not specified document is downloaded from Cloudera Document repository | `string` | `null` | no |
+| <a name="input_cml_backup_policy_doc"></a> [cml\_backup\_policy\_doc](#input\_cml\_backup\_policy\_doc) | Contents of the Cloudera AI backup policy document. If not specified, the document is downloaded from the Cloudera document repository. | `string` | `null` | no |
+| <a name="input_cml_restore_policy_doc"></a> [cml\_restore\_policy\_doc](#input\_cml\_restore\_policy\_doc) | Contents of the Cloudera AI restore policy document. If not specified, the document is downloaded from the Cloudera document repository. | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags applied to provised resources | `map(any)` | `null` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_aws_cml_backup_policy_arn"></a> [aws\_cml\_backup\_policy\_arn](#output\_aws\_cml\_backup\_policy\_arn) | CML Backup IAM Policy ARN |
-| <a name="output_aws_cml_restore_policy_arn"></a> [aws\_cml\_restore\_policy\_arn](#output\_aws\_cml\_restore\_policy\_arn) | CML Restore IAM Policy ARN |
+| <a name="output_aws_cml_backup_policy_arn"></a> [aws\_cml\_backup\_policy\_arn](#output\_aws\_cml\_backup\_policy\_arn) | Cloudera AI backup IAM policy ARN |
+| <a name="output_aws_cml_restore_policy_arn"></a> [aws\_cml\_restore\_policy\_arn](#output\_aws\_cml\_restore\_policy\_arn) | Cloudera AI restore IAM policy ARN |
 <!-- END_TF_DOCS -->

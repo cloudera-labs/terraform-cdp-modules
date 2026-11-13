@@ -63,7 +63,7 @@ variable "public_cidr_range" {
 variable "private_network_extensions" {
   type = bool
 
-  description = "Enable creation of resources for connectivity to CDP Control Plane (public subnet and NAT Gateway) for Private Deployment. Only relevant for private deployment template"
+  description = "Enable creation of resources for connectivity to Cloudera Control Plane (public subnet and NAT Gateway) for private deployments. Only relevant for the private deployment template."
 
   default = true
 }

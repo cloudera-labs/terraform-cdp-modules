@@ -84,5 +84,5 @@ module "cdp_azure_cde_service" {
 output "azure_cde_managed_identity_id" {
   value = module.cdp_azure_cde_service.azure_cde_managed_identity_id
 
-  description = "ID of the Azure CDE managed identity"
+  description = "ID of the Azure Cloudera Data Engineering managed identity"
 }

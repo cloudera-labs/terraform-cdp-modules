@@ -713,7 +713,7 @@ variable "public_key_text" {
 
 variable "create_azure_cml_nfs" {
   type        = bool
-  description = "Whether to create NFS for CML"
+  description = "Whether to create NFS for Cloudera AI"
   default     = false
 }
 

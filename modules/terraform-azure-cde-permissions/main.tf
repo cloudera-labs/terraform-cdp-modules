@@ -8,7 +8,7 @@ resource "azurerm_user_assigned_identity" "cdp_cde" {
   tags = merge(var.tags, { Name = var.azure_cde_managed_identity_name })
 }
 
-# Assign the required roles to the CDE managed identity
+# Assign the required roles to the Cloudera Data Engineering managed identity
 resource "azurerm_role_assignment" "cdp_cde_container_assign" {
 
   for_each = {

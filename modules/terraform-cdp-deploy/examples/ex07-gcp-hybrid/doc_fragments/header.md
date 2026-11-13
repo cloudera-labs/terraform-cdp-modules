@@ -83,4 +83,4 @@ To destroy all created resources:
 terraform destroy
 ```
 
-**Warning**: This will delete the CDP environment, and all associated GCP resources including Storage Buckets and their contents.
+**Warning**: This will delete the Cloudera environment and all associated GCP resources, including Storage Buckets and their contents.

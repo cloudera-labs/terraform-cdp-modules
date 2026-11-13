@@ -28,7 +28,7 @@ variable "vpc_id" {
 
 variable "cdp_region" {
   type        = string
-  description = "CDP Control Plane region, used in Proxy Whitelist configuration files."
+  description = "Cloudera Control Plane region, used in proxy allowlist configuration files."
 
   default = "us-west-1"
 }
@@ -52,7 +52,7 @@ variable "create_proxy_sg" {
 variable "proxy_security_group_name" {
   type = string
 
-  description = "Name of Proxy Security Group for CDP environment. Used only if create_proxy_sg is true."
+  description = "Name of the proxy security group for the Cloudera environment. Used only if create_proxy_sg is true."
 
   default = null
 

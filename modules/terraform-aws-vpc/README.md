@@ -1,13 +1,13 @@
 <!-- BEGIN_TF_DOCS -->
 # Terraform Module for AWS VPC
 
-This module contains resource files and example variable definition files for creation of the Virtual Private Cloud (VPC) on AWS. The module can be used for creation of the pre-requisite resources for Cloudera Data Platform (CDP) Public Cloud. It is also possible to use this module to create a more generic VPC - this can be used for as a networking VPC in a private CDP environment.
+This module contains resource files and example variable definition files for creating an Amazon Virtual Private Cloud (VPC). The module can create prerequisite resources for Cloudera on AWS. It can also create a generic VPC for use as a networking VPC in a private Cloudera environment.
 
 ## Usage
 
 The [examples](./examples) directory has example AWS VPCs for different scenarios:
 
-* `ex01-cdp-vpc` uses the minimum set of inputs to create a AWS VPC suitable for CDP Public Cloud.
+* `ex01-cdp-vpc` uses the minimum set of inputs to create an AWS VPC suitable for Cloudera on AWS.
 
 * `ex02-network-vpc` created a generic network VPC.
 
@@ -58,7 +58,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_existing_private_subnet_ids"></a> [existing\_private\_subnet\_ids](#input\_existing\_private\_subnet\_ids) | List of existing private subnet ids. Required if create\_vpc is false. | `list(any)` | `null` | no |
 | <a name="input_existing_public_subnet_ids"></a> [existing\_public\_subnet\_ids](#input\_existing\_public\_subnet\_ids) | List of existing public subnet ids. Required if create\_vpc is false. | `list(any)` | `null` | no |
 | <a name="input_existing_vpc_id"></a> [existing\_vpc\_id](#input\_existing\_vpc\_id) | ID of existing VPC. Required if create\_vpc is false. | `string` | `null` | no |
-| <a name="input_private_network_extensions"></a> [private\_network\_extensions](#input\_private\_network\_extensions) | Enable creation of resources for connectivity to CDP Control Plane (public subnet and NAT Gateway) for Private Deployment. Only relevant for private deployment template. Only used when create\_vpc is true. | `bool` | `null` | no |
+| <a name="input_private_network_extensions"></a> [private\_network\_extensions](#input\_private\_network\_extensions) | Enable creation of resources for connectivity to Cloudera Control Plane (public subnet and NAT Gateway) for private deployments. Only relevant for the private deployment template. Only used when create\_vpc is true. | `bool` | `null` | no |
 | <a name="input_private_subnet_tags"></a> [private\_subnet\_tags](#input\_private\_subnet\_tags) | Extra tags to apply to Private Subnets. Only used when create\_vpc is true. | `map(any)` | `null` | no |
 | <a name="input_public_subnet_tags"></a> [public\_subnet\_tags](#input\_public\_subnet\_tags) | Extra tags to apply to Private Subnets. Only used when create\_vpc is true. | `map(any)` | `null` | no |
 | <a name="input_single_nat_gateway"></a> [single\_nat\_gateway](#input\_single\_nat\_gateway) | Use a single NAT Gateway for the VPC. Only used when create\_vpc is true. | `bool` | `null` | no |

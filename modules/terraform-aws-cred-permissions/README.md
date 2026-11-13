@@ -1,7 +1,7 @@
 <!-- BEGIN_TF_DOCS -->
 # Terraform Module for Cloudera on AWS Credential Prerequisites
 
-This module contains resource files and example variable definition files for creation of the Cloudera Data Platform (CDP) Public Cloud Cross Account Credential pre-requisite on AWS.
+This module contains resource files and example variable definition files for creating the cross-account credential prerequisite for Cloudera on AWS.
 
 Support for using a pre-existing Cross Account Role is provided via the `existing_xaccount_role_name` input variable. When this is set no policy or role resources are created. Instead a lookup of the details of the existing role takes place and the role ARN is returned.
 
@@ -50,7 +50,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_create_cml_assume_role_policy"></a> [create\_cml\_assume\_role\_policy](#input\_create\_cml\_assume\_role\_policy) | Add AWS Backup Service, required for CML Backup and Restore, to Cross Account Trust Relationship. | `bool` | `false` | no |
+| <a name="input_create_cml_assume_role_policy"></a> [create\_cml\_assume\_role\_policy](#input\_create\_cml\_assume\_role\_policy) | Add the AWS Backup service, required for Cloudera AI backup and restore, to the cross-account trust relationship. | `bool` | `false` | no |
 | <a name="input_existing_xaccount_role_name"></a> [existing\_xaccount\_role\_name](#input\_existing\_xaccount\_role\_name) | Name of existing CDP Cross Account Role. If set then no policy or role resources are created. | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags applied to provised resources | `map(any)` | `null` | no |
 | <a name="input_xaccount_account_id"></a> [xaccount\_account\_id](#input\_xaccount\_account\_id) | Account ID of the cross account. Required if xaccount resources are to be created. | `string` | `null` | no |

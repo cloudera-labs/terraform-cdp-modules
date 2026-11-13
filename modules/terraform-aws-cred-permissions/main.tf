@@ -37,7 +37,7 @@ data "aws_iam_policy_document" "cdp_xaccount_role_policy_doc" {
     }
   }
 }
-# Optional assume role policy document for the CML Backup and Restore
+# Optional assume role policy document for Cloudera AI backup and restore
 data "aws_iam_policy_document" "cml_backup_assume_policy_doc" {
 
   count = (local.create_xaccount_resources && var.create_cml_assume_role_policy) ? 1 : 0
@@ -70,7 +70,7 @@ resource "aws_iam_role" "cdp_xaccount_role" {
   count = local.create_xaccount_resources ? 1 : 0
 
   name        = var.xaccount_role_name
-  description = "CDP Cross Account role"
+  description = "Cloudera cross-account role"
 
   assume_role_policy = data.aws_iam_policy_document.cdp_xaccount_assume_role_policy[0].json
 

@@ -1,6 +1,6 @@
-# Terraform Module for AWS IAM Permissions for CML
+# Terraform Module for AWS IAM Permissions for Cloudera AI
 
-This module contains resource files and example variable definition files for creation of the AWS IAM policies required for the Cloudera Machine Learning (CML) backup and restore functionality. This requirement is described [in this section](https://docs.cloudera.com/machine-learning/cloud/workspaces/topics/ml-backup-restore-prerequisites.html) of the CML documentation.
+This module contains resource files and example variable definition files for creating the AWS IAM policies required for Cloudera AI backup and restore. This requirement is described [in the Cloudera AI documentation](https://docs.cloudera.com/machine-learning/cloud/workspaces/topics/ml-backup-restore-prerequisites.html).
 
 ## Usage
 
