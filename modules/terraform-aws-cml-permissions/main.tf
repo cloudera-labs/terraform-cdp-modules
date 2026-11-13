@@ -15,7 +15,7 @@
 # ------- Cross Account Policy -------
 resource "aws_iam_policy" "cml_backup_policy" {
   name        = var.cml_backup_policy_name
-  description = "CDP CML Workspace Backup policy"
+  description = "Cloudera AI Workbench backup policy"
 
   tags = merge(var.tags, { Name = var.cml_backup_policy_name })
 
@@ -24,20 +24,20 @@ resource "aws_iam_policy" "cml_backup_policy" {
 
 resource "aws_iam_policy" "cml_restore_policy" {
   name        = var.cml_restore_policy_name
-  description = "CDP CML Workspace Restore policy"
+  description = "Cloudera AI Workbench restore policy"
 
   tags = merge(var.tags, { Name = var.cml_restore_policy_name })
 
   policy = local.cml_restore_policy_doc
 }
 
-# Attach CML backup policy to the xaccount role 
+# Attach the Cloudera AI backup policy to the cross-account role
 resource "aws_iam_role_policy_attachment" "cdp_xaccount_role_cml_backup_attach" {
   role       = data.aws_iam_role.xaccount_role.name
   policy_arn = aws_iam_policy.cml_backup_policy.arn
 }
 
-# Attach CML restore policy to the xaccount role 
+# Attach the Cloudera AI restore policy to the cross-account role
 resource "aws_iam_role_policy_attachment" "cdp_xaccount_role_cml_restore_attach" {
   role       = data.aws_iam_role.xaccount_role.name
   policy_arn = aws_iam_policy.cml_restore_policy.arn

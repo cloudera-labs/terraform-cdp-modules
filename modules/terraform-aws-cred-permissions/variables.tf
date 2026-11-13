@@ -79,12 +79,11 @@ variable "existing_xaccount_role_name" {
   default = null
 }
 
-# ------- Assume role policy for CML Backup and Restore -------
+# ------- Assume role policy for Cloudera AI backup and restore -------
 variable "create_cml_assume_role_policy" {
   type = bool
 
-  description = "Add AWS Backup Service, required for CML Backup and Restore, to Cross Account Trust Relationship."
+  description = "Add the AWS Backup service, required for Cloudera AI backup and restore, to the cross-account trust relationship."
 
   default = false
 }
-

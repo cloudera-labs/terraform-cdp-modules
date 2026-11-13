@@ -1,6 +1,6 @@
 # Terraform Module for Cloudera on AWS Credential Prerequisites
 
-This module contains resource files and example variable definition files for creation of the Cloudera Data Platform (CDP) Public Cloud Cross Account Credential pre-requisite on AWS.
+This module contains resource files and example variable definition files for creating the cross-account credential prerequisite for Cloudera on AWS.
 
 Support for using a pre-existing Cross Account Role is provided via the `existing_xaccount_role_name` input variable. When this is set no policy or role resources are created. Instead a lookup of the details of the existing role takes place and the role ARN is returned.
 

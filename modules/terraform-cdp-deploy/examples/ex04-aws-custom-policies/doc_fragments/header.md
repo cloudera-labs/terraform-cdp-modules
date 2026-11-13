@@ -1,12 +1,12 @@
 # Example 04: Cloudera on AWS Deployment with Custom IAM Policy Documents
 
-This example demonstrates how to deploy a Cloudera on AWS environment and datalake using custom IAM policy documents. This approach allows you to specify minimal resource access policies as local static JSON files, providing fine-grained control over the permissions granted to CDP.
+This example demonstrates how to deploy a Cloudera on AWS environment and data lake using custom IAM policy documents. This approach allows you to specify minimal resource access policies as local static JSON files, providing fine-grained control over the permissions granted to Cloudera.
 
 This example shows how to:
 
 - Use local JSON files to define custom IAM policies
 - Pass these custom policies to the `terraform-cdp-aws-pre-reqs` module
-- Deploy a complete CDP environment with minimal required permissions
+- Deploy a complete Cloudera environment with minimal required permissions
 
 The custom policies in this example are based on Cloudera's documented [reduced access credential policy requirements](https://docs.cloudera.com/cdp-public-cloud/cloud/requirements-aws/topics/mc-aws-req-credential.html).
 
@@ -16,7 +16,7 @@ This example includes the following custom IAM policy documents in the [policy_d
 
 | Policy File | Purpose |
 |------------|---------|
-| `aws-environment-minimal-policy.json` | Cross-account policy for the CDP credential with minimal required permissions |
+| `aws-environment-minimal-policy.json` | Cross-account policy for the Cloudera credential with minimal required permissions |
 | `aws-cdp-idbroker-assume-role-policy.json` | Trust policy for the IDBroker role to assume other roles |
 | `aws-cdp-log-policy.json` | Policy for log data access |
 | `aws-cdp-bucket-access-policy.json` | Base S3 bucket access policy for data, logs, and backups |
@@ -85,10 +85,10 @@ ingress_extra_cidrs_and_ports = {
 Review and modify the policy JSON files in the `policy_docs/` directory to match your organization's security requirements. Ensure that:
 
 - Resource placeholders (e.g., bucket ARNs) are updated if needed
-- Permissions align with your CDP workload requirements
+- Permissions align with your Cloudera workload requirements
 - Policies comply with your organization's security standards
 
-**Note**: The policies must include the minimum permissions required by CDP. Refer to the [Cloudera documentation](https://docs.cloudera.com/cdp-public-cloud/cloud/requirements-aws/topics/mc-aws-req-credential.html) for details.
+**Note**: The policies must include the minimum permissions required by Cloudera. Refer to the [Cloudera documentation](https://docs.cloudera.com/cdp-public-cloud/cloud/requirements-aws/topics/mc-aws-req-credential.html) for details.
 
 ### 4. Set AWS and Cloudera Credentials
 
@@ -136,4 +136,4 @@ To destroy all created resources:
 terraform destroy
 ```
 
-**Warning**: This will delete the CDP environment, datalake, and all associated AWS resources including S3 buckets and their contents.
+**Warning**: This will delete the Cloudera environment, data lake, and all associated AWS resources, including S3 buckets and their contents.

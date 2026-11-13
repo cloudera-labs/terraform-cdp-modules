@@ -15,11 +15,11 @@
 output "azure_subscription_id" {
   value = data.azurerm_subscription.current.subscription_id
 
-  description = "Subscription ID where the Azure CDE managed identity is created"
+  description = "Subscription ID where the Cloudera Data Engineering managed identity is created"
 }
 
 output "azure_cde_managed_identity_id" {
   value = azurerm_user_assigned_identity.cdp_cde.id
 
-  description = "ID of the Azure CDE managed identity"
+  description = "ID of the Azure Cloudera Data Engineering managed identity"
 }

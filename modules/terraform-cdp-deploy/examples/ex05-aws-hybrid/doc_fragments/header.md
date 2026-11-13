@@ -80,4 +80,4 @@ To destroy all created resources:
 terraform destroy
 ```
 
-**Warning**: This will delete the CDP environment, and all associated AWS resources including S3 buckets and their contents.
+**Warning**: This will delete the Cloudera environment and all associated AWS resources, including S3 buckets and their contents.

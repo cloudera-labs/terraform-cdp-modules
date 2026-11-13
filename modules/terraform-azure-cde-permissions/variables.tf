@@ -30,7 +30,7 @@ variable "tags" {
 # ------- Azure specific settings -------
 variable "azure_resource_group_name" {
   type        = string
-  description = "Azrue Resource Group for CDP environment."
+  description = "Azure resource group for the Cloudera environment."
 
 }
 
@@ -52,14 +52,14 @@ variable "azure_cde_managed_identity_name" {
 variable "azure_log_storage_container_name" {
   type = string
 
-  description = "Name of the Azure Storage Container used for CDP Logs"
+  description = "Name of the Azure Storage Container used for Cloudera logs"
 
 }
 
 variable "azure_log_storage_account_name" {
   type = string
 
-  description = "Name of the Azure Storage Account used for CDP Logs"
+  description = "Name of the Azure Storage Account used for Cloudera logs"
 
 }
 
@@ -70,11 +70,11 @@ variable "cde_container_role_assignments" {
     })
   )
 
-  description = "List of Role Assignments for the CDE Managed Identity at Log Storage Container scope."
+  description = "List of role assignments for the Cloudera Data Engineering managed identity at log storage container scope."
 
   default = [
     {
-      "description" : "Assign Storage Blob Data Contributor to CDP Log Storage Container to CDE Managed Identity",
+      "description" : "Assign Storage Blob Data Contributor to the Cloudera log storage container for the Cloudera Data Engineering managed identity.",
       "role" : "Storage Blob Data Contributor"
     }
   ]

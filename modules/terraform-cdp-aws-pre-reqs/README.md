@@ -1,7 +1,7 @@
 <!-- BEGIN_TF_DOCS -->
-# Terraform Module for CDP Prerequisites on AWS
+# Terraform Module for Cloudera Prerequisites on AWS
 
-This module contains resource files and example variable definition files for creation of the pre-requisite AWS cloud resources required for Cloudera Data Platform (CDP) Public Cloud.
+This module contains resource files and example variable definition files for creating the prerequisite AWS cloud resources required for Cloudera on AWS.
 
 ## Usage
 
@@ -9,7 +9,7 @@ The [examples](./examples) directory has example AWS Cloud Service Provider depl
 
 * `ex01-minimal-inputs` uses the minimum set of inputs for the module.
 
-* `ex02-existing-vpc` creates a VPC and subnets outside of the module and passes this as an additional input. CDP deployment then uses these network assets.
+* `ex02-existing-vpc` creates a VPC and subnets outside of the module and passes them as additional inputs. The Cloudera deployment then uses these network assets.
 
 * `ex03-create-keypair` creates the AWS EC2 Keypair in the module caller and passes this as an additional input.
 
@@ -113,7 +113,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_log_storage"></a> [log\_storage](#input\_log\_storage) | Optional log locations for CDP environment. If not provided follow the data\_storage variable | <pre>object({<br/>    log_storage_bucket = string<br/>    log_storage_object = string<br/>  })</pre> | `null` | no |
 | <a name="input_prefix_list_name"></a> [prefix\_list\_name](#input\_prefix\_list\_name) | Prefix List for Security Group Ingress rules | `string` | `null` | no |
 | <a name="input_private_cidr_range"></a> [private\_cidr\_range](#input\_private\_cidr\_range) | Size of each private subnet. Required if create\_vpc is true. Number of subnets will be automatically selected to match on the number of Availability Zones in the selected AWS region. (Depending on the selected deployment pattern, one subnet will be created per region.) | `number` | `19` | no |
-| <a name="input_private_network_extensions"></a> [private\_network\_extensions](#input\_private\_network\_extensions) | Enable creation of resources for connectivity to CDP Control Plane (public subnet and NAT Gateway) for Private Deployment. Only relevant for private deployment template | `bool` | `true` | no |
+| <a name="input_private_network_extensions"></a> [private\_network\_extensions](#input\_private\_network\_extensions) | Enable creation of resources for connectivity to Cloudera Control Plane (public subnet and NAT Gateway) for private deployments. Only relevant for the private deployment template. | `bool` | `true` | no |
 | <a name="input_public_cidr_range"></a> [public\_cidr\_range](#input\_public\_cidr\_range) | Size of each public subnet. Required if create\_vpc is true. Number of subnets will be automatically selected to match on the number of Availability Zones in the selected AWS region. (Depending on the selected deployment pattern, one subnet will be created per region.) | `number` | `24` | no |
 | <a name="input_random_id_for_bucket"></a> [random\_id\_for\_bucket](#input\_random\_id\_for\_bucket) | Create a random suffix for the bucket names | `bool` | `true` | no |
 | <a name="input_ranger_audit_role_name"></a> [ranger\_audit\_role\_name](#input\_ranger\_audit\_role\_name) | Ranger Audit role Name | `string` | `null` | no |
@@ -131,7 +131,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_vpc_public_inbound_acl_rules"></a> [vpc\_public\_inbound\_acl\_rules](#input\_vpc\_public\_inbound\_acl\_rules) | Inbound network ACLs for Public subnets. Exposes default value of VPC module variable to allow for overriding. Only used when create\_vpc is true. | `list(map(string))` | <pre>[<br/>  {<br/>    "cidr_block": "0.0.0.0/0",<br/>    "from_port": 0,<br/>    "protocol": "-1",<br/>    "rule_action": "allow",<br/>    "rule_number": 100,<br/>    "to_port": 0<br/>  }<br/>]</pre> | no |
 | <a name="input_vpc_public_outbound_acl_rules"></a> [vpc\_public\_outbound\_acl\_rules](#input\_vpc\_public\_outbound\_acl\_rules) | Public subnets outbound network ACLs. Exposes default value of VPC module variable to allow for overriding. Only used when create\_vpc is true. | `list(map(string))` | <pre>[<br/>  {<br/>    "cidr_block": "0.0.0.0/0",<br/>    "from_port": 0,<br/>    "protocol": "-1",<br/>    "rule_action": "allow",<br/>    "rule_number": 100,<br/>    "to_port": 0<br/>  }<br/>]</pre> | no |
 | <a name="input_vpc_public_subnets_map_public_ip_on_launch"></a> [vpc\_public\_subnets\_map\_public\_ip\_on\_launch](#input\_vpc\_public\_subnets\_map\_public\_ip\_on\_launch) | Auto-assign public IP on launch for instances created in Public Subnets.  Exposes default value of VPC module variable to allow for overriding. Only used when create\_vpc is true. | `bool` | `true` | no |
-| <a name="input_xaccount_cml_backup_assume_role"></a> [xaccount\_cml\_backup\_assume\_role](#input\_xaccount\_cml\_backup\_assume\_role) | Add AWS Backup Service, required for CML Backup and Restore, to Cross Account Trust Relationship. | `bool` | `false` | no |
+| <a name="input_xaccount_cml_backup_assume_role"></a> [xaccount\_cml\_backup\_assume\_role](#input\_xaccount\_cml\_backup\_assume\_role) | Add the AWS Backup service, required for Cloudera AI backup and restore, to the cross-account trust relationship. | `bool` | `false` | no |
 | <a name="input_xaccount_policy_name"></a> [xaccount\_policy\_name](#input\_xaccount\_policy\_name) | Cross Account Policy name | `string` | `null` | no |
 | <a name="input_xaccount_role_name"></a> [xaccount\_role\_name](#input\_xaccount\_role\_name) | Cross account Assume role Name | `string` | `null` | no |
 

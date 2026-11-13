@@ -109,7 +109,7 @@ variable "public_cidr_range" {
 variable "private_network_extensions" {
   type = bool
 
-  description = "Enable creation of resources for connectivity to CDP Control Plane (public subnet and NAT Gateway) for Private Deployment. Only relevant for private deployment template"
+  description = "Enable creation of resources for connectivity to Cloudera Control Plane (public subnet and NAT Gateway) for private deployments. Only relevant for the private deployment template."
 
   default = true
 }
@@ -469,11 +469,11 @@ variable "xaccount_account_policy_doc" {
 
 }
 
-# Add extra assume role policy for CML Backup and Restore
+# Add an extra assume role policy for Cloudera AI backup and restore
 variable "xaccount_cml_backup_assume_role" {
   type = bool
 
-  description = "Add AWS Backup Service, required for CML Backup and Restore, to Cross Account Trust Relationship."
+  description = "Add the AWS Backup service, required for Cloudera AI backup and restore, to the cross-account trust relationship."
 
   default = false
 }
@@ -765,4 +765,3 @@ variable "existing_backup_storage_bucket" {
 
   default = null
 }
-
