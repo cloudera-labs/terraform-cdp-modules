@@ -1,7 +1,7 @@
 <!-- BEGIN_TF_DOCS -->
-# Terraform Module for Azure AKS Managed Identity for CDW
+# Terraform Module for the Azure Managed Identity for Cloudera Data Warehouse
 
-This module contains resource files and example variable definition files for creation of the Azure Kubernetes Service (AKS) managed identity required for the Cloudera Data Warehouse (CDW) service. This requirement is described [in this section](https://docs.cloudera.com/data-warehouse/cloud/azure-environments/topics/dw-azure-environment-requirements-checklist.html#pnavId5) of the CDW documentation.
+This module contains resource files and example variable definition files for creating the Azure Kubernetes Service managed identity required for Cloudera Data Warehouse. This requirement is described [in the Cloudera Data Warehouse documentation](https://docs.cloudera.com/data-warehouse/cloud/azure-environments/topics/dw-azure-environment-requirements-checklist.html#pnavId5).
 
 ## Usage
 

@@ -14,10 +14,10 @@
 
 locals {
 
-  # CML Backup Policy document
+  # Cloudera AI backup policy document
   cml_backup_policy_doc = coalesce(var.cml_backup_policy_doc, try(data.http.cml_backup_policy_doc[0].response_body, null))
 
-  # CML Restore Policy document
+  # Cloudera AI restore policy document
   cml_restore_policy_doc = coalesce(var.cml_restore_policy_doc, try(data.http.cml_restore_policy_doc[0].response_body, null))
 
 }

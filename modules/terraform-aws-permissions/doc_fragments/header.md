@@ -1,6 +1,6 @@
-# Terraform Module for CDP Environment Permissions on AWS
+# Terraform Module for Cloudera Environment Permissions on AWS
 
-This module contains resource files and example variable definition files for creation the AWS IAM permissions required for Cloudera Data Platform (CDP) Public Cloud environment and datalake deployment.
+This module contains resource files and example variable definition files for creating the AWS IAM permissions required for Cloudera on AWS and its data lake deployment.
 
 ## Usage
 

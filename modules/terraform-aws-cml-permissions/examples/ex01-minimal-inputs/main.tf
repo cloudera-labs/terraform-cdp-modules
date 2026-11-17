@@ -44,7 +44,7 @@ module "xaccount_iam_role" {
 
   xaccount_role_name = "${var.env_prefix}-xaccount-role"
 
-  # Create assume role trust relationship required for CML backup and restore
+  # Create the assume role trust relationship required for Cloudera AI backup and restore
   create_cml_assume_role_policy = true
 }
 

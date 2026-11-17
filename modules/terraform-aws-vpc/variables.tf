@@ -91,7 +91,7 @@ variable "deployment_template" {
 variable "private_network_extensions" {
   type = bool
 
-  description = "Enable creation of resources for connectivity to CDP Control Plane (public subnet and NAT Gateway) for Private Deployment. Only relevant for private deployment template. Only used when create_vpc is true."
+  description = "Enable creation of resources for connectivity to Cloudera Control Plane (public subnet and NAT Gateway) for private deployments. Only relevant for the private deployment template. Only used when create_vpc is true."
 
   default = null
 }

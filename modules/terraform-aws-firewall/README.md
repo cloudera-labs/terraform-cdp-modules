@@ -1,7 +1,7 @@
 <!-- BEGIN_TF_DOCS -->
 # Terraform Module for AWS Network Firewall
 
-This module contains resource files and example variable definition files to create and configure an AWS Network Firewall. This module can be used to assist in deploying Cloudera Data Platform (CDP) Public Cloud in a fully private networking configuration where the CDP Environment is connected to a Networking VPC running the Firewall.
+This module contains resource files and example variable definition files to create and configure an AWS Network Firewall. This module can assist with a fully private Cloudera on AWS deployment, where the Cloudera environment is connected to a networking VPC running the firewall.
 
 ## Usage
 

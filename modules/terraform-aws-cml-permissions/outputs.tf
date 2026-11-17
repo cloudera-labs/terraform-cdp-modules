@@ -15,11 +15,11 @@
 output "aws_cml_backup_policy_arn" {
   value = aws_iam_policy.cml_backup_policy.arn
 
-  description = "CML Backup IAM Policy ARN"
+  description = "Cloudera AI backup IAM policy ARN"
 }
 
 output "aws_cml_restore_policy_arn" {
   value = aws_iam_policy.cml_restore_policy.arn
 
-  description = "CML Restore IAM Policy ARN"
+  description = "Cloudera AI restore IAM policy ARN"
 }

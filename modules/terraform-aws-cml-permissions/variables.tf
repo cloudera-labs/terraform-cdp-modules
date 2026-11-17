@@ -24,7 +24,7 @@ variable "tags" {
 variable "cml_backup_policy_name" {
   type = string
 
-  description = "CDP CML Backup Policy name"
+  description = "Cloudera AI backup policy name"
 
   validation {
     condition     = length(var.cml_backup_policy_name) <= 128
@@ -35,7 +35,7 @@ variable "cml_backup_policy_name" {
 variable "cml_restore_policy_name" {
   type = string
 
-  description = "CDP CML Restore Policy name"
+  description = "Cloudera AI restore policy name"
 
   validation {
     condition     = length(var.cml_restore_policy_name) <= 128
@@ -47,7 +47,7 @@ variable "cml_restore_policy_name" {
 variable "cml_backup_policy_doc" {
   type = string
 
-  description = "Contents of CDP CML Backup Policy Document. If not specified document is downloaded from Cloudera Document repository"
+  description = "Contents of the Cloudera AI backup policy document. If not specified, the document is downloaded from the Cloudera document repository."
 
   default = null
 }
@@ -55,7 +55,7 @@ variable "cml_backup_policy_doc" {
 variable "cml_restore_policy_doc" {
   type = string
 
-  description = "Contents of CDP CML Restore Policy Document. If not specified document is downloaded from Cloudera Document repository"
+  description = "Contents of the Cloudera AI restore policy document. If not specified, the document is downloaded from the Cloudera document repository."
 
   default = null
 }

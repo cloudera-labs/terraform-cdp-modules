@@ -1,6 +1,6 @@
-# Terraform Module for CDP Prerequisites on Azure
+# Terraform Module for Cloudera Prerequisites on Azure
 
-This module contains resource files and example variable definition files for creation of the pre-requisite Azure cloud resources required for Cloudera Data Platform (CDP) Public Cloud.
+This module contains resource files and example variable definition files for creating the prerequisite Azure cloud resources required for Cloudera on Azure.
 
 ## Usage
 

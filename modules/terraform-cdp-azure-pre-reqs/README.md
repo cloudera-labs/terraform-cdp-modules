@@ -1,7 +1,7 @@
 <!-- BEGIN_TF_DOCS -->
-# Terraform Module for CDP Prerequisites on Azure
+# Terraform Module for Cloudera Prerequisites on Azure
 
-This module contains resource files and example variable definition files for creation of the pre-requisite Azure cloud resources required for Cloudera Data Platform (CDP) Public Cloud.
+This module contains resource files and example variable definition files for creating the prerequisite Azure cloud resources required for Cloudera on Azure.
 
 ## Usage
 
@@ -68,7 +68,7 @@ In each directory an example `terraform.tfvars.sample` values file is included t
 | <a name="input_cdp_subnet_range"></a> [cdp\_subnet\_range](#input\_cdp\_subnet\_range) | Size of each (internal) cluster subnet. Required if create\_vnet is true. | `number` | `19` | no |
 | <a name="input_cdp_subnets_private_endpoint_network_policies"></a> [cdp\_subnets\_private\_endpoint\_network\_policies](#input\_cdp\_subnets\_private\_endpoint\_network\_policies) | Enable or Disable network policies for the private endpoint on the CDP subnets | `string` | `"Enabled"` | no |
 | <a name="input_cdp_vnet_name"></a> [cdp\_vnet\_name](#input\_cdp\_vnet\_name) | Pre-existing VNet Name for CDP environment. Required if create\_vnet is false. | `string` | `null` | no |
-| <a name="input_create_azure_cml_nfs"></a> [create\_azure\_cml\_nfs](#input\_create\_azure\_cml\_nfs) | Whether to create NFS for CML | `bool` | `false` | no |
+| <a name="input_create_azure_cml_nfs"></a> [create\_azure\_cml\_nfs](#input\_create\_azure\_cml\_nfs) | Whether to create NFS for Cloudera AI | `bool` | `false` | no |
 | <a name="input_create_azure_storage_network_rules"></a> [create\_azure\_storage\_network\_rules](#input\_create\_azure\_storage\_network\_rules) | Enable creation of network rules for the Azure Storage Accounts. | `bool` | `false` | no |
 | <a name="input_create_azure_storage_private_endpoints"></a> [create\_azure\_storage\_private\_endpoints](#input\_create\_azure\_storage\_private\_endpoints) | Flag to specify if Private Endpoints are created for each storage account. | `bool` | `true` | no |
 | <a name="input_create_backup_storage"></a> [create\_backup\_storage](#input\_create\_backup\_storage) | Create a new storage account for backup storage. When false, existing\_backup\_storage\_account and existing\_backup\_storage\_container must be provided. | `bool` | `true` | no |
