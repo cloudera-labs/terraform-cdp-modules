@@ -15,9 +15,9 @@
 locals {
 
   # CML Backup Policy document
-  cml_backup_policy_doc = coalesce(var.cml_backup_policy_doc, data.http.cml_backup_policy_doc.response_body)
+  cml_backup_policy_doc = coalesce(var.cml_backup_policy_doc, try(data.http.cml_backup_policy_doc[0].response_body, null))
 
-  # CML Backup Policy document
-  cml_restore_policy_doc = coalesce(var.cml_restore_policy_doc, data.http.cml_restore_policy_doc.response_body)
+  # CML Restore Policy document
+  cml_restore_policy_doc = coalesce(var.cml_restore_policy_doc, try(data.http.cml_restore_policy_doc[0].response_body, null))
 
 }

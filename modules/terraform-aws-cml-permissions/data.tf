@@ -25,12 +25,17 @@ data "aws_iam_role" "xaccount_role" {
 }
 
 # HTTP get request to download policy documents
+# Skipped (count = 0) when the document is already supplied via the corresponding variable
 # ..CML Backup Policy
 data "http" "cml_backup_policy_doc" {
+  count = var.cml_backup_policy_doc == null ? 1 : 0
+
   url = "https://docs.cloudera.com/machine-learning/cloud/cml-backup-policy.json"
 }
 
 # ..CML Restore Policy
 data "http" "cml_restore_policy_doc" {
+  count = var.cml_restore_policy_doc == null ? 1 : 0
+
   url = "https://docs.cloudera.com/machine-learning/cloud/cml-restore-policy.json"
 }
