@@ -43,10 +43,13 @@ module "cdp_on_aws" {
 
   environment_async_creation         = var.environment_async_creation
   environment_call_failure_threshold = var.environment_call_failure_threshold
-  environment_polling_timeout        = var.environment_polling_timeout
+  environment_create_timeout         = var.environment_create_timeout
+  environment_update_timeout         = var.environment_update_timeout
+  environment_delete_timeout         = var.environment_delete_timeout
   datalake_async_creation            = var.datalake_async_creation
   datalake_call_failure_threshold    = var.datalake_call_failure_threshold
-  datalake_polling_timeout           = var.datalake_polling_timeout
+  datalake_create_timeout            = var.datalake_create_timeout
+  datalake_delete_timeout            = var.datalake_delete_timeout
 
   region            = var.region
   vpc_id            = var.aws_vpc_id
@@ -134,10 +137,13 @@ module "cdp_on_azure" {
 
   environment_async_creation         = var.environment_async_creation
   environment_call_failure_threshold = var.environment_call_failure_threshold
-  environment_polling_timeout        = var.environment_polling_timeout
+  environment_create_timeout         = var.environment_create_timeout
+  environment_update_timeout         = var.environment_update_timeout
+  environment_delete_timeout         = var.environment_delete_timeout
   datalake_async_creation            = var.datalake_async_creation
   datalake_call_failure_threshold    = var.datalake_call_failure_threshold
-  datalake_polling_timeout           = var.datalake_polling_timeout
+  datalake_create_timeout            = var.datalake_create_timeout
+  datalake_delete_timeout            = var.datalake_delete_timeout
 
   azure_accept_image_terms  = var.azure_accept_image_terms
   use_single_resource_group = var.use_single_resource_group
@@ -241,10 +247,13 @@ module "cdp_on_gcp" {
 
   environment_async_creation         = var.environment_async_creation
   environment_call_failure_threshold = var.environment_call_failure_threshold
-  environment_polling_timeout        = var.environment_polling_timeout
+  environment_create_timeout         = var.environment_create_timeout
+  environment_update_timeout         = var.environment_update_timeout
+  environment_delete_timeout         = var.environment_delete_timeout
   datalake_async_creation            = var.datalake_async_creation
   datalake_call_failure_threshold    = var.datalake_call_failure_threshold
-  datalake_polling_timeout           = var.datalake_polling_timeout
+  datalake_create_timeout            = var.datalake_create_timeout
+  datalake_delete_timeout            = var.datalake_delete_timeout
   datalake_security_selinux          = var.datalake_security_selinux
 
   use_public_ips = local.use_public_ips

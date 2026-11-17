@@ -67,11 +67,15 @@ resource "cdp_environments_gcp_environment" "cdp_env" {
   workload_analytics = var.workload_analytics
   enable_tunnel      = var.enable_ccm_tunnel
 
-  polling_options = {
-    async                  = var.environment_async_creation
-    call_failure_threshold = var.environment_call_failure_threshold
-    polling_timeout        = var.environment_polling_timeout
+  async                  = var.environment_async_creation
+  call_failure_threshold = var.environment_call_failure_threshold
+  timeouts = {
+    create = var.environment_create_timeout
+    update = var.environment_update_timeout
+    delete = var.environment_delete_timeout
   }
+
+
 
   security = {
     se_linux = var.environment_security_selinux
@@ -148,10 +152,11 @@ resource "cdp_datalake_gcp_datalake" "cdp_datalake" {
   multi_az               = var.datalake_scale == "LIGHT_DUTY" ? null : var.multiaz
   custom_instance_groups = var.datalake_custom_instance_groups
 
-  polling_options = {
-    async                  = var.datalake_async_creation
-    call_failure_threshold = var.datalake_call_failure_threshold
-    polling_timeout        = var.datalake_polling_timeout
+  async                  = var.datalake_async_creation
+  call_failure_threshold = var.datalake_call_failure_threshold
+  timeouts = {
+    create = var.datalake_create_timeout
+    delete = var.datalake_delete_timeout
   }
 
   security = {
